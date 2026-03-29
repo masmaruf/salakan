@@ -1,0 +1,90 @@
+hero:
+  eyebrow: Padukuhan Salakan
+  title: Pusat informasi warga Padukuhan Salakan
+  intro: >-
+    Selamat datang di website Padukuhan Salakan. Portal ini disiapkan untuk
+    membantu warga memperoleh pengumuman, agenda, dan dokumentasi kegiatan
+    secara cepat tanpa meninggalkan karakter lokal yang hangat dan tertata.
+  primaryCtaLabel: Berita Terbaru
+  primaryCtaHref: /berita
+  secondaryCtaLabel: Profil Padukuhan
+  secondaryCtaHref: /profil
+  panelLabel: Sorotan layanan warga
+  panelNote: >-
+    Website ini dirancang sebagai ruang informasi yang cepat dibuka, mudah
+    diperbarui, dan tetap terasa dekat dengan identitas lokal padukuhan.
+  stats:
+    - value: '3'
+      label: Pengumuman aktif
+    - value: '4'
+      label: Kegiatan terdokumentasi
+    - value: '3'
+      label: Galeri tersedia
+budaya:
+  title: Warisan budaya dan identitas kampung
+  description: >-
+    Inspirasi dari tata letak mobile yang Anda kirim saya integrasikan ke
+    beranda dalam bentuk sorotan budaya yang lebih visual dan mudah discroll.
+  items:
+    - title: Seni Pertunjukan
+      label: Budaya
+      meta: Pentas dusun
+      icon: theater_comedy
+      image: /images/beranda/budaya/items/0/image.svg
+      description: >-
+        Ruang publik digital untuk menampilkan agenda seni warga, pentas dusun,
+        dan dokumentasi budaya lokal.
+    - title: Kegiatan Religi
+      label: Sosial
+      meta: Aktivitas warga
+      icon: mosque
+      image: /images/beranda/budaya/items/1/image.svg
+      description: >-
+        Kegiatan bersama berbasis kebersamaan dan pembinaan warga bisa
+        diarsipkan lebih rapi dan mudah diakses.
+    - title: Event Kampung
+      label: Potensi
+      meta: Agenda publik
+      icon: storefront
+      image: /images/beranda/budaya/items/2/image.svg
+      description: >-
+        Promosi pasar warga, kegiatan padukuhan, dan potensi kampung bisa tampil
+        lebih modern untuk pengunjung luar.
+wisata:
+  eyebrow: Wisata sejarah & alam
+  title: Sendang Banyu Temumpang
+  description: >-
+    Bagian ini saya adaptasi dari contoh HTML Anda sebagai blok sorotan lokasi.
+    Nantinya bisa dipakai untuk memperkenalkan titik penting padukuhan, wisata
+    sejarah, atau pusat kegiatan warga.
+  image: /images/beranda/wisata/image.svg
+  badges:
+    - Sendang
+    - Ikon lokal
+  primaryCtaLabel: Lihat lokasi
+  primaryCtaHref: /kontak
+  secondaryCtaLabel: Buka galeri
+  secondaryCtaHref: /galeri
+ekonomi:
+  title: Potensi ekonomi warga
+  description: >-
+    Tambahan fitur dari referensi Anda yang paling cocok untuk versi awal adalah
+    daftar potensi ekonomi dan ruang promosi usaha warga.
+  items:
+    - title: Informasi UMKM
+      subtitle: Produk rumahan dan usaha warga
+      icon: inventory_2
+      tag: Usaha lokal
+      ctaLabel: Eksplorasi
+    - title: Kerajinan Lokal
+      subtitle: Produk khas dan cendera mata padukuhan
+      icon: chair
+      tag: Produk unggulan
+      ctaLabel: Eksplorasi
+    - title: Promosi Potensi
+      subtitle: Etalase digital untuk kegiatan dan usaha
+      icon: palette
+      tag: Branding kampung
+      ctaLabel: Eksplorasi
+editorialPilihan:
+  beritaUnggulan: musyawarah-rencana-wilayah

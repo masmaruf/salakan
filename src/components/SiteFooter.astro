@@ -1,0 +1,25 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-slate-200 bg-white">
+  <div class="container py-8">
+    <div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+      <div class="space-y-2">
+        <p class="text-base font-extrabold tracking-tight text-slate-950">Padukuhan Salakan</p>
+        <p class="max-w-2xl text-sm leading-7 text-slate-500">
+          Situs informasi warga untuk pengumuman, dokumentasi kegiatan, data kampung, dan profil padukuhan.
+        </p>
+      </div>
+      <nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-500">
+        <a class="transition-colors hover:text-slate-950" href="/data">Data kampung</a>
+        <a class="transition-colors hover:text-slate-950" href="/berita">Berita</a>
+        <a class="transition-colors hover:text-slate-950" href="/agenda">Agenda</a>
+        <a class="transition-colors hover:text-slate-950" href="/kontak">Kontak</a>
+      </nav>
+    </div>
+    <div class="mt-6 text-sm text-slate-400">
+      <small>&copy; {year} Padukuhan Salakan. Disiapkan untuk portal warga.</small>
+    </div>
+  </div>
+</footer>

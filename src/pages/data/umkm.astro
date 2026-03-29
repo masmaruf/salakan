@@ -1,0 +1,30 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import UmkmCatalog from '../../components/UmkmCatalog.astro';
+import { getPengaturan, getUmkm } from '../../lib/keystatic';
+import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
+
+const PAGE_SIZE = 6;
+const pengaturan = await getPengaturan();
+const allUmkm = (await getUmkm())
+  .filter(({ entry }) => entry.statusPublikasi === 'publish')
+  .sort((a, b) => {
+    if (a.entry.unggulan !== b.entry.unggulan) return Number(b.entry.unggulan) - Number(a.entry.unggulan);
+    return a.entry.urutanTampil - b.entry.urutanTampil;
+  });
+const totalPages = Math.max(1, Math.ceil(allUmkm.length / PAGE_SIZE));
+const items = allUmkm.slice(0, PAGE_SIZE);
+const seo = pengaturan?.seoHalamanData?.umkm;
+---
+
+<MainLayout
+  title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'UMKM'))}
+  description={resolveSeoText(seo?.seoDescription, 'Katalog UMKM dan potensi ekonomi warga Padukuhan Salakan.')}
+  image={resolveSeoImage(seo?.ogImage, items[0]?.entry.gambar)}
+>
+  <section class="section">
+    <div class="container space-y-8">
+      <UmkmCatalog items={items} currentPage={1} totalPages={totalPages} />
+    </div>
+  </section>
+</MainLayout>

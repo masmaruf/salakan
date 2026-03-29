@@ -1,0 +1,60 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import NewsGrid from '../../components/NewsGrid.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import { getKegiatan, getKategoriBeritaMap, sortByDateDesc } from '../../lib/keystatic';
+
+const selectedCategory = Astro.url.searchParams.get('kategori');
+const selectedTag = Astro.url.searchParams.get('tag');
+const categoryLabels = await getKategoriBeritaMap();
+
+const allKegiatan = sortByDateDesc(
+  (await getKegiatan())
+    .filter((item) => item.entry?.statusPublikasi === 'publish')
+    .map((item) => ({
+      slug: item.slug,
+      entry: item.entry!,
+    }))
+);
+
+const kegiatan = allKegiatan.filter(({ entry }) => {
+  const matchesCategory = selectedCategory ? entry.kategori === selectedCategory : true;
+  const matchesTag = selectedTag ? entry.tag?.includes(selectedTag) : true;
+  return matchesCategory && matchesTag;
+});
+
+const pageDescription = selectedCategory
+  ? `Arsip berita dan artikel untuk kategori ${categoryLabels[selectedCategory] ?? selectedCategory}.`
+  : selectedTag
+    ? `Arsip berita dan artikel untuk tag ${selectedTag}.`
+    : 'Arsip berita, artikel, dan dokumentasi warga Padukuhan Salakan.';
+---
+
+<MainLayout title="Berita | Padukuhan Salakan" description={pageDescription}>
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        title="Berita"
+        description={
+          selectedCategory
+            ? `Menampilkan artikel dalam kategori ${categoryLabels[selectedCategory] ?? selectedCategory}.`
+            : selectedTag
+              ? `Menampilkan artikel dengan tag ${selectedTag}.`
+              : 'Arsip berita warga, layanan padukuhan, kerja bakti, dan informasi potensi lokal yang bisa dibaca kembali kapan saja.'
+        }
+      />
+      {(selectedCategory || selectedTag) && (
+        <div class="mb-6 flex flex-wrap items-center gap-3">
+          {selectedCategory && (
+            <a class="badge badge-primary badge-outline" href={`/berita/kategori/${selectedCategory}`}>
+              Kategori: {categoryLabels[selectedCategory] ?? selectedCategory}
+            </a>
+          )}
+          {selectedTag && <span class="badge badge-outline">Tag: {selectedTag}</span>}
+          <a class="btn btn-sm rounded-[var(--radius-md)] border border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-50" href="/berita">Lihat semua artikel</a>
+        </div>
+      )}
+      <NewsGrid items={kegiatan} />
+    </div>
+  </section>
+</MainLayout>

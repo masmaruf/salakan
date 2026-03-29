@@ -1,0 +1,160 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import {
+  type AdminSession,
+  createAdminSessionValue,
+  getAdminSession,
+  getConfiguredAdminUsers,
+  getSessionCookieName,
+  isAdminConfigured,
+  validateAdminLogin,
+} from '../../lib/admin-auth';
+
+export const prerender = false;
+
+const url = new URL(Astro.request.url);
+const requestedNextPath = url.searchParams.get('next') || '/keystatic';
+const configured = isAdminConfigured();
+const existingSession = getAdminSession(Astro.cookies.get(getSessionCookieName())?.value);
+
+let errorMessage = '';
+let loginResult: AdminSession | null = null;
+
+function getSafeNextPath(value: string) {
+  if (!value.startsWith('/')) return '/keystatic';
+  if (value.startsWith('//')) return '/keystatic';
+  if (value.startsWith('/admin/login')) return '/keystatic';
+  return value;
+}
+
+const nextPath = getSafeNextPath(requestedNextPath);
+
+if (Astro.request.method === 'POST') {
+  const formData = await Astro.request.formData();
+  const username = String(formData.get('username') || '');
+  const password = String(formData.get('password') || '');
+  const nextTarget = getSafeNextPath(String(formData.get('next') || '/keystatic'));
+
+  if (!configured) {
+    errorMessage = 'Akun admin belum dikonfigurasi di file environment.';
+  } else {
+    loginResult = validateAdminLogin(username, password);
+  }
+
+  if (!loginResult) {
+    errorMessage = 'Username atau password tidak cocok.';
+  } else {
+    Astro.cookies.set(getSessionCookieName(), createAdminSessionValue(loginResult), {
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: Astro.url.protocol === 'https:',
+      path: '/',
+      maxAge: 60 * 60 * 8,
+    });
+
+    return Astro.redirect(nextTarget);
+  }
+}
+---
+
+<MainLayout
+  title="Login Admin | Padukuhan Salakan"
+  description="Halaman login admin untuk mengakses panel pengelolaan konten Padukuhan Salakan."
+  noIndex={true}
+>
+  <section class="section">
+    <div class="container grid items-stretch gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(340px,0.9fr)]">
+      <div class="rounded-[var(--radius-xl)] bg-[image:var(--hero-grad)] px-7 py-8 text-white shadow-[0_36px_90px_rgba(95,84,208,0.26)] md:px-10 md:py-12">
+        <span class="badge w-fit border-white/20 bg-white/15 text-white">Area Pengelola</span>
+        <h1 class="mt-4 max-w-[11ch] text-4xl font-extrabold tracking-tight text-white md:text-6xl">
+          Masuk ke panel admin Padukuhan Salakan
+        </h1>
+        <p class="mt-4 max-w-3xl text-base leading-8 text-white/90 md:text-lg">
+          Gunakan akun admin untuk memperbarui pengumuman, berita kegiatan, galeri,
+          dan informasi profil padukuhan melalui Keystatic CMS.
+        </p>
+
+        <div class="mt-6 grid gap-4">
+          <article class="rounded-[22px] border border-white/20 bg-white/12 p-4 backdrop-blur">
+            <strong class="block text-base font-bold text-white">Konten warga tetap rapi</strong>
+            <span class="mt-1 block text-sm leading-7 text-white/80">Pengumuman, kegiatan, dan galeri dapat diperbarui dari satu tempat.</span>
+          </article>
+          <article class="rounded-[22px] border border-white/20 bg-white/12 p-4 backdrop-blur">
+            <strong class="block text-base font-bold text-white">Akses terbatas</strong>
+            <span class="mt-1 block text-sm leading-7 text-white/80">Panel ini hanya ditujukan untuk admin pengelola konten resmi padukuhan.</span>
+          </article>
+          <article class="rounded-[22px] border border-white/20 bg-white/12 p-4 backdrop-blur">
+            <strong class="block text-base font-bold text-white">Role editor dibatasi</strong>
+            <span class="mt-1 block text-sm leading-7 text-white/80">Editor hanya dapat membuka collection Editorial dan Data Kampung di `/keystatic`.</span>
+          </article>
+        </div>
+      </div>
+
+      <div class="surface-card self-center p-6 md:p-7">
+        <div class="space-y-3">
+          <span class="badge badge-primary badge-outline w-fit">Admin CMS</span>
+          <h2 class="text-3xl font-extrabold tracking-tight text-slate-950">Masuk</h2>
+          <p class="text-sm leading-7 text-slate-600 md:text-base">Login untuk membuka area pengelolaan konten.</p>
+        </div>
+
+        {existingSession && (
+          <div class="mt-4 rounded-[var(--radius-md)] border border-violet-200 bg-violet-50 p-4 text-sm text-violet-800">
+            Sedang login sebagai <strong>{existingSession.username}</strong> dengan peran <strong class="capitalize">{existingSession.role}</strong>.
+            <div class="mt-3 flex flex-wrap gap-2">
+              <a class="btn btn-sm rounded-[var(--radius-md)] border border-violet-200 bg-white text-violet-700 shadow-none hover:bg-violet-100" href="/keystatic">Masuk ke Keystatic</a>
+              <a class="btn btn-sm rounded-[var(--radius-md)] border border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-50" href="/admin/logout">Logout</a>
+              {existingSession.role === 'superadmin' && (
+                <a class="btn btn-sm rounded-[var(--radius-md)] border border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-50" href="/admin/users">Kelola user</a>
+              )}
+            </div>
+          </div>
+        )}
+
+        {!configured && (
+          <p class="alert alert-error mt-4 text-sm leading-7">
+            Kredensial admin belum aktif. Pastikan `ADMIN_USERS_JSON` atau `ADMIN_USERNAME` dan `ADMIN_PASSWORD`
+            sudah diisi di `.env`.
+          </p>
+        )}
+
+        {errorMessage && <p class="alert alert-error mt-4 text-sm leading-7">{errorMessage}</p>}
+
+        <form method="POST" class="mt-5 grid gap-4">
+          <input type="hidden" name="next" value={nextPath} />
+
+          <label class="grid gap-2">
+            <span class="text-sm font-bold text-slate-950">Username admin</span>
+            <input
+              class="input input-bordered input-lg w-full bg-white"
+              type="text"
+              name="username"
+              placeholder="Masukkan username"
+              autocomplete="username"
+              required
+            />
+          </label>
+
+          <label class="grid gap-2">
+            <span class="text-sm font-bold text-slate-950">Password</span>
+            <input
+              class="input input-bordered input-lg w-full bg-white"
+              type="password"
+              name="password"
+              placeholder="Masukkan password"
+              autocomplete="current-password"
+              required
+            />
+          </label>
+
+          <button class="brand-button btn btn-lg mt-1 w-full rounded-[var(--radius-md)]" type="submit">
+            Masuk ke admin
+          </button>
+        </form>
+
+        <p class="mt-4 text-sm leading-7 text-slate-600">
+          Setelah berhasil login, Anda akan diarahkan langsung ke panel `/keystatic`.
+        </p>
+      </div>
+    </div>
+  </section>
+</MainLayout>

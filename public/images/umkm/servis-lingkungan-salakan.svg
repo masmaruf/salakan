@@ -1,0 +1,10 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="900" rx="48" fill="#ECFDF5"/>
+  <rect x="72" y="72" width="1056" height="756" rx="36" fill="#F0FDF4"/>
+  <path d="M180 600C320 470 420 390 560 390C680 390 760 470 910 600L910 680H180V600Z" fill="#86EFAC"/>
+  <path d="M250 470C320 320 420 250 540 250C660 250 760 320 850 470H250Z" fill="#34D399"/>
+  <circle cx="370" cy="300" r="56" fill="#10B981"/>
+  <circle cx="810" cy="320" r="48" fill="#6EE7B7"/>
+  <rect x="200" y="710" width="800" height="92" rx="24" fill="#FFFFFF"/>
+  <text x="600" y="765" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="50" font-weight="700" fill="#065F46">Servis Lingkungan Salakan</text>
+</svg>

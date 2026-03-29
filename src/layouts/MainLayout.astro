@@ -1,0 +1,104 @@
+---
+import Analytics from '@vercel/analytics/astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import '../styles/global.css';
+import { getSeoImage, siteMeta, toAbsoluteUrl } from '../lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  noIndex?: boolean;
+}
+
+const {
+  title = siteMeta.title,
+  description = siteMeta.description,
+  image,
+  type = 'website',
+  publishedTime,
+  noIndex = false,
+} = Astro.props;
+const canonical = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site)
+  : new URL(Astro.url.pathname, siteMeta.siteUrl);
+const seoImage = getSeoImage(image);
+const robots = noIndex ? 'noindex,nofollow' : 'index,follow';
+const schema =
+  type === 'article'
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: title,
+        description,
+        image: [seoImage],
+        datePublished: publishedTime,
+        inLanguage: 'id-ID',
+        mainEntityOfPage: canonical.toString(),
+        publisher: {
+          '@type': 'Organization',
+          name: siteMeta.name,
+          url: siteMeta.siteUrl,
+        },
+      }
+    : {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: siteMeta.name,
+        description,
+        url: siteMeta.siteUrl,
+        inLanguage: 'id-ID',
+      };
+---
+
+<!doctype html>
+<html lang="id" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <meta name="theme-color" content={siteMeta.themeColor} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={siteMeta.name} />
+    <meta property="og:locale" content={siteMeta.locale} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.toString()} />
+    <meta property="og:image" content={seoImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={seoImage} />
+    <link rel="canonical" href={canonical.toString()} />
+    <link rel="alternate" type="application/rss+xml" title="RSS Berita Padukuhan Salakan" href={toAbsoluteUrl('/rss/berita.xml')} />
+    <link rel="alternate" type="application/rss+xml" title="RSS Pengumuman Padukuhan Salakan" href={toAbsoluteUrl('/rss/pengumuman.xml')} />
+    {type === 'article' && publishedTime && (
+      <meta property="article:published_time" content={new Date(publishedTime).toISOString()} />
+    )}
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-base-100 text-base-content antialiased">
+    <SiteHeader currentPath={Astro.url.pathname} />
+    <main id="app-shell" class="min-h-screen">
+      <slot />
+    </main>
+    <SiteFooter />
+    <Analytics mode={import.meta.env.PROD ? 'production' : 'development'} />
+  </body>
+</html>

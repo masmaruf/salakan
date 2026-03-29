@@ -1,0 +1,74 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { getPengaturan } from '../lib/keystatic';
+
+const pengaturan = await getPengaturan();
+const nomorWhatsapp = pengaturan?.kontakWhatsApp?.replace(/\D/g, '');
+const whatsappLink = nomorWhatsapp ? `https://wa.me/${nomorWhatsapp}` : null;
+---
+
+<MainLayout title="Kontak | Padukuhan Salakan" description="Alamat dan kontak informasi Padukuhan Salakan.">
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        title="Kontak dan layanan"
+        description="Informasi alamat, kontak, dan titik lokasi untuk memudahkan warga maupun tamu padukuhan menjalin komunikasi."
+      />
+
+      <div class="grid gap-4 lg:grid-cols-[minmax(280px,0.9fr)_1.1fr]">
+        <article class="surface-card p-5 md:p-6">
+          <h2 class="text-2xl font-bold tracking-tight text-slate-950">Informasi dasar</h2>
+          <div class="mt-5 grid gap-3">
+            <div class="rounded-[var(--radius-md)] border border-slate-200 bg-white p-4 shadow-sm">
+              <span class="block text-sm text-slate-500">Alamat</span>
+              <strong class="mt-1 block whitespace-pre-line text-base font-bold text-slate-950">{pengaturan?.alamat}</strong>
+            </div>
+            <div class="rounded-[var(--radius-md)] border border-slate-200 bg-white p-4 shadow-sm">
+              <span class="block text-sm text-slate-500">WhatsApp</span>
+              {whatsappLink ? (
+                <a class="brand-button btn mt-3 rounded-[var(--radius-md)]" href={whatsappLink} target="_blank" rel="noreferrer">
+                  Hubungi via WhatsApp
+                </a>
+              ) : (
+                <strong class="mt-1 block text-base font-bold text-slate-950">Belum diisi</strong>
+              )}
+            </div>
+            <div class="rounded-[var(--radius-md)] border border-slate-200 bg-white p-4 shadow-sm">
+              <span class="block text-sm text-slate-500">Email</span>
+              <strong class="mt-1 block text-base font-bold text-slate-950">{pengaturan?.email}</strong>
+            </div>
+            <div class="rounded-[var(--radius-md)] border border-slate-200 bg-white p-4 shadow-sm">
+              <span class="block text-sm text-slate-500">Jam layanan</span>
+              <strong class="mt-1 block text-base font-bold text-slate-950">{pengaturan?.jamLayanan}</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="surface-card p-5 md:p-6">
+          <h2 class="text-2xl font-bold tracking-tight text-slate-950">Lokasi</h2>
+          <div class="mt-5 overflow-hidden rounded-[var(--radius-md)] border border-slate-200 bg-violet-50">
+            {pengaturan?.linkPeta ? (
+              <iframe
+                title="Peta Padukuhan Salakan"
+                src={pengaturan.linkPeta}
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                class="min-h-[380px] w-full border-0"
+              />
+            ) : (
+              <div class="grid min-h-[380px] place-items-center p-6 text-center">
+                <div class="space-y-3">
+                  <strong class="block text-lg font-bold text-slate-950">Embed peta belum diisi</strong>
+                  <p class="mx-auto max-w-md text-sm leading-7 text-slate-600">
+                    Tambahkan link embed peta melalui Keystatic agar lokasi tampil di halaman ini.
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</MainLayout>

@@ -1,0 +1,78 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { getPengaturan } from '../lib/keystatic';
+import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../lib/site';
+
+const pengaturan = await getPengaturan();
+const menuData = pengaturan?.menuData;
+const dataItems = menuData?.items?.filter((item) => item.status === 'tampil') ?? [];
+const dataSeo = pengaturan?.seoHalamanData?.dataUtama;
+const highlights = [
+  { label: 'Menu aktif', value: `${dataItems.length}` },
+  { label: 'Ruang data', value: 'Terstruktur' },
+  { label: 'Akses warga', value: 'Lebih cepat' },
+];
+---
+
+<MainLayout
+  title={withSiteTitle(resolveSeoText(dataSeo?.seoTitle, 'Data'))}
+  description={resolveSeoText(dataSeo?.seoDescription, menuData?.description ?? 'Pusat akses data, dokumen, dan informasi kampung Padukuhan Salakan.')}
+  image={resolveSeoImage(dataSeo?.ogImage)}
+>
+  <section class="section">
+    <div class="container space-y-5">
+      <div class="surface-card grid gap-5 p-6 md:p-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(260px,0.8fr)]">
+        <div class="space-y-4">
+          <span class="badge badge-primary badge-outline">Dashboard katalog</span>
+          <h1 class="text-4xl font-extrabold tracking-tight text-slate-950 md:text-5xl">
+            {menuData?.title ?? 'Data & Informasi Kampung'}
+          </h1>
+          <p class="max-w-3xl text-base leading-8 text-slate-600">
+            {menuData?.description ?? 'Pusat akses data, dokumen, UMKM, penerima bantuan, profil, dan struktur organisasi.'}
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a class="brand-button btn rounded-[var(--radius-md)]" href="#katalog-data">Lihat katalog</a>
+            <a class="btn btn-outline rounded-[var(--radius-md)]" href="/data/pengumuman">Buka pengumuman</a>
+          </div>
+        </div>
+        <div class="grid gap-3">
+          {highlights.map((item) => (
+            <article class="rounded-[22px] border border-slate-200 bg-white px-5 py-4 shadow-sm">
+              <small class="block text-sm text-slate-500">{item.label}</small>
+              <strong class="mt-1 block text-2xl font-extrabold tracking-tight text-slate-950">{item.value}</strong>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div id="katalog-data">
+        <div class="min-w-0">
+          <SectionHeading
+            title="Katalog informasi warga"
+            description="Susun halaman ini sebagai pusat dokumen, profil, struktur, UMKM, dan data layanan agar mudah dijelajahi dari satu tempat."
+          />
+
+          <div class="grid gap-4 md:grid-cols-2">
+            {dataItems.map((item) => (
+              <article class="surface-card flex flex-col gap-4 p-5 md:p-6">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                  <span class="grid h-12 w-12 place-items-center rounded-[18px] bg-gradient-to-br from-violet-100 to-blue-100 font-['Material_Symbols_Outlined'] text-2xl text-violet-700">
+                    {item.icon}
+                  </span>
+                </div>
+                <div class="space-y-3">
+                  <h2 class="text-xl font-bold tracking-tight text-slate-950 md:text-2xl">{item.label}</h2>
+                  <p class="text-sm leading-7 text-slate-600 md:text-base">{item.description}</p>
+                </div>
+                <div class="mt-auto flex flex-wrap gap-3">
+                  <a class="brand-button btn rounded-[var(--radius-md)]" href={item.href}>Lihat selengkapnya</a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>

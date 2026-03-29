@@ -1,0 +1,67 @@
+---
+import { Image } from 'astro:assets';
+import { excerpt, formatTanggal, getKategoriBeritaMap } from '../lib/keystatic';
+
+interface Item {
+  slug: string;
+  entry: {
+    judul: string;
+    tanggal: string;
+    kategori: string;
+    jenisKonten?: string;
+    gambarUtama?: string;
+    altGambarUtama?: string;
+    ringkasan: string;
+  };
+}
+
+interface Props {
+  items: Item[];
+  compact?: boolean;
+}
+
+const { items, compact = false } = Astro.props;
+const categoryLabels = await getKategoriBeritaMap();
+const gridClass = compact ? 'grid-cols-1 gap-4 lg:grid-cols-2' : 'grid-cols-1 gap-5 xl:grid-cols-3 md:grid-cols-2';
+---
+
+<div class:list={['grid', gridClass]}>
+  {items.map(({ slug, entry }) => (
+    <article class="card overflow-hidden border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+      {entry.gambarUtama && (
+        <Image
+          src={entry.gambarUtama}
+          alt={entry.altGambarUtama || entry.judul}
+          width={960}
+          height={540}
+          loading="lazy"
+          decoding="async"
+          sizes={compact ? '(max-width: 960px) 100vw, 50vw' : '(max-width: 960px) 100vw, 33vw'}
+          class="h-56 w-full object-cover"
+        />
+      )}
+      <div class="card-body gap-4 p-5 md:p-6">
+        <div class="flex flex-wrap items-center gap-2">
+          <a class="badge badge-primary badge-outline" href={`/berita/kategori/${entry.kategori}`}>
+            {categoryLabels[entry.kategori] ?? entry.kategori}
+          </a>
+          {entry.jenisKonten && <span class="badge badge-ghost capitalize">{entry.jenisKonten}</span>}
+        </div>
+        <div class="space-y-3">
+          <h3 class="text-xl font-bold tracking-tight text-slate-950 md:text-2xl">
+            <a class="transition-colors hover:text-violet-700" href={`/berita/${slug}`}>{entry.judul}</a>
+          </h3>
+          <time class="text-sm font-medium text-slate-500" datetime={entry.tanggal}>{formatTanggal(entry.tanggal)}</time>
+          <p class="text-sm leading-7 text-slate-600 md:text-[0.95rem]">
+            {compact ? excerpt(entry.ringkasan, 110) : entry.ringkasan}
+          </p>
+        </div>
+        <div class="card-actions mt-auto justify-start">
+          <a class="btn btn-sm rounded-[var(--radius-md)] border border-violet-200 bg-violet-50 text-violet-700 shadow-none hover:border-violet-300 hover:bg-violet-100" href={`/berita/${slug}`}>
+            Baca selengkapnya
+          </a>
+        </div>
+      </div>
+    </article>
+  ))}
+</div>

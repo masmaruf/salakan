@@ -1,0 +1,10 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" rx="32" fill="#1D3E31"/>
+  <circle cx="1034" cy="142" r="190" fill="#7E4F2B" fill-opacity="0.35"/>
+  <circle cx="188" cy="84" r="160" fill="#D9BF92" fill-opacity="0.35"/>
+  <rect x="74" y="74" width="1052" height="482" rx="28" fill="#F8F1E5"/>
+  <path d="M135 414C275 304 412 250 544 250C701 250 823 302 964 416" stroke="#2F5D46" stroke-width="22" stroke-linecap="round"/>
+  <path d="M135 413H964" stroke="#7E4F2B" stroke-width="8" stroke-linecap="round"/>
+  <text x="134" y="200" fill="#1E2A22" font-family="Georgia, serif" font-size="58" font-weight="700">Padukuhan Salakan</text>
+  <text x="136" y="270" fill="#5E665D" font-family="Arial, sans-serif" font-size="28">Portal informasi warga untuk pengumuman, kegiatan, dan profil wilayah.</text>
+</svg>

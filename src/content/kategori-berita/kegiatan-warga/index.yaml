@@ -1,0 +1,6 @@
+namaKategori: kegiatan-warga
+labelTampil: Kegiatan Warga
+deskripsi: Kategori untuk kegiatan warga, pelibatan komunitas, dan aktivitas padukuhan sehari-hari.
+pengaturanTampil:
+  status: tampil
+  urutanTampil: 1

@@ -1,0 +1,50 @@
+---
+import { Image } from 'astro:assets';
+import { formatTanggal } from '../lib/keystatic';
+
+interface Item {
+  slug: string;
+  entry: {
+    judul: string;
+    tanggal: string;
+    gambar?: string;
+    caption: string;
+  };
+}
+
+interface Props {
+  items: Item[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+  {items.map(({ slug, entry }) => (
+    <article class="card overflow-hidden border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+      {entry.gambar && (
+        <Image
+          src={entry.gambar}
+          alt={entry.judul}
+          width={960}
+          height={720}
+          loading="lazy"
+          decoding="async"
+          sizes="(max-width: 960px) 100vw, 33vw"
+          class="h-64 w-full object-cover bg-slate-100"
+        />
+      )}
+      <div class="card-body gap-4 p-5 md:p-6">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <span class="badge badge-primary badge-outline">Galeri</span>
+          <time class="text-sm font-medium text-slate-500" datetime={entry.tanggal}>{formatTanggal(entry.tanggal)}</time>
+        </div>
+        <div class="space-y-3">
+          <h3 class="text-xl font-bold tracking-tight text-slate-950">{entry.judul}</h3>
+          <p class="text-sm leading-7 text-slate-600 md:text-base">{entry.caption}</p>
+        </div>
+        <small class="text-xs text-slate-500">ID foto: {slug}</small>
+      </div>
+    </article>
+  ))}
+</div>

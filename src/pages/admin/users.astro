@@ -1,0 +1,98 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import {
+  getAdminSession,
+  getConfiguredAdminUsers,
+  getSessionCookieName,
+} from '../../lib/admin-auth';
+
+export const prerender = false;
+
+const session = getAdminSession(Astro.cookies.get(getSessionCookieName())?.value);
+const users = getConfiguredAdminUsers();
+const envExample = `ADMIN_USERS_JSON=[{"username":"superadmin","password":"ganti-password-kuat","role":"superadmin"},{"username":"admin1","password":"ganti-password-admin","role":"admin"},{"username":"editor1","password":"ganti-password-editor","role":"editor"}]`;
+---
+
+<MainLayout
+  title="User Admin | Padukuhan Salakan"
+  description="Halaman pengaturan user admin untuk superadmin Padukuhan Salakan."
+  noIndex={true}
+>
+  <section class="section">
+    <div class="container max-w-5xl space-y-5">
+      <div class="surface-card flex flex-col gap-4 p-6 md:p-7">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="space-y-2">
+            <span class="badge badge-primary badge-outline w-fit">User Admin</span>
+            <h1 class="page-title font-extrabold text-slate-950">Pengaturan user dan role admin</h1>
+            <p class="max-w-3xl text-body-md text-slate-600">
+              Halaman ini menampilkan akun yang diizinkan mengakses `/keystatic` beserta role
+              `superadmin`, `admin`, dan `editor`.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <a class="btn btn-sm rounded-[var(--radius-md)] border border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-50" href="/keystatic">Buka Keystatic</a>
+            <a class="btn btn-sm rounded-[var(--radius-md)] border border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-50" href="/admin/logout">Logout</a>
+          </div>
+        </div>
+
+        {session && (
+          <div class="rounded-[var(--radius-md)] border border-violet-200 bg-violet-50 p-4 text-sm text-violet-800">
+            Login aktif sebagai <strong>{session.username}</strong> dengan peran <strong class="capitalize">{session.role}</strong>.
+          </div>
+        )}
+      </div>
+
+      <div class="surface-card p-6 md:p-7">
+        <div class="mb-4 space-y-2">
+          <h2 class="section-title font-bold text-slate-950">Daftar user yang diizinkan</h2>
+          <p class="text-body-md text-slate-600">
+            Semua user berikut dapat diatur melalui environment. Hanya `superadmin` yang dapat membuka halaman ini.
+          </p>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Akses</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr>
+                  <td class="font-semibold text-slate-900">{user.username}</td>
+                  <td><span class="badge badge-outline capitalize">{user.role}</span></td>
+                  <td class="text-sm text-slate-600">
+                    {user.role === 'superadmin'
+                      ? 'Keystatic, halaman user admin, dan seluruh area pengelolaan.'
+                      : user.role === 'admin'
+                        ? 'Keystatic dan area pengelolaan konten.'
+                        : 'Hanya collection Editorial dan Data Kampung. Tidak bisa membuka singleton pengaturan, profil, beranda, atau akun admin.'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="surface-card p-6 md:p-7">
+        <div class="space-y-3">
+          <h2 class="section-title font-bold text-slate-950">Cara mengatur user</h2>
+          <p class="text-body-md text-slate-600">
+            Untuk menambah atau mengubah user, gunakan environment variable `ADMIN_USERS_JSON`.
+            Jika variabel ini tidak diisi, sistem akan fallback ke `ADMIN_USERNAME` dan `ADMIN_PASSWORD`.
+          </p>
+          <p class="text-body-md text-slate-600">
+            Jika ingin mengelola akun langsung dari CMS, buka singleton <strong>Akun Admin</strong> di `/keystatic`,
+            aktifkan mode `Gunakan akun dari Keystatic`, lalu simpan daftar user di sana.
+          </p>
+          <pre class="ui-radius-lg overflow-x-auto border border-slate-200 bg-slate-950 p-5 text-sm text-slate-100"><code>{envExample}</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>

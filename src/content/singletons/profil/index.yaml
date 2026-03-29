@@ -1,0 +1,29 @@
+namaPadukuhan: Padukuhan Salakan
+tagline: >
+  Ruang informasi resmi tingkat padukuhan yang menampilkan profil wilayah,
+  agenda warga, serta dokumentasi kegiatan secara rapi dan mudah diakses.
+sejarahSingkat: >
+  Padukuhan Salakan digambarkan sebagai wilayah yang tumbuh dari semangat
+  kebersamaan, musyawarah, dan penguatan lingkungan sosial antarwarga.
+
+
+  Website ini menyiapkan ruang digital yang bisa menampung informasi dasar
+  padukuhan sambil tetap menjaga nuansa lokal yang sederhana dan akrab.
+visi: >
+  Mewujudkan Padukuhan Salakan yang tertib informasi, aktif bergotong royong,
+  dan mampu memanfaatkan media digital untuk pelayanan warga.
+misi:
+  - Menyediakan informasi padukuhan yang mudah diakses dan rutin diperbarui.
+  - >-
+    Mendukung transparansi agenda warga, pelayanan dasar, dan dokumentasi
+    kegiatan.
+  - >-
+    Menguatkan identitas lokal melalui publikasi potensi, kegiatan, dan
+    kolaborasi masyarakat.
+dataWilayah:
+  - label: Wilayah administrasi
+    value: 3 RT aktif
+  - label: Fokus informasi
+    value: Pengumuman dan agenda warga
+  - label: Pengelolaan konten
+    value: Astro + Keystatic CMS

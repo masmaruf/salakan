@@ -1,0 +1,6 @@
+namaKategori: pelayanan
+labelTampil: Pelayanan
+deskripsi: Informasi pelayanan padukuhan, administrasi warga, dan pengumuman layanan publik.
+pengaturanTampil:
+  status: tampil
+  urutanTampil: 2

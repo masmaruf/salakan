@@ -1,0 +1,112 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { formatTanggal, getPengaturan, getPengumuman, sortByDateDesc } from '../../lib/keystatic';
+import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
+
+const pengaturan = await getPengaturan();
+const pengumuman = sortByDateDesc(await getPengumuman())
+  .filter(({ entry }) => entry.statusPublikasi === 'publish')
+  .sort((a, b) => Number(b.entry.unggulan) - Number(a.entry.unggulan));
+const [featured, ...others] = pengumuman;
+const latestDate = featured ? formatTanggal(featured.entry.tanggal) : '-';
+const seo = pengaturan?.seoHalamanData?.pengumuman;
+---
+
+<MainLayout
+  title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'Pengumuman Warga'))}
+  description={resolveSeoText(seo?.seoDescription, 'Halaman data pengumuman untuk melihat informasi aktif warga Padukuhan Salakan dari Keystatic.')}
+  image={resolveSeoImage(seo?.ogImage)}
+>
+  <section class="section">
+    <div class="container space-y-8">
+      <div class="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_360px]">
+        <div class="surface-card ui-radius-xl bg-gradient-to-br from-violet-600 via-indigo-600 to-blue-600 p-7 text-white shadow-2xl md:p-9">
+          <div class="space-y-5">
+            <span class="badge border-white/30 bg-white/10 text-white">Sub data pengumuman</span>
+            <div class="space-y-3">
+              <h1 class="max-w-3xl text-3xl font-extrabold tracking-tight md:text-5xl">Pusat pengumuman warga yang cepat dibuka dan mudah dipahami</h1>
+              <p class="max-w-2xl text-sm leading-8 text-blue-50 md:text-base">
+                Halaman ini menampilkan semua pengumuman aktif dari Keystatic dalam format yang lebih nyaman dibaca warga, dengan sorotan utama di bagian atas dan daftar ringkas di bawahnya.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <a class="btn border-0 bg-white text-slate-950 shadow-sm hover:bg-slate-100" href="/data">Kembali ke data</a>
+              <a class="btn border border-white/30 bg-white/10 text-white hover:bg-white/15" href="/kontak">Hubungi layanan</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid gap-4">
+          <article class="surface-card ui-radius-lg p-5">
+            <p class="text-sm font-semibold text-slate-500">Total pengumuman aktif</p>
+            <strong class="mt-2 block text-4xl font-extrabold tracking-tight text-slate-950">{pengumuman.length}</strong>
+            <p class="mt-2 text-sm leading-7 text-slate-600">Jumlah ini otomatis mengikuti item yang berstatus tampil di collection `pengumuman`.</p>
+          </article>
+          <article class="surface-card ui-radius-lg p-5">
+            <p class="text-sm font-semibold text-slate-500">Pembaruan terbaru</p>
+            <strong class="mt-2 block text-2xl font-bold tracking-tight text-slate-950">{latestDate}</strong>
+            <p class="mt-2 text-sm leading-7 text-slate-600">Cocok dipakai sebagai pusat kabar cepat untuk kegiatan, pelayanan, dan agenda padukuhan.</p>
+          </article>
+        </div>
+      </div>
+
+      {featured ? (
+        <div class="grid gap-5 xl:grid-cols-[minmax(0,1.1fr)_0.9fr]">
+          <article class="surface-card ui-radius-xl p-6 md:p-8">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="badge badge-primary">Sorotan utama</span>
+              <time class="badge badge-outline" datetime={featured.entry.tanggal}>{formatTanggal(featured.entry.tanggal)}</time>
+            </div>
+            <h2 class="mt-5 text-2xl font-extrabold tracking-tight text-slate-950 md:text-4xl">{featured.entry.judul}</h2>
+            <p class="mt-4 max-w-3xl text-base leading-8 text-slate-600 md:text-lg">{featured.entry.ringkasan}</p>
+            <div class="ui-radius-lg mt-6 border border-slate-200 bg-slate-50 p-5">
+              <p class="text-sm leading-8 text-slate-700 md:text-[15px]">{featured.entry.isi}</p>
+            </div>
+          </article>
+
+          <div class="grid gap-4">
+            {others.slice(0, 3).map(({ slug, entry }) => (
+              <article class="surface-card ui-radius-lg p-5" id={slug}>
+                <div class="flex items-start justify-between gap-4">
+                  <span class="badge badge-outline">Pengumuman</span>
+                  <time class="text-sm text-slate-500" datetime={entry.tanggal}>{formatTanggal(entry.tanggal)}</time>
+                </div>
+                <h3 class="mt-4 text-xl font-bold tracking-tight text-slate-950">{entry.judul}</h3>
+                <p class="mt-3 text-sm leading-7 text-slate-600">{entry.ringkasan}</p>
+                <details class="ui-radius-md mt-4 border border-slate-200 bg-white p-4">
+                  <summary class="cursor-pointer list-none font-semibold text-violet-700">Baca detail</summary>
+                  <p class="mt-3 text-sm leading-7 text-slate-600">{entry.isi}</p>
+                </details>
+              </article>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <article class="surface-card ui-radius-xl p-8 text-center">
+          <h2 class="text-2xl font-bold tracking-tight text-slate-950">Belum ada pengumuman aktif</h2>
+          <p class="mt-3 text-slate-600">Tambahkan item di `/keystatic/collection/pengumuman` dan set status ke tampil agar muncul di sini.</p>
+        </article>
+      )}
+
+      {others.length > 3 && (
+        <section class="space-y-4">
+          <div class="flex items-end justify-between gap-4">
+            <div>
+              <span class="badge badge-outline">Daftar lainnya</span>
+              <h2 class="mt-3 text-2xl font-bold tracking-tight text-slate-950">Pengumuman aktif lain</h2>
+            </div>
+          </div>
+          <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {others.slice(3).map(({ slug, entry }) => (
+              <article class="surface-card ui-radius-lg p-5" id={slug}>
+                <time class="text-sm text-slate-500" datetime={entry.tanggal}>{formatTanggal(entry.tanggal)}</time>
+                <h3 class="mt-3 text-lg font-bold tracking-tight text-slate-950">{entry.judul}</h3>
+                <p class="mt-3 text-sm leading-7 text-slate-600">{entry.ringkasan}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  </section>
+</MainLayout>

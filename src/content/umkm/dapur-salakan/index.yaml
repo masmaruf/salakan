@@ -1,0 +1,21 @@
+namaUsaha: Dapur Salakan
+kontenUtama:
+  pemilik: Ibu Sulastri
+  ringkasan: Usaha kuliner rumahan dengan menu jajanan pasar dan paket konsumsi kegiatan warga.
+  deskripsi: >
+    Dapur Salakan melayani pesanan kudapan tradisional, snack box, dan kebutuhan
+    konsumsi rapat warga dalam skala kecil hingga menengah.
+  whatsapp: '6281234567890'
+  lokasi: RT 01 Padukuhan Salakan
+  produkUnggulan:
+    - Snack box kegiatan
+    - Jajanan pasar
+    - Nasi berkat
+media:
+  gambar: /images/umkm/dapur-salakan.svg
+  altGambar: Produk kudapan dan snack box Dapur Salakan
+pengaturanTampil:
+  kategori: kuliner
+  statusPublikasi: publish
+  unggulan: true
+  urutanTampil: 1

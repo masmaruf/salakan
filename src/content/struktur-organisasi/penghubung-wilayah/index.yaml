@@ -1,0 +1,9 @@
+jabatan: Penghubung Wilayah
+kontenUtama:
+  namaPejabat: Bapak Hadi
+  deskripsiTugas: Menjembatani informasi antar RT dan memastikan kebutuhan layanan warga tersampaikan dengan cepat.
+  kontak: '0813-7000-3333'
+pengaturanTampil:
+  bidang: wilayah
+  statusPublikasi: publish
+  urutanTampil: 3

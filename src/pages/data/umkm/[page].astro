@@ -1,0 +1,45 @@
+---
+import MainLayout from '../../../layouts/MainLayout.astro';
+import UmkmCatalog from '../../../components/UmkmCatalog.astro';
+import { getPengaturan, getUmkm } from '../../../lib/keystatic';
+import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
+
+const pengaturan = await getPengaturan();
+export async function getStaticPaths() {
+  const pageSize = 6;
+  const allUmkm = (await getUmkm())
+    .filter(({ entry }) => entry.statusPublikasi === 'publish')
+    .sort((a, b) => {
+      if (a.entry.unggulan !== b.entry.unggulan) return Number(b.entry.unggulan) - Number(a.entry.unggulan);
+      return a.entry.urutanTampil - b.entry.urutanTampil;
+    });
+  const totalPages = Math.ceil(allUmkm.length / pageSize);
+
+  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => {
+    const page = index + 2;
+    return {
+      params: { page: String(page) },
+      props: {
+        currentPage: page,
+        totalPages,
+        items: allUmkm.slice((page - 1) * pageSize, page * pageSize),
+      },
+    };
+  });
+}
+
+const { currentPage, totalPages, items } = Astro.props;
+const seo = pengaturan?.seoHalamanData?.umkm;
+---
+
+<MainLayout
+  title={withSiteTitle(resolveSeoText(seo?.seoTitle, `UMKM Halaman ${currentPage}`))}
+  description={resolveSeoText(seo?.seoDescription, 'Katalog UMKM dan potensi ekonomi warga Padukuhan Salakan.')}
+  image={resolveSeoImage(seo?.ogImage, items[0]?.entry.gambar)}
+>
+  <section class="section">
+    <div class="container space-y-8">
+      <UmkmCatalog items={items} currentPage={currentPage} totalPages={totalPages} />
+    </div>
+  </section>
+</MainLayout>

@@ -1,0 +1,13 @@
+judul: Arsip Rapat Warga Triwulan
+tanggalUpdate: '2026-03-21'
+kontenUtama:
+  ringkasan: Ringkasan arsip rapat warga triwulan yang menampung keputusan dan catatan tindak lanjut.
+  deskripsi: >
+    Contoh dokumen arsip publik yang dapat dipakai untuk memuat berita acara,
+    notulen, atau hasil musyawarah lingkungan.
+media: {}
+pengaturanTampil:
+  kategori: arsip
+  statusPublikasi: publish
+  unggulan: false
+  urutanTampil: 3

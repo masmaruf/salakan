@@ -1,0 +1,18 @@
+gunakanPengaturanKeystatic: false
+catatan: >-
+  Untuk production, disarankan memakai environment variable Vercel sebagai sumber
+  utama login admin. Aktifkan mode Keystatic ini hanya jika akun production sudah
+  benar-benar diganti dan diverifikasi.
+users:
+  - username: superadmin
+    password: ganti-password-superadmin
+    role: superadmin
+    status: nonaktif
+  - username: admin1
+    password: ganti-password-admin
+    role: admin
+    status: nonaktif
+  - username: editor1
+    password: ganti-password-editor
+    role: editor
+    status: nonaktif

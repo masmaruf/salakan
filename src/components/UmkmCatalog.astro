@@ -1,0 +1,148 @@
+---
+interface UmkmItem {
+  slug: string;
+  entry: {
+    namaUsaha: string;
+    kategori: 'kuliner' | 'kerajinan' | 'jasa' | 'perdagangan';
+    pemilik: string;
+    ringkasan: string;
+    deskripsi: string;
+    whatsapp: string;
+    lokasi: string;
+    produkUnggulan: string[];
+    gambar?: string;
+    altGambar?: string;
+    status: 'tampil' | 'sembunyi';
+  };
+}
+
+interface Props {
+  items: UmkmItem[];
+  currentPage: number;
+  totalPages: number;
+  basePath?: string;
+}
+
+const { items, currentPage, totalPages, basePath = '/data/umkm' } = Astro.props;
+
+const kategoriLabels = {
+  kuliner: 'Kuliner',
+  kerajinan: 'Kerajinan',
+  jasa: 'Jasa',
+  perdagangan: 'Perdagangan',
+} as const;
+
+function normalizeWhatsapp(value: string) {
+  return value.replace(/[^\d]/g, '');
+}
+
+function getWhatsappUrl(value: string, businessName: string) {
+  const number = normalizeWhatsapp(value);
+  const text = encodeURIComponent(`Halo, saya ingin mengetahui informasi UMKM ${businessName}.`);
+  return `https://wa.me/${number}?text=${text}`;
+}
+
+function getPageHref(page: number) {
+  return page === 1 ? basePath : `${basePath}/${page}`;
+}
+---
+
+<div class="grid gap-5 lg:grid-cols-[minmax(0,1.12fr)_360px]">
+  <div class="ui-radius-xl border border-violet-100 bg-gradient-to-br from-white via-violet-50/50 to-sky-50 p-7 shadow-[0_25px_70px_rgba(148,163,184,0.12)] md:p-9">
+    <span class="badge border-violet-200 bg-white text-violet-700">Sub data UMKM</span>
+    <h1 class="mt-5 max-w-3xl text-3xl font-extrabold tracking-tight text-slate-950 md:text-5xl">Katalog usaha warga dengan nuansa yang lebih lembut dan ramah dibaca</h1>
+    <p class="mt-4 max-w-2xl text-sm leading-8 text-slate-600 md:text-base">
+      Halaman ini dirancang sebagai etalase UMKM padukuhan. Setiap usaha bisa menampilkan foto produk utama, ringkasan usaha, lokasi, serta tombol WhatsApp agar warga atau pengunjung bisa langsung menghubungi pemiliknya.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a class="btn brand-button" href="/data">Kembali ke data</a>
+      <a class="btn border border-violet-200 bg-white text-violet-700 hover:bg-violet-50" href="/kontak">Daftarkan usaha</a>
+    </div>
+  </div>
+
+  <div class="grid gap-4">
+    <article class="ui-radius-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <p class="text-sm font-semibold text-slate-500">Usaha tampil</p>
+      <strong class="mt-2 block text-4xl font-extrabold tracking-tight text-slate-950">{items.length}</strong>
+      <p class="mt-2 text-sm leading-7 text-slate-600">Jumlah UMKM per halaman dibuat nyaman dibaca dan siap bertambah saat data makin banyak.</p>
+    </article>
+    <article class="ui-radius-lg border border-slate-200 bg-slate-50 p-5 shadow-sm">
+      <p class="text-sm font-semibold text-slate-500">Navigasi halaman</p>
+      <strong class="mt-2 block text-2xl font-bold tracking-tight text-slate-950">Halaman {currentPage} dari {totalPages}</strong>
+      <p class="mt-2 text-sm leading-7 text-slate-600">Pagination akan muncul otomatis saat daftar UMKM melebihi batas per halaman.</p>
+    </article>
+  </div>
+</div>
+
+<div class="grid gap-5 xl:grid-cols-3">
+  {items.map(({ slug, entry }) => (
+    <article class="ui-radius-xl overflow-hidden border border-slate-200 bg-white shadow-[0_18px_50px_rgba(148,163,184,0.14)]" id={slug}>
+      <div class="aspect-[16/10] bg-gradient-to-br from-rose-50 via-white to-sky-50">
+        {entry.gambar ? (
+          <img class="h-full w-full object-cover" src={entry.gambar} alt={entry.altGambar || entry.namaUsaha} loading="lazy" />
+        ) : (
+          <div class="grid h-full place-items-center text-slate-400">
+            <span class="material-symbols-outlined text-5xl">storefront</span>
+          </div>
+        )}
+      </div>
+      <div class="space-y-4 px-6 py-6">
+        <div class="flex items-center justify-between gap-4">
+          <span class="badge border-violet-200 bg-violet-50 text-violet-700">{kategoriLabels[entry.kategori]}</span>
+          <span class="text-sm font-medium text-slate-500">{entry.pemilik}</span>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight text-slate-950">
+            <a class="transition-colors hover:text-violet-700" href={`/data/umkm/${slug}`}>{entry.namaUsaha}</a>
+          </h2>
+          <p class="mt-3 text-sm leading-7 text-slate-600">{entry.ringkasan}</p>
+        </div>
+        <div class="ui-radius-md border border-slate-200 bg-slate-50 px-4 py-4">
+          <p class="text-sm leading-7 text-slate-600">{entry.deskripsi}</p>
+        </div>
+        <div class="grid gap-2 text-sm text-slate-600">
+          <p><strong class="text-slate-950">Lokasi:</strong> {entry.lokasi}</p>
+          <p><strong class="text-slate-950">WhatsApp:</strong> {entry.whatsapp}</p>
+        </div>
+        {entry.produkUnggulan?.length ? (
+          <div class="flex flex-wrap gap-2">
+            {entry.produkUnggulan.map((item: string) => (
+              <span class="badge badge-outline border-slate-300 text-slate-700">{item}</span>
+            ))}
+          </div>
+        ) : null}
+        <div class="grid gap-3">
+          <a class="btn btn-outline w-full" href={`/data/umkm/${slug}`}>
+            Lihat detail usaha
+          </a>
+          <a
+            class="btn w-full border-0 bg-[#dcfce7] text-emerald-800 shadow-none hover:bg-[#bbf7d0]"
+            href={getWhatsappUrl(entry.whatsapp, entry.namaUsaha)}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span class="material-symbols-outlined text-[20px]">chat</span>
+            Hubungi via WhatsApp
+          </a>
+        </div>
+      </div>
+    </article>
+  ))}
+</div>
+
+{totalPages > 1 && (
+  <nav class="flex flex-wrap items-center justify-center gap-2 pt-2" aria-label="Pagination UMKM">
+    {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+      <a
+        class:list={[
+          'btn min-w-12 border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-50',
+          page === currentPage && 'border-violet-300 bg-violet-50 text-violet-700',
+        ]}
+        href={getPageHref(page)}
+        aria-current={page === currentPage ? 'page' : undefined}
+      >
+        {page}
+      </a>
+    ))}
+  </nav>
+)}

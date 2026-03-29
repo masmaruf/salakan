@@ -1,0 +1,59 @@
+alamat: |
+  Balai Padukuhan Salakan
+  Kalurahan Bangunjiwo
+  Kapanewon Kasihan
+kontakWhatsApp: '6283867181105'
+email: info@padukuhansalakan.id
+jamLayanan: Senin-Ahad, 24Jam
+linkPeta: https://www.google.com/maps?q=-7.8,110.36&z=15&output=embed
+sambutanBeranda: >
+  Selamat datang di website Padukuhan Salakan. Portal ini disiapkan untuk
+  membantu warga memperoleh pengumuman, agenda, dan dokumentasi kegiatan secara
+  cepat tanpa meninggalkan karakter lokal yang hangat dan tertata.
+seoHalamanData:
+  dataUtama:
+    seoTitle: Data Kampung
+    seoDescription: Pusat akses data, dokumen, UMKM, dan informasi kampung Padukuhan Salakan.
+    ogImage: ''
+  pengumuman:
+    seoTitle: Pengumuman Warga
+    seoDescription: Halaman data pengumuman untuk melihat informasi aktif warga Padukuhan Salakan dari Keystatic.
+    ogImage: ''
+  dokumen:
+    seoTitle: Dokumen Warga
+    seoDescription: Halaman dokumen warga untuk arsip layanan, format surat, dan dokumen publik Padukuhan Salakan.
+    ogImage: ''
+  umkm:
+    seoTitle: UMKM Warga
+    seoDescription: Katalog UMKM dan potensi ekonomi warga Padukuhan Salakan.
+    ogImage: ''
+  strukturOrganisasi:
+    seoTitle: Struktur Organisasi
+    seoDescription: Halaman struktur organisasi dan peran layanan Padukuhan Salakan.
+    ogImage: ''
+menuData:
+  title: Data & Informasi Kampung
+  description: >
+    Halaman ini disiapkan sebagai pusat akses menuju data padukuhan, dokumen,
+    informasi UMKM, penerima bantuan, profil wilayah, dan struktur organisasi.
+  items:
+    - label: Pengumuman
+      href: /data/pengumuman
+      description: Pengumuman aktif padukuhan yang dapat dibaca cepat dari satu halaman data.
+      icon: campaign
+      status: tampil
+    - label: Dokumen
+      href: /data/dokumen
+      description: Arsip surat, format layanan, dan dokumen publik yang dapat diakses warga.
+      icon: description
+      status: tampil
+    - label: UMKM
+      href: /data/umkm
+      description: Daftar usaha warga, produk unggulan, dan potensi ekonomi lokal padukuhan.
+      icon: storefront
+      status: tampil
+    - label: Struktur Organisasi
+      href: /data/struktur-organisasi
+      description: Susunan pengurus, perangkat, dan penanggung jawab layanan warga.
+      icon: account_tree
+      status: tampil

@@ -1,0 +1,21 @@
+namaUsaha: Kriya Salakan
+kontenUtama:
+  pemilik: Bapak Yanto
+  ringkasan: Bengkel kerajinan warga yang mengolah bahan lokal menjadi souvenir dan produk dekoratif.
+  deskripsi: >
+    Usaha ini dapat ditampilkan sebagai contoh potensi kerajinan padukuhan, baik
+    untuk pesanan acara, souvenir tamu, maupun produk lokal bernilai jual.
+  whatsapp: '6282199887766'
+  lokasi: RT 02 Padukuhan Salakan
+  produkUnggulan:
+    - Souvenir bambu
+    - Dekorasi rumah
+    - Paket cinderamata
+media:
+  gambar: /images/umkm/kriya-salakan.svg
+  altGambar: Produk kerajinan bambu Kriya Salakan
+pengaturanTampil:
+  kategori: kerajinan
+  statusPublikasi: publish
+  unggulan: false
+  urutanTampil: 2

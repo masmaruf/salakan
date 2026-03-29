@@ -1,0 +1,82 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getPengaturan, getProfil, getStrukturOrganisasi } from '../../lib/keystatic';
+import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
+
+const pengaturan = await getPengaturan();
+const profil = await getProfil();
+const struktur = (await getStrukturOrganisasi())
+  .filter(({ entry }) => entry.statusPublikasi === 'publish')
+  .sort((a, b) => a.entry.urutanTampil - b.entry.urutanTampil);
+
+const bidangLabels = {
+  pimpinan: 'Pimpinan Padukuhan',
+  kegiatan: 'Koordinator Kegiatan Warga',
+  wilayah: 'Penghubung Wilayah',
+} as const;
+
+const grouped = {
+  pimpinan: struktur.filter(({ entry }) => entry.bidang === 'pimpinan'),
+  kegiatan: struktur.filter(({ entry }) => entry.bidang === 'kegiatan'),
+  wilayah: struktur.filter(({ entry }) => entry.bidang === 'wilayah'),
+};
+const seo = pengaturan?.seoHalamanData?.strukturOrganisasi;
+---
+
+<MainLayout
+  title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'Struktur Organisasi'))}
+  description={resolveSeoText(seo?.seoDescription, 'Halaman struktur organisasi dan peran layanan Padukuhan Salakan.')}
+  image={resolveSeoImage(seo?.ogImage)}
+>
+  <section class="section">
+    <div class="container space-y-8">
+      <div class="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_360px]">
+        <div class="surface-card ui-radius-xl p-7 md:p-9">
+          <span class="badge badge-primary badge-outline">Sub data struktur organisasi</span>
+          <h1 class="mt-5 max-w-3xl text-3xl font-extrabold tracking-tight text-slate-950 md:text-5xl">Susunan organisasi yang lebih jelas, rapi, dan siap dikelola dari CMS</h1>
+          <p class="mt-4 max-w-2xl text-sm leading-8 text-slate-600 md:text-base">
+            Halaman ini menata pengurus padukuhan ke dalam kelompok yang mudah dipindai. Anda bisa memperbarui jabatan, nama penanggung jawab, dan deskripsi tugas langsung dari Keystatic.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a class="btn brand-button" href="/data">Kembali ke data</a>
+            <a class="btn btn-outline" href="/kontak">Perbarui susunan</a>
+          </div>
+        </div>
+
+        <div class="grid gap-4">
+          <article class="surface-card ui-radius-lg p-5">
+            <p class="text-sm font-semibold text-slate-500">Posisi tampil</p>
+            <strong class="mt-2 block text-4xl font-extrabold tracking-tight text-slate-950">{struktur.length}</strong>
+          </article>
+          <article class="surface-card ui-radius-lg p-5">
+            <p class="text-sm font-semibold text-slate-500">Arah organisasi</p>
+            <p class="mt-3 text-sm leading-7 text-slate-600">{profil?.visi ?? 'Visi organisasi dapat ditampilkan di sini setelah profil dilengkapi.'}</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="grid gap-5 xl:grid-cols-3">
+        {Object.entries(grouped).map(([key, items]) => (
+          <section class="surface-card ui-radius-lg p-5">
+            <div class="flex items-center justify-between gap-3">
+              <h2 class="text-xl font-bold tracking-tight text-slate-950">{bidangLabels[key as keyof typeof bidangLabels]}</h2>
+              <span class="badge badge-outline">{items.length} posisi</span>
+            </div>
+            <div class="mt-5 space-y-4">
+              {items.map(({ slug, entry }) => (
+                <article class="ui-radius-lg border border-slate-200 bg-white p-4 shadow-sm" id={slug}>
+                  <p class="text-sm font-semibold text-violet-700">{entry.jabatan}</p>
+                  <h3 class="mt-2 text-lg font-bold tracking-tight text-slate-950">{entry.namaPejabat}</h3>
+                  <p class="mt-3 text-sm leading-7 text-slate-600">{entry.deskripsiTugas}</p>
+                  <div class="ui-radius-md mt-4 inline-flex border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-slate-600">
+                    {entry.kontak}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+</MainLayout>
