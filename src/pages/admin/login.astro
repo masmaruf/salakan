@@ -27,9 +27,37 @@ function getSafeNextPath(value: string) {
   return value;
 }
 
+function isAllowedFormOrigin(request: Request) {
+  const requestUrl = new URL(request.url);
+  const allowedOrigins = new Set([
+    requestUrl.origin,
+    'https://padukuhansalakan.vercel.app',
+  ]);
+
+  const originHeader = request.headers.get('origin');
+  if (originHeader) {
+    return allowedOrigins.has(originHeader);
+  }
+
+  const refererHeader = request.headers.get('referer');
+  if (refererHeader) {
+    try {
+      const refererUrl = new URL(refererHeader);
+      return allowedOrigins.has(refererUrl.origin);
+    } catch {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 const nextPath = getSafeNextPath(requestedNextPath);
 
 if (Astro.request.method === 'POST') {
+  if (!isAllowedFormOrigin(Astro.request)) {
+    errorMessage = 'Pengiriman form ditolak karena asal permintaan tidak valid.';
+  } else {
   const formData = await Astro.request.formData();
   const username = String(formData.get('username') || '');
   const password = String(formData.get('password') || '');
@@ -53,6 +81,7 @@ if (Astro.request.method === 'POST') {
     });
 
     return Astro.redirect(nextTarget);
+  }
   }
 }
 ---

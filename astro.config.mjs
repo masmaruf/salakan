@@ -31,6 +31,9 @@ export default defineConfig({
   site: 'https://padukuhansalakan.vercel.app',
   adapter: vercel(),
   integrations,
+  security: {
+    checkOrigin: false,
+  },
   server: {
     host: true,
   },
