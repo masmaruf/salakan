@@ -4,11 +4,11 @@ import {
   type AdminSession,
   createAdminSessionValue,
   getAdminSession,
-  getConfiguredAdminUsers,
   getSessionCookieName,
   isAdminConfigured,
   validateAdminLogin,
 } from '../../lib/admin-auth';
+import { siteMeta } from '../../lib/site';
 
 export const prerender = false;
 
@@ -29,9 +29,13 @@ function getSafeNextPath(value: string) {
 
 function isAllowedFormOrigin(request: Request) {
   const requestUrl = new URL(request.url);
+  const vercelOrigin = process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : null;
   const allowedOrigins = new Set([
     requestUrl.origin,
-    'https://padukuhansalakan.vercel.app',
+    siteMeta.siteUrl,
+    ...(vercelOrigin ? [vercelOrigin] : []),
   ]);
 
   const originHeader = request.headers.get('origin');

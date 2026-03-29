@@ -3,7 +3,7 @@ export const siteMeta = {
   title: 'Padukuhan Salakan',
   description:
     'Portal warga Padukuhan Salakan untuk pengumuman, berita, agenda, profil wilayah, galeri, dan informasi kontak.',
-  siteUrl: 'https://padukuhansalakan.vercel.app',
+  siteUrl: 'https://salakan-rose.vercel.app',
   ogImage: '/images/og-salakan.svg',
   locale: 'id_ID',
   themeColor: '#ffffff',

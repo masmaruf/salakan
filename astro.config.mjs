@@ -28,7 +28,7 @@ if (process.env.SKIP_KEYSTATIC !== 'true') {
 }
 
 export default defineConfig({
-  site: 'https://padukuhansalakan.vercel.app',
+  site: 'https://salakan-rose.vercel.app',
   adapter: vercel(),
   integrations,
   security: {
