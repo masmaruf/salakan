@@ -1,7 +1,6 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import NewsGrid from '../../components/NewsGrid.astro';
-import SectionHeading from '../../components/SectionHeading.astro';
 import { getKegiatan, getKategoriBeritaMap, sortByDateDesc } from '../../lib/keystatic';
 
 const selectedCategory = Astro.url.searchParams.get('kategori');
@@ -28,33 +27,95 @@ const pageDescription = selectedCategory
   : selectedTag
     ? `Arsip berita dan artikel untuk tag ${selectedTag}.`
     : 'Arsip berita, artikel, dan dokumentasi warga Padukuhan Salakan.';
+
+// Hanya ambil 6 kategori unik agar layout rapi
+const allCategories = allKegiatan.map(({ entry }) => entry.kategori);
+const activeCategories = Array.from(new Set(allCategories)).slice(0, 6);
 ---
 
-<MainLayout title="Berita | Padukuhan Salakan" description={pageDescription}>
-  <section class="section">
-    <div class="container">
-      <SectionHeading
-        title="Berita"
-        description={
-          selectedCategory
-            ? `Menampilkan artikel dalam kategori ${categoryLabels[selectedCategory] ?? selectedCategory}.`
-            : selectedTag
-              ? `Menampilkan artikel dengan tag ${selectedTag}.`
-              : 'Arsip berita warga, layanan padukuhan, kerja bakti, dan informasi potensi lokal yang bisa dibaca kembali kapan saja.'
-        }
-      />
-      {(selectedCategory || selectedTag) && (
-        <div class="mb-6 flex flex-wrap items-center gap-3">
-          {selectedCategory && (
-            <a class="badge badge-primary badge-outline" href={`/berita/kategori/${selectedCategory}`}>
-              Kategori: {categoryLabels[selectedCategory] ?? selectedCategory}
-            </a>
-          )}
-          {selectedTag && <span class="badge badge-outline">Tag: {selectedTag}</span>}
-          <a class="btn btn-sm rounded-[var(--radius-md)] border border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-50" href="/berita">Lihat semua artikel</a>
+<MainLayout title="Berita & Artikel | Padukuhan Salakan" description={pageDescription}>
+  <section class="section relative overflow-hidden bg-slate-50 min-h-screen">
+    {/* Ornamen Grafis (Glowing Orbs) */}
+    <div class="absolute top-0 right-0 h-[700px] w-[700px] -translate-y-1/3 translate-x-1/3 rounded-full bg-blue-300/20 blur-[130px] pointer-events-none"></div>
+    <div class="absolute bottom-40 left-0 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-emerald-200/20 blur-[120px] pointer-events-none"></div>
+
+    <div class="container relative z-10 py-12 md:py-16">
+      
+      {/* Premium Glass Header Card */}
+      <div class="mb-12 rounded-[2.5rem] bg-white/70 backdrop-blur-3xl shadow-[0_12px_40px_rgb(0,0,0,0.04)] p-8 md:p-12 relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-8 opacity-5">
+           <span class="material-symbols-outlined text-9xl">newspaper</span>
         </div>
-      )}
-      <NewsGrid items={kegiatan} />
+        
+        <nav class="flex text-sm font-bold text-slate-400 uppercase tracking-widest mb-6" aria-label="Breadcrumb">
+          <ol class="inline-flex items-center space-x-2">
+            <li><a href="/" class="hover:text-blue-600 transition">Beranda</a></li>
+            <li><span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span></li>
+            <li class="text-blue-700 bg-blue-100/50 px-3 py-1 rounded-full">Berita Publik</li>
+          </ol>
+        </nav>
+
+        <div class="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end relative z-10">
+          <div class="space-y-6">
+            <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl lg:text-6xl bg-gradient-to-br from-slate-900 to-slate-700 bg-clip-text text-transparent">
+              {selectedCategory || selectedTag ? 'Telusuri Topik' : 'Kabar & Artikel Warga'}
+            </h1>
+            <p class="max-w-3xl text-lg font-medium leading-relaxed text-slate-500">
+              {selectedCategory
+                ? `Pusat informasi yang menyaring langsung berita khusus di lingkup "${categoryLabels[selectedCategory] ?? selectedCategory}".`
+                : selectedTag
+                  ? `Artikel terpilih yang ditarik menggunakan topik kunci referensi "${selectedTag}".`
+                  : 'Dokumentasi, liputan, dan kabar eksklusif dari aktivitas warga hingga wacana pembaharuan padukuhan yang disajikan rapi.'}
+            </p>
+            
+            <div class="flex flex-wrap gap-3 pt-2">
+              <span class="flex items-center gap-2 text-sm font-bold text-slate-400 uppercase tracking-wider mr-2">
+                 <span class="material-symbols-outlined text-[18px]">filter_list</span> Kategori:
+              </span>
+              {activeCategories.map((category) => (
+                <a class="inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-600 shadow-sm transition-all hover:bg-blue-600 hover:text-white hover:shadow-md" href={`/berita?kategori=${category}`}>
+                  {categoryLabels[category] ?? category}
+                </a>
+              ))}
+            </div>
+
+            {(selectedCategory || selectedTag) && (
+              <div class="flex flex-wrap gap-4 pt-6 border-t border-slate-200/50">
+                {selectedCategory && (
+                  <span class="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-sm font-bold text-blue-800">
+                    Kategori Aktif: {categoryLabels[selectedCategory] ?? selectedCategory}
+                  </span>
+                )}
+                {selectedTag && (
+                  <span class="inline-flex items-center gap-2 rounded-full bg-indigo-100 px-4 py-2 text-sm font-bold text-indigo-800">
+                    Tag: {selectedTag}
+                  </span>
+                )}
+                <a class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-2 text-sm font-bold text-white shadow-md transition-all hover:bg-slate-800 hover:-translate-y-0.5" href="/berita">
+                  <span class="material-symbols-outlined text-[18px]">clear_all</span> Hapus Filter
+                </a>
+              </div>
+            )}
+          </div>
+
+          <div class="flex gap-4">
+             <div class="flex flex-col items-center justify-center rounded-3xl bg-white p-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)] min-w-[140px]">
+               <span class="material-symbols-outlined text-4xl text-blue-300 mb-2">article</span>
+               <strong class="text-4xl font-black text-slate-900">{kegiatan.length}</strong>
+               <span class="mt-1 text-xs font-bold text-slate-400 uppercase tracking-widest">Artikel</span>
+             </div>
+             <div class="flex flex-col items-center justify-center rounded-3xl bg-white p-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)] min-w-[140px]">
+               <span class="material-symbols-outlined text-4xl text-emerald-300 mb-2">category</span>
+               <strong class="text-4xl font-black text-slate-900">{activeCategories.length}</strong>
+               <span class="mt-1 text-xs font-bold text-slate-400 uppercase tracking-widest">Kategori</span>
+             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-16">
+        <NewsGrid items={kegiatan} />
+      </div>
     </div>
   </section>
 </MainLayout>
