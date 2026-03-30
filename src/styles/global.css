@@ -1,444 +1,222 @@
 @import "tailwindcss";
-@plugin "daisyui";
+
+@plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
+
+/* Konfigurasi root dan tema warna Shadcn UI + GovTech Palette */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Plus Jakarta Sans", "Inter", sans-serif;
+
+  --color-border: #e2e8f0; /* slate-200 */
+  --color-input: #e2e8f0;
+  --color-ring: #2563eb;
+  
+  --color-background: #ffffff;
+  --color-foreground: #0f172a;
+
+  /* Corporate Blue - Formal & Majestic */
+  --color-primary: hsl(var(--primary) / <alpha-value>);
+  --color-primary-foreground: hsl(var(--primary-foreground) / <alpha-value>);
+
+  /* Formal Slate / Grayish */
+  --color-secondary: hsl(var(--secondary) / <alpha-value>);
+  --color-secondary-foreground: hsl(var(--secondary-foreground) / <alpha-value>);
+
+  --color-destructive: hsl(var(--destructive) / <alpha-value>);
+  --color-destructive-foreground: hsl(var(--destructive-foreground) / <alpha-value>);
+
+  --color-muted: hsl(var(--muted) / <alpha-value>);
+  --color-muted-foreground: hsl(var(--muted-foreground) / <alpha-value>);
+
+  /* Emerald Green / Gold accents */
+  --color-accent: hsl(var(--accent) / <alpha-value>);
+  --color-accent-foreground: hsl(var(--accent-foreground) / <alpha-value>);
+
+  --color-success: hsl(var(--success) / <alpha-value>);
+  --color-success-foreground: hsl(var(--success-foreground) / <alpha-value>);
+  
+  --color-warning: hsl(var(--warning) / <alpha-value>);
+  --color-warning-foreground: hsl(var(--warning-foreground) / <alpha-value>);
+
+  --color-popover: hsl(var(--popover) / <alpha-value>);
+  --color-popover-foreground: hsl(var(--popover-foreground) / <alpha-value>);
+
+  --color-card: hsl(var(--card) / <alpha-value>);
+  --color-card-foreground: hsl(var(--card-foreground) / <alpha-value>);
+
+  --radius-xl: calc(var(--radius) + 8px);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
 
 :root {
-  --bg: #f7f8ff;
-  --bg-soft: #ffffff;
-  --surface: rgba(255, 255, 255, 0.82);
-  --surface-strong: rgba(255, 255, 255, 0.95);
-  --surface-dark: #18213f;
-  --text: #171a2b;
-  --muted: #5f6787;
-  --line: rgba(110, 128, 196, 0.18);
-  --accent: #6d46ff;
-  --accent-2: #3388ff;
-  --heading-hero: clamp(2.4rem, 5vw, 4.75rem);
-  --heading-1: clamp(1.85rem, 3vw, 3rem);
-  --heading-2: clamp(1.45rem, 2.2vw, 2.2rem);
-  --heading-3: clamp(1.12rem, 1.4vw, 1.45rem);
-  --body-lg: 1.04rem;
-  --body-md: 0.99rem;
-  --body-sm: 0.92rem;
-  --hero-grad:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.32), transparent 28%),
-    radial-gradient(circle at 85% 18%, rgba(51, 136, 255, 0.22), transparent 24%),
-    linear-gradient(135deg, #6d46ff 0%, #4e63ff 46%, #3388ff 100%);
-  --page-grad: #ffffff;
-  --shadow: 0 16px 40px rgba(68, 90, 175, 0.08);
-  --radius-xl: 20px;
-  --radius-lg: 20px;
-  --radius-md: 20px;
-  --radius-sm: 20px;
-  --max-width: 1180px;
+  /* Dasar Latar - Sangat bersih dan modern */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  
+  /* Kartu & Kotak Tampil */
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  
+  /* Popover */
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+
+  /* Corporate Blue Modern (Lebih cerah dan modern, bukan Navy gelap tua) */
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+
+  /* Abu-abu Lembut (Secondary) */
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+
+  /* Teks Sekunder yang Kalem */
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+
+  /* Aksen (Lebih menyatu, tidak ada emas yang mencolok) */
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+
+  /* Info / Success Modern */
+  --success: 142.1 76.2% 36.3%;
+  --success-foreground: 355.7 100% 97.3%;
+  
+  --warning: 38 92% 50%;
+  --warning-foreground: 210 40% 98%;
+
+  /* Bahaya / Error */
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+
+  /* Batas & Outline - Sangat Halus */
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+
+  /* Radius Modern (Bulat tapi tegas) */
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 43 85% 52%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 48%;
 }
 
 * {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
+  border-color: var(--color-border);
 }
 
 body {
-  margin: 0;
-  font-family: "Inter", "Plus Jakarta Sans", "Segoe UI", sans-serif;
-  color: var(--text);
-  background: var(--page-grad);
-  min-height: 100vh;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
-#app-shell {
-  background:
-    radial-gradient(circle at top right, rgba(109, 70, 255, 0.08), transparent 22%),
-    radial-gradient(circle at top left, rgba(51, 136, 255, 0.08), transparent 20%),
-    #ffffff;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
-.container {
-  width: min(calc(100% - 2rem), var(--max-width));
-  margin: 0 auto;
-}
-
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.45rem 0.8rem;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: var(--radius-sm);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 0.72rem;
-  background: rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(18px);
-}
-
-.section {
-  padding: 2.75rem 0 4rem;
-}
-
-.card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(18px);
-}
-
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.38rem 0.7rem;
-  border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, rgba(109, 70, 255, 0.12), rgba(51, 136, 255, 0.12));
-  color: var(--accent);
-  font-size: 0.8rem;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.025em;
   font-weight: 700;
 }
 
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.55rem;
-  min-height: 3rem;
-  padding: 0.85rem 1.2rem;
-  border-radius: var(--radius-md);
-  border: 1px solid transparent;
-  font-weight: 700;
-  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
-}
-
-.button:hover {
-  transform: translateY(-1px);
-}
-
-.button-primary {
-  background: linear-gradient(135deg, var(--accent) 0%, #5564ff 45%, var(--accent-2) 100%);
-  color: #ffffff;
-  box-shadow: 0 18px 34px rgba(109, 70, 255, 0.24);
-}
-
-.button-secondary {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.34);
-  color: #ffffff;
-}
-
-.prose p,
-.prose li {
-  color: var(--muted);
-  line-height: 1.75;
-}
-
-.prose ul {
-  margin: 0;
-  padding-left: 1.1rem;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  margin: 0;
-  font-family: "Plus Jakarta Sans", "Inter", sans-serif;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
-}
-
-p {
-  margin: 0;
-}
-
-input,
-button,
-textarea,
-select {
-  font: inherit;
-}
-
-.surface-card {
-  @apply card bg-white/95 border border-slate-200 shadow-xl;
-  box-shadow: 0 10px 26px rgba(148, 163, 184, 0.08);
-}
-
-.glass-card {
-  @apply bg-white/85 border border-slate-200/80 shadow-lg backdrop-blur-xl;
-}
-
-.ui-radius-xl {
-  border-radius: var(--radius-xl);
-}
-
-.ui-radius-lg {
-  border-radius: var(--radius-lg);
-}
-
-.ui-radius-md {
-  border-radius: var(--radius-md);
-}
-
-.ui-radius-sm {
-  border-radius: var(--radius-sm);
-}
-
-.btn {
-  border-radius: var(--radius-md);
-  @apply border border-transparent font-semibold normal-case transition-colors duration-200;
-  min-height: 2.95rem;
-  padding-inline: 1rem;
-  padding-block: 0.78rem;
-}
-
-.badge {
-  border-radius: var(--radius-sm);
-  @apply border border-slate-200 bg-slate-50 px-3 py-2 font-semibold text-slate-700;
-}
-
-.badge.badge-outline {
-  @apply border-slate-200 bg-white text-slate-700;
-}
-
-.badge.badge-primary {
-  @apply border-violet-200 bg-violet-50 text-violet-700;
-}
-
-.badge.badge-primary.badge-outline {
-  @apply border-violet-200 bg-violet-50 text-violet-700;
-}
-
-.badge.badge-ghost {
-  @apply border-slate-200 bg-slate-100 text-slate-600;
-}
-
-.brand-button {
-  @apply btn border-0 text-white shadow-md;
-  background-image: linear-gradient(135deg, var(--accent) 0%, #5564ff 45%, var(--accent-2) 100%);
-}
-
-.brand-button:hover {
-  filter: brightness(1.03);
-}
-
-.btn.btn-outline {
-  @apply border-slate-200 bg-white text-slate-700 shadow-none hover:border-violet-200 hover:bg-violet-50 hover:text-violet-700;
-}
-
-.btn.btn-ghost {
-  @apply border border-transparent bg-transparent text-slate-600 shadow-none hover:border-slate-200 hover:bg-slate-100 hover:text-slate-800;
-}
-
-.btn.btn-circle {
-  border-radius: 999px;
-}
-
-.btn.btn-sm {
-  min-height: 2.5rem;
-  padding-inline: 0.9rem;
-  padding-block: 0.6rem;
-}
-
-.rounded-ui {
-  border-radius: var(--radius-lg);
-}
-
-.article-rich {
-  @apply max-w-none text-[1rem] leading-8 text-slate-700;
-}
-
-.article-rich > :first-child {
-  @apply mt-0;
-}
-
-.article-rich :where(h1, h2, h3, h4, h5, h6) {
-  @apply mt-10 text-slate-950;
-}
-
-.article-rich h1 {
-  @apply text-4xl font-extrabold tracking-tight md:text-5xl;
-}
-
-.article-rich h2 {
-  @apply text-3xl font-bold tracking-tight md:text-4xl;
-}
-
-.article-rich h3 {
-  @apply text-2xl font-bold tracking-tight md:text-3xl;
-}
-
-.article-rich h4 {
-  @apply text-xl font-bold;
-}
-
-.article-rich h5 {
-  @apply text-lg font-semibold;
-}
-
-.article-rich h6 {
-  @apply text-base font-semibold uppercase tracking-[0.12em] text-slate-500;
-}
-
-.article-rich p,
-.article-rich ul,
-.article-rich ol,
-.article-rich blockquote,
-.article-rich table,
-.article-rich pre {
-  @apply mt-6;
-}
-
-.article-rich ul {
-  @apply list-disc pl-6;
-}
-
-.article-rich ol {
-  @apply list-decimal pl-6;
-}
-
-.article-rich li {
-  @apply mt-2 pl-1;
-}
-
-.article-rich a {
-  @apply font-semibold text-violet-700 underline decoration-violet-200 underline-offset-4 transition-colors hover:text-blue-600;
-}
-
-.article-rich strong {
-  @apply font-bold text-slate-950;
-}
-
-.article-rich em {
-  @apply italic;
-}
-
-.article-rich code:not(pre code) {
-  @apply bg-slate-100 px-2 py-1 font-mono text-[0.95em] text-violet-700;
-  border-radius: var(--radius-sm);
-}
-
-.article-rich pre {
-  @apply overflow-x-auto border border-slate-200 bg-slate-950 p-5 text-sm text-slate-100 shadow-lg;
-  border-radius: var(--radius-lg);
-}
-
-.article-rich pre code {
-  @apply bg-transparent p-0 text-inherit;
-}
-
-.article-rich blockquote {
-  @apply border-l-4 border-violet-500 bg-violet-50 px-5 py-4 text-slate-600;
-  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-}
-
-.article-rich hr {
-  @apply my-10 border-0 border-t border-slate-200;
-}
-
-.article-rich img {
-  @apply my-8 w-full border border-slate-200 shadow-md;
-  border-radius: var(--radius-lg);
-}
-
-.article-rich table {
-  @apply w-full overflow-hidden border border-slate-200 text-left text-sm shadow-sm;
-  border-radius: var(--radius-lg);
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.article-rich thead {
-  @apply bg-slate-50;
-}
-
-.article-rich th {
-  @apply border-b border-slate-200 px-4 py-3 font-semibold text-slate-950;
-}
-
-.article-rich td {
-  @apply border-b border-slate-100 px-4 py-3 align-top;
-}
-
-.article-rich tbody tr:last-child td {
-  @apply border-b-0;
-}
-
-@media (max-width: 720px) {
-  :root {
-    --heading-hero: 2.35rem;
-    --heading-1: 1.85rem;
-    --heading-2: 1.45rem;
-    --heading-3: 1.08rem;
-    --body-lg: 1rem;
-    --body-md: 0.95rem;
-    --body-sm: 0.88rem;
-  }
-
-  .section {
-    padding: 1.7rem 0 2.9rem;
-  }
-
-  .container {
-    width: min(calc(100% - 1rem), var(--max-width));
-  }
-
+/* 
+  Fallback untuk kelas-kelas bawaan DaisyUI yang sempat digunakan 
+  sebelum komponen direfactor total ke Shadcn React
+*/
+@layer utilities {
   .btn {
-    min-height: 2.85rem;
-    padding-inline: 0.95rem;
-    padding-block: 0.72rem;
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 bg-primary text-primary-foreground shadow-sm hover:bg-primary/90;
   }
-
-  .btn.btn-sm {
-    min-height: 2.35rem;
-    padding-inline: 0.82rem;
-    padding-block: 0.52rem;
+  .btn-outline {
+    @apply bg-transparent text-slate-700 shadow-none hover:bg-slate-50 border-none;
   }
-
+  .btn-ghost {
+    @apply hover:bg-slate-50 hover:text-slate-900 bg-transparent text-slate-700 shadow-none border-none;
+  }
+  .btn-sm {
+    @apply h-8 rounded-md px-3 text-xs border-none;
+  }
+  
   .badge {
-    @apply px-2.5 py-1.5 text-[0.78rem];
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none border-none bg-primary text-primary-foreground;
   }
-}
+  .badge-outline {
+    @apply text-slate-600 bg-slate-100 border-none;
+  }
+  .badge-primary {
+    @apply bg-blue-100/50 text-blue-700 shadow-none border-none;
+  }
+  
+  .card {
+    @apply rounded-xl bg-white shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border-none;
+  }
+  
+  .surface-card {
+    @apply rounded-2xl bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] border-none;
+  }
 
-.page-title {
-  font-size: var(--heading-1);
-  line-height: 1.08;
-  letter-spacing: -0.035em;
-}
+  /* Kaca Super Premium */
+  .glass-panel {
+    @apply bg-white/70 backdrop-blur-3xl shadow-[0_8px_32px_0_rgba(11,49,130,0.05)] border-none;
+  }
+  
+  .ui-radius-xl {
+    @apply rounded-xl;
+  }
+  .ui-radius-lg {
+    @apply rounded-lg;
+  }
+  .ui-radius-md {
+    @apply rounded-md;
+  }
 
-.section-title {
-  font-size: var(--heading-2);
-  line-height: 1.12;
-  letter-spacing: -0.03em;
-}
+  /* Base Layout (Tailwind v3 deprecations) */
+  .container {
+    @apply mx-auto w-full max-w-7xl px-5 md:px-8;
+  }
+  .section {
+    @apply py-12 md:py-20 lg:py-24;
+  }
+  
+  /* Typography Fallbacks */
+  .section-title {
+    @apply text-3xl font-extrabold tracking-tight md:text-4xl;
+  }
+  .card-title {
+    @apply text-xl font-bold tracking-tight;
+  }
+  .text-body-lg {
+    @apply text-lg leading-relaxed;
+  }
+  .text-body-md {
+    @apply text-base leading-relaxed;
+  }
+  .text-body-sm {
+    @apply text-sm leading-relaxed;
+  }
 
-.card-title {
-  font-size: var(--heading-3);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-.text-body-lg {
-  font-size: var(--body-lg);
-  line-height: 1.8;
-}
-
-.text-body-md {
-  font-size: var(--body-md);
-  line-height: 1.75;
-}
-
-.text-body-sm {
-  font-size: var(--body-sm);
-  line-height: 1.65;
+  /* Brands */
+  .brand-button {
+    @apply bg-blue-700 text-white hover:bg-blue-800 shadow-md;
+  }
 }

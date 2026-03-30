@@ -95,82 +95,132 @@ if (Astro.request.method === 'POST') {
   description="Halaman login admin untuk mengakses panel pengelolaan konten Padukuhan Salakan."
   noIndex={true}
 >
-  <section class="section">
-    <div class="container grid items-stretch gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(340px,0.9fr)]">
-      <div class="rounded-[var(--radius-xl)] bg-[image:var(--hero-grad)] px-7 py-8 text-white shadow-[0_36px_90px_rgba(95,84,208,0.26)] md:px-10 md:py-12">
-        <span class="badge w-fit border-white/20 bg-white/15 text-white">Area Pengelola</span>
-        <h1 class="mt-4 max-w-[11ch] text-4xl font-extrabold tracking-tight text-white md:text-6xl">
-          Masuk ke panel admin Padukuhan Salakan
-        </h1>
-        <p class="mt-4 max-w-3xl text-base leading-8 text-white/90 md:text-lg">
-          Gunakan akun admin untuk memperbarui pengumuman, berita kegiatan, galeri,
-          dan informasi profil padukuhan melalui Keystatic CMS.
-        </p>
+  <section class="section relative overflow-hidden bg-slate-50 min-h-screen flex items-center">
+    {/* Glowing Orbs */}
+    <div class="absolute -top-32 -left-32 h-[600px] w-[600px] rounded-full bg-blue-400/20 blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-0 right-0 h-[500px] w-[500px] rounded-full bg-emerald-300/15 blur-[100px] pointer-events-none"></div>
 
-        <div class="mt-6 grid gap-4">
-          <article class="rounded-[22px] border border-white/20 bg-white/12 p-4 backdrop-blur">
-            <strong class="block text-base font-bold text-white">Konten warga tetap rapi</strong>
-            <span class="mt-1 block text-sm leading-7 text-white/80">Pengumuman, kegiatan, dan galeri dapat diperbarui dari satu tempat.</span>
-          </article>
-          <article class="rounded-[22px] border border-white/20 bg-white/12 p-4 backdrop-blur">
-            <strong class="block text-base font-bold text-white">Akses terbatas</strong>
-            <span class="mt-1 block text-sm leading-7 text-white/80">Panel ini hanya ditujukan untuk admin pengelola konten resmi padukuhan.</span>
-          </article>
-          <article class="rounded-[22px] border border-white/20 bg-white/12 p-4 backdrop-blur">
-            <strong class="block text-base font-bold text-white">Role editor dibatasi</strong>
-            <span class="mt-1 block text-sm leading-7 text-white/80">Editor hanya dapat membuka collection Editorial dan Data Kampung di `/keystatic`.</span>
-          </article>
+    <div class="container relative z-10 grid items-center gap-8 py-12 md:py-16 lg:grid-cols-[1.1fr_minmax(360px,0.9fr)]">
+      
+      {/* Panel Kiri - Info */}
+      <div class="rounded-[2.5rem] bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 p-8 md:p-12 text-white shadow-[0_20px_60px_rgb(37,99,235,0.3)] relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-8 opacity-10">
+          <span class="material-symbols-outlined text-9xl">admin_panel_settings</span>
+        </div>
+        <div class="relative z-10 space-y-6">
+          <span class="inline-flex items-center gap-2 rounded-full bg-white/15 backdrop-blur px-4 py-1.5 text-xs font-bold uppercase tracking-widest">
+            <span class="material-symbols-outlined text-[16px]">lock</span>
+            Area Pengelola
+          </span>
+          <h1 class="max-w-[14ch] text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl leading-[1.1]">
+            Masuk ke Panel Admin
+          </h1>
+          <p class="max-w-xl text-lg font-medium leading-relaxed text-blue-100">
+            Gunakan akun admin untuk memperbarui pengumuman, berita kegiatan, galeri,
+            dan informasi profil padukuhan melalui Keystatic CMS.
+          </p>
+
+          <div class="grid gap-4 pt-4">
+            <article class="group flex items-start gap-4 rounded-2xl bg-white/10 backdrop-blur p-5 transition hover:bg-white/15">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/15 transition group-hover:bg-white/25">
+                <span class="material-symbols-outlined text-[24px]">edit_note</span>
+              </div>
+              <div>
+                <strong class="block text-base font-bold">Konten Warga Tetap Rapi</strong>
+                <span class="mt-1 block text-sm leading-relaxed text-white/70">Pengumuman, kegiatan, dan galeri dapat diperbarui dari satu tempat.</span>
+              </div>
+            </article>
+            <article class="group flex items-start gap-4 rounded-2xl bg-white/10 backdrop-blur p-5 transition hover:bg-white/15">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/15 transition group-hover:bg-white/25">
+                <span class="material-symbols-outlined text-[24px]">shield</span>
+              </div>
+              <div>
+                <strong class="block text-base font-bold">Akses Terbatas & Aman</strong>
+                <span class="mt-1 block text-sm leading-relaxed text-white/70">Panel ini hanya ditujukan untuk admin pengelola konten resmi padukuhan.</span>
+              </div>
+            </article>
+            <article class="group flex items-start gap-4 rounded-2xl bg-white/10 backdrop-blur p-5 transition hover:bg-white/15">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/15 transition group-hover:bg-white/25">
+                <span class="material-symbols-outlined text-[24px]">supervised_user_circle</span>
+              </div>
+              <div>
+                <strong class="block text-base font-bold">Role Editor Dibatasi</strong>
+                <span class="mt-1 block text-sm leading-relaxed text-white/70">Editor hanya dapat membuka collection Editorial dan Data Kampung.</span>
+              </div>
+            </article>
+          </div>
         </div>
       </div>
 
-      <div class="surface-card self-center p-6 md:p-7">
-        <div class="space-y-3">
-          <span class="badge badge-primary badge-outline w-fit">Admin CMS</span>
-          <h2 class="text-3xl font-extrabold tracking-tight text-slate-950">Masuk</h2>
-          <p class="text-sm leading-7 text-slate-600 md:text-base">Login untuk membuka area pengelolaan konten.</p>
+      {/* Panel Kanan - Form Login */}
+      <div class="rounded-[2.5rem] bg-white/80 backdrop-blur-3xl p-8 md:p-10 shadow-[0_12px_40px_rgb(0,0,0,0.04)] self-center">
+        <div class="space-y-4">
+          <span class="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-1.5 text-xs font-bold text-blue-700 uppercase tracking-widest shadow-sm">
+            <span class="material-symbols-outlined text-[16px]">key</span> Admin CMS
+          </span>
+          <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">Masuk</h2>
+          <p class="text-base font-medium leading-relaxed text-slate-500">Login untuk membuka area pengelolaan konten.</p>
         </div>
 
         {existingSession && (
-          <div class="mt-4 rounded-[var(--radius-md)] border border-violet-200 bg-violet-50 p-4 text-sm text-violet-800">
-            Sedang login sebagai <strong>{existingSession.username}</strong> dengan peran <strong class="capitalize">{existingSession.role}</strong>.
-            <div class="mt-3 flex flex-wrap gap-2">
-              <a class="btn btn-sm rounded-[var(--radius-md)] border border-violet-200 bg-white text-violet-700 shadow-none hover:bg-violet-100" href="/keystatic">Masuk ke Keystatic</a>
-              <a class="btn btn-sm rounded-[var(--radius-md)] border border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-50" href="/admin/logout">Logout</a>
+          <div class="mt-6 rounded-2xl bg-blue-50 p-5 text-sm font-medium text-blue-800">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="material-symbols-outlined text-[18px]">check_circle</span>
+              Sedang login sebagai <strong>{existingSession.username}</strong> (<strong class="capitalize">{existingSession.role}</strong>)
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <a class="inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2 text-sm font-bold text-blue-700 shadow-sm transition hover:shadow-md hover:-translate-y-0.5" href="/keystatic">
+                <span class="material-symbols-outlined text-[16px]">dashboard</span> Keystatic
+              </a>
+              <a class="inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2 text-sm font-bold text-slate-600 shadow-sm transition hover:shadow-md hover:-translate-y-0.5" href="/admin/logout">
+                <span class="material-symbols-outlined text-[16px]">logout</span> Logout
+              </a>
               {existingSession.role === 'superadmin' && (
-                <a class="btn btn-sm rounded-[var(--radius-md)] border border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-50" href="/admin/users">Kelola user</a>
+                <a class="inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2 text-sm font-bold text-slate-600 shadow-sm transition hover:shadow-md hover:-translate-y-0.5" href="/admin/users">
+                  <span class="material-symbols-outlined text-[16px]">group</span> Kelola User
+                </a>
               )}
             </div>
           </div>
         )}
 
         {!configured && (
-          <p class="alert alert-error mt-4 text-sm leading-7">
-            Kredensial admin belum aktif. Pastikan `ADMIN_USERS_JSON` atau `ADMIN_USERNAME` dan `ADMIN_PASSWORD`
-            sudah diisi di `.env`.
-          </p>
+          <div class="mt-6 flex items-start gap-3 rounded-2xl bg-red-50 p-5 text-sm font-medium text-red-700">
+            <span class="material-symbols-outlined text-[20px] mt-0.5">error</span>
+            <span>Kredensial admin belum aktif. Pastikan <code class="font-bold">ADMIN_USERS_JSON</code> sudah diisi di <code class="font-bold">.env</code>.</span>
+          </div>
         )}
 
-        {errorMessage && <p class="alert alert-error mt-4 text-sm leading-7">{errorMessage}</p>}
+        {errorMessage && (
+          <div class="mt-6 flex items-center gap-3 rounded-2xl bg-red-50 p-5 text-sm font-bold text-red-700">
+            <span class="material-symbols-outlined text-[20px]">warning</span>
+            {errorMessage}
+          </div>
+        )}
 
-        <form method="POST" class="mt-5 grid gap-4">
+        <form method="POST" class="mt-8 grid gap-5">
           <input type="hidden" name="next" value={nextPath} />
 
           <label class="grid gap-2">
-            <span class="text-sm font-bold text-slate-950">Username admin</span>
+            <span class="flex items-center gap-1.5 text-sm font-bold text-slate-700">
+              <span class="material-symbols-outlined text-[16px] text-blue-500">person</span> Username
+            </span>
             <input
-              class="input input-bordered input-lg w-full bg-white"
+              class="w-full rounded-2xl bg-white px-5 py-3.5 text-base font-medium shadow-[0_2px_15px_rgb(0,0,0,0.04)] focus:outline-none focus:ring-2 focus:ring-blue-200 transition placeholder:text-slate-400"
               type="text"
               name="username"
-              placeholder="Masukkan username"
+              placeholder="Masukkan username admin"
               autocomplete="username"
               required
             />
           </label>
 
           <label class="grid gap-2">
-            <span class="text-sm font-bold text-slate-950">Password</span>
+            <span class="flex items-center gap-1.5 text-sm font-bold text-slate-700">
+              <span class="material-symbols-outlined text-[16px] text-blue-500">lock</span> Password
+            </span>
             <input
-              class="input input-bordered input-lg w-full bg-white"
+              class="w-full rounded-2xl bg-white px-5 py-3.5 text-base font-medium shadow-[0_2px_15px_rgb(0,0,0,0.04)] focus:outline-none focus:ring-2 focus:ring-blue-200 transition placeholder:text-slate-400"
               type="password"
               name="password"
               placeholder="Masukkan password"
@@ -179,13 +229,14 @@ if (Astro.request.method === 'POST') {
             />
           </label>
 
-          <button class="brand-button btn btn-lg mt-1 w-full rounded-[var(--radius-md)]" type="submit">
-            Masuk ke admin
+          <button class="mt-2 inline-flex h-14 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 text-base font-bold text-white shadow-[0_8px_20px_rgb(37,99,235,0.3)] transition hover:shadow-[0_12px_28px_rgb(37,99,235,0.4)] hover:-translate-y-0.5 active:translate-y-0" type="submit">
+            <span class="material-symbols-outlined text-[20px]">login</span>
+            Masuk ke Admin
           </button>
         </form>
 
-        <p class="mt-4 text-sm leading-7 text-slate-600">
-          Setelah berhasil login, Anda akan diarahkan langsung ke panel `/keystatic`.
+        <p class="mt-6 text-sm font-medium leading-relaxed text-slate-400 text-center">
+          Setelah berhasil login, Anda akan diarahkan ke panel <span class="font-bold text-slate-600">/keystatic</span>.
         </p>
       </div>
     </div>

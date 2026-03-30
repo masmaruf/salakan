@@ -1,10 +1,9 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import UmkmCatalog from '../../components/UmkmCatalog.astro';
+import UmkmCatalogApp from '../../components/UmkmCatalogApp.tsx';
 import { getPengaturan, getUmkm } from '../../lib/keystatic';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
-const PAGE_SIZE = 6;
 const pengaturan = await getPengaturan();
 const allUmkm = (await getUmkm())
   .filter(({ entry }) => entry.statusPublikasi === 'publish')
@@ -12,19 +11,54 @@ const allUmkm = (await getUmkm())
     if (a.entry.unggulan !== b.entry.unggulan) return Number(b.entry.unggulan) - Number(a.entry.unggulan);
     return a.entry.urutanTampil - b.entry.urutanTampil;
   });
-const totalPages = Math.max(1, Math.ceil(allUmkm.length / PAGE_SIZE));
-const items = allUmkm.slice(0, PAGE_SIZE);
+
+const serializedUmkm = allUmkm.map(item => ({
+  slug: item.slug,
+  entry: {
+    namaUsaha: item.entry.namaUsaha,
+    kategori: item.entry.kategori,
+    pemilik: item.entry.pemilik,
+    ringkasan: item.entry.ringkasan,
+    deskripsi: item.entry.deskripsi,
+    whatsapp: item.entry.whatsapp,
+    lokasi: item.entry.lokasi,
+    produkUnggulan: item.entry.produkUnggulan,
+    gambar: item.entry.gambar,
+    altGambar: item.entry.altGambar,
+  }
+}));
+
 const seo = pengaturan?.seoHalamanData?.umkm;
 ---
 
 <MainLayout
-  title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'UMKM'))}
-  description={resolveSeoText(seo?.seoDescription, 'Katalog UMKM dan potensi ekonomi warga Padukuhan Salakan.')}
-  image={resolveSeoImage(seo?.ogImage, items[0]?.entry.gambar)}
+  title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'UMKM Berdaya'))}
+  description={resolveSeoText(seo?.seoDescription, 'Katalog UMKM interaktif dan potensi ekonomi warga Padukuhan Salakan.')}
+  image={resolveSeoImage(seo?.ogImage, serializedUmkm[0]?.entry.gambar)}
 >
-  <section class="section">
-    <div class="container space-y-8">
-      <UmkmCatalog items={items} currentPage={1} totalPages={totalPages} />
+  <section class="section relative overflow-hidden bg-slate-50 min-h-screen">
+    <div class="absolute -top-20 right-20 h-[500px] w-[500px] rounded-full bg-blue-400/20 blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-40 -left-32 h-[600px] w-[600px] rounded-full bg-emerald-200/15 blur-[100px] pointer-events-none"></div>
+
+    <div class="container relative z-10 py-12 md:py-16 space-y-10">
+      <div class="rounded-[2.5rem] bg-white/70 backdrop-blur-3xl shadow-[0_12px_40px_rgb(0,0,0,0.04)] p-8 md:p-12 relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-8 opacity-5">
+          <span class="material-symbols-outlined text-9xl">storefront</span>
+        </div>
+        <div class="relative z-10 space-y-5">
+          <span class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-1.5 text-xs font-bold text-emerald-700 uppercase tracking-widest shadow-sm">
+            <span class="material-symbols-outlined text-[16px]">store</span> Direktori UMKM
+          </span>
+          <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">UMKM Berdaya Salakan</h1>
+          <p class="max-w-2xl text-lg font-medium leading-relaxed text-slate-500">
+            Katalog interaktif usaha mikro, kecil, dan menengah warga Padukuhan Salakan. Dukung ekonomi lokal dengan mengenal produk dan jasa unggulan mereka.
+          </p>
+        </div>
+      </div>
+
+      <div class="rounded-[2.5rem] bg-white/60 backdrop-blur-3xl p-6 md:p-10 shadow-[0_12px_40px_rgb(0,0,0,0.04)]">
+        <UmkmCatalogApp client:load initialItems={serializedUmkm} />
+      </div>
     </div>
   </section>
 </MainLayout>

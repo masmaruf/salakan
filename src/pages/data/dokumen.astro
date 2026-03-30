@@ -23,56 +23,78 @@ const seo = pengaturan?.seoHalamanData?.dokumen;
 
 <MainLayout
   title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'Dokumen'))}
-  description={resolveSeoText(seo?.seoDescription, 'Halaman dokumen warga untuk arsip layanan, format surat, dan dokumen publik Padukuhan Salakan.')}
+  description={resolveSeoText(seo?.seoDescription, 'Arsip dokumen warga Padukuhan Salakan.')}
   image={resolveSeoImage(seo?.ogImage)}
 >
-  <section class="section">
-    <div class="container space-y-8">
-      <div class="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_360px]">
-        <div class="surface-card ui-radius-xl p-7 md:p-9">
-          <span class="badge badge-primary badge-outline">Sub data dokumen</span>
-          <h1 class="mt-5 max-w-3xl text-3xl font-extrabold tracking-tight text-slate-950 md:text-5xl">Dokumen warga tersusun rapi dalam katalog yang mudah dipindai</h1>
-          <p class="mt-4 max-w-2xl text-sm leading-8 text-slate-600 md:text-base">
-            Halaman ini menampilkan daftar dokumen yang dikelola dari Keystatic, mulai dari format layanan dasar, arsip publik, hingga dokumen kegiatan kampung.
-          </p>
-          <div class="mt-6 flex flex-wrap gap-3">
-            <a class="btn brand-button" href="/data">Kembali ke data</a>
-            <a class="btn btn-outline" href="/kontak">Tanyakan dokumen</a>
-          </div>
-        </div>
+  <section class="section relative overflow-hidden bg-slate-50 min-h-screen">
+    <div class="absolute top-10 -left-40 h-[500px] w-[500px] rounded-full bg-blue-300/20 blur-[100px] pointer-events-none"></div>
+    <div class="absolute bottom-0 right-0 h-[600px] w-[600px] rounded-full bg-emerald-200/15 blur-[120px] pointer-events-none"></div>
 
-        <div class="grid gap-4">
-          <article class="surface-card ui-radius-lg p-5">
-            <p class="text-sm font-semibold text-slate-500">Jumlah dokumen tampil</p>
-            <strong class="mt-2 block text-4xl font-extrabold tracking-tight text-slate-950">{dokumen.length}</strong>
-          </article>
-          <article class="surface-card ui-radius-lg p-5">
-            <p class="text-sm font-semibold text-slate-500">Kategori aktif</p>
-            <strong class="mt-2 block text-4xl font-extrabold tracking-tight text-slate-950">{totalKategori}</strong>
-            <p class="mt-2 text-sm leading-7 text-slate-600">Data ini otomatis mengikuti pengelompokan kategori dari CMS.</p>
-          </article>
+    <div class="container relative z-10 py-12 md:py-16 space-y-10">
+      <div class="rounded-[2.5rem] bg-white/70 backdrop-blur-3xl shadow-[0_12px_40px_rgb(0,0,0,0.04)] p-8 md:p-12 relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-8 opacity-5">
+          <span class="material-symbols-outlined text-9xl">folder_open</span>
+        </div>
+        <div class="grid gap-10 lg:grid-cols-[1.2fr_auto] items-center relative z-10">
+          <div class="space-y-6">
+            <span class="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-1.5 text-xs font-bold text-blue-700 uppercase tracking-widest shadow-sm">
+              <span class="material-symbols-outlined text-[16px]">description</span> Arsip Digital
+            </span>
+            <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">Pusat Dokumen Resmi</h1>
+            <p class="max-w-2xl text-lg font-medium leading-relaxed text-slate-500">
+              Halaman ini menampilkan daftar dokumen yang dikelola dari Keystatic, mulai dari format layanan dasar, arsip publik, hingga dokumen kegiatan.
+            </p>
+            <div class="flex flex-wrap gap-4 pt-2">
+              <a class="inline-flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 px-8 text-sm font-bold text-white shadow-[0_8px_20px_rgb(37,99,235,0.3)] hover:shadow-lg transition hover:-translate-y-0.5" href="/data">
+                <span class="material-symbols-outlined text-[18px]">arrow_back</span> Kembali ke Data
+              </a>
+              <a class="inline-flex h-12 items-center gap-2 rounded-full bg-white px-8 text-sm font-bold text-slate-700 shadow-sm hover:shadow-md transition" href="/kontak">Tanyakan Dokumen</a>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="flex flex-col items-center justify-center rounded-3xl bg-white p-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)] min-w-[140px]">
+              <span class="material-symbols-outlined text-4xl text-blue-300 mb-2">inventory_2</span>
+              <strong class="text-4xl font-black text-slate-900">{dokumen.length}</strong>
+              <span class="mt-1 text-xs font-bold text-slate-400 uppercase tracking-widest">Dokumen</span>
+            </div>
+            <div class="flex flex-col items-center justify-center rounded-3xl bg-white p-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)] min-w-[140px]">
+              <span class="material-symbols-outlined text-4xl text-emerald-300 mb-2">category</span>
+              <strong class="text-4xl font-black text-slate-900">{totalKategori}</strong>
+              <span class="mt-1 text-xs font-bold text-slate-400 uppercase tracking-widest">Kategori</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="grid gap-4 xl:grid-cols-3">
+      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {dokumen.map(({ slug, entry }) => (
-          <article class="surface-card ui-radius-lg p-5" id={slug}>
-            <div class="flex flex-wrap items-center justify-between gap-3">
-              <span class="badge badge-outline">{kategoriLabels[entry.kategori]}</span>
-              <time class="text-sm text-slate-500" datetime={entry.tanggalUpdate}>{formatTanggal(entry.tanggalUpdate)}</time>
+          <article class="group relative rounded-[2rem] bg-white/80 backdrop-blur-3xl p-6 md:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] transition-all hover:shadow-[0_20px_40px_rgb(0,0,0,0.06)] hover:-translate-y-2 overflow-hidden" id={slug}>
+            <div class="absolute top-4 right-4 opacity-5 group-hover:opacity-10 transition">
+              <span class="material-symbols-outlined text-7xl">article</span>
             </div>
-            <h2 class="mt-4 text-xl font-bold tracking-tight text-slate-950">
-              <a class="transition-colors hover:text-violet-700" href={`/data/dokumen/${slug}`}>{entry.judul}</a>
-            </h2>
-            <p class="mt-3 text-sm leading-7 text-slate-600">{entry.ringkasan}</p>
-            <p class="ui-radius-md mt-4 bg-slate-50 px-4 py-4 text-sm leading-7 text-slate-600">{entry.deskripsi}</p>
-            <div class="mt-5 flex flex-wrap gap-3">
-              <a class="btn btn-outline" href={`/data/dokumen/${slug}`}>Detail dokumen</a>
-              {entry.fileDokumen ? (
-                <a class="btn btn-outline" href={entry.fileDokumen} target="_blank" rel="noreferrer">Buka file</a>
-              ) : (
-                <span class="badge badge-ghost px-4 py-3">File belum ditambahkan</span>
-              )}
+            <div class="relative z-10">
+              <div class="flex items-center justify-between gap-3 mb-5">
+                <span class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-800">{kategoriLabels[entry.kategori]}</span>
+                <time class="text-xs font-bold text-slate-400" datetime={entry.tanggalUpdate}>{formatTanggal(entry.tanggalUpdate)}</time>
+              </div>
+              <h2 class="text-2xl font-extrabold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors">
+                <a href={`/data/dokumen/${slug}`}>{entry.judul}</a>
+              </h2>
+              <p class="mt-3 text-sm font-medium leading-relaxed text-slate-500">{entry.ringkasan}</p>
+              <div class="mt-5 flex flex-wrap gap-3">
+                <a class="inline-flex items-center gap-2 rounded-full bg-slate-50 px-5 py-2.5 text-sm font-bold text-slate-700 transition hover:bg-blue-600 hover:text-white hover:shadow-md" href={`/data/dokumen/${slug}`}>
+                  <span class="material-symbols-outlined text-[18px]">visibility</span> Detail
+                </a>
+                {entry.fileDokumen ? (
+                  <a class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-5 py-2.5 text-sm font-bold text-emerald-700 transition hover:bg-emerald-600 hover:text-white hover:shadow-md" href={entry.fileDokumen} target="_blank" rel="noreferrer">
+                    <span class="material-symbols-outlined text-[18px]">download</span> Unduh
+                  </a>
+                ) : (
+                  <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-4 py-2 text-xs font-bold text-slate-400">
+                    <span class="material-symbols-outlined text-[14px]">block</span> Belum tersedia
+                  </span>
+                )}
+              </div>
             </div>
           </article>
         ))}
