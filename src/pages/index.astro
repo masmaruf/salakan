@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import CmsIcon from '../components/CmsIcon.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import {
   getBeranda,
@@ -110,8 +111,8 @@ const heroStats = [
         <div class="grid gap-3">
           {quickLinks.map((item) => (
             <a class="grid grid-cols-[3rem_1fr] items-start gap-4 rounded-[var(--radius-lg)] border border-slate-200 bg-white px-4 py-4 transition-all hover:-translate-y-0.5 hover:shadow-sm" href={item.href}>
-              <span class="grid h-12 w-12 place-items-center rounded-[var(--radius-md)] bg-gradient-to-br from-violet-100 to-blue-100 font-['Material_Symbols_Outlined'] text-2xl text-violet-700">
-                {item.icon}
+              <span class="grid h-12 w-12 place-items-center rounded-[var(--radius-md)] bg-gradient-to-br from-violet-100 to-blue-100 text-violet-700">
+                <CmsIcon name={item.icon} class="size-6" />
               </span>
               <span>
                 <strong class="block text-base font-bold text-slate-950">{item.title}</strong>

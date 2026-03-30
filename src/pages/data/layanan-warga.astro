@@ -1,0 +1,66 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import CmsIcon from '../../components/CmsIcon.astro';
+import { getLayananWarga, getPengaturan } from '../../lib/keystatic';
+import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
+
+const [layananItems, pengaturan] = await Promise.all([getLayananWarga(), getPengaturan()]);
+const seo = pengaturan?.seoHalamanData?.layananWarga;
+const items = layananItems
+  .filter(({ entry }) => entry.statusTampil === 'tampil')
+  .sort((a, b) => a.entry.namaLayanan.localeCompare(b.entry.namaLayanan, 'id'));
+---
+
+<MainLayout
+  title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'Layanan Warga'))}
+  description={resolveSeoText(seo?.seoDescription, 'Informasi layanan warga, syarat, langkah, dan kontak layanan Padukuhan Salakan.')}
+  image={resolveSeoImage(seo?.ogImage)}
+>
+  <section class="section">
+    <div class="container space-y-5">
+      <div class="surface-card space-y-4 p-6 md:p-8">
+        <span class="badge badge-outline w-fit">Sub menu data</span>
+        <h1 class="text-4xl font-extrabold tracking-tight text-slate-950 md:text-5xl">Layanan Warga</h1>
+        <p class="max-w-3xl text-base leading-8 text-slate-600">
+          Ringkasan layanan warga disusun sederhana agar syarat, langkah, dan kontak bisa dibaca cepat tanpa harus membuka banyak halaman.
+        </p>
+      </div>
+
+      <div class="grid gap-4 lg:grid-cols-2">
+        {items.map(({ entry }) => (
+          <article class="surface-card space-y-4 p-5 md:p-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h2 class="text-2xl font-bold tracking-tight text-slate-950">{entry.namaLayanan}</h2>
+                <p class="mt-2 text-body-md text-slate-600">{entry.ringkasan}</p>
+              </div>
+              <span class="grid h-12 w-12 shrink-0 place-items-center rounded-[var(--radius-md)] bg-violet-50 text-violet-700">
+                <CmsIcon name="description" class="size-6" />
+              </span>
+            </div>
+
+            <div class="grid gap-4 md:grid-cols-2">
+              <div class="rounded-[var(--radius-lg)] border border-slate-200 bg-slate-50 p-4">
+                <p class="text-sm font-semibold text-slate-950">Syarat</p>
+                <ul class="mt-3 space-y-2 text-sm leading-7 text-slate-600">
+                  {entry.syarat.map((item: string) => <li>{item}</li>)}
+                </ul>
+              </div>
+              <div class="rounded-[var(--radius-lg)] border border-slate-200 bg-slate-50 p-4">
+                <p class="text-sm font-semibold text-slate-950">Langkah</p>
+                <ol class="mt-3 space-y-2 text-sm leading-7 text-slate-600">
+                  {entry.langkah.map((item: string) => <li>{item}</li>)}
+                </ol>
+              </div>
+            </div>
+
+            <div class="grid gap-3 text-sm text-slate-600 md:grid-cols-2">
+              <p><strong class="text-slate-950">Kontak:</strong> {entry.kontak}</p>
+              <p><strong class="text-slate-950">Jam layanan:</strong> {entry.jamLayanan}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</MainLayout>

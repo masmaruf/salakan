@@ -31,6 +31,18 @@ seoHalamanData:
     seoTitle: Struktur Organisasi
     seoDescription: Halaman struktur organisasi dan peran layanan Padukuhan Salakan.
     ogImage: ''
+  agenda:
+    seoTitle: Agenda Warga
+    seoDescription: Jadwal kegiatan dan agenda warga Padukuhan Salakan yang sedang berjalan dan akan datang.
+    ogImage: ''
+  layananWarga:
+    seoTitle: Layanan Warga
+    seoDescription: Informasi layanan warga, syarat, langkah, dan kontak layanan Padukuhan Salakan.
+    ogImage: ''
+  faq:
+    seoTitle: FAQ Warga
+    seoDescription: Pertanyaan yang sering diajukan warga Padukuhan Salakan beserta jawabannya.
+    ogImage: ''
 menuData:
   title: Data & Informasi Kampung
   description: >
@@ -56,4 +68,19 @@ menuData:
       href: /data/struktur-organisasi
       description: Susunan pengurus, perangkat, dan penanggung jawab layanan warga.
       icon: account_tree
+      status: tampil
+    - label: Agenda
+      href: /data/agenda
+      description: Jadwal kegiatan warga dan agenda padukuhan yang sedang atau akan berjalan.
+      icon: event
+      status: tampil
+    - label: Layanan Warga
+      href: /data/layanan-warga
+      description: Informasi layanan warga, syarat, langkah, dan kontak yang bisa dihubungi.
+      icon: description
+      status: tampil
+    - label: FAQ
+      href: /data/faq
+      description: Daftar pertanyaan umum warga yang bisa dibaca cepat dari satu halaman.
+      icon: contact_support
       status: tampil

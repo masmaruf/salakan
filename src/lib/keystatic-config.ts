@@ -825,6 +825,36 @@ const keystaticConfig = config({
               label: 'OG image halaman Struktur Organisasi',
             }),
           }),
+          agenda: fields.object({
+            seoTitle: fields.text({ label: 'SEO title halaman Agenda' }),
+            seoDescription: fields.text({
+              label: 'SEO description halaman Agenda',
+              multiline: true,
+            }),
+            ogImage: fields.text({
+              label: 'OG image halaman Agenda',
+            }),
+          }),
+          layananWarga: fields.object({
+            seoTitle: fields.text({ label: 'SEO title halaman Layanan Warga' }),
+            seoDescription: fields.text({
+              label: 'SEO description halaman Layanan Warga',
+              multiline: true,
+            }),
+            ogImage: fields.text({
+              label: 'OG image halaman Layanan Warga',
+            }),
+          }),
+          faq: fields.object({
+            seoTitle: fields.text({ label: 'SEO title halaman FAQ' }),
+            seoDescription: fields.text({
+              label: 'SEO description halaman FAQ',
+              multiline: true,
+            }),
+            ogImage: fields.text({
+              label: 'OG image halaman FAQ',
+            }),
+          }),
         }),
         menuData: fields.object({
           title: fields.text({
@@ -842,7 +872,10 @@ const keystaticConfig = config({
                 label: 'Deskripsi singkat',
                 multiline: true,
               }),
-              icon: fields.text({ label: 'Nama ikon Material Symbols' }),
+              icon: fields.text({
+                label: 'Nama ikon',
+                description: 'Gunakan salah satu: campaign, newspaper, grid_view, description, storefront, account_tree, event, contact_support.',
+              }),
               status: fields.select({
                 label: 'Status tampil',
                 options: [
@@ -955,7 +988,10 @@ const keystaticConfig = config({
                 multiline: true,
               }),
               href: fields.text({ label: 'Link tujuan' }),
-              icon: fields.text({ label: 'Nama ikon Material Symbols' }),
+              icon: fields.text({
+                label: 'Nama ikon',
+                description: 'Gunakan salah satu: campaign, newspaper, grid_view, description, storefront, account_tree, event, contact_support.',
+              }),
               status: fields.select({
                 label: 'Status tampil',
                 options: [

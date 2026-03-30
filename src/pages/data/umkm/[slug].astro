@@ -1,4 +1,5 @@
 ---
+import CmsIcon from '../../../components/CmsIcon.astro';
 import MainLayout from '../../../layouts/MainLayout.astro';
 import { getUmkm } from '../../../lib/keystatic';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
@@ -54,7 +55,7 @@ const seoImage = resolveSeoImage(entry.ogImage, entry.gambar);
                 <img class="aspect-[16/10] h-full w-full object-cover" src={entry.gambar} alt={entry.altGambar || entry.namaUsaha} loading="lazy" />
               ) : (
                 <div class="grid aspect-[16/10] place-items-center text-slate-400">
-                  <span class="material-symbols-outlined text-6xl">storefront</span>
+                  <CmsIcon name="storefront" class="size-14" />
                 </div>
               )}
             </div>
@@ -99,7 +100,7 @@ const seoImage = resolveSeoImage(entry.ogImage, entry.gambar);
 
             <div class="mt-6 flex flex-wrap gap-3">
               <a class="btn w-full rounded-[var(--radius-md)] border-0 bg-[#dcfce7] text-emerald-800 shadow-none hover:bg-[#bbf7d0] md:w-auto" href={whatsappUrl} target="_blank" rel="noreferrer">
-                <span class="material-symbols-outlined text-[20px]">chat</span>
+                <CmsIcon name="whatsapp" class="size-5" />
                 Hubungi via WhatsApp
               </a>
               <a class="btn btn-outline w-full rounded-[var(--radius-md)] md:w-auto" href="/data/umkm">

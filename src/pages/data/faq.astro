@@ -1,0 +1,49 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import CmsIcon from '../../components/CmsIcon.astro';
+import { getFaq, getPengaturan } from '../../lib/keystatic';
+import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
+
+const [faqItems, pengaturan] = await Promise.all([getFaq(), getPengaturan()]);
+const seo = pengaturan?.seoHalamanData?.faq;
+const items = faqItems
+  .filter(({ entry }) => entry.statusTampil === 'tampil')
+  .sort((a, b) => a.entry.urutan - b.entry.urutan);
+---
+
+<MainLayout
+  title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'FAQ'))}
+  description={resolveSeoText(seo?.seoDescription, 'Pertanyaan yang sering diajukan warga Padukuhan Salakan.')}
+  image={resolveSeoImage(seo?.ogImage)}
+>
+  <section class="section">
+    <div class="container space-y-5">
+      <div class="surface-card space-y-4 p-6 md:p-8">
+        <span class="badge badge-outline w-fit">Sub menu data</span>
+        <h1 class="text-4xl font-extrabold tracking-tight text-slate-950 md:text-5xl">FAQ</h1>
+        <p class="max-w-3xl text-base leading-8 text-slate-600">
+          Pertanyaan umum warga dirangkum dalam format yang sederhana agar jawaban penting bisa dibaca cepat dan mudah dicari kembali.
+        </p>
+      </div>
+
+      <div class="grid gap-4">
+        {items.map(({ entry }) => (
+          <article class="surface-card p-5 md:p-6">
+            <div class="flex items-start gap-4">
+              <span class="grid h-11 w-11 shrink-0 place-items-center rounded-[var(--radius-md)] bg-violet-50 text-violet-700">
+                <CmsIcon name="contact_support" class="size-5" />
+              </span>
+              <div class="min-w-0 space-y-3">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="badge badge-outline">{entry.kategori}</span>
+                </div>
+                <h2 class="text-xl font-bold tracking-tight text-slate-950 md:text-2xl">{entry.pertanyaan}</h2>
+                <p class="text-body-md text-slate-600">{entry.jawaban}</p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</MainLayout>

@@ -1,4 +1,6 @@
 ---
+import CmsIcon from './CmsIcon.astro';
+
 interface UmkmItem {
   slug: string;
   entry: {
@@ -82,7 +84,7 @@ function getPageHref(page: number) {
           <img class="h-full w-full object-cover" src={entry.gambar} alt={entry.altGambar || entry.namaUsaha} loading="lazy" />
         ) : (
           <div class="grid h-full place-items-center text-slate-400">
-            <span class="material-symbols-outlined text-5xl">storefront</span>
+            <CmsIcon name="storefront" class="size-12" />
           </div>
         )}
       </div>
@@ -121,7 +123,7 @@ function getPageHref(page: number) {
             target="_blank"
             rel="noreferrer"
           >
-            <span class="material-symbols-outlined text-[20px]">chat</span>
+            <CmsIcon name="whatsapp" class="size-5" />
             Hubungi via WhatsApp
           </a>
         </div>

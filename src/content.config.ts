@@ -255,12 +255,30 @@ const pengaturan = defineCollection({
         seoDescription: z.string().default(''),
         ogImage: z.string().default(''),
       }),
+      agenda: z.object({
+        seoTitle: z.string().default(''),
+        seoDescription: z.string().default(''),
+        ogImage: z.string().default(''),
+      }),
+      layananWarga: z.object({
+        seoTitle: z.string().default(''),
+        seoDescription: z.string().default(''),
+        ogImage: z.string().default(''),
+      }),
+      faq: z.object({
+        seoTitle: z.string().default(''),
+        seoDescription: z.string().default(''),
+        ogImage: z.string().default(''),
+      }),
     }).default({
       dataUtama: { seoTitle: '', seoDescription: '', ogImage: '' },
       pengumuman: { seoTitle: '', seoDescription: '', ogImage: '' },
       dokumen: { seoTitle: '', seoDescription: '', ogImage: '' },
       umkm: { seoTitle: '', seoDescription: '', ogImage: '' },
       strukturOrganisasi: { seoTitle: '', seoDescription: '', ogImage: '' },
+      agenda: { seoTitle: '', seoDescription: '', ogImage: '' },
+      layananWarga: { seoTitle: '', seoDescription: '', ogImage: '' },
+      faq: { seoTitle: '', seoDescription: '', ogImage: '' },
     }),
     menuData: z.object({
       title: z.string().min(1),

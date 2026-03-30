@@ -1,4 +1,5 @@
 ---
+import { getPengaturan } from '../lib/keystatic';
 import { navItems } from '../lib/site';
 
 interface Props {
@@ -6,6 +7,9 @@ interface Props {
 }
 
 const { currentPath } = Astro.props;
+const pengaturan = await getPengaturan();
+const dataSubmenu = pengaturan?.menuData?.items?.filter((item) => item.status === 'tampil') ?? [];
+const isDataActive = currentPath === '/data' || currentPath.startsWith('/data/');
 ---
 
 <header class="sticky top-0 z-20 border-b border-slate-200/90 bg-white/95 backdrop-blur-xl">
@@ -41,17 +45,39 @@ const { currentPath } = Astro.props;
                       : currentPath.startsWith(item.href);
 
                   return (
-                    <a
-                      class:list={[
-                        'rounded-[var(--radius-md)] border px-4 py-3.5 text-sm font-semibold transition-colors',
-                        isActive
-                          ? 'border-violet-200 bg-violet-50 text-violet-700'
-                          : 'border-slate-200 bg-white text-slate-800 hover:bg-slate-50',
-                      ]}
-                      href={item.href}
-                    >
-                      {item.label}
-                    </a>
+                    <>
+                      <a
+                        class:list={[
+                          'rounded-[var(--radius-md)] border px-4 py-3.5 text-sm font-semibold transition-colors',
+                          isActive
+                            ? 'border-violet-200 bg-violet-50 text-violet-700'
+                            : 'border-slate-200 bg-white text-slate-800 hover:bg-slate-50',
+                        ]}
+                        href={item.href}
+                      >
+                        {item.label}
+                      </a>
+                      {item.href === '/data' && (
+                        <div class="ml-3 mt-1 grid gap-2 border-l border-slate-200 pl-3">
+                          {dataSubmenu.map((subItem) => {
+                            const isSubActive = currentPath === subItem.href || currentPath.startsWith(`${subItem.href}/`);
+                            return (
+                              <a
+                                class:list={[
+                                  'rounded-[var(--radius-md)] px-3 py-2.5 text-sm transition-colors',
+                                  isSubActive
+                                    ? 'bg-violet-50 font-semibold text-violet-700'
+                                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
+                                ]}
+                                href={subItem.href}
+                              >
+                                {subItem.label}
+                              </a>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </>
                   );
                 })}
               </div>
@@ -61,12 +87,72 @@ const { currentPath } = Astro.props;
       </div>
 
       <nav aria-label="Navigasi utama" class="hidden md:block">
-        <ul class="flex items-center justify-center gap-8">
+        <ul class="flex items-center justify-center gap-6">
           {navItems.map((item) => {
             const isActive =
               item.href === '/'
                 ? currentPath === item.href
                 : currentPath.startsWith(item.href);
+
+            if (item.href === '/data') {
+              return (
+                <li class="relative">
+                  <details class="group">
+                    <summary
+                      class:list={[
+                        'relative inline-flex cursor-pointer list-none items-center gap-1 rounded-[var(--radius-md)] px-3 py-2 text-[0.95rem] font-medium tracking-tight transition-all duration-200',
+                        isDataActive
+                          ? 'bg-violet-50 text-violet-700'
+                          : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900',
+                      ]}
+                    >
+                      <span>{item.label}</span>
+                      <span class="material-symbols-outlined text-[18px] text-current transition-transform group-open:rotate-180">expand_more</span>
+                      {isDataActive && (
+                        <span class="absolute inset-x-3 -bottom-[0.45rem] h-0.5 rounded-full bg-gradient-to-r from-violet-500 to-blue-500"></span>
+                      )}
+                    </summary>
+                    <div class="absolute left-1/2 top-full z-30 mt-3 w-80 -translate-x-1/2">
+                      <div class="ui-radius-lg border border-slate-200 bg-white p-2 shadow-[0_18px_48px_rgba(15,23,42,0.10)]">
+                        <a
+                          class:list={[
+                            'block rounded-[var(--radius-md)] px-3 py-3 transition-colors',
+                            currentPath === '/data' ? 'bg-violet-50 text-violet-700' : 'hover:bg-slate-50',
+                          ]}
+                          href="/data"
+                        >
+                          <span class:list={['block text-sm font-semibold', currentPath === '/data' ? 'text-violet-700' : 'text-slate-900']}>
+                            Semua Data
+                          </span>
+                          <span class="mt-1 block text-xs leading-5 text-slate-500">
+                            Buka pusat akses data dan informasi kampung.
+                          </span>
+                        </a>
+                        {dataSubmenu.map((subItem) => {
+                          const isSubActive = currentPath === subItem.href || currentPath.startsWith(`${subItem.href}/`);
+                          return (
+                            <a
+                              class:list={[
+                                'block rounded-[var(--radius-md)] px-3 py-3 transition-colors',
+                                isSubActive ? 'bg-violet-50 text-violet-700' : 'hover:bg-slate-50',
+                              ]}
+                              href={subItem.href}
+                            >
+                              <span class:list={['block text-sm font-semibold', isSubActive ? 'text-violet-700' : 'text-slate-900']}>
+                                {subItem.label}
+                              </span>
+                              <span class="mt-1 block text-xs leading-5 text-slate-500">
+                                {subItem.description}
+                              </span>
+                            </a>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </details>
+                </li>
+              );
+            }
 
             return (
               <li>
