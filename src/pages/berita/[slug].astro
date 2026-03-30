@@ -10,9 +10,9 @@ export async function getStaticPaths() {
   return items
     .filter((item) => item.entry?.statusPublikasi === 'publish')
     .map((item) => ({
-    params: { slug: item.slug },
-    props: { item: { slug: item.slug, entry: item.entry! } },
-  }));
+      params: { slug: item.slug },
+      props: { item: { slug: item.slug, entry: item.entry! } },
+    }));
 }
 
 const { item } = Astro.props;
@@ -29,29 +29,34 @@ const encodedText = encodeURIComponent(shareText);
 const shareLinks = [
   {
     label: 'Facebook',
-    icon: 'thumb_up',
     href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+    className: 'border-blue-200 bg-blue-50 text-blue-700 hover:border-blue-300 hover:bg-blue-100',
+    icon: 'facebook',
   },
   {
     label: 'WhatsApp',
-    icon: 'chat',
     href: `https://wa.me/?text=${encodedText}%20${encodedUrl}`,
+    className: 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-100',
+    icon: 'whatsapp',
   },
   {
     label: 'Telegram',
-    icon: 'send',
     href: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`,
+    className: 'border-sky-200 bg-sky-50 text-sky-700 hover:border-sky-300 hover:bg-sky-100',
+    icon: 'telegram',
   },
   {
     label: 'Email',
-    icon: 'mail',
     href: `mailto:?subject=${encodedText}&body=${encodedText}%0A${encodedUrl}`,
+    className: 'border-amber-200 bg-amber-50 text-amber-700 hover:border-amber-300 hover:bg-amber-100',
+    icon: 'email',
   },
   {
     label: 'Salin link',
-    icon: 'link',
     href: articleUrl,
     copy: true,
+    className: 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300 hover:bg-slate-100',
+    icon: 'link',
   },
 ];
 const categoryHref = `/berita/kategori/${entry.kategori}`;
@@ -77,109 +82,174 @@ const relatedArticles = allKegiatan
   publishedTime={entry.tanggal}
 >
   <section class="section">
-    <div class="container max-w-5xl">
-      <article class="surface-card ui-radius-xl overflow-hidden">
-        {entry.gambarUtama && (
-          <Image
-            src={entry.gambarUtama}
-            alt={entry.altGambarUtama || entry.judul}
-            width={1440}
-            height={900}
-            class="h-[18rem] w-full object-cover md:h-[26rem]"
-            loading="eager"
-            sizes="(max-width: 920px) 100vw, 920px"
-          />
-        )}
-        <div class="px-5 py-6 md:px-10 md:py-10">
-          <nav class="breadcrumbs mb-6 text-sm text-slate-500">
-            <ul>
-              <li><a href="/">Beranda</a></li>
-              <li><a href="/berita">Berita</a></li>
-              <li><a href={categoryHref}>{categoryLabels[entry.kategori] ?? entry.kategori}</a></li>
-              <li class="text-slate-700">{entry.judul}</li>
-            </ul>
-          </nav>
-          <div class="mb-6 flex flex-wrap items-center gap-2">
-            <a class="badge badge-primary badge-outline" href={categoryHref}>{categoryLabels[entry.kategori] ?? entry.kategori}</a>
-            {entry.jenisKonten && <span class="badge badge-ghost capitalize">{entry.jenisKonten}</span>}
-          </div>
-          <div class="space-y-5">
-            <h1 class="max-w-4xl text-3xl font-extrabold tracking-tight text-slate-950 md:text-5xl">{entry.judul}</h1>
-            <div class="flex flex-wrap items-center gap-3 text-sm text-slate-500">
-              <time class="ui-radius-md inline-flex items-center gap-2 border border-slate-200 bg-slate-50 px-3 py-1.5 font-medium" datetime={entry.tanggal}>
-                <span class="material-symbols-outlined text-[18px]">calendar_today</span>
-                {formatTanggal(entry.tanggal)}
-              </time>
-              {entry.penulis && (
-                <p class="ui-radius-md inline-flex items-center gap-2 border border-slate-200 bg-white px-3 py-1.5 font-medium">
-                  <span class="material-symbols-outlined text-[18px]">edit_square</span>
-                  Ditulis oleh {entry.penulis}
-                </p>
-              )}
-              {entry.unggulan && (
-                <p class="ui-radius-md inline-flex items-center gap-2 border border-violet-200 bg-violet-50 px-3 py-1.5 font-semibold text-violet-700">
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  Konten unggulan
-                </p>
-              )}
-            </div>
-          </div>
-          <p class="mt-7 max-w-3xl text-lg leading-8 text-slate-600 md:text-xl">{entry.ringkasan}</p>
+    <div class="container max-w-6xl">
+      <article class="space-y-6">
+        <div class="surface-card ui-radius-xl overflow-hidden">
+          <div class="grid lg:grid-cols-[minmax(0,1.65fr)_21rem]">
+            <div class="px-5 py-6 md:px-8 md:py-8 lg:px-10 lg:py-10">
+              <nav class="breadcrumbs mb-5 text-[0.78rem] text-slate-500 md:text-xs">
+                <ul>
+                  <li><a href="/">Beranda</a></li>
+                  <li><a href="/berita">Berita</a></li>
+                  <li><a href={categoryHref}>{categoryLabels[entry.kategori] ?? entry.kategori}</a></li>
+                  <li class="text-slate-700">{entry.judul}</li>
+                </ul>
+              </nav>
 
-          <div class="ui-radius-lg mt-8 border border-slate-200 bg-slate-50/80 p-4 md:p-5">
-            <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div>
-                <p class="text-sm font-semibold uppercase tracking-[0.14em] text-slate-500">Bagikan artikel</p>
-                <p class="mt-1 text-sm text-slate-600">Sebarkan informasi ini ke warga melalui kanal yang paling nyaman.</p>
+              <div class="mb-5 flex flex-wrap items-center gap-2">
+                <a class="badge badge-primary badge-outline text-[0.72rem] md:text-[0.74rem]" href={categoryHref}>
+                  {categoryLabels[entry.kategori] ?? entry.kategori}
+                </a>
+                {entry.jenisKonten && <span class="badge badge-outline text-[0.72rem] capitalize md:text-[0.74rem]">{entry.jenisKonten}</span>}
+                {entry.unggulan && (
+                  <span class="badge border-violet-200 bg-violet-50 text-[0.72rem] text-violet-700 md:text-[0.74rem]">Unggulan</span>
+                )}
               </div>
-              <div class="flex flex-wrap gap-2">
-                {shareLinks.map((link) => (
-                  link.copy ? (
-                    <button
-                      class="btn btn-sm border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-100"
-                      type="button"
-                      data-copy-link
-                      data-copy-value={articleUrl}
-                    >
-                      <span class="material-symbols-outlined text-[18px]">{link.icon}</span>
-                      <span data-copy-label>{link.label}</span>
-                    </button>
-                  ) : (
-                    <a
-                      class="btn btn-sm border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-100"
-                      href={link.href}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <span class="material-symbols-outlined text-[18px]">{link.icon}</span>
-                      {link.label}
+
+              <div class="space-y-5">
+                <h1 class="max-w-4xl text-4xl font-extrabold tracking-tight text-slate-950 md:text-5xl lg:text-6xl">
+                  {entry.judul}
+                </h1>
+                <p class="max-w-3xl text-lg leading-8 text-slate-600 md:text-[1.18rem]">
+                  {entry.ringkasan}
+                </p>
+                <div class="flex flex-wrap items-center gap-2.5 text-[0.8rem] text-slate-500 md:text-[0.84rem]">
+                  <time
+                    class="ui-radius-md inline-flex items-center gap-1.5 border border-slate-200 bg-slate-50 px-2.5 py-1.5 font-medium"
+                    datetime={entry.tanggal}
+                  >
+                    <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                    {formatTanggal(entry.tanggal)}
+                  </time>
+                  {entry.penulis && (
+                    <p class="ui-radius-md inline-flex items-center gap-1.5 border border-slate-200 bg-white px-2.5 py-1.5 font-medium">
+                      <span class="material-symbols-outlined text-[16px]">edit_square</span>
+                      {entry.penulis}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <aside class="border-t border-slate-200 bg-slate-50/70 px-5 py-6 md:px-8 lg:border-l lg:border-t-0 lg:px-7">
+              <div class="space-y-5">
+                <div>
+                  <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-slate-500">Catatan redaksi</p>
+                  <p class="mt-3 text-[0.82rem] leading-6 text-slate-600">
+                    Konten ini merupakan bagian dari arsip informasi warga Padukuhan Salakan dan disusun agar nyaman dibaca di desktop maupun mobile.
+                  </p>
+                </div>
+
+                <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                  <div class="ui-radius-lg border border-slate-200 bg-white p-4">
+                    <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-slate-500">Kategori</p>
+                    <a class="mt-2 inline-flex text-[0.82rem] font-semibold text-violet-700 hover:text-blue-600" href={categoryHref}>
+                      {categoryLabels[entry.kategori] ?? entry.kategori}
                     </a>
-                  )
-                ))}
+                  </div>
+                  <div class="ui-radius-lg border border-slate-200 bg-white p-4">
+                    <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-slate-500">Tanggal terbit</p>
+                    <p class="mt-2 text-[0.82rem] font-semibold text-slate-900">{formatTanggal(entry.tanggal)}</p>
+                  </div>
+                </div>
+
+              </div>
+            </aside>
+          </div>
+        </div>
+
+        {entry.gambarUtama && (
+          <figure class="surface-card ui-radius-xl overflow-hidden">
+            <Image
+              src={entry.gambarUtama}
+              alt={entry.altGambarUtama || entry.judul}
+              width={1440}
+              height={900}
+              class="h-[18rem] w-full object-cover md:h-[28rem] lg:h-[34rem]"
+              loading="eager"
+              sizes="(max-width: 1100px) 100vw, 1100px"
+            />
+          </figure>
+        )}
+
+        <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] xl:grid-cols-[minmax(0,1fr)_19.5rem]">
+          <div class="surface-card ui-radius-xl px-5 py-6 md:px-8 md:py-8 lg:px-10">
+            <div class="mb-8 border-b border-slate-200 pb-6">
+              <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <p class="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-slate-500">Bagikan artikel</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  {shareLinks.map((link) => (
+                    link.copy ? (
+                        <button
+                          class={`btn btn-sm btn-square min-h-10 size-10 p-0 shadow-none ${link.className}`}
+                        type="button"
+                        data-copy-link
+                        data-copy-value={articleUrl}
+                        aria-label={link.label}
+                        title={link.label}
+                      >
+                        <span class="sr-only" data-copy-label>{link.label}</span>
+                        {link.icon === 'link' ? (
+                          <svg aria-hidden="true" class="size-[20px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l2.92-2.92a5 5 0 0 0-7.07-7.07L11.7 5" />
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-2.92 2.92a5 5 0 0 0 7.07 7.07L12.3 19" />
+                          </svg>
+                        ) : null}
+                      </button>
+                    ) : (
+                        <a
+                          class={`btn btn-sm btn-square min-h-10 size-10 p-0 shadow-none ${link.className}`}
+                        href={link.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={link.label}
+                        title={link.label}
+                      >
+                        <span class="sr-only">{link.label}</span>
+                        {link.icon === 'facebook' ? (
+                          <svg aria-hidden="true" class="size-[20px] fill-current" viewBox="0 0 24 24">
+                            <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073c0 6.025 4.388 11.02 10.125 11.927v-8.437H7.078v-3.49h3.047V9.41c0-3.022 1.792-4.692 4.533-4.692 1.313 0 2.686.235 2.686.235v2.969h-1.514c-1.491 0-1.956.931-1.956 1.887v2.264h3.328l-.532 3.49h-2.796V24C19.612 23.093 24 18.098 24 12.073Z" />
+                          </svg>
+                        ) : link.icon === 'whatsapp' ? (
+                          <svg aria-hidden="true" class="size-[20px] fill-current" viewBox="0 0 24 24">
+                            <path d="M20.52 3.48A11.84 11.84 0 0 0 12.07 0C5.5 0 .15 5.35.15 11.92c0 2.1.55 4.16 1.6 5.98L0 24l6.28-1.64a11.9 11.9 0 0 0 5.79 1.48h.01c6.57 0 11.92-5.35 11.92-11.92 0-3.18-1.24-6.17-3.48-8.44ZM12.08 21.8h-.01a9.86 9.86 0 0 1-5.03-1.38l-.36-.21-3.73.97 1-3.64-.24-.37a9.82 9.82 0 0 1-1.51-5.25c0-5.45 4.43-9.88 9.89-9.88 2.64 0 5.12 1.03 6.98 2.9a9.8 9.8 0 0 1 2.89 6.98c0 5.45-4.43 9.88-9.88 9.88Zm5.42-7.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49 0 1.47 1.07 2.88 1.22 3.08.15.2 2.1 3.2 5.09 4.49.71.31 1.27.49 1.7.62.71.23 1.35.2 1.86.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.29.17-1.42-.08-.12-.27-.2-.57-.35Z" />
+                          </svg>
+                        ) : link.icon === 'telegram' ? (
+                          <svg aria-hidden="true" class="size-[20px] fill-current" viewBox="0 0 24 24">
+                            <path d="M21.94 4.66a1.5 1.5 0 0 0-1.6-.24L2.8 11.4a1.5 1.5 0 0 0 .12 2.83l3.9 1.25 1.5 4.72a1.5 1.5 0 0 0 2.65.43l2.18-2.97 4.28 3.17a1.5 1.5 0 0 0 2.36-.86l3-13.83a1.5 1.5 0 0 0-.85-1.48ZM8.02 14.77l8.96-5.66-6.98 6.74-.28 3.04-1.7-4.12Zm2.98 2.2.2-2.23 8.02-7.75-6.32 8.63-1.9 1.35Z" />
+                          </svg>
+                        ) : link.icon === 'email' ? (
+                          <svg aria-hidden="true" class="size-[20px] fill-current" viewBox="0 0 24 24">
+                            <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4.24-7.38 4.92a1 1 0 0 1-1.24 0L4 8.24V6l8 5.33L20 6v2.24Z" />
+                          </svg>
+                        ) : null}
+                      </a>
+                    )
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="mt-10 border-t border-slate-200 pt-8">
             <div class="article-rich text-slate-700" set:html={articleHtml} />
-          </div>
 
-          <div class="mt-10 grid gap-4 border-t border-slate-200 pt-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
-            <div class="space-y-4">
+            <div class="mt-10 grid gap-5 border-t border-slate-200 pt-8">
               <div>
-                <p class="text-sm font-semibold uppercase tracking-[0.14em] text-slate-500">Kategori artikel</p>
+                <p class="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-slate-500">Kategori artikel</p>
                 <div class="mt-3 flex flex-wrap gap-2">
-                  <a class="badge badge-primary badge-outline" href={categoryHref}>
+                  <a class="badge badge-primary badge-outline text-[0.74rem]" href={categoryHref}>
                     {categoryLabels[entry.kategori] ?? entry.kategori}
                   </a>
                 </div>
               </div>
+
               {entry.tag?.length ? (
                 <div>
-                  <p class="text-sm font-semibold uppercase tracking-[0.14em] text-slate-500">Tags</p>
+                  <p class="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-slate-500">Tags</p>
                   <div class="mt-3 flex flex-wrap gap-2">
                     {entry.tag.map((tag: string) => (
-                      <a class="badge badge-outline" href={`/berita?tag=${encodeURIComponent(tag)}`}>
+                      <a class="badge badge-outline text-[0.74rem]" href={`/berita?tag=${encodeURIComponent(tag)}`}>
                         {tag}
                       </a>
                     ))}
@@ -188,76 +258,72 @@ const relatedArticles = allKegiatan
               ) : null}
             </div>
 
-            <div class="ui-radius-lg border border-slate-200 bg-slate-50/80 p-4 md:min-w-[280px]">
-              <p class="text-sm font-semibold uppercase tracking-[0.14em] text-slate-500">Bagikan lagi</p>
-              <div class="mt-4 flex flex-wrap gap-2">
-                {shareLinks.map((link) => (
-                  link.copy ? (
-                    <button
-                      class="btn btn-sm border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-100"
-                      type="button"
-                      data-copy-link
-                      data-copy-value={articleUrl}
-                    >
-                      <span class="material-symbols-outlined text-[18px]">{link.icon}</span>
-                      <span data-copy-label>{link.label}</span>
-                    </button>
-                  ) : (
-                    <a
-                      class="btn btn-sm border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-100"
-                      href={link.href}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <span class="material-symbols-outlined text-[18px]">{link.icon}</span>
-                      {link.label}
-                    </a>
-                  )
+          </div>
+
+          <aside class="space-y-4 lg:sticky lg:top-24 lg:self-start">
+            <div class="surface-card ui-radius-xl p-5">
+              <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-slate-500">Informasi artikel</p>
+              <div class="mt-4 space-y-4 text-[0.82rem] text-slate-600">
+                <div>
+                  <p class="font-semibold text-slate-900">Penulis</p>
+                  <p class="mt-1">{entry.penulis || 'Redaksi Padukuhan Salakan'}</p>
+                </div>
+                <div>
+                  <p class="font-semibold text-slate-900">Jenis konten</p>
+                  <p class="mt-1 capitalize">{entry.jenisKonten || 'berita'}</p>
+                </div>
+                <div>
+                  <p class="font-semibold text-slate-900">Tanggal publikasi</p>
+                  <p class="mt-1">{formatTanggal(entry.tanggal)}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="surface-card ui-radius-xl p-5">
+              <p class="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-slate-500">Navigasi cepat</p>
+              <div class="mt-4 flex flex-col gap-2">
+                <a class="btn btn-outline justify-start" href="/berita">Lihat semua berita</a>
+                <a class="btn btn-outline justify-start" href={categoryHref}>Artikel dalam kategori ini</a>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        {relatedArticles.length > 0 && (
+          <section>
+            <div class="surface-card ui-radius-xl p-5 md:p-7 lg:p-8">
+              <div class="mb-5">
+                <h2 class="text-2xl font-bold tracking-tight text-slate-950">Bacaan lain yang masih berkaitan</h2>
+              </div>
+              <div class="grid gap-4 lg:grid-cols-3">
+                {relatedArticles.map(({ slug, entry: relatedEntry }) => (
+                  <article class="ui-radius-lg overflow-hidden border border-slate-200 bg-white shadow-sm">
+                    {relatedEntry?.gambarUtama && (
+                      <Image
+                        src={relatedEntry.gambarUtama}
+                        alt={relatedEntry.altGambarUtama || relatedEntry.judul}
+                        width={960}
+                        height={540}
+                        class="h-48 w-full object-cover"
+                        loading="lazy"
+                      />
+                    )}
+                    <div class="flex h-full flex-col gap-3 p-5">
+                      <h3 class="text-xl font-bold tracking-tight text-slate-950">
+                        <a href={`/berita/${slug}`}>{relatedEntry.judul}</a>
+                      </h3>
+                      <time class="text-sm text-slate-500" datetime={relatedEntry.tanggal}>{formatTanggal(relatedEntry.tanggal)}</time>
+                      <a class="btn btn-sm mt-auto w-fit border-slate-200 bg-slate-50 text-slate-700 shadow-none hover:bg-slate-100" href={`/berita/${slug}`}>
+                        Baca artikel
+                      </a>
+                    </div>
+                  </article>
                 ))}
               </div>
             </div>
-          </div>
-        </div>
+          </section>
+        )}
       </article>
-
-      {relatedArticles.length > 0 && (
-        <section class="mt-6">
-          <div class="surface-card ui-radius-xl p-5 md:p-7">
-            <div class="mb-5 flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <span class="badge badge-outline">Artikel terkait</span>
-                <h2 class="mt-3 text-2xl font-bold tracking-tight text-slate-950">Bacaan lain yang masih berkaitan</h2>
-              </div>
-              <a class="btn btn-outline" href="/berita">Lihat semua berita</a>
-            </div>
-            <div class="grid gap-4 lg:grid-cols-3">
-              {relatedArticles.map(({ slug, entry: relatedEntry }) => (
-                <article class="card ui-radius-lg border border-slate-200 bg-white shadow-sm">
-                  {relatedEntry?.gambarUtama && (
-                    <Image
-                      src={relatedEntry.gambarUtama}
-                      alt={relatedEntry.altGambarUtama || relatedEntry.judul}
-                      width={960}
-                      height={540}
-                      class="h-48 w-full object-cover"
-                      loading="lazy"
-                    />
-                  )}
-                  <div class="flex h-full flex-col gap-3 p-5">
-                    <h3 class="text-xl font-bold tracking-tight text-slate-950">
-                      <a href={`/berita/${slug}`}>{relatedEntry.judul}</a>
-                    </h3>
-                    <time class="text-sm text-slate-500" datetime={relatedEntry.tanggal}>{formatTanggal(relatedEntry.tanggal)}</time>
-                    <a class="btn btn-sm mt-auto w-fit border-slate-200 bg-slate-50 text-slate-700 shadow-none hover:bg-slate-100" href={`/berita/${slug}`}>
-                      Baca artikel
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
     </div>
   </section>
 </MainLayout>

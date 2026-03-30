@@ -72,12 +72,18 @@ const { currentPath } = Astro.props;
               <li>
                 <a
                   class:list={[
-                    'text-[0.95rem] font-medium tracking-tight transition-colors',
-                    isActive ? 'text-slate-950' : 'text-slate-500 hover:text-slate-900',
+                    'relative inline-flex items-center rounded-[var(--radius-md)] px-3 py-2 text-[0.95rem] font-medium tracking-tight transition-all duration-200',
+                    isActive
+                      ? 'bg-violet-50 text-violet-700'
+                      : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900',
                   ]}
                   href={item.href}
+                  aria-current={isActive ? 'page' : undefined}
                 >
                   {item.label}
+                  {isActive && (
+                    <span class="absolute inset-x-3 -bottom-[0.45rem] h-0.5 rounded-full bg-gradient-to-r from-violet-500 to-blue-500"></span>
+                  )}
                 </a>
               </li>
             );

@@ -40,11 +40,7 @@ const kegiatan = sortByDateDesc(
     .map((item) => ({ slug: item.slug, entry: item.entry! }))
 );
 
-const manualFeaturedSlug = beranda?.editorialPilihan?.beritaUnggulan;
-const featuredNews =
-  kegiatan.find((item) => item.slug === manualFeaturedSlug) ??
-  kegiatan.find((item) => item.entry.unggulan) ??
-  kegiatan[0];
+const featuredNews = kegiatan[0];
 const newsList = kegiatan.filter((item) => item.slug !== featuredNews?.slug).slice(0, 3);
 
 const galeri = sortByDateDesc(
@@ -52,37 +48,16 @@ const galeri = sortByDateDesc(
 ).slice(0, 3);
 
 const heroSection = beranda?.hero;
+const quickLinks = (heroSection?.panelLinks ?? []).filter((item) => item.status === 'tampil');
+const pengumumanSection = beranda?.pengumuman;
+const beritaSection = beranda?.berita;
+const galeriSection = beranda?.galeri;
+const penutupSection = beranda?.penutup;
 
-const quickLinks = [
-  {
-    title: 'Pengumuman',
-    description: 'Lihat info prioritas warga dan agenda yang sedang berjalan.',
-    href: '/data/pengumuman',
-    icon: 'campaign',
-  },
-  {
-    title: 'Berita',
-    description: 'Baca arsip kegiatan warga dan artikel terbaru padukuhan.',
-    href: '#berita-editorial',
-    icon: 'newspaper',
-  },
-  {
-    title: 'Data Kampung',
-    description: 'Masuk ke katalog data, dokumen, UMKM, dan struktur.',
-    href: '/data',
-    icon: 'grid_view',
-  },
-];
-
-const heroStats =
-  heroSection?.stats?.filter((item) =>
-    ['Pengumuman aktif', 'Kegiatan terdokumentasi', 'Galeri tersedia'].includes(item.label)
-  ).slice(0, 3) ?? [];
-
-const heroStatsFallback = [
-  { label: 'Pengumuman aktif', value: `${pengumuman.length}` },
-  { label: 'Kegiatan terbaru', value: `${kegiatan.length}` },
-  { label: 'Galeri tersedia', value: `${galeriItems.length}` },
+const heroStats = [
+  { label: heroSection?.stats?.pengumumanLabel ?? 'Pengumuman aktif', value: `${pengumuman.length}` },
+  { label: heroSection?.stats?.kegiatanLabel ?? 'Berita terdokumentasi', value: `${kegiatan.length}` },
+  { label: heroSection?.stats?.galeriLabel ?? 'Galeri tersedia', value: `${galeriItems.length}` },
 ];
 ---
 
@@ -102,7 +77,7 @@ const heroStatsFallback = [
             'Portal ini disiapkan untuk menyajikan pengumuman, agenda kegiatan, dokumentasi warga, dan informasi padukuhan secara cepat dan rapi.'}
         </p>
         <div class="mt-6 flex flex-wrap gap-3">
-          <a class="brand-button btn rounded-[var(--radius-md)]" href={heroSection?.primaryCtaHref ?? '#pengumuman-prioritas'}>
+          <a class="brand-button btn rounded-[var(--radius-md)]" href={heroSection?.primaryCtaHref ?? '/data/pengumuman'}>
             {heroSection?.primaryCtaLabel ?? 'Lihat pengumuman'}
           </a>
           <a class="btn rounded-[var(--radius-md)] border-white/25 bg-white/10 text-white hover:bg-white/15 hover:text-white" href={heroSection?.secondaryCtaHref ?? '/profil'}>
@@ -110,7 +85,7 @@ const heroStatsFallback = [
           </a>
         </div>
         <div class="mt-6 grid gap-3 md:grid-cols-3">
-          {(heroStats.length ? heroStats : heroStatsFallback).map((stat) => (
+          {heroStats.map((stat) => (
             <article class="rounded-[var(--radius-lg)] border border-white/15 bg-white/15 p-4 backdrop-blur">
               <strong class="block text-2xl font-extrabold text-white">{stat.value}</strong>
               <span class="mt-1 block text-sm leading-6 text-white/80">{stat.label}</span>
@@ -122,9 +97,11 @@ const heroStatsFallback = [
       <aside class="surface-card flex flex-col justify-between gap-5 p-5 md:p-6">
         <div class="space-y-3">
           <span class="badge badge-outline w-fit">
-            {heroSection?.panelLabel ?? 'Sorotan layanan warga'}
+            {heroSection?.panelLabel ?? 'Informasi utama warga'}
           </span>
-          <h2 class="section-title font-extrabold text-slate-950">Layanan utama warga dalam satu halaman</h2>
+          <h2 class="section-title font-extrabold text-slate-950">
+            {heroSection?.panelTitle ?? 'Layanan utama warga dalam satu halaman'}
+          </h2>
           <p class="text-body-md text-slate-600">
             {heroSection?.panelNote ??
               'Website ini dirancang agar warga cepat menemukan pengumuman, berita, data kampung, dan layanan komunikasi resmi.'}
@@ -150,8 +127,8 @@ const heroStatsFallback = [
   <section class="section pt-0" id="pengumuman-prioritas">
     <div class="container">
       <SectionHeading
-        title="Pengumuman prioritas"
-        description="Bagian ini menempatkan informasi paling penting untuk warga di posisi paling mudah terlihat."
+        title={pengumumanSection?.title ?? 'Pengumuman prioritas'}
+        description={pengumumanSection?.description ?? 'Bagian ini menempatkan informasi paling penting untuk warga di posisi paling mudah terlihat.'}
       />
       <div class="grid gap-4 lg:grid-cols-[minmax(0,1.15fr)_minmax(300px,0.85fr)]">
         {featuredPengumuman && (
@@ -167,13 +144,13 @@ const heroStatsFallback = [
               {featuredPengumuman.entry.isi}
             </div>
             <a class="brand-button btn w-fit rounded-[var(--radius-md)]" href="/data/pengumuman">
-              Buka halaman pengumuman
+              {pengumumanSection?.ctaLabel ?? 'Buka halaman pengumuman'}
             </a>
           </article>
         )}
 
         <div class="grid gap-4">
-          {secondaryPengumuman.map(({ slug, entry }) => (
+          {secondaryPengumuman.map(({ entry }) => (
             <article class="surface-card flex flex-col gap-3 p-5">
               <div class="flex flex-wrap items-center gap-3">
                 <time class="text-sm font-medium text-slate-500" datetime={entry.tanggal}>{formatTanggal(entry.tanggal)}</time>
@@ -190,10 +167,10 @@ const heroStatsFallback = [
   <section class="section pt-0" id="berita-editorial">
     <div class="container">
       <SectionHeading
-        title="Berita terbaru"
-        description="Satu berita unggulan ditampilkan lebih dominan, sementara artikel lain tetap mudah dipindai warga lewat format editorial yang ringkas."
+        title={beritaSection?.title ?? 'Berita terbaru'}
+        description={beritaSection?.description ?? 'Satu berita unggulan ditampilkan lebih dominan, sementara artikel lain tetap mudah dipindai warga lewat format editorial yang ringkas.'}
         href="/berita"
-        linkLabel="Lihat semua berita"
+        linkLabel={beritaSection?.ctaLabel ?? 'Lihat semua berita'}
       />
       <div class="grid gap-4 lg:grid-cols-[minmax(0,1.15fr)_minmax(300px,0.85fr)]">
         {featuredNews && (
@@ -248,13 +225,13 @@ const heroStatsFallback = [
   <section class="section pt-0">
     <div class="container">
       <SectionHeading
-        title="Galeri pilihan"
-        description="Dokumentasi visual tetap hadir di beranda, tetapi dibuat lebih ringkas agar fokus utama tetap pada informasi warga."
+        title={galeriSection?.title ?? 'Galeri pilihan'}
+        description={galeriSection?.description ?? 'Dokumentasi visual tetap hadir di beranda, tetapi dibuat lebih ringkas agar fokus utama tetap pada informasi warga.'}
         href="/galeri"
-        linkLabel="Buka galeri lengkap"
+        linkLabel={galeriSection?.ctaLabel ?? 'Buka galeri lengkap'}
       />
       <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {galeri.map(({ slug, entry }) => (
+        {galeri.map(({ entry }) => (
           <article class="surface-card flex flex-col gap-4 p-5">
             {entry.gambar && (
               <div
@@ -276,18 +253,22 @@ const heroStatsFallback = [
     <div class="container">
       <div class="surface-card flex flex-col gap-5 p-6 md:flex-row md:items-center md:justify-between md:p-7">
         <div class="space-y-3">
-          <span class="badge badge-outline w-fit">Lanjutkan pencarian informasi</span>
+          <span class="badge badge-outline w-fit">{penutupSection?.eyebrow ?? 'Lanjutkan pencarian informasi'}</span>
           <h2 class="section-title font-extrabold text-slate-950">
-            Butuh data kampung atau ingin menghubungi layanan warga?
+            {penutupSection?.title ?? 'Butuh data kampung atau ingin menghubungi layanan warga?'}
           </h2>
           <p class="max-w-3xl text-body-lg text-slate-600">
-            Beranda ini dibuat sebagai pintu masuk. Untuk eksplorasi lebih lanjut, gunakan katalog data kampung
-            atau langsung menuju halaman kontak resmi.
+            {penutupSection?.description ??
+              'Beranda ini dibuat sebagai pintu masuk. Untuk eksplorasi lebih lanjut, gunakan katalog data kampung atau langsung menuju halaman kontak resmi.'}
           </p>
         </div>
         <div class="flex flex-wrap gap-3">
-          <a class="brand-button btn rounded-[var(--radius-md)]" href="/data">Buka data kampung</a>
-          <a class="btn btn-outline rounded-[var(--radius-md)]" href="/kontak">Kontak & layanan</a>
+          <a class="brand-button btn rounded-[var(--radius-md)]" href={penutupSection?.primaryCtaHref ?? '/data'}>
+            {penutupSection?.primaryCtaLabel ?? 'Buka data kampung'}
+          </a>
+          <a class="btn btn-outline rounded-[var(--radius-md)]" href={penutupSection?.secondaryCtaHref ?? '/kontak'}>
+            {penutupSection?.secondaryCtaLabel ?? 'Kontak & layanan'}
+          </a>
         </div>
       </div>
     </div>

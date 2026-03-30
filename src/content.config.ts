@@ -306,54 +306,46 @@ const beranda = defineCollection({
       secondaryCtaLabel: z.string().min(1),
       secondaryCtaHref: z.string().min(1),
       panelLabel: z.string().min(1),
+      panelTitle: z.string().min(1),
       panelNote: z.string().min(1),
-      stats: z.array(
-        z.object({
-          value: z.string().min(1),
-          label: z.string().min(1),
-        })
-      ),
-    }),
-    budaya: z.object({
-      title: z.string().min(1),
-      description: z.string().min(1),
-      items: z.array(
+      panelLinks: z.array(
         z.object({
           title: z.string().min(1),
-          label: z.string().min(1),
-          meta: z.string().min(1),
-          icon: z.string().min(1),
-          image: z.string().min(1),
           description: z.string().min(1),
+          href: z.string().min(1),
+          icon: z.string().min(1),
+          status: z.enum(['tampil', 'sembunyi']).default('tampil'),
         })
-      ),
+      ).default([]),
+      stats: z.object({
+        pengumumanLabel: z.string().min(1),
+        kegiatanLabel: z.string().min(1),
+        galeriLabel: z.string().min(1),
+      }),
     }),
-    wisata: z.object({
+    pengumuman: z.object({
+      title: z.string().min(1),
+      description: z.string().min(1),
+      ctaLabel: z.string().min(1),
+    }),
+    berita: z.object({
+      title: z.string().min(1),
+      description: z.string().min(1),
+      ctaLabel: z.string().min(1),
+    }),
+    galeri: z.object({
+      title: z.string().min(1),
+      description: z.string().min(1),
+      ctaLabel: z.string().min(1),
+    }),
+    penutup: z.object({
       eyebrow: z.string().min(1),
       title: z.string().min(1),
       description: z.string().min(1),
-      image: z.string().min(1),
-      badges: z.array(z.string().min(1)).default([]),
       primaryCtaLabel: z.string().min(1),
       primaryCtaHref: z.string().min(1),
       secondaryCtaLabel: z.string().min(1),
       secondaryCtaHref: z.string().min(1),
-    }),
-    ekonomi: z.object({
-      title: z.string().min(1),
-      description: z.string().min(1),
-      items: z.array(
-        z.object({
-          title: z.string().min(1),
-          subtitle: z.string().min(1),
-          icon: z.string().min(1),
-          tag: z.string().min(1),
-          ctaLabel: z.string().min(1),
-        })
-      ),
-    }),
-    editorialPilihan: z.object({
-      beritaUnggulan: z.string().min(1),
     }),
   }),
 });

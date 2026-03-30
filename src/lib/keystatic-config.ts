@@ -938,116 +938,108 @@ const keystaticConfig = config({
             label: 'Link tombol kedua hero',
           }),
           panelLabel: fields.text({
+            label: 'Label panel hero',
+          }),
+          panelTitle: fields.text({
             label: 'Judul panel hero',
           }),
           panelNote: fields.text({
             label: 'Catatan panel hero',
             multiline: true,
           }),
-          stats: fields.array(
+          panelLinks: fields.array(
             fields.object({
-              value: fields.text({ label: 'Nilai' }),
-              label: fields.text({ label: 'Label' }),
-            }),
-            {
-              label: 'Sorotan layanan warga',
-              itemLabel: (props) => props.fields.label.value || 'Item sorotan',
-            }
-          ),
-        }),
-        budaya: fields.object({
-          title: fields.text({
-            label: 'Judul section budaya',
-          }),
-          description: fields.text({
-            label: 'Deskripsi section budaya',
-            multiline: true,
-          }),
-          items: fields.array(
-            fields.object({
-              title: fields.text({ label: 'Judul card' }),
-              label: fields.text({ label: 'Badge utama' }),
-              meta: fields.text({ label: 'Badge kedua' }),
-              icon: fields.text({ label: 'Nama ikon Material Symbols' }),
-              image: fields.image({
-                label: 'Gambar card',
-                directory: 'public/images/beranda',
-                publicPath: '/images/beranda/',
-              }),
+              title: fields.text({ label: 'Judul tautan' }),
               description: fields.text({
-                label: 'Deskripsi card',
-                multiline: true,
-              }),
-            }),
-            {
-              label: 'Daftar card budaya',
-              itemLabel: (props) => props.fields.title.value || 'Card budaya',
-            }
-          ),
-        }),
-        wisata: fields.object({
-          eyebrow: fields.text({
-            label: 'Label section wisata',
-          }),
-          title: fields.text({
-            label: 'Judul wisata',
-          }),
-          description: fields.text({
-            label: 'Deskripsi wisata',
-            multiline: true,
-          }),
-          image: fields.image({
-            label: 'Gambar latar wisata',
-            directory: 'public/images/beranda',
-            publicPath: '/images/beranda/',
-          }),
-          badges: fields.array(fields.text({ label: 'Badge' }), {
-            label: 'Badge tambahan',
-            itemLabel: (props) => props.value || 'Badge',
-          }),
-          primaryCtaLabel: fields.text({
-            label: 'Label tombol utama',
-          }),
-          primaryCtaHref: fields.text({
-            label: 'Link tombol utama',
-          }),
-          secondaryCtaLabel: fields.text({
-            label: 'Label tombol kedua',
-          }),
-          secondaryCtaHref: fields.text({
-            label: 'Link tombol kedua',
-          }),
-        }),
-        ekonomi: fields.object({
-          title: fields.text({
-            label: 'Judul section ekonomi',
-          }),
-          description: fields.text({
-            label: 'Deskripsi section ekonomi',
-            multiline: true,
-          }),
-          items: fields.array(
-            fields.object({
-              title: fields.text({ label: 'Judul card' }),
-              subtitle: fields.text({
                 label: 'Deskripsi singkat',
                 multiline: true,
               }),
+              href: fields.text({ label: 'Link tujuan' }),
               icon: fields.text({ label: 'Nama ikon Material Symbols' }),
-              tag: fields.text({ label: 'Tag card' }),
-              ctaLabel: fields.text({ label: 'Label footer card' }),
+              status: fields.select({
+                label: 'Status tampil',
+                options: [
+                  { label: 'Tampilkan', value: 'tampil' },
+                  { label: 'Sembunyikan', value: 'sembunyi' },
+                ],
+                defaultValue: 'tampil',
+              }),
             }),
             {
-              label: 'Daftar card ekonomi',
-              itemLabel: (props) => props.fields.title.value || 'Card ekonomi',
+              label: 'Tautan panel hero',
+              itemLabel: (props) => props.fields.title.value || 'Tautan hero',
             }
           ),
+          stats: fields.object({
+            pengumumanLabel: fields.text({
+              label: 'Label statistik pengumuman',
+            }),
+            kegiatanLabel: fields.text({
+              label: 'Label statistik berita',
+            }),
+            galeriLabel: fields.text({
+              label: 'Label statistik galeri',
+            }),
+          }),
         }),
-        editorialPilihan: fields.object({
-          beritaUnggulan: fields.relationship({
-            label: 'Pilih berita unggulan homepage',
-            collection: 'kegiatan',
-            description: 'Artikel ini akan diprioritaskan di section berita homepage tanpa bergantung pada urutan otomatis.',
+        pengumuman: fields.object({
+          title: fields.text({
+            label: 'Judul section pengumuman',
+          }),
+          description: fields.text({
+            label: 'Deskripsi section pengumuman',
+            multiline: true,
+          }),
+          ctaLabel: fields.text({
+            label: 'Label tombol pengumuman utama',
+          }),
+        }),
+        berita: fields.object({
+          title: fields.text({
+            label: 'Judul section berita',
+          }),
+          description: fields.text({
+            label: 'Deskripsi section berita',
+            multiline: true,
+          }),
+          ctaLabel: fields.text({
+            label: 'Label tombol section berita',
+          }),
+        }),
+        galeri: fields.object({
+          title: fields.text({
+            label: 'Judul section galeri',
+          }),
+          description: fields.text({
+            label: 'Deskripsi section galeri',
+            multiline: true,
+          }),
+          ctaLabel: fields.text({
+            label: 'Label tombol galeri',
+          }),
+        }),
+        penutup: fields.object({
+          eyebrow: fields.text({
+            label: 'Label kecil CTA penutup',
+          }),
+          title: fields.text({
+            label: 'Judul CTA penutup',
+          }),
+          description: fields.text({
+            label: 'Deskripsi CTA penutup',
+            multiline: true,
+          }),
+          primaryCtaLabel: fields.text({
+            label: 'Label tombol utama penutup',
+          }),
+          primaryCtaHref: fields.text({
+            label: 'Link tombol utama penutup',
+          }),
+          secondaryCtaLabel: fields.text({
+            label: 'Label tombol kedua penutup',
+          }),
+          secondaryCtaHref: fields.text({
+            label: 'Link tombol kedua penutup',
           }),
         }),
       },
