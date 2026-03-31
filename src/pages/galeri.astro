@@ -13,23 +13,19 @@ const galeri = sortByDateDesc(
 ---
 
 <MainLayout title="Galeri | Padukuhan Salakan" description="Galeri kegiatan dan dokumentasi visual Padukuhan Salakan.">
-  <section class="section relative overflow-hidden bg-slate-50 min-h-screen">
-    {/* Ornamen Grafis (Glowing Orbs) */}
-    <div class="absolute -top-40 -right-20 h-[500px] w-[500px] rounded-full bg-blue-400/20 blur-[120px] pointer-events-none"></div>
-    <div class="absolute top-[40%] -left-32 h-[400px] w-[400px] rounded-full bg-emerald-300/15 blur-[100px] pointer-events-none"></div>
-
-    <div class="container relative z-10 py-12 md:py-20">
+  <section class="section-premium bg-slate-50">
+    <div class="container-premium relative z-10">
       <div class="text-center mb-16">
-      <SectionHeading
-        center
-        title="Galeri Dokumentasi"
-        description="Kumpulan dokumentasi visual suasana padukuhan, kerja bersama, dan kegiatan warga dari waktu ke waktu."
-      />
+        <SectionHeading
+          center
+          title="Galeri Dokumentasi"
+          description="Kumpulan dokumentasi visual suasana padukuhan, kerja bersama, dan kegiatan warga dari waktu ke waktu."
+        />
       </div>
       
-      <div class="rounded-[2.5rem] bg-white/60 backdrop-blur-3xl p-6 md:p-10 shadow-[0_12px_40px_rgb(0,0,0,0.04)] relative">
-        <div class="absolute top-0 right-0 p-8 opacity-5">
-           <span class="material-symbols-outlined text-9xl">photo_library</span>
+      <div class="card-premium !bg-white/40 !backdrop-blur-3xl p-8 md:p-12 border border-white/50">
+        <div class="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
+           <span class="material-symbols-outlined text-[140px] text-blue-600">photo_library</span>
         </div>
         <GalleryGrid items={galeri} />
       </div>

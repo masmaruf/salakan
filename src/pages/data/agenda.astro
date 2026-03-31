@@ -18,85 +18,101 @@ const items = sortByDateDesc(
   description={resolveSeoText(seo?.seoDescription, 'Jadwal kegiatan warga dan agenda Padukuhan Salakan.')}
   image={resolveSeoImage(seo?.ogImage)}
 >
-  <section class="section relative overflow-hidden bg-slate-50 min-h-screen">
-    <div class="absolute -top-32 right-10 h-[500px] w-[500px] rounded-full bg-blue-400/20 blur-[120px] pointer-events-none"></div>
-    <div class="absolute bottom-20 -left-40 h-[600px] w-[600px] rounded-full bg-emerald-200/15 blur-[100px] pointer-events-none"></div>
+  <section class="section-premium bg-slate-50/50">
+    <div class="container-premium relative z-10">
+      
+      {/* Breadcrumb Premium */}
+      <nav class="flex text-sm font-bold text-slate-400 uppercase tracking-[0.2em] mb-8" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center gap-3">
+          <li><a href="/" class="hover:text-blue-600 transition">Beranda</a></li>
+          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
+          <li><a href="/data" class="hover:text-blue-600 transition">Pusat Data</a></li>
+          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
+          <li class="text-blue-700 bg-blue-50 px-3 py-1 rounded-full text-[0.7rem] ring-1 ring-blue-100">Agenda</li>
+        </ol>
+      </nav>
 
-    <div class="container relative z-10 py-12 md:py-16 space-y-10">
-      <div class="rounded-[2.5rem] bg-white/70 backdrop-blur-3xl shadow-[0_12px_40px_rgb(0,0,0,0.04)] p-8 md:p-12 relative overflow-hidden">
-        <div class="absolute top-0 right-0 p-8 opacity-5">
-          <span class="material-symbols-outlined text-9xl">date_range</span>
-        </div>
-        <div class="relative z-10 space-y-6">
-          <span class="inline-flex items-center gap-2 rounded-full bg-amber-50 px-4 py-1.5 text-xs font-bold text-amber-700 uppercase tracking-widest shadow-sm">
-            <span class="material-symbols-outlined text-[16px]">event</span> Jadwal Kegiatan
+      <div class="card-premium p-8 md:p-12 mb-16">
+        <div class="relative z-10 space-y-8">
+          <span class="inline-flex items-center gap-2 rounded-full bg-amber-50 px-4 py-2 text-[0.7rem] font-black text-amber-700 uppercase tracking-widest ring-1 ring-amber-100">
+            <span class="material-symbols-outlined text-[18px]">event_note</span> Kalender Kegiatan Warga
           </span>
-          <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">Agenda Padukuhan</h1>
-          <p class="max-w-2xl text-lg font-medium leading-relaxed text-slate-500">
-            Jadwal kegiatan warga dan program padukuhan dalam susunan yang ringkas, mudah dipindai, dan nyaman dibaca di semua perangkat.
+          <h1 class="hero-title text-gradient !mb-4 leading-none">Agenda Padukuhan</h1>
+          <p class="max-w-2xl text-xl font-bold text-slate-400 leading-relaxed">
+            Halaman jadwal kegiatan, kerja bakti, dan program pembangunan. Tetap terhubung dengan agenda komunitas Anda.
           </p>
         </div>
       </div>
 
-      <div class="grid gap-6">
+      <div class="grid gap-8">
         {items.map(({ slug, entry }) => (
-          <article class="group relative rounded-[2rem] bg-white/80 backdrop-blur-3xl p-6 md:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] transition-all hover:shadow-[0_20px_40px_rgb(0,0,0,0.06)] hover:-translate-y-1 overflow-hidden" id={slug}>
+          <article class="group relative rounded-[2.5rem] bg-white p-8 md:p-10 shadow-sm border border-slate-100 transition-all hover:shadow-xl hover:-translate-y-1 overflow-hidden" id={slug}>
             <div class="absolute top-4 right-4 opacity-5 group-hover:opacity-10 transition">
-              <span class="material-symbols-outlined text-8xl">calendar_month</span>
+              <span class="material-symbols-outlined text-9xl">calendar_today</span>
             </div>
             <div class="relative z-10">
-              <div class="flex flex-wrap items-start justify-between gap-4 mb-5">
+              <div class="flex flex-wrap items-start justify-between gap-6 mb-8">
                 <div class="flex flex-wrap items-center gap-3">
-                  <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1.5 text-xs font-bold text-amber-700">
-                    <span class="material-symbols-outlined text-[14px]">event</span> {formatTanggal(entry.tanggal)}
+                  <span class="inline-flex items-center gap-2 rounded-full bg-amber-100 px-4 py-2 text-xs font-black text-amber-700 ring-1 ring-amber-200">
+                    <span class="material-symbols-outlined text-[16px]">event</span> {formatTanggal(entry.tanggal)}
                   </span>
-                  <span class="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1.5 text-xs font-bold text-blue-700">
-                    <span class="material-symbols-outlined text-[14px]">schedule</span> {entry.waktuMulai} - {entry.waktuSelesai}
+                  <span class="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-2 text-xs font-black text-blue-700 ring-1 ring-blue-200">
+                    <span class="material-symbols-outlined text-[16px]">schedule</span> {entry.waktuMulai} - {entry.waktuSelesai}
                   </span>
                 </div>
-                <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-amber-100 text-amber-600 shadow-inner group-hover:bg-amber-600 group-hover:text-white transition">
-                  <span class="material-symbols-outlined text-[28px]">event_note</span>
+                <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-[1.25rem] bg-slate-900 text-white shadow-xl transition-transform group-hover:scale-110">
+                  <span class="material-symbols-outlined text-[32px]">event_available</span>
                 </div>
               </div>
 
-              <h2 class="text-2xl font-extrabold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors md:text-3xl">{entry.judul}</h2>
-              <p class="mt-3 text-base font-medium leading-relaxed text-slate-500">{entry.ringkasan}</p>
+              <h2 class="text-3xl font-black tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors leading-[1.1]">{entry.judul}</h2>
+              <p class="mt-6 text-lg font-bold text-slate-400 leading-relaxed">{entry.ringkasan}</p>
 
-              <div class="mt-6 grid gap-4 text-sm sm:grid-cols-3">
-                <div class="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-[0_2px_15px_rgb(0,0,0,0.02)]">
-                  <span class="material-symbols-outlined text-[20px] text-blue-500">location_on</span>
+              <div class="mt-8 grid gap-4 sm:grid-cols-3">
+                <div class="flex items-center gap-4 rounded-2xl bg-slate-50 p-5 border border-slate-100/50">
+                  <div class="grid h-10 w-10 place-items-center rounded-xl bg-white text-blue-600 shadow-sm">
+                    <span class="material-symbols-outlined text-[20px]">location_on</span>
+                  </div>
                   <div>
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Lokasi</p>
-                    <p class="font-bold text-slate-900">{entry.lokasi}</p>
+                    <p class="text-[0.6rem] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">Lokasi</p>
+                    <p class="text-sm font-black text-slate-900">{entry.lokasi}</p>
                   </div>
                 </div>
-                <div class="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-[0_2px_15px_rgb(0,0,0,0.02)]">
-                  <span class="material-symbols-outlined text-[20px] text-emerald-500">person</span>
+                <div class="flex items-center gap-4 rounded-2xl bg-slate-50 p-5 border border-slate-100/50">
+                  <div class="grid h-10 w-10 place-items-center rounded-xl bg-white text-emerald-600 shadow-sm">
+                    <span class="material-symbols-outlined text-[20px]">person</span>
+                  </div>
                   <div>
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">PIC</p>
-                    <p class="font-bold text-slate-900">{entry.kontakPic}</p>
+                    <p class="text-[0.6rem] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">Penanggung Jawab</p>
+                    <p class="text-sm font-black text-slate-900">{entry.kontakPic}</p>
                   </div>
                 </div>
-                <div class="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-[0_2px_15px_rgb(0,0,0,0.02)]">
-                  <span class="material-symbols-outlined text-[20px] text-amber-500">timer</span>
+                <div class="flex items-center gap-4 rounded-2xl bg-slate-50 p-5 border border-slate-100/50">
+                  <div class="grid h-10 w-10 place-items-center rounded-xl bg-white text-amber-600 shadow-sm">
+                    <span class="material-symbols-outlined text-[20px]">info</span>
+                  </div>
                   <div>
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Durasi</p>
-                    <p class="font-bold text-slate-900">{entry.waktuMulai} - {entry.waktuSelesai}</p>
+                    <p class="text-[0.6rem] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">Status</p>
+                    <p class="text-sm font-black text-slate-900">Agenda Aktif</p>
                   </div>
                 </div>
               </div>
 
-              <div class="mt-6 rounded-2xl bg-slate-50 p-5 text-sm font-medium leading-relaxed text-slate-600">{entry.deskripsi}</div>
+              <div class="mt-8 rounded-3xl bg-slate-50/50 p-6 text-[0.95rem] font-medium leading-relaxed text-slate-600 border border-slate-100/50 italic">
+                "{entry.deskripsi}"
+              </div>
 
-              <div class="mt-6">
-                <a class="inline-flex items-center gap-2 rounded-full bg-slate-50 px-6 py-3 text-sm font-bold text-slate-700 transition hover:bg-blue-600 hover:text-white hover:shadow-md hover:-translate-y-0.5" href={`/agenda/${slug}`}>
-                  <span class="material-symbols-outlined text-[18px]">arrow_forward</span> Lihat Detail
+              <div class="mt-8">
+                <a class="inline-flex items-center gap-3 rounded-full bg-slate-900 px-8 py-3 text-sm font-black text-white shadow-xl transition-all hover:bg-blue-600 hover:-translate-y-0.5" href={`/agenda/${slug}`}>
+                  Detail Kegiatan <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                 </a>
               </div>
             </div>
           </article>
         ))}
       </div>
+    </div>
+  </section>
     </div>
   </section>
 </MainLayout>

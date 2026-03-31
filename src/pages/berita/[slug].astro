@@ -4,6 +4,7 @@ import { marked } from 'marked';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { resolveSeoImage, resolveSeoText, toAbsoluteUrl, withSiteTitle } from '../../lib/site';
 import { formatTanggal, getKegiatan, getKategoriBeritaMap } from '../../lib/keystatic';
+import NewsGrid from '../../components/NewsGrid.astro';
 
 export async function getStaticPaths() {
   const items = await getKegiatan();
@@ -81,249 +82,158 @@ const relatedArticles = allKegiatan
   type="article"
   publishedTime={entry.tanggal}
 >
-  <section class="section relative overflow-hidden bg-slate-50 min-h-screen">
-    {/* Ornamen Grafis (Glowing Orbs) */}
-    <div class="absolute -top-40 left-0 h-[600px] w-[600px] rounded-full bg-blue-300/20 blur-[120px] pointer-events-none"></div>
-    <div class="absolute top-[30%] -right-40 h-[700px] w-[700px] rounded-full bg-emerald-200/20 blur-[130px] pointer-events-none"></div>
+  <section class="section-premium bg-slate-50/50">
+    <div class="container-premium max-w-6xl relative z-10">
+      
+      {/* Breadcrumb Premium */}
+      <nav class="flex text-sm font-bold text-slate-400 uppercase tracking-[0.2em] mb-8" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center gap-3">
+          <li><a href="/" class="hover:text-blue-600 transition">Beranda</a></li>
+          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
+          <li><a href="/berita" class="hover:text-blue-600 transition">Berita</a></li>
+          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
+          <li class="text-blue-700 bg-blue-50 px-3 py-1 rounded-full text-[0.7rem] ring-1 ring-blue-100 truncate max-w-[200px]">{entry.judul}</li>
+        </ol>
+      </nav>
 
-    <div class="container relative z-10 max-w-6xl py-12 md:py-16">
-      <article class="space-y-6">
-        
-        {/* Header Artikel - Glassmorphism */}
-        <div class="rounded-[2.5rem] bg-white/70 backdrop-blur-3xl shadow-[0_12px_40px_rgb(0,0,0,0.04)] overflow-hidden relative">
-          <div class="absolute top-0 right-0 p-8 opacity-5">
-             <span class="material-symbols-outlined text-9xl">article</span>
-          </div>
-
-          <div class="grid lg:grid-cols-[minmax(0,1.65fr)_21rem] relative z-10">
-            <div class="px-6 py-8 md:px-10 md:py-10 lg:px-12 lg:py-12">
-              <nav class="flex text-[0.78rem] font-bold text-slate-400 uppercase tracking-widest mb-6" aria-label="Breadcrumb">
-                <ol class="inline-flex items-center space-x-2">
-                  <li><a href="/" class="hover:text-blue-600 transition">Beranda</a></li>
-                  <li><span class="material-symbols-outlined text-[16px] mx-0.5">chevron_right</span></li>
-                  <li><a href="/berita" class="hover:text-blue-600 transition">Berita</a></li>
-                  <li><span class="material-symbols-outlined text-[16px] mx-0.5">chevron_right</span></li>
-                  <li class="text-blue-700 bg-blue-100/50 px-3 py-1 rounded-full truncate max-w-[120px] md:max-w-[200px]">{entry.judul}</li>
-                </ol>
-              </nav>
-
-              <div class="mb-6 flex flex-wrap items-center gap-2">
-                <a class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-800 transition hover:bg-blue-200" href={categoryHref}>
-                  {categoryLabels[entry.kategori] ?? entry.kategori}
-                </a>
-                {entry.jenisKonten && <span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600 capitalize">{entry.jenisKonten}</span>}
+      <article class="space-y-12">
+        {/* Header Artikel Premium */}
+        <div class="card-premium !p-0 overflow-hidden relative border border-slate-100 shadow-xl">
+          <div class="grid lg:grid-cols-[1fr_22rem]">
+            <div class="p-8 md:p-12 lg:p-16 space-y-8">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="badge-premium !bg-blue-600 !text-white">{categoryLabels[entry.kategori] ?? entry.kategori}</span>
+                {entry.jenisKonten && <span class="badge-premium !bg-slate-100 !text-slate-600 capitalize">{entry.jenisKonten}</span>}
                 {entry.unggulan && (
-                  <span class="inline-flex items-center gap-1 rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-700">
-                    <span class="material-symbols-outlined text-[14px]">star</span>
-                    Unggulan
+                  <span class="badge-premium !bg-amber-100 !text-amber-700 flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">star</span> Unggulan
                   </span>
                 )}
               </div>
 
-              <div class="space-y-6">
-                <h1 class="max-w-4xl text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl lg:text-6xl bg-gradient-to-br from-slate-900 to-slate-700 bg-clip-text text-transparent leading-[1.15]">
-                  {entry.judul}
-                </h1>
-                <p class="max-w-3xl text-lg font-medium leading-relaxed text-slate-500 md:text-xl">
-                  {entry.ringkasan}
-                </p>
-                <div class="flex flex-wrap items-center gap-4 text-sm font-bold text-slate-400 pt-2">
-                  <time class="flex items-center gap-1.5 rounded-full bg-white px-4 py-2 shadow-sm" datetime={entry.tanggal}>
-                    <span class="material-symbols-outlined text-[18px] text-blue-500">calendar_month</span>
-                    {formatTanggal(entry.tanggal)}
-                  </time>
-                  {entry.penulis && (
-                    <div class="flex items-center gap-1.5 rounded-full bg-white px-4 py-2 shadow-sm">
-                      <span class="material-symbols-outlined text-[18px] text-emerald-500">draw</span>
-                      <span class="text-slate-600">{entry.penulis}</span>
-                    </div>
-                  )}
-                </div>
+              <h1 class="hero-title text-gradient !mb-4 leading-[1.15]">
+                {entry.judul}
+              </h1>
+              
+              <p class="text-xl font-bold text-slate-400 leading-relaxed max-w-3xl">
+                {entry.ringkasan}
+              </p>
+
+              <div class="flex flex-wrap items-center gap-6 pt-4 text-xs font-black text-slate-400 uppercase tracking-widest border-t border-slate-100">
+                <time class="flex items-center gap-2" datetime={entry.tanggal}>
+                  <span class="material-symbols-outlined text-blue-500">calendar_today</span>
+                  {formatTanggal(entry.tanggal)}
+                </time>
+                {entry.penulis && (
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-emerald-500">person</span>
+                    Penulis: <span class="text-slate-900">{entry.penulis}</span>
+                  </div>
+                )}
               </div>
             </div>
 
-            <aside class="bg-blue-50/50 px-6 py-8 md:px-8 lg:px-10 border-t border-white/50 lg:border-l lg:border-t-0 flex flex-col justify-center">
-              <div class="space-y-6">
-                <div class="rounded-2xl bg-white p-5 shadow-[0_2px_15px_rgb(0,0,0,0.02)]">
-                  <p class="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-slate-400 mb-2">Penyusun</p>
-                  <p class="text-sm font-bold text-slate-900">Redaksi Padukuhan Salakan</p>
-                </div>
-                <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                  <div class="rounded-2xl bg-white p-5 shadow-[0_2px_15px_rgb(0,0,0,0.02)]">
-                    <p class="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-slate-400 mb-2">Kategori</p>
-                    <a class="inline-flex text-sm font-bold text-blue-700 hover:text-blue-800 transition" href={categoryHref}>
-                      {categoryLabels[entry.kategori] ?? entry.kategori}
-                    </a>
+            <aside class="bg-blue-50/30 p-8 md:p-12 border-t lg:border-t-0 lg:border-l border-slate-100 flex flex-col justify-center gap-8">
+               <div class="space-y-6">
+                 <p class="text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em] leading-none">Liputan Resmi</p>
+                 <div class="flex items-center gap-4">
+                    <div class="h-12 w-12 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-xs ring-4 ring-white shadow">PS</div>
+                    <div>
+                       <p class="text-sm font-black text-slate-900 leading-none">Redaksi Salakan</p>
+                       <p class="text-[0.7rem] font-bold text-slate-400 mt-1 uppercase tracking-wider">Humas Padukuhan</p>
+                    </div>
+                 </div>
+               </div>
+               
+               <div class="grid gap-3">
+                  <p class="text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-2">Interaksi</p>
+                  <div class="flex flex-wrap gap-2">
+                    {shareLinks.map((link) => (
+                      <a 
+                        href={link.href} 
+                        class="grid h-10 w-10 place-items-center rounded-xl bg-white border border-slate-100 text-slate-400 shadow-sm transition hover:bg-blue-600 hover:text-white hover:shadow-lg hover:-translate-y-1"
+                        target="_blank"
+                        rel="noreferrer"
+                        title={link.label}
+                      >
+                        <span class="material-symbols-outlined text-[20px]">
+                          {link.icon === 'facebook' ? 'share' : link.icon === 'whatsapp' ? 'chat' : link.icon === 'telegram' ? 'send' : link.icon === 'email' ? 'mail' : 'content_copy'}
+                        </span>
+                      </a>
+                    ))}
                   </div>
-                  <div class="rounded-2xl bg-white p-5 shadow-[0_2px_15px_rgb(0,0,0,0.02)]">
-                    <p class="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-slate-400 mb-2">Diterbitkan</p>
-                    <p class="text-sm font-bold text-slate-900">{formatTanggal(entry.tanggal)}</p>
-                  </div>
-                </div>
-              </div>
+               </div>
             </aside>
           </div>
         </div>
 
         {entry.gambarUtama && (
-          <figure class="rounded-[2.5rem] bg-white/70 backdrop-blur-3xl shadow-[0_12px_40px_rgb(0,0,0,0.04)] p-3 overflow-hidden">
+          <div class="rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white">
             <Image
               src={entry.gambarUtama}
               alt={entry.altGambarUtama || entry.judul}
               width={1440}
               height={900}
-              class="h-[20rem] w-full rounded-[2rem] object-cover md:h-[30rem] lg:h-[36rem] shadow-inner"
+              class="h-[25rem] w-full object-cover md:h-[35rem] lg:h-[45rem]"
               loading="eager"
-              sizes="(max-width: 1100px) 100vw, 1100px"
             />
-          </figure>
+          </div>
         )}
 
-        {/* Konten Utama & Sidebar Kiri */}
-        <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
-          <div class="rounded-[2.5rem] bg-white/80 backdrop-blur-3xl shadow-[0_12px_40px_rgb(0,0,0,0.04)] px-6 py-8 md:px-10 md:py-12 lg:px-12">
-            
-            {/* Alat Bagikan */}
-            <div class="mb-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between rounded-3xl bg-slate-50 p-5">
-              <p class="text-[0.72rem] font-bold uppercase tracking-[0.14em] text-slate-500">Bagikan Liputan Ini</p>
-              <div class="flex flex-wrap gap-2">
-                {shareLinks.map((link) => (
-                  link.copy ? (
-                      <button
-                        class={`flex h-10 w-10 items-center justify-center rounded-xl bg-white text-slate-600 shadow-sm transition hover:scale-110 hover:shadow-md hover:text-blue-600`}
-                      type="button"
-                      data-copy-link
-                      data-copy-value={articleUrl}
-                      aria-label={link.label}
-                      title={link.label}
-                    >
-                      <span class="sr-only" data-copy-label>{link.label}</span>
-                      {link.icon === 'link' && <span class="material-symbols-outlined text-[20px]">content_copy</span>}
-                    </button>
-                  ) : (
-                      <a
-                        class={`flex h-10 w-10 items-center justify-center rounded-xl bg-white text-slate-600 shadow-sm transition hover:scale-110 hover:shadow-md hover:text-blue-600`}
-                      href={link.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={link.label}
-                      title={link.label}
-                    >
-                      <span class="sr-only">{link.label}</span>
-                      {link.icon === 'facebook' && <span class="font-black text-xl leading-none">f</span>}
-                      {link.icon === 'whatsapp' && <span class="material-symbols-outlined text-[20px]">forum</span>}
-                      {link.icon === 'telegram' && <span class="material-symbols-outlined text-[20px]">send</span>}
-                      {link.icon === 'email' && <span class="material-symbols-outlined text-[20px]">mail</span>}
+        {/* Konten Utama */}
+        <div class="grid gap-12 lg:grid-cols-[1fr_22rem] items-start">
+          <div class="card-premium p-8 md:p-12 lg:p-16 !bg-white">
+             <div class="prose prose-slate prose-lg max-w-none prose-headings:font-black prose-headings:tracking-tight prose-a:text-blue-600 prose-img:rounded-[2rem] prose-img:shadow-xl" set:html={articleHtml} />
+             
+             <div class="mt-16 pt-12 border-t border-slate-100">
+                <div class="flex flex-wrap gap-3">
+                  {entry.tag?.map((tag: string) => (
+                    <a href={`/berita?tag=${encodeURIComponent(tag)}`} class="badge-premium !bg-slate-50 !text-slate-500 hover:!bg-blue-50 hover:!text-blue-700 transition">
+                      #{tag}
                     </a>
-                  )
-                ))}
-              </div>
-            </div>
-
-            <div class="prose prose-slate md:prose-lg max-w-none prose-headings:font-extrabold prose-headings:tracking-tight prose-a:text-blue-600 prose-img:rounded-3xl prose-img:shadow-md" set:html={articleHtml} />
-
-            <div class="mt-12 grid gap-6 rounded-3xl bg-blue-50/50 p-6 md:p-8">
-              <div>
-                <p class="text-[0.72rem] font-bold uppercase tracking-[0.14em] text-slate-400 mb-3">Kategori Artikel</p>
-                <div class="flex flex-wrap gap-2">
-                  <a class="inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-bold text-blue-700 shadow-sm transition hover:shadow-md" href={categoryHref}>
-                    {categoryLabels[entry.kategori] ?? entry.kategori}
-                  </a>
+                  ))}
                 </div>
-              </div>
-
-              {entry.tag?.length ? (
-                <div>
-                  <p class="text-[0.72rem] font-bold uppercase tracking-[0.14em] text-slate-400 mb-3">Topik Terkait (Tags)</p>
-                  <div class="flex flex-wrap gap-2">
-                    {entry.tag.map((tag: string) => (
-                      <a class="inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-600 shadow-sm transition hover:shadow-md hover:text-blue-600" href={`/berita?tag=${encodeURIComponent(tag)}`}>
-                        <span class="opacity-50 mr-1">#</span>{tag}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-            </div>
+             </div>
           </div>
 
-          <aside class="space-y-6 lg:sticky lg:top-28 lg:self-start">
-            <div class="rounded-[2.5rem] bg-white/80 backdrop-blur-3xl shadow-[0_12px_40px_rgb(0,0,0,0.04)] p-8">
-              <p class="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-slate-400 mb-5">Detail Redaksi</p>
-              <div class="space-y-5 text-sm">
-                <div>
-                  <p class="font-bold text-slate-900">Penyusun Tulisan</p>
-                  <p class="mt-1 font-medium text-slate-500">{entry.penulis || 'Redaksi Padukuhan Salakan'}</p>
-                </div>
-                <div>
-                  <p class="font-bold text-slate-900">Kualifikasi Konten</p>
-                  <p class="mt-1 font-medium text-slate-500 capitalize">{entry.jenisKonten || 'berita'}</p>
-                </div>
-                <div>
-                  <p class="font-bold text-slate-900">Waktu Terbit</p>
-                  <p class="mt-1 font-medium text-slate-500">{formatTanggal(entry.tanggal)}</p>
-                </div>
-              </div>
+          <aside class="space-y-8 lg:sticky lg:top-28">
+            <div class="card-premium p-8 border border-slate-100 shadow-sm bg-white/50">
+               <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-6">Navigasi Liputan</h3>
+               <div class="grid gap-3">
+                  <a href="/berita" class="flex items-center justify-between p-4 rounded-2xl bg-white border border-slate-50 text-sm font-black text-slate-700 hover:text-blue-600 hover:border-blue-100 transition shadow-sm">
+                    Indeks Berita <span class="material-symbols-outlined text-[18px]">list</span>
+                  </a>
+                  <a href={categoryHref} class="flex items-center justify-between p-4 rounded-2xl bg-blue-50/50 border border-blue-100/50 text-sm font-black text-blue-700 hover:bg-blue-50 transition">
+                    Kategori Sama <span class="material-symbols-outlined text-[18px]">category</span>
+                  </a>
+               </div>
             </div>
 
-            <div class="rounded-[2.5rem] bg-white/80 backdrop-blur-3xl shadow-[0_12px_40px_rgb(0,0,0,0.04)] p-8">
-              <p class="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-slate-400 mb-5">Navigasi Indeks</p>
-              <div class="flex flex-col gap-3">
-                <a class="inline-flex items-center justify-between rounded-2xl bg-slate-50 p-4 text-sm font-bold text-slate-700 transition hover:bg-slate-100 hover:text-blue-600" href="/berita">
-                  Semua Indeks Berita
-                  <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-                </a>
-                <a class="inline-flex items-center justify-between rounded-2xl bg-blue-50 p-4 text-sm font-bold text-blue-700 transition hover:bg-blue-100" href={categoryHref}>
-                  Kategori Serupa
-                  <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-                </a>
-              </div>
+            <div class="card-premium p-8 border border-slate-100 shadow-sm bg-gradient-to-br from-blue-600 to-indigo-700 text-white">
+               <h3 class="text-xs font-black text-blue-100/60 uppercase tracking-[0.3em] mb-4">Layanan Warga</h3>
+               <p class="text-sm font-bold text-blue-50 leading-relaxed mb-6">Butuh bantuan administrasi atau ingin melaporkan sesuatu secara resmi?</p>
+               <a href="/data/layanan-warga" class="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-white text-blue-700 text-sm font-black shadow-xl hover:bg-blue-50 transition">
+                  <span class="material-symbols-outlined">support_agent</span> Portal Layanan
+               </a>
             </div>
           </aside>
         </div>
 
         {relatedArticles.length > 0 && (
-          <section class="mt-10">
-            <div class="rounded-[2.5rem] bg-white/80 backdrop-blur-3xl shadow-[0_12px_40px_rgb(0,0,0,0.04)] p-8 md:p-10 lg:p-12">
-              <div class="mb-8 flex items-center justify-between">
-                <h2 class="text-3xl font-extrabold tracking-tight text-slate-900">Berita yang Masih Berkaitan</h2>
-              </div>
-              <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {relatedArticles.map(({ slug, entry: relatedEntry }) => (
-                  <article class="group overflow-hidden rounded-3xl bg-white shadow-[0_2px_20px_rgb(0,0,0,0.03)] transition-all hover:-translate-y-1 hover:shadow-xl">
-                    {relatedEntry?.gambarUtama && (
-                      <div class="overflow-hidden">
-                        <Image
-                          src={relatedEntry.gambarUtama}
-                          alt={relatedEntry.altGambarUtama || relatedEntry.judul}
-                          width={960}
-                          height={540}
-                          class="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          loading="lazy"
-                        />
-                      </div>
-                    )}
-                    <div class="flex h-full flex-col p-6">
-                      <time class="mb-3 flex items-center gap-1.5 text-xs font-bold text-blue-600" datetime={relatedEntry.tanggal}>
-                        <span class="material-symbols-outlined text-[14px]">event</span>
-                        {formatTanggal(relatedEntry.tanggal)}
-                      </time>
-                      <h3 class="mb-4 text-lg font-bold leading-snug tracking-tight text-slate-900 group-hover:text-blue-700 line-clamp-2">
-                        <a href={`/berita/${slug}`}>
-                          <span class="absolute inset-0"></span>
-                          {relatedEntry.judul}
-                        </a>
-                      </h3>
-                      <div class="mt-auto pt-4 flex items-center text-sm font-bold text-slate-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-blue-600 transition-all">
-                        Baca Selengkapnya <span class="material-symbols-outlined ml-1 text-[18px]">arrow_forward</span>
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
+          <section class="space-y-10 pt-16">
+            <div class="flex items-center justify-between px-4">
+               <div>
+                 <h2 class="text-3xl font-black tracking-tight text-slate-900">Liputan Terkait</h2>
+                 <p class="text-sm font-bold text-slate-400 mt-1 uppercase tracking-widest">Mungkin Anda juga tertarik membaca</p>
+               </div>
+               <a href="/berita" class="hidden md:flex items-center gap-2 text-xs font-black text-blue-600 uppercase tracking-widest hover:text-blue-800 transition">Lihat Semua <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
             </div>
+            <NewsGrid items={relatedArticles.map(a => ({ slug: a.slug, entry: a.entry as any }))} compact={true} />
           </section>
         )}
+      </article>
+    </div>
+  </section>
       </article>
     </div>
   </section>

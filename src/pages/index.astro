@@ -64,47 +64,41 @@ const heroStats = [
 
 <MainLayout>
   {/* Hero Section Borderless dengan Ornamen Gradasi Besar */}
-  <section class="relative overflow-hidden bg-slate-50 pb-16 pt-20 md:pb-24 md:pt-28">
-    
-    {/* Ornamen Bola Gradasi Dekoratif (Graphics/Gradients) */}
-    <div class="absolute -top-40 -right-40 h-[600px] w-[600px] rounded-full bg-blue-300/30 blur-[120px] pointer-events-none"></div>
-    <div class="absolute top-20 -left-64 h-[500px] w-[500px] rounded-full bg-emerald-200/20 blur-[100px] pointer-events-none"></div>
-
-    <div class="container relative z-10 grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(340px,0.9fr)] lg:items-center">
-      <div class="flex flex-col items-start gap-6 py-6">
-        <span class="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-xs font-bold tracking-wide shadow-sm text-blue-700 uppercase ring-1 ring-slate-100">
-          <span class="relative flex h-2 w-2">
+  <section class="section-premium !pt-28 !pb-20 bg-slate-50/50">
+    <div class="container-premium relative z-10 grid gap-16 lg:grid-cols-[minmax(0,1.2fr)_minmax(360px,0.8fr)] lg:items-center">
+      <div class="flex flex-col items-start gap-8 py-6">
+        <span class="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[0.75rem] font-black tracking-widest shadow-sm text-blue-700 uppercase border border-blue-100/50">
+          <span class="relative flex h-2.5 w-2.5">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-600"></span>
           </span>
           {heroSection?.eyebrow ?? 'Portal Resmi Padukuhan'}
         </span>
         
-        {/* Teks dengan efek Gradasi (Gradient Text) */}
-        <h1 class="max-w-[14ch] text-5xl font-extrabold leading-[1.1] tracking-tight bg-gradient-to-br from-slate-900 via-blue-900 to-blue-700 bg-clip-text text-transparent md:text-6xl lg:text-7xl drop-shadow-sm">
+        <h1 class="hero-title text-gradient !mb-2 drop-shadow-sm">
           {heroSection?.title ?? 'Pusat Informasi Warga Salakan'}
         </h1>
-        <p class="max-w-xl text-lg leading-relaxed text-slate-600 md:text-xl font-medium">
+        <p class="max-w-xl text-lg lg:text-xl font-medium leading-relaxed text-slate-600">
           {heroSection?.intro ??
             pengaturan?.sambutanBeranda ??
             'Sistem informasi terpadu yang menyajikan pengumuman, agenda, dokumentasi, dan pelayanan administrasi secara transparan.'}
         </p>
         <div class="mt-4 flex flex-wrap gap-4">
-          <a class="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-b from-blue-500 to-blue-700 px-8 text-sm font-bold text-white shadow-[0_8px_20px_rgb(37,99,235,0.25)] hover:shadow-[0_8px_30px_rgb(37,99,235,0.4)] transition-all hover:-translate-y-0.5" href={heroSection?.primaryCtaHref ?? '/data/pengumuman'}>
-            <span class="material-symbols-outlined text-[18px]">touch_app</span>
+          <a class="btn-premium" href={heroSection?.primaryCtaHref ?? '/data/pengumuman'}>
+            <span class="material-symbols-outlined text-[20px]">touch_app</span>
             {heroSection?.primaryCtaLabel ?? 'Layanan Warga'}
           </a>
-          <a class="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-white px-8 text-sm font-bold text-slate-700 shadow-sm hover:shadow-md transition-all hover:bg-slate-50" href={heroSection?.secondaryCtaHref ?? '/profil'}>
-            <span class="material-symbols-outlined text-[18px]">account_balance</span>
+          <a class="btn-premium-outline" href={heroSection?.secondaryCtaHref ?? '/profil'}>
+            <span class="material-symbols-outlined text-[20px]">account_balance</span>
             {heroSection?.secondaryCtaLabel ?? 'Profil Desa'}
           </a>
         </div>
         
-        <div class="mt-4 flex w-full items-center gap-8 pt-8">
+        <div class="mt-4 flex w-full items-center gap-8 pt-8 border-t border-slate-200/50">
           {heroStats.map((stat) => (
-            <div class="flex flex-col items-start relative group">
+            <div class="flex flex-col items-start group">
               <strong class="text-3xl font-black bg-gradient-to-r from-blue-600 to-emerald-500 bg-clip-text text-transparent">{stat.value}</strong>
-              <span class="mt-1 text-[0.7rem] font-bold text-slate-400 uppercase tracking-widest">{stat.label}</span>
+              <span class="mt-1 text-label">{stat.label}</span>
             </div>
           ))}
         </div>
@@ -113,16 +107,16 @@ const heroStats = [
       <aside class="flex flex-col gap-4 relative">
         <div class="absolute -right-10 top-1/2 -z-10 h-64 w-64 -translate-y-1/2 rounded-full bg-gradient-to-br from-blue-400/20 to-purple-400/20 blur-3xl"></div>
         {quickLinks.map((item, id) => (
-          <a class="group relative flex items-center gap-5 rounded-2xl bg-white/80 backdrop-blur p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:-translate-y-1" href={item.href}>
-             <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-emerald-50 text-blue-600 group-hover:from-blue-600 group-hover:to-blue-500 group-hover:text-white transition-all shadow-inner">
+          <a class="group card-premium !p-5 flex items-center gap-5" href={item.href}>
+             <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-emerald-50 text-blue-600 group-hover:from-blue-600 group-hover:to-blue-500 group-hover:text-white transition-all shadow-inner border border-white/50">
                <CmsIcon name={item.icon} class="size-7" />
              </div>
              <div class="flex flex-col">
-               <strong class="text-lg font-bold text-slate-900 group-hover:text-blue-700 transition-colors">{item.title}</strong>
-               <span class="mt-0.5 text-sm font-medium text-slate-500 line-clamp-1">{item.description}</span>
+               <strong class="text-lg font-black text-slate-900 group-hover:text-blue-700 transition-colors">{item.title}</strong>
+               <span class="mt-0.5 text-sm font-bold text-slate-400 line-clamp-1">{item.description}</span>
              </div>
              <div class="ml-auto opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-blue-600">
-                <span class="material-symbols-outlined">arrow_forward_ios</span>
+                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
              </div>
           </a>
         ))}
@@ -130,48 +124,48 @@ const heroStats = [
     </div>
   </section>
 
-  <section class="section bg-white relative" id="pengumuman-prioritas">
-    <div class="container py-16 md:py-24">
-      <div class="mb-12 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-        <div>
-          <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 md:text-5xl flex items-center gap-4">
-             <span class="grid h-12 w-12 place-items-center bg-amber-100 text-amber-600 rounded-2xl">
-               <span class="material-symbols-outlined text-[28px]">campaign</span>
+  <section class="section-premium bg-white" id="pengumuman-prioritas">
+    <div class="container-premium">
+      <div class="mb-14 flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+        <div class="space-y-4">
+          <h2 class="flex items-center gap-5 text-gradient mb-0">
+             <span class="grid h-16 w-16 place-items-center bg-amber-50 text-amber-600 rounded-2xl shadow-inner border border-amber-100">
+               <span class="material-symbols-outlined text-[36px]">campaign</span>
              </span>
              {pengumumanSection?.title ?? 'Pengumuman Resmi'}
           </h2>
-          <p class="mt-4 max-w-2xl text-lg font-medium text-slate-500">{pengumumanSection?.description ?? 'Informasi penting terbaru langsung dari meja pengurus aparatur desa.'}</p>
+          <p class="max-w-2xl text-xl font-bold text-slate-400 leading-relaxed">{pengumumanSection?.description ?? 'Informasi penting terbaru langsung dari meja pengurus aparatur desa.'}</p>
         </div>
       </div>
 
       <div class="grid gap-8 lg:grid-cols-[1.5fr_1fr]">
         {featuredPengumuman && (
-          <article class="group relative flex flex-col justify-between overflow-hidden rounded-3xl bg-amber-50 p-8 md:p-10 transition-all hover:shadow-[0_24px_54px_rgb(251,191,36,0.15)] hover:-translate-y-1">
-             <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
-                <span class="material-symbols-outlined text-9xl text-amber-600">notifications_active</span>
+          <article class="group relative flex flex-col justify-between overflow-hidden rounded-[2.5rem] bg-amber-50 p-8 md:p-12 transition-all hover:shadow-[0_40px_80px_rgba(245,158,11,0.15)] hover:-translate-y-1 border border-amber-100/50">
+             <div class="absolute top-0 right-0 p-12 opacity-10 group-hover:opacity-20 transition-opacity">
+                <span class="material-symbols-outlined text-[120px] text-amber-600">notifications_active</span>
              </div>
              <div class="relative z-10">
-                <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-200/60 px-3 py-1 text-xs font-bold text-amber-900 uppercase tracking-wider backdrop-blur">
+                <span class="badge-amber !bg-amber-100 !border-amber-200">
                   <span class="h-2 w-2 rounded-full bg-amber-600 animate-pulse"></span>
                   Pengumuman Prioritas
                 </span>
-                <h3 class="mt-6 text-3xl font-extrabold leading-[1.2] tracking-tight text-slate-900 md:text-4xl group-hover:text-blue-800 transition-colors">
+                <h3 class="mt-8 text-3xl font-black leading-tight text-slate-900 group-hover:text-blue-800 transition-colors">
                   <a href={`/pengumuman/${featuredPengumuman.slug}`}>
                     <span class="absolute inset-0"></span>
                     {featuredPengumuman.entry.judul}
                   </a>
                 </h3>
-                <p class="mt-5 text-lg font-medium leading-relaxed text-slate-700 max-w-2xl line-clamp-3">
+                <p class="mt-6 text-lg font-bold leading-relaxed text-slate-600 max-w-2xl line-clamp-3">
                   {featuredPengumuman.entry.ringkasan}
                 </p>
              </div>
-             <div class="relative z-10 mt-10 flex items-center justify-between">
-                <time class="flex items-center gap-2 text-sm font-bold text-slate-500 bg-white/60 px-4 py-2 rounded-full" datetime={featuredPengumuman.entry.tanggal}>
-                  <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+             <div class="relative z-10 mt-12 flex flex-wrap items-center justify-between gap-6">
+                <time class="flex items-center gap-2 text-sm font-black text-slate-400 bg-white/60 px-5 py-2.5 rounded-full border border-white/50" datetime={featuredPengumuman.entry.tanggal}>
+                  <span class="material-symbols-outlined text-[18px]">calendar_today</span>
                   {formatTanggal(featuredPengumuman.entry.tanggal)}
                 </time>
-                <a class="flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-blue-700 shadow-sm transition hover:shadow-md hover:scale-105" href="/data/pengumuman">
-                  {pengumumanSection?.ctaLabel ?? 'Baca Selengkapnya'} <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                <a class="flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-black text-blue-700 shadow-md transition hover:bg-blue-600 hover:text-white hover:scale-105 active:scale-95" href="/data/pengumuman">
+                  {pengumumanSection?.ctaLabel ?? 'Baca Selengkapnya'} <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
                 </a>
              </div>
           </article>
@@ -179,12 +173,12 @@ const heroStats = [
 
         <div class="flex flex-col gap-4">
           {secondaryPengumuman.map(({ entry, slug }) => (
-            <article class="group flex flex-col justify-center rounded-2xl bg-slate-50/50 p-6 transition-all hover:bg-white hover:shadow-[0_12px_30px_rgb(0,0,0,0.06)] hover:-translate-y-1">
-               <time class="flex items-center gap-1.5 text-xs font-bold text-blue-600 mb-2" datetime={entry.tanggal}>
+            <article class="group relative flex flex-col justify-center rounded-[1.5rem] bg-slate-50 p-7 transition-all hover:bg-white hover:shadow-xl hover:-translate-y-1 border border-transparent hover:border-slate-100">
+               <time class="flex items-center gap-1.5 text-xs font-black text-blue-600 mb-3" datetime={entry.tanggal}>
                   <span class="material-symbols-outlined text-[14px]">event</span>
-                  {formatTanggal(entry.tanggal)}
+                   {formatTanggal(entry.tanggal)}
                </time>
-               <h4 class="text-lg font-bold leading-snug text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2">
+               <h4 class="text-xl font-black leading-snug text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-2">
                  <a href={`/pengumuman/${slug}`}>
                    <span class="absolute inset-0"></span>
                    {entry.judul}
@@ -197,9 +191,9 @@ const heroStats = [
     </div>
   </section>
 
-  <section class="section bg-slate-50/80 relative" id="berita-editorial">
+  <section class="section-premium bg-slate-50/80" id="berita-editorial">
     <div class="absolute inset-x-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
-    <div class="container py-16 md:py-24">
+    <div class="container-premium">
       <SectionHeading
         title={beritaSection?.title ?? 'Liputan Kegiatan Warga'}
         description={beritaSection?.description ?? 'Kabar terbaru, kegiatan gotong royong, dan dokumentasi program berkelanjutan kemasyarakatan.'}
@@ -207,30 +201,30 @@ const heroStats = [
         linkLabel={beritaSection?.ctaLabel ?? 'Indeks Berita Lengkap'}
       />
       
-      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mt-12">
+      <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3 mt-12">
         {kegiatan.slice(0, 3).map(({ slug, entry }) => (
-          <article class="group flex flex-col overflow-hidden rounded-[2rem] bg-white shadow-[0_4px_20px_rgb(0,0,0,0.03)] transition-all hover:shadow-[0_24px_50px_rgb(0,0,0,0.08)] hover:-translate-y-2">
+          <article class="group card-premium !p-0">
             {entry.gambarUtama ? (
-              <div class="h-56 w-full overflow-hidden relative">
-                <img src={entry.gambarUtama} alt={entry.judul} class="h-full w-full object-cover transition duration-700 group-hover:scale-110" loading="lazy" />
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
-                <span class="absolute bottom-4 left-4 rounded-full bg-blue-600/90 px-3 py-1.5 text-[0.65rem] font-bold text-white uppercase tracking-wider backdrop-blur shadow-sm">
+              <div class="h-60 w-full overflow-hidden relative">
+                <img src={entry.gambarUtama} alt={entry.judul} class="h-full w-full object-cover transition duration-1000 group-hover:scale-110" loading="lazy" />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                <span class="absolute bottom-5 left-5 badge-blue !bg-blue-600 !text-white !border-none shadow-lg">
                   {categoryLabels[entry.kategori] ?? entry.kategori}
                 </span>
               </div>
             ) : (
-              <div class="h-56 w-full bg-gradient-to-br from-slate-100 to-slate-50 flex items-center justify-center relative">
+              <div class="h-60 w-full bg-gradient-to-br from-slate-100 to-slate-50 flex items-center justify-center relative">
                  <span class="material-symbols-outlined text-6xl text-slate-300">image</span>
-                 <span class="absolute bottom-4 left-4 rounded-full bg-blue-600/90 px-3 py-1.5 text-[0.65rem] font-bold text-white uppercase tracking-wider backdrop-blur shadow-sm">
+                 <span class="absolute bottom-5 left-5 badge-blue !bg-blue-600 !text-white !border-none shadow-lg">
                    {categoryLabels[entry.kategori] ?? entry.kategori}
                  </span>
               </div>
             )}
-            <div class="flex flex-1 flex-col p-6 md:p-8">
-              <time class="flex items-center gap-1.5 text-xs font-bold text-slate-400" datetime={entry.tanggal}>
+            <div class="flex flex-1 flex-col p-8">
+              <time class="text-label !text-slate-400 group-hover:text-blue-500 transition-colors" datetime={entry.tanggal}>
                 {formatTanggal(entry.tanggal)}
               </time>
-              <h3 class="mt-3 text-xl font-extrabold leading-snug tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-3">
+              <h3 class="mt-4 text-2xl font-black leading-snug text-slate-900 group-hover:text-blue-700 transition-colors line-clamp-3">
                  <a href={`/berita/${slug}`} class="focus:outline-none">
                    <span class="absolute inset-0" aria-hidden="true" />
                    {entry.judul}
@@ -243,27 +237,24 @@ const heroStats = [
     </div>
   </section>
 
-  <section class="section relative overflow-hidden bg-white text-center">
-    <div class="absolute inset-x-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
-    <div class="absolute bottom-0 left-1/2 -z-10 h-[400px] w-full max-w-3xl -translate-x-1/2 rounded-full bg-gradient-to-t from-blue-100/40 to-transparent blur-[100px]"></div>
-
-    <div class="container py-20 md:py-32">
-      <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-blue-50 text-blue-600 shadow-inner mb-8">
-         <span class="material-symbols-outlined text-4xl">admin_panel_settings</span>
+  <section class="section-premium bg-white text-center border-t border-slate-100">
+    <div class="container-premium">
+      <div class="mx-auto flex h-28 w-28 items-center justify-center rounded-[2.5rem] bg-blue-50 text-blue-600 shadow-inner mb-12 border border-blue-100">
+         <span class="material-symbols-outlined text-[48px]">admin_panel_settings</span>
       </div>
-      <h2 class="mx-auto max-w-4xl text-4xl font-black tracking-tight text-slate-900 md:text-5xl lg:text-5xl">
+      <h2 class="mx-auto max-w-4xl text-gradient !leading-[1.1] mb-8">
         {penutupSection?.title ?? 'Butuh Pelayanan Administrasi Warga?'}
       </h2>
-      <p class="mx-auto mt-6 max-w-2xl text-xl font-medium text-slate-500">
+      <p class="mx-auto mt-6 max-w-2xl text-2xl font-bold text-slate-400 leading-relaxed">
         {penutupSection?.description ?? 'Gunakan portal terpadu untuk mengajukan dokumen RT/RW dengan cepat dan aman secara digital tanpa antre.'}
       </p>
-      <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <a class="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-slate-900 px-8 text-base font-bold text-white shadow-xl hover:bg-blue-700 hover:shadow-2xl hover:-translate-y-1 transition-all" href={penutupSection?.primaryCtaHref ?? '/dasbor'}>
-          <span class="material-symbols-outlined">login</span>
+      <div class="mt-14 flex flex-wrap justify-center gap-6">
+        <a class="btn-premium !bg-slate-900 !from-slate-800 !to-slate-950 !shadow-slate-200" href={penutupSection?.primaryCtaHref ?? '/dasbor'}>
+          <span class="material-symbols-outlined text-[24px]">login</span>
           {penutupSection?.primaryCtaLabel ?? 'Login Portal Warga'}
         </a>
-        <a class="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-blue-50 px-8 text-base font-bold text-blue-700 shadow-sm hover:bg-blue-100 transition-colors" href={penutupSection?.secondaryCtaHref ?? '/kontak'}>
-          <span class="material-symbols-outlined">support_agent</span>
+        <a class="btn-premium-outline !h-16 !px-10" href={penutupSection?.secondaryCtaHref ?? '/kontak'}>
+          <span class="material-symbols-outlined text-[24px]">support_agent</span>
           {penutupSection?.secondaryCtaLabel ?? 'Hubungi Pengurus'}
         </a>
       </div>

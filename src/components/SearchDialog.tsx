@@ -68,76 +68,109 @@ export default function SearchDialog() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="btn btn-ghost w-10 h-10 min-h-10 p-0 rounded-[var(--radius-md)] flex items-center justify-center border border-slate-200 shadow-none bg-white lg:w-48 lg:justify-between lg:px-3 text-slate-500 hover:text-blue-700 hover:border-blue-200 hover:bg-blue-50 transition-all group"
+        className="flex h-12 w-10 items-center justify-center rounded-2xl bg-slate-50/50 border border-slate-100 text-slate-400 hover:bg-white hover:text-blue-600 hover:border-blue-100 hover:shadow-lg hover:-translate-y-0.5 transition-all lg:w-56 lg:justify-between lg:px-4 group"
         aria-label="Cari di website"
       >
-        <div className="flex items-center gap-2">
-           <span className="material-symbols-outlined text-[18px]">search</span>
-           <span className="hidden text-sm font-medium lg:block">Cari sesuatu...</span>
+        <div className="flex items-center gap-3">
+           <span className="material-symbols-outlined text-[20px] transition-transform group-hover:scale-110">search</span>
+           <span className="hidden text-[0.8rem] font-black lg:block uppercase tracking-widest text-slate-400 group-hover:text-slate-600">Cari sesuatu...</span>
         </div>
-        <kbd className="hidden lg:flex items-center gap-1 font-sans text-[0.65rem] font-bold text-slate-400 border border-slate-200 rounded px-1.5 py-0.5 bg-slate-50 group-hover:bg-white group-hover:text-blue-500 group-hover:border-blue-200">
-           <abbr title="Control" className="no-underline">Ctrl</abbr>K
-        </kbd>
+        <div className="hidden lg:flex items-center gap-1.5 font-sans text-[0.6rem] font-black text-slate-300 border border-slate-100 rounded-lg px-2 py-1 bg-white group-hover:text-blue-500 group-hover:border-blue-100 shadow-sm transition-all">
+           <span className="opacity-50">CTRL</span> K
+        </div>
       </button>
 
       <dialog
         ref={dialogRef}
-        className="backdrop:bg-slate-900/60 p-0 rounded-2xl w-[90vw] max-w-2xl bg-white shadow-2xl backdrop:backdrop-blur-sm m-auto open:animate-in open:fade-in-90 open:zoom-in-95 duration-200 top-16 bottom-auto fixed"
+        className="backdrop:bg-slate-900/40 backdrop:backdrop-blur-md p-0 rounded-[2.5rem] w-[95vw] max-w-3xl bg-white shadow-[0_32px_80px_rgba(15,23,42,0.2)] m-auto open:animate-in open:fade-in open:zoom-in-95 duration-300 top-20 bottom-auto fixed border border-slate-100 overflow-hidden"
         onClick={(e) => {
           if (e.target === dialogRef.current) setIsOpen(false);
         }}
       >
-        <div className="flex flex-col max-h-[80vh] overflow-hidden">
-          <div className="flex items-center border-b border-slate-100 px-4">
-             <span className="material-symbols-outlined text-blue-500">search</span>
+        <div className="flex flex-col max-h-[85vh]">
+          {/* Header Dialog */}
+          <div className="relative flex items-center px-8 py-6 bg-slate-50/50 border-b border-slate-100">
+             <span className="material-symbols-outlined text-blue-600 text-3xl shrink-0">manage_search</span>
              <input
                ref={inputRef}
-               className="w-full flex-1 bg-transparent px-4 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none text-lg"
-               placeholder="Cari layanan, peraturan, atau jadwal warga..."
+               className="w-full flex-1 bg-transparent px-6 text-slate-900 placeholder:text-slate-400 focus:outline-none text-xl font-bold"
+               placeholder="Apa yang ingin Anda cari hari ini?"
                value={query}
                onChange={(e) => setQuery(e.target.value)}
              />
-             <button
-                type="button"
-                className="text-[0.75rem] font-semibold text-slate-500 hover:text-slate-900 border border-slate-200 px-2.5 py-1 rounded bg-slate-50"
-                onClick={() => setIsOpen(false)}
-             >
-                Esc
-             </button>
+             <div className="flex items-center gap-3 shrink-0">
+                <button
+                   type="button"
+                   className="hidden sm:inline-flex h-10 items-center gap-2 px-4 rounded-xl border border-slate-200 bg-white text-[0.65rem] font-black text-slate-400 uppercase tracking-widest hover:bg-slate-50 transition"
+                   onClick={() => setIsOpen(false)}
+                >
+                   Tutup <span className="text-[10px] opacity-40 border border-slate-200 px-1 rounded">ESC</span>
+                </button>
+             </div>
           </div>
 
-          <div className="overflow-y-auto p-2">
+          <div className="overflow-y-auto p-6 scroll-smooth">
             {loading && (
-              <div className="p-8 text-center text-slate-500">
-                 Memuat data...
+              <div className="p-12 text-center animate-pulse">
+                  <div className="flex justify-center mb-4">
+                     <span className="material-symbols-outlined text-5xl text-blue-100">hourglass_empty</span>
+                  </div>
+                  <p className="text-sm font-black text-slate-300 uppercase tracking-[0.2em]">Menyiapkan Basis Data...</p>
               </div>
             )}
             
             {!loading && query.trim() !== '' && results.length === 0 && (
-              <div className="py-12 text-center">
-                 <p className="text-slate-950 font-semibold text-lg">Tidak ada hasil ditemukan.</p>
-                 <p className="text-slate-500 mt-1">Gunakan kata kunci yang lebih umum.</p>
+              <div className="py-20 text-center">
+                 <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-slate-50 text-slate-200 mb-6">
+                    <span className="material-symbols-outlined text-4xl">search_off</span>
+                 </div>
+                 <p className="text-xl font-black text-slate-900 leading-none">Hasil Tidak Ditemukan</p>
+                 <p className="text-[0.95rem] font-bold text-slate-400 mt-3">Gunakan kata kunci yang lebih spesifik atau sederhana.</p>
+              </div>
+            )}
+
+            {!loading && query.trim() === '' && (
+              <div className="py-12 px-4 text-center">
+                <div className="max-w-xs mx-auto space-y-6">
+                   <div className="h-20 w-20 mx-auto rounded-3xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-inner">
+                      <span className="material-symbols-outlined text-4xl">travel_explore</span>
+                   </div>
+                   <div>
+                      <p className="text-lg font-black text-slate-900">Mulai Menjelajah</p>
+                      <p className="text-sm font-bold text-slate-400 mt-2">Ketik layanan, liputan berita, atau dokumen publik yang Anda perlukan.</p>
+                   </div>
+                </div>
               </div>
             )}
 
              {!loading && results.length > 0 && (
-               <ul className="space-y-1">
-                 {results.map((item, idx) => (
-                    <li key={idx}>
-                       <a href={item.url} className="block group rounded-xl p-3 hover:bg-blue-50 transition-colors">
-                          <div className="flex gap-3 justify-between items-start">
-                             <div>
-                                <h4 className="font-bold text-slate-900 group-hover:text-blue-700">{item.title}</h4>
-                                <p className="text-sm text-slate-500 mt-1 line-clamp-1">{item.description}</p>
-                             </div>
-                             <span className="shrink-0 text-[0.65rem] uppercase tracking-wider font-bold text-slate-500 border border-slate-200 px-2 py-0.5 rounded bg-white mt-0.5">
-                                {item.type}
-                             </span>
-                          </div>
-                       </a>
-                    </li>
-                 ))}
-               </ul>
+               <div className="space-y-4 pb-4">
+                 <p className="text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em] px-4 mb-2">Ditemukan {results.length} Referensi</p>
+                 <ul className="grid gap-3">
+                   {results.map((item, idx) => (
+                      <li key={idx}>
+                         <a href={item.url} className="group flex items-center gap-6 rounded-3xl p-5 border border-transparent hover:border-blue-100 hover:bg-blue-50/50 transition-all duration-300">
+                            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white shadow-sm border border-slate-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white group-hover:shadow-lg transition-all duration-300">
+                               <span className="material-symbols-outlined text-2xl">
+                                  {item.type === 'berita' ? 'newspaper' : 
+                                   item.type === 'dokumen' ? 'description' : 
+                                   item.type === 'pengumuman' ? 'campaign' : 
+                                   item.type === 'layanan' ? 'support_agent' : 'arrow_outward'}
+                               </span>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                               <div className="flex items-center gap-3 mb-1">
+                                  <span className="text-[0.6rem] font-black text-slate-400 uppercase tracking-widest group-hover:text-blue-500 transition-colors">{item.type}</span>
+                               </div>
+                               <h4 className="text-lg font-black text-slate-900 group-hover:text-blue-700 transition-colors leading-tight truncate">{item.title}</h4>
+                               <p className="text-sm font-bold text-slate-400 mt-1 line-clamp-1 group-hover:text-slate-500">{item.description}</p>
+                            </div>
+                            <span className="material-symbols-outlined text-slate-200 group-hover:text-blue-400 transition-transform group-hover:translate-x-1">chevron_right</span>
+                         </a>
+                      </li>
+                   ))}
+                 </ul>
+               </div>
              )}
           </div>
         </div>

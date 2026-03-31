@@ -38,34 +38,42 @@ const seo = pengaturan?.seoHalamanData?.strukturOrganisasi;
   description={resolveSeoText(seo?.seoDescription, 'Susunan organisasi dan peran layanan Padukuhan Salakan.')}
   image={resolveSeoImage(seo?.ogImage)}
 >
-  <section class="section relative overflow-hidden bg-slate-50 min-h-screen">
-    <div class="absolute -top-32 left-20 h-[500px] w-[500px] rounded-full bg-blue-300/20 blur-[100px] pointer-events-none"></div>
-    <div class="absolute bottom-10 -right-32 h-[600px] w-[600px] rounded-full bg-emerald-200/20 blur-[120px] pointer-events-none"></div>
+  <section class="section-premium bg-slate-50/50">
+    <div class="container-premium relative z-10">
+      
+      {/* Breadcrumb Premium */}
+      <nav class="flex text-sm font-bold text-slate-400 uppercase tracking-[0.2em] mb-8" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center gap-3">
+          <li><a href="/" class="hover:text-blue-600 transition">Beranda</a></li>
+          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
+          <li><a href="/data" class="hover:text-blue-600 transition">Pusat Data</a></li>
+          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
+          <li class="text-blue-700 bg-blue-50 px-3 py-1 rounded-full text-[0.7rem] ring-1 ring-blue-100">Organisasi</li>
+        </ol>
+      </nav>
 
-    <div class="container relative z-10 py-12 md:py-16 space-y-10">
-      <div class="rounded-[2.5rem] bg-white/70 backdrop-blur-3xl shadow-[0_12px_40px_rgb(0,0,0,0.04)] p-8 md:p-12 relative overflow-hidden">
-        <div class="absolute top-0 right-0 p-8 opacity-5">
-          <span class="material-symbols-outlined text-9xl">org_chart</span>
-        </div>
-        <div class="grid gap-10 lg:grid-cols-[1.2fr_auto] items-center relative z-10">
-          <div class="space-y-6">
-            <span class="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-1.5 text-xs font-bold text-blue-700 uppercase tracking-widest shadow-sm">
-              <span class="material-symbols-outlined text-[16px]">account_tree</span> Struktur Resmi
+      <div class="card-premium p-8 md:p-12 mb-16">
+        <div class="grid gap-12 lg:grid-cols-[1.2fr_auto] items-center relative z-10">
+          <div class="space-y-8">
+            <span class="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 text-[0.7rem] font-black text-blue-700 uppercase tracking-widest ring-1 ring-blue-100">
+               <span class="material-symbols-outlined text-[18px]">account_tree</span> Tata Kelola Padukuhan
             </span>
-            <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">Susunan Organisasi</h1>
-            <p class="max-w-2xl text-lg font-medium leading-relaxed text-slate-500">
-              Halaman ini menata pengurus padukuhan ke dalam kelompok yang mudah dipindai. Data dikelola langsung dari CMS Keystatic.
+            <h1 class="hero-title text-gradient !mb-4 leading-none text-slate-900 md:text-5xl lg:text-6xl">Struktur Organisasi</h1>
+            <p class="max-w-2xl text-xl font-bold text-slate-400 leading-relaxed">
+              Daftar aparatur dan pengurus lembaga kemasyarakatan yang bertugas melayani kepentingan warga di wilayah Padukuhan Salakan.
             </p>
-            <div class="flex flex-wrap gap-4 pt-2">
-              <a class="inline-flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 px-8 text-sm font-bold text-white shadow-[0_8px_20px_rgb(37,99,235,0.3)] hover:shadow-lg transition hover:-translate-y-0.5" href="/data">
-                <span class="material-symbols-outlined text-[18px]">arrow_back</span> Kembali ke Data
+            <div class="flex flex-wrap gap-4 pt-4">
+              <a class="inline-flex h-14 items-center gap-3 rounded-full bg-slate-900 px-8 text-sm font-black text-white shadow-xl transition-all hover:bg-blue-600 hover:-translate-y-0.5" href="/data">
+                <span class="material-symbols-outlined text-[20px]">arrow_back</span> Kembali ke Indeks
               </a>
             </div>
           </div>
-          <div class="flex flex-col items-center justify-center rounded-3xl bg-white p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] min-w-[160px]">
-            <span class="material-symbols-outlined text-5xl text-blue-300 mb-2">badge</span>
-            <strong class="text-5xl font-black text-slate-900">{struktur.length}</strong>
-            <span class="mt-1 text-xs font-bold text-slate-400 uppercase tracking-widest">Posisi</span>
+          <div class="flex flex-col items-center justify-center rounded-[2rem] bg-white p-10 shadow-sm border border-slate-100 min-w-[180px]">
+             <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 mb-4 shadow-inner">
+               <span class="material-symbols-outlined text-4xl">badge</span>
+             </div>
+             <strong class="text-5xl font-black text-slate-900 leading-none">{struktur.length}</strong>
+             <span class="mt-3 text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em]">Total Personel</span>
           </div>
         </div>
       </div>
@@ -74,32 +82,38 @@ const seo = pengaturan?.seoHalamanData?.strukturOrganisasi;
         {Object.entries(grouped).map(([key, items]) => {
           const colors = bidangColors[key as keyof typeof bidangColors];
           return (
-            <section class="rounded-[2.5rem] bg-white/80 backdrop-blur-3xl p-8 shadow-[0_12px_40px_rgb(0,0,0,0.04)]">
-              <div class="flex items-center gap-4 mb-8">
+            <div class="flex flex-col gap-6">
+              <div class="flex items-center gap-4 px-4">
                 <div class={`flex h-14 w-14 items-center justify-center rounded-2xl ${colors.bg} ${colors.text} shadow-inner`}>
                   <span class="material-symbols-outlined text-[28px]">{bidangIcons[key as keyof typeof bidangIcons]}</span>
                 </div>
                 <div>
-                  <h2 class="text-xl font-extrabold tracking-tight text-slate-900">{bidangLabels[key as keyof typeof bidangLabels]}</h2>
-                  <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">{items.length} posisi</span>
+                  <h2 class="text-xl font-black tracking-tight text-slate-900 leading-none">{bidangLabels[key as keyof typeof bidangLabels]}</h2>
+                  <span class="mt-1 block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest">{items.length} Posisi Aktif</span>
                 </div>
               </div>
-              <div class="space-y-4">
+              
+              <div class="grid gap-6">
                 {items.map(({ slug, entry }) => (
-                  <article class="group rounded-2xl bg-white p-5 shadow-[0_2px_15px_rgb(0,0,0,0.02)] transition hover:shadow-md hover:-translate-y-0.5" id={slug}>
-                    <p class="text-sm font-bold text-blue-600 mb-1">{entry.jabatan}</p>
-                    <h3 class="text-lg font-extrabold tracking-tight text-slate-900">{entry.namaPejabat}</h3>
-                    <p class="mt-2 text-sm font-medium leading-relaxed text-slate-500">{entry.deskripsiTugas}</p>
-                    <div class="mt-3 inline-flex items-center gap-1.5 rounded-full bg-slate-50 px-4 py-2 text-sm font-bold text-slate-600">
-                      <span class="material-symbols-outlined text-[16px]">call</span> {entry.kontak}
+                  <article class="group relative rounded-[2.5rem] bg-white p-7 shadow-sm border border-slate-100 transition-all hover:shadow-lg hover:-translate-y-1" id={slug}>
+                    <div class="space-y-4">
+                      <span class="inline-flex items-center rounded-full bg-slate-50 px-4 py-1.5 text-[0.65rem] font-black text-blue-600 uppercase tracking-widest ring-1 ring-slate-100 italic">{entry.jabatan}</span>
+                      <h3 class="text-xl font-black tracking-tight text-slate-900 leading-tight">{entry.namaPejabat}</h3>
+                      <p class="text-[0.95rem] font-bold text-slate-400 leading-relaxed">{entry.deskripsiTugas}</p>
+                      
+                      <div class="pt-4 border-t border-slate-50 flex items-center gap-3 text-xs font-black text-slate-500 uppercase tracking-widest group-hover:text-blue-600 transition">
+                        <span class="material-symbols-outlined text-[18px]">call</span> {entry.kontak}
+                      </div>
                     </div>
                   </article>
                 ))}
               </div>
-            </section>
+            </div>
           );
         })}
       </div>
+    </div>
+  </section>
     </div>
   </section>
 </MainLayout>

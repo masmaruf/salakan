@@ -13,83 +13,26 @@ const dataSubmenu = pengaturan?.menuData?.items?.filter((item) => item.status ==
 const isDataActive = currentPath === '/data' || currentPath.startsWith('/data/');
 ---
 
-<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl shadow-sm transition-all">
-  <div class="container py-3">
-    <div class="grid items-center gap-4 md:grid-cols-[1fr_auto_1fr]">
-      <div class="flex items-center justify-between md:justify-start">
-        <a class="inline-flex shrink-0 items-center gap-3 group" href="/">
-          <span class="grid h-10 w-10 place-items-center rounded-[var(--radius-md)] bg-blue-600 font-['Roboto'] text-sm font-bold text-white transition-transform group-hover:scale-105">
-            PS
-          </span>
-          <span class="block">
-            <strong class="block text-sm font-bold text-slate-900 leading-tight">Padukuhan Salakan</strong>
-            <small class="block text-[0.65rem] font-medium tracking-wide text-slate-500 uppercase mt-0.5">Pemerintah Desa</small>
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/60 transition-all duration-300">
+  <div class="container-premium py-4">
+    <div class="flex items-center justify-between gap-8 md:grid md:grid-cols-[auto_1fr_auto]">
+      <div class="flex items-center shrink-0">
+        <a class="inline-flex items-center gap-4 group" href="/">
+          <div class="relative">
+            <div class="absolute -inset-1 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 opacity-20 blur transition group-hover:opacity-40"></div>
+            <span class="relative flex h-11 w-11 items-center justify-center rounded-xl bg-slate-900 font-['Inter'] text-sm font-black text-white shadow-lg transition-transform group-hover:scale-105">
+              PS
+            </span>
+          </div>
+          <span class="hidden sm:block">
+            <strong class="block text-lg font-black tracking-tight text-slate-900 leading-none">Padukuhan Salakan</strong>
+            <small class="block text-[0.65rem] font-bold tracking-[0.1em] text-blue-600 uppercase mt-1">Portal GovTech Resmi</small>
           </span>
         </a>
-
-        <details class="group relative md:hidden">
-          <summary class="btn btn-ghost relative h-10 min-h-10 w-10 rounded-md bg-transparent p-0 text-slate-500 hover:text-slate-900 border-none cursor-pointer">
-            <span class="material-symbols-outlined transition-opacity group-open:opacity-0">menu</span>
-            <span class="material-symbols-outlined absolute inset-0 grid place-items-center opacity-0 transition-opacity group-open:opacity-100">close</span>
-          </summary>
-          <div class="fixed inset-x-0 top-[60px] z-50 px-4 pb-4 group-open:block">
-             <div class="rounded-2xl bg-white/95 backdrop-blur-3xl p-4 shadow-[0_24px_64px_rgba(15,23,42,0.15)] mt-2">
-                <div class="mt-2 grid gap-1">
-                   {navItems.map((item) => {
-                     const isActive =
-                       item.href === '/'
-                         ? currentPath === item.href
-                         : currentPath.startsWith(item.href);
-   
-                     return (
-                       <>
-                         <a
-                           class:list={[
-                             'rounded-lg px-4 py-3 text-sm font-medium transition-colors',
-                             isActive
-                               ? 'bg-blue-50 text-blue-700 font-semibold'
-                               : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
-                           ]}
-                           href={item.href}
-                         >
-                           {item.label}
-                         </a>
-                         {item.href === '/data' && (
-                           <div class="ml-4 mt-1 grid gap-1 border-l-2 border-slate-100 pl-4 py-1">
-                             {dataSubmenu.map((subItem) => {
-                                const isSubActive = currentPath === subItem.href || currentPath.startsWith(`${subItem.href}/`);
-                                return (
-                                  <a
-                                    class:list={[
-                                      'rounded-md px-3 py-2 text-sm transition-colors',
-                                      isSubActive
-                                        ? 'text-blue-700 font-medium'
-                                        : 'text-slate-500 hover:text-slate-900',
-                                    ]}
-                                    href={subItem.href}
-                                  >
-                                    {subItem.label}
-                                  </a>
-                                );
-                             })}
-                           </div>
-                         )}
-                       </>
-                     );
-                   })}
-                 </div>
-                 <div class="mt-4 pt-4 border-t border-slate-100 grid">
-                    <a href="/dasbor" class="flex items-center justify-center gap-2 rounded-lg bg-blue-600 text-white px-4 py-2.5 text-sm font-semibold hover:bg-blue-700 transition">
-                       Portal Warga
-                    </a>
-                 </div>
-             </div>
-          </div>
-        </details>
       </div>
 
-      <nav aria-label="Navigasi utama" class="hidden md:block">
-        <ul class="flex items-center justify-center gap-1">
+      <nav aria-label="Navigasi utama" class="hidden md:flex justify-center">
+        <ul class="flex items-center gap-1.5 rounded-full bg-slate-100/50 p-1 border border-slate-200/40">
           {navItems.map((item) => {
             const isActive =
               item.href === '/'
@@ -101,46 +44,49 @@ const isDataActive = currentPath === '/data' || currentPath.startsWith('/data/')
                 <li class="relative group/nav cursor-pointer">
                    <div
                      class:list={[
-                       'relative inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                       'relative inline-flex items-center gap-1.5 rounded-full px-5 py-2 text-sm font-bold transition-all',
                        isDataActive
-                         ? 'text-blue-700 bg-blue-50/50'
-                         : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50',
+                         ? 'text-blue-700 bg-white shadow-sm'
+                         : 'text-slate-600 hover:text-slate-900 hover:bg-white/60',
                      ]}
                    >
                      <span>{item.label}</span>
-                     <span class="material-symbols-outlined text-[16px] text-slate-400 group-hover/nav:rotate-180 transition-transform duration-200">expand_more</span>
+                     <span class="material-symbols-outlined text-[16px] text-slate-400 group-hover/nav:rotate-180 transition-transform duration-300">expand_more</span>
                    </div>
                    
-                   {/* Dropdown Menu (Hover based instead of Details) */}
-                   <div class="absolute left-1/2 top-full z-50 mt-1 w-64 -translate-x-1/2 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-200 transform translate-y-2 group-hover/nav:translate-y-0">
-                      {/* Invisible bridge to keep hover state active */}
-                      <div class="h-2 w-full absolute -top-2 left-0"></div>
-                      
-                      <div class="rounded-xl border border-slate-100 bg-white p-2 shadow-xl">
+                   <div class="absolute left-1/2 top-full z-50 mt-1 w-72 -translate-x-1/2 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-300 transform translate-y-3 group-hover/nav:translate-y-0">
+                      <div class="h-4 w-full absolute -top-4 left-0"></div>
+                      <div class="rounded-2xl border border-slate-200/60 bg-white p-2.5 shadow-[0_20px_50px_rgba(15,23,42,0.12)] backdrop-blur-2xl">
                         <a
                            class:list={[
-                             'block rounded-md px-3 py-2 transition-colors',
+                             'flex items-center gap-3 rounded-xl px-4 py-3 transition-all',
                              currentPath === '/data' ? 'bg-blue-50 text-blue-700' : 'hover:bg-slate-50 text-slate-700',
                            ]}
                            href="/data"
                         >
-                           <span class="block text-sm font-semibold">Pusat Data Warga</span>
+                           <span class="material-symbols-outlined text-blue-500">dashboard_customize</span>
+                           <div>
+                             <span class="block text-sm font-black">Pusat Data Warga</span>
+                             <span class="block text-[0.7rem] text-slate-400 font-medium">Indeks semua kategori data</span>
+                           </div>
                         </a>
-                        <div class="my-1 border-t border-slate-50"></div>
-                        {dataSubmenu.map((subItem) => {
-                           const isSubActive = currentPath === subItem.href || currentPath.startsWith(`${subItem.href}/`);
-                           return (
-                             <a
-                               class:list={[
-                                 'block rounded-md px-3 py-2 transition-colors',
-                                 isSubActive ? 'bg-blue-50 text-blue-700' : 'hover:bg-slate-50 text-slate-600 hover:text-slate-900',
-                               ]}
-                               href={subItem.href}
-                             >
-                               <span class="block text-sm font-medium">{subItem.label}</span>
-                             </a>
-                           );
-                        })}
+                        <div class="my-2 border-t border-slate-100 mx-2"></div>
+                        <div class="grid gap-1">
+                          {dataSubmenu.map((subItem) => {
+                             const isSubActive = currentPath === subItem.href || currentPath.startsWith(`${subItem.href}/`);
+                             return (
+                               <a
+                                 class:list={[
+                                   'block rounded-xl px-4 py-2.5 transition-all',
+                                   isSubActive ? 'text-blue-700 font-bold bg-blue-50/40' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50',
+                                 ]}
+                                 href={subItem.href}
+                               >
+                                 <span class="text-[0.85rem]">{subItem.label}</span>
+                               </a>
+                             );
+                          })}
+                        </div>
                       </div>
                    </div>
                 </li>
@@ -151,10 +97,10 @@ const isDataActive = currentPath === '/data' || currentPath.startsWith('/data/')
               <li>
                 <a
                   class:list={[
-                    'relative inline-flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                    'relative inline-flex items-center rounded-full px-5 py-2 text-sm font-bold transition-all',
                     isActive
-                      ? 'text-blue-700 bg-blue-50/50'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50',
+                      ? 'text-blue-700 bg-white shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/60',
                   ]}
                   href={item.href}
                   aria-current={isActive ? 'page' : undefined}
@@ -167,11 +113,69 @@ const isDataActive = currentPath === '/data' || currentPath.startsWith('/data/')
         </ul>
       </nav>
 
-      <div class="hidden md:flex justify-end items-center gap-2">
-        <SearchDialog client:idle />
-        <a href="/dasbor" class="flex items-center justify-center gap-1.5 rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-600 transition-colors">
-           Dasbor Warga
+      <div class="flex items-center gap-3">
+        <div class="hidden lg:block">
+           <SearchDialog client:idle />
+        </div>
+        <a href="/dasbor" class="inline-flex h-11 items-center gap-2 rounded-full bg-slate-900 px-6 text-sm font-black text-white shadow-lg transition-all hover:bg-blue-600 hover:-translate-y-0.5 active:translate-y-0">
+           <span class="material-symbols-outlined text-[18px]">lock_person</span>
+           <span class="hidden md:inline">Dasbor Warga</span>
         </a>
+        
+        <details class="group relative md:hidden">
+          <summary class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 cursor-pointer transition-colors border-none list-none">
+            <span class="material-symbols-outlined transition-opacity group-open:opacity-0">menu</span>
+            <span class="material-symbols-outlined absolute opacity-0 transition-opacity group-open:opacity-100">close</span>
+          </summary>
+          <div class="fixed inset-x-0 top-[80px] z-50 px-5 pb-5">
+             <div class="rounded-3xl bg-white/95 backdrop-blur-3xl p-6 shadow-[0_24px_80px_rgba(15,23,42,0.2)] ring-1 ring-slate-900/5">
+                <div class="grid gap-2">
+                   {navItems.map((item) => {
+                     const isActive =
+                       item.href === '/'
+                         ? currentPath === item.href
+                         : currentPath.startsWith(item.href);
+    
+                     return (
+                       <div class="flex flex-col">
+                         <a
+                           class:list={[
+                             'rounded-xl px-4 py-3 text-base font-bold transition-colors',
+                             isActive
+                               ? 'bg-blue-50 text-blue-700'
+                               : 'text-slate-700 hover:bg-slate-50',
+                           ]}
+                           href={item.href}
+                         >
+                           {item.label}
+                         </a>
+                         {item.href === '/data' && (
+                           <div class="ml-6 mt-1 grid gap-1 border-l-2 border-slate-100 pl-4 py-1">
+                             {dataSubmenu.map((subItem) => {
+                                return (
+                                  <a
+                                    class="rounded-lg px-3 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"
+                                    href={subItem.href}
+                                  >
+                                    {subItem.label}
+                                  </a>
+                                );
+                             })}
+                           </div>
+                         )}
+                       </div>
+                     );
+                   })}
+                 </div>
+                 <div class="mt-6 pt-6 border-t border-slate-100">
+                    <a href="/dasbor" class="flex items-center justify-center gap-3 rounded-xl bg-blue-600 text-white px-4 py-4 text-sm font-black shadow-lg shadow-blue-200">
+                       <span class="material-symbols-outlined">login</span>
+                       Portal Akses Warga
+                    </a>
+                 </div>
+             </div>
+          </div>
+        </details>
       </div>
     </div>
   </div>

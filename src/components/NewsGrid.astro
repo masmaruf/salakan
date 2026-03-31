@@ -25,47 +25,49 @@ const categoryLabels = await getKategoriBeritaMap();
 const gridClass = compact ? 'grid-cols-1 gap-4 lg:grid-cols-2' : 'grid-cols-1 gap-5 xl:grid-cols-3 md:grid-cols-2';
 ---
 
-<div class:list={['grid', gridClass]}>
+<div class:list={['grid gap-10', gridClass]}>
   {items.map(({ slug, entry }) => (
-    <article class="surface-card overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-md">
-      {entry.gambarUtama ? (
-        <Image
-          src={entry.gambarUtama}
-          alt={entry.altGambarUtama || entry.judul}
-          width={960}
-          height={540}
-          loading="lazy"
-          decoding="async"
-          sizes={compact ? '(max-width: 960px) 100vw, 50vw' : '(max-width: 960px) 100vw, 33vw'}
-          class="h-56 w-full object-cover"
-        />
-      ) : (
-        <img
-          src="/images/og-salakan.svg"
-          alt={entry.altGambarUtama || entry.judul}
-          loading="lazy"
-          decoding="async"
-          class="h-56 w-full object-cover"
-        />
-      )}
-      <div class="flex h-full flex-col gap-4 p-5 md:p-6">
-        <div class="flex flex-wrap items-center gap-2">
-          <a class="badge badge-primary badge-outline" href={`/berita/kategori/${entry.kategori}`}>
-            {categoryLabels[entry.kategori] ?? entry.kategori}
-          </a>
+    <article class="card-premium group !p-0 overflow-hidden flex flex-col h-full bg-white transition-all transform hover:-translate-y-2 hover:shadow-2xl">
+      <div class="relative overflow-hidden aspect-video">
+        {entry.gambarUtama ? (
+          <Image
+            src={entry.gambarUtama}
+            alt={entry.altGambarUtama || entry.judul}
+            width={960}
+            height={540}
+            class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+            loading="lazy"
+            decoding="async"
+            sizes={compact ? '(max-width: 960px) 100vw, 50vw' : '(max-width: 960px) 100vw, 33vw'}
+          />
+        ) : (
+          <div class="h-full w-full bg-slate-100 flex items-center justify-center">
+             <span class="material-symbols-outlined text-6xl text-slate-200">image</span>
+          </div>
+        )}
+        <div class="absolute top-4 left-4">
+           <span class="badge-premium !py-1.5 !px-4 !bg-blue-600/90 !text-white !backdrop-blur-md shadow-lg">{categoryLabels[entry.kategori] ?? entry.kategori}</span>
         </div>
-        <div class="space-y-3">
-          <h3 class="card-title font-bold text-slate-950">
-            <a class="transition-colors hover:text-violet-700" href={`/berita/${slug}`}>{entry.judul}</a>
+      </div>
+
+      <div class="flex flex-1 flex-col p-8">
+        <time class="mb-4 flex items-center gap-2 text-xs font-black text-blue-600 uppercase tracking-widest" datetime={entry.tanggal}>
+          <span class="material-symbols-outlined text-[16px]">calendar_month</span>
+          {formatTanggal(entry.tanggal)}
+        </time>
+        
+        <div class="space-y-4 flex-1">
+          <h3 class="text-2xl font-black tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors leading-[1.25] line-clamp-2">
+            <a href={`/berita/${slug}`}>{entry.judul}</a>
           </h3>
-          <time class="text-sm font-medium text-slate-500" datetime={entry.tanggal}>{formatTanggal(entry.tanggal)}</time>
-          <p class="text-body-md text-slate-600">
+          <p class="text-[0.95rem] font-bold text-slate-400 leading-relaxed line-clamp-3">
             {compact ? excerpt(entry.ringkasan, 110) : entry.ringkasan}
           </p>
         </div>
-        <div class="mt-auto pt-2">
-          <a class="btn btn-sm btn-outline rounded-[var(--radius-md)]" href={`/berita/${slug}`}>
-            Baca selengkapnya
+
+        <div class="mt-8 pt-6 border-t border-slate-50">
+          <a class="inline-flex items-center gap-3 text-xs font-black text-slate-900 uppercase tracking-widest group-hover:text-blue-600 transition" href={`/berita/${slug}`}>
+             Selengkapnya <span class="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1">arrow_forward</span>
           </a>
         </div>
       </div>

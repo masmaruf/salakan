@@ -21,12 +21,8 @@ const highlights = [
   description={resolveSeoText(dataSeo?.seoDescription, menuData?.description ?? 'Pusat akses data, dokumen, dan informasi kampung Padukuhan Salakan.')}
   image={resolveSeoImage(dataSeo?.ogImage)}
 >
-  <section class="section relative overflow-hidden bg-slate-50 min-h-[60vh] flex flex-col justify-center">
-    {/* Ornamen Grafis (Glowing Orbs) - Sensasi Kedalaman */}
-    <div class="absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full bg-blue-400/20 blur-[100px] pointer-events-none"></div>
-    <div class="absolute bottom-0 -left-64 h-[600px] w-[600px] rounded-full bg-emerald-300/15 blur-[120px] pointer-events-none"></div>
-    
-    <div class="container relative z-10 space-y-8 py-10">
+  <section class="section-premium bg-slate-50/50">
+    <div class="container-premium relative z-10">
       <div class="rounded-[2.5rem] bg-white/70 backdrop-blur-3xl shadow-[0_12px_40px_rgb(0,0,0,0.05)] grid gap-10 p-8 md:p-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(280px,0.8fr)] items-center relative overflow-hidden">
         
         {/* Detail Latar Card */}
@@ -37,10 +33,10 @@ const highlights = [
             <span class="material-symbols-outlined text-[16px]">database</span>
             Pusat Katalog
           </span>
-          <h1 class="text-5xl font-extrabold tracking-tight text-slate-900 md:text-6xl bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">
+          <h1 class="hero-title text-gradient !mb-6">
             {menuData?.title ?? 'Data & Informasi'}
           </h1>
-          <p class="max-w-2xl text-lg font-medium leading-relaxed text-slate-500">
+          <p class="max-w-2xl text-xl font-medium leading-relaxed text-slate-500">
             {menuData?.description ?? 'Pusat integrasi akses data kependudukan, arsip dokumen, direktori UMKM, penerima bantuan, dan struktur kepengurusan desa.'}
           </p>
           <div class="flex flex-wrap gap-4 pt-4">
@@ -70,11 +66,11 @@ const highlights = [
       </div>
     </section>
 
-    <section id="katalog-data" class="section bg-white relative">
+    <section id="katalog-data" class="section-premium bg-white">
       <div class="absolute inset-x-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-slate-100 to-transparent"></div>
       
-      <div class="container py-16 md:py-24">
-        <div class="text-center md:text-left mb-12">
+      <div class="container-premium">
+        <div class="mb-14">
            <SectionHeading
              title="Indeks Kategori Data"
              description="Pilih kategori di bawah untuk menelusuri data publik yang dikelola secara transparan oleh aparatur desa."

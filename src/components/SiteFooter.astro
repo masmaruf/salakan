@@ -2,23 +2,75 @@
 const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-slate-200 bg-white">
-  <div class="container py-8">
-    <div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-      <div class="space-y-2">
-        <p class="text-base font-extrabold tracking-tight text-slate-950">Padukuhan Salakan</p>
-        <p class="max-w-2xl text-sm leading-7 text-slate-500">
-          Situs informasi warga untuk pengumuman, dokumentasi kegiatan, data kampung, dan profil padukuhan.
+<footer class="border-t border-slate-200 bg-slate-50/50 pt-16 pb-12">
+  <div class="container-premium">
+    <div class="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr]">
+      <div class="space-y-6">
+        <div class="flex items-center gap-3">
+          <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 font-bold text-white shadow-md">PS</span>
+          <span class="text-xl font-black tracking-tight text-slate-900">Padukuhan Salakan</span>
+        </div>
+        <p class="max-w-xs text-sm font-medium leading-relaxed text-slate-500">
+          Pusat layanan digital dan informasi terpadu untuk warga Salakan. Berkomitmen pada transparansi dan pelayanan publik yang prima.
         </p>
+        <div class="flex gap-4">
+           {/* Placeholder Social Icons */}
+           <a href="#" class="grid h-10 w-10 place-items-center rounded-full bg-white text-slate-400 shadow-sm transition hover:bg-blue-600 hover:text-white">
+             <span class="material-symbols-outlined text-[20px]">hub</span>
+           </a>
+           <a href="#" class="grid h-10 w-10 place-items-center rounded-full bg-white text-slate-400 shadow-sm transition hover:bg-blue-400 hover:text-white">
+             <span class="material-symbols-outlined text-[20px]">public</span>
+           </a>
+        </div>
       </div>
-      <nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-500">
-        <a class="transition-colors hover:text-slate-950" href="/data">Data kampung</a>
-        <a class="transition-colors hover:text-slate-950" href="/berita">Berita</a>
-        <a class="transition-colors hover:text-slate-950" href="/kontak">Kontak</a>
-      </nav>
+
+      <div class="space-y-6">
+        <h3 class="text-sm font-black uppercase tracking-[0.2em] text-slate-900">Navigasi</h3>
+        <nav class="grid gap-3 text-sm font-bold text-slate-500">
+          <a class="transition hover:text-blue-600" href="/profil">Profil Kampung</a>
+          <a class="transition hover:text-blue-600" href="/berita">Berita & Kabar</a>
+          <a class="transition hover:text-blue-600" href="/data">Pusat Data</a>
+          <a class="transition hover:text-blue-600" href="/galeri">Galeri Visual</a>
+        </nav>
+      </div>
+
+      <div class="space-y-6">
+        <h3 class="text-sm font-black uppercase tracking-[0.2em] text-slate-900">Layanan</h3>
+        <nav class="grid gap-3 text-sm font-bold text-slate-500">
+          <a class="transition hover:text-blue-600" href="/data/layanan-warga">Layanan Mandiri</a>
+          <a class="transition hover:text-blue-600" href="/dasbor">Dasbor Warga</a>
+          <a class="transition hover:text-blue-600" href="/kontak">Hubungi Pengurus</a>
+          <a class="transition hover:text-blue-600" href="/faq">Pusat Bantuan</a>
+        </nav>
+      </div>
+
+      <div class="space-y-6">
+        <h3 class="text-sm font-black uppercase tracking-[0.2em] text-slate-900">Kontak Resmi</h3>
+        <div class="space-y-4 text-sm font-medium text-slate-500">
+           <div class="flex gap-3">
+             <span class="material-symbols-outlined text-blue-600 text-[20px]">location_on</span>
+             <p>Jl. Utama Salakan, Kec. Sewon, Bantul, DIY 55188</p>
+           </div>
+           <div class="flex gap-3">
+             <span class="material-symbols-outlined text-emerald-600 text-[20px]">call</span>
+             <p>0812-3456-7890 (WA Admin)</p>
+           </div>
+           <div class="flex gap-3">
+             <span class="material-symbols-outlined text-amber-600 text-[20px]">mail</span>
+             <p>halo@salakan.id</p>
+           </div>
+        </div>
+      </div>
     </div>
-    <div class="mt-6 text-sm text-slate-400">
-      <small>&copy; {year} Padukuhan Salakan. Disiapkan untuk portal warga.</small>
+    
+    <div class="mt-16 flex flex-col items-center justify-between gap-6 border-t border-slate-200 pt-8 md:flex-row">
+      <p class="text-sm font-medium text-slate-400">
+        &copy; {year} Padukuhan Salakan. Crafted with <span class="text-rose-500">♥</span> for the community.
+      </p>
+      <div class="flex items-center gap-6 text-xs font-bold uppercase tracking-widest text-slate-400">
+         <a href="#" class="hover:text-slate-900">Kebijakan Privasi</a>
+         <a href="#" class="hover:text-slate-900">Ketentuan Layanan</a>
+      </div>
     </div>
   </div>
 </footer>

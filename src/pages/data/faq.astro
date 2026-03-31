@@ -18,65 +18,81 @@ const categories = [...new Set(items.map(({ entry }) => entry.kategori))];
   description={resolveSeoText(seo?.seoDescription, 'Pertanyaan yang sering diajukan warga Padukuhan Salakan.')}
   image={resolveSeoImage(seo?.ogImage)}
 >
-  <section class="section relative overflow-hidden bg-slate-50 min-h-screen">
-    <div class="absolute -top-20 -left-20 h-[500px] w-[500px] rounded-full bg-blue-400/20 blur-[100px] pointer-events-none"></div>
-    <div class="absolute bottom-0 right-20 h-[600px] w-[600px] rounded-full bg-emerald-300/15 blur-[120px] pointer-events-none"></div>
+  <section class="section-premium bg-slate-50/50">
+    <div class="container-premium relative z-10">
+      
+      {/* Breadcrumb Premium */}
+      <nav class="flex text-sm font-bold text-slate-400 uppercase tracking-[0.2em] mb-8" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center gap-3">
+          <li><a href="/" class="hover:text-blue-600 transition">Beranda</a></li>
+          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
+          <li><a href="/data" class="hover:text-blue-600 transition">Pusat Data</a></li>
+          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
+          <li class="text-blue-700 bg-blue-50 px-3 py-1 rounded-full text-[0.7rem] ring-1 ring-blue-100">Bantuan (FAQ)</li>
+        </ol>
+      </nav>
 
-    <div class="container relative z-10 py-12 md:py-16 space-y-10">
-      <div class="rounded-[2.5rem] bg-white/70 backdrop-blur-3xl shadow-[0_12px_40px_rgb(0,0,0,0.04)] p-8 md:p-12 relative overflow-hidden">
-        <div class="absolute top-0 right-0 p-8 opacity-5">
-          <span class="material-symbols-outlined text-9xl">quiz</span>
-        </div>
-        <div class="grid gap-10 lg:grid-cols-[1fr_auto] items-center relative z-10">
-          <div class="space-y-6">
-            <span class="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-1.5 text-xs font-bold text-indigo-700 uppercase tracking-widest shadow-sm">
-              <span class="material-symbols-outlined text-[16px]">help_center</span> Pusat Bantuan
+      <div class="card-premium p-8 md:p-12 mb-16">
+        <div class="grid gap-12 lg:grid-cols-[1.2fr_auto] items-center relative z-10">
+          <div class="space-y-8">
+            <span class="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-[0.7rem] font-black text-indigo-700 uppercase tracking-widest ring-1 ring-indigo-100">
+               <span class="material-symbols-outlined text-[18px]">help_center</span> Pusat Pengetahuan Warga
             </span>
-            <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">Pertanyaan Umum (FAQ)</h1>
-            <p class="max-w-2xl text-lg font-medium leading-relaxed text-slate-500">
-              Pertanyaan umum warga dirangkum dalam format yang sederhana agar jawaban penting bisa dibaca cepat dan mudah dicari kembali.
+            <h1 class="hero-title text-gradient !mb-4 leading-none">Pertanyaan Umum (FAQ)</h1>
+            <p class="max-w-2xl text-xl font-bold text-slate-400 leading-relaxed">
+              Temukan jawaban cepat untuk pertanyaan yang sering diajukan mengenai layanan, administrasi, dan kegiatan di Padukuhan Salakan.
             </p>
+            <div class="flex flex-wrap gap-4 pt-4">
+              <a class="inline-flex h-14 items-center gap-3 rounded-full bg-slate-900 px-8 text-sm font-black text-white shadow-xl transition-all hover:bg-blue-600 hover:-translate-y-0.5" href="/data">
+                <span class="material-symbols-outlined text-[20px]">arrow_back</span> Kembali ke Indeks
+              </a>
+              <a class="inline-flex h-14 items-center gap-3 rounded-full bg-white px-8 text-sm font-black text-slate-700 border border-slate-100 shadow-sm hover:shadow-md transition-all" href="/kontak">Ajukan Pertanyaan</a>
+            </div>
           </div>
-          <div class="flex flex-col items-center justify-center rounded-3xl bg-white p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] min-w-[160px]">
-            <span class="material-symbols-outlined text-5xl text-indigo-300 mb-2">live_help</span>
-            <strong class="text-5xl font-black text-slate-900">{items.length}</strong>
-            <span class="mt-1 text-xs font-bold text-slate-400 uppercase tracking-widest">Pertanyaan</span>
+          <div class="flex flex-col items-center justify-center rounded-[2rem] bg-white p-10 shadow-sm border border-slate-100 min-w-[180px]">
+             <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 mb-4 shadow-inner">
+               <span class="material-symbols-outlined text-4xl">live_help</span>
+             </div>
+             <strong class="text-5xl font-black text-slate-900 leading-none">{items.length}</strong>
+             <span class="mt-3 text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em]">Total Topik</span>
           </div>
         </div>
       </div>
 
       {categories.length > 1 && (
-        <div class="flex flex-wrap gap-3">
-          <span class="flex items-center gap-2 text-sm font-bold text-slate-400 uppercase tracking-wider mr-2">
-            <span class="material-symbols-outlined text-[18px]">filter_list</span> Kategori:
+        <div class="flex flex-wrap items-center gap-4 mb-10">
+          <span class="flex items-center gap-2 text-xs font-black text-slate-400 uppercase tracking-[0.2em] mr-2">
+            <span class="material-symbols-outlined text-[18px]">segment</span> Filter Kategori:
           </span>
           {categories.map((cat) => (
-            <span class="inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-600 shadow-sm">{cat}</span>
+            <span class="inline-flex items-center rounded-full bg-white px-6 py-2.5 text-sm font-black text-slate-600 shadow-sm border border-slate-100 transition hover:bg-indigo-600 hover:text-white cursor-default">{cat}</span>
           ))}
         </div>
       )}
 
-      <div class="grid gap-5">
+      <div class="grid gap-6">
         {items.map(({ entry }, idx) => (
-          <article class="group relative rounded-[2rem] bg-white/80 backdrop-blur-3xl p-6 md:p-8 shadow-[0_4px_20px_rgb(0,0,0,0.03)] transition-all hover:shadow-[0_16px_36px_rgb(0,0,0,0.06)] hover:-translate-y-1 overflow-hidden">
+          <article class="group relative rounded-[2.5rem] bg-white p-8 md:p-10 shadow-sm border border-slate-100 transition-all hover:shadow-xl hover:-translate-y-1 overflow-hidden">
             <div class="absolute top-4 right-4 opacity-5 group-hover:opacity-10 transition">
-              <span class="material-symbols-outlined text-7xl">help</span>
+              <span class="material-symbols-outlined text-9xl text-indigo-100">contact_support</span>
             </div>
-            <div class="relative z-10 flex items-start gap-5">
-              <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-100 to-blue-50 text-indigo-600 shadow-inner group-hover:from-indigo-600 group-hover:to-blue-600 group-hover:text-white transition-all">
-                <span class="text-xl font-black">{String(idx + 1).padStart(2, '0')}</span>
+            <div class="relative z-10 flex items-start gap-8">
+              <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 shadow-inner group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
+                <span class="text-2xl font-black">{String(idx + 1).padStart(2, '0')}</span>
               </div>
-              <div class="min-w-0 space-y-3">
-                <div class="flex flex-wrap items-center gap-2">
-                  <span class="inline-flex items-center rounded-full bg-indigo-100 px-3 py-1 text-xs font-bold text-indigo-700">{entry.kategori}</span>
+              <div class="min-w-0 flex-1 space-y-4">
+                <span class="inline-flex items-center rounded-full bg-slate-100 px-4 py-1 text-[0.65rem] font-black text-slate-500 uppercase tracking-widest">{entry.kategori}</span>
+                <h2 class="text-2xl font-black tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors leading-[1.2]">{entry.pertanyaan}</h2>
+                <div class="mt-4 rounded-3xl bg-slate-50/50 p-6 md:p-8 text-lg font-bold text-slate-400 leading-relaxed border border-slate-100/50 group-hover:bg-white group-hover:shadow-sm transition-all italic">
+                   "{entry.jawaban}"
                 </div>
-                <h2 class="text-xl font-extrabold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors md:text-2xl">{entry.pertanyaan}</h2>
-                <p class="text-base font-medium leading-relaxed text-slate-500">{entry.jawaban}</p>
               </div>
             </div>
           </article>
         ))}
       </div>
+    </div>
+  </section>
     </div>
   </section>
 </MainLayout>
