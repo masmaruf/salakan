@@ -5,17 +5,23 @@ import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
 import manualKeystatic from './src/lib/manual-keystatic-integration.mjs';
 
+// Constants for admin path exclusions
+const ADMIN_PATHS = ['/admin', '/keystatic', '/api/keystatic'];
+
+/**
+ * Check if a page should be excluded from sitemap
+ */
+function isAdminPath(pathname) {
+  return ADMIN_PATHS.some((path) => pathname.startsWith(path));
+}
+
 const integrations = [
   react(),
   sitemap({
     filter(page) {
       try {
         const pathname = new URL(page).pathname;
-        return !(
-          pathname.startsWith('/admin') ||
-          pathname.startsWith('/keystatic') ||
-          pathname.startsWith('/api/keystatic')
-        );
+        return !isAdminPath(pathname);
       } catch {
         return true;
       }
@@ -44,8 +50,9 @@ export default defineConfig({
       rollupOptions: {
         output: {
           manualChunks(id) {
-            if (!id.includes('node_modules')) return;
+            if (!id.includes('node_modules')) return undefined;
 
+            // Keystatic and editor dependencies
             if (
               id.includes('@keystatic') ||
               id.includes('@codemirror') ||
@@ -55,6 +62,7 @@ export default defineConfig({
             ) {
               return 'keystatic-core';
             }
+            // React Aria and internationalization
             if (
               id.includes('@react-aria') ||
               id.includes('@react-stately') ||
@@ -62,6 +70,7 @@ export default defineConfig({
             ) {
               return 'keystatic-spectrum';
             }
+            // Markdown processing
             if (
               id.includes('remark') ||
               id.includes('rehype') ||
@@ -72,12 +81,16 @@ export default defineConfig({
             ) {
               return 'keystatic-markdown';
             }
+            // Slate editor
             if (id.includes('slate')) {
               return 'keystatic-slate';
             }
+            // React core libraries
             if (id.includes('/react/') || id.includes('/react-dom/') || id.includes('scheduler')) {
               return 'react-vendor';
             }
+            
+            return undefined;
           },
         },
       },
