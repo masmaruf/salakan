@@ -1,0 +1,42 @@
+---
+import CmsIcon from '../CmsIcon.astro';
+
+interface Props {
+  label: string;
+  href: string;
+  description: string;
+  icon: string;
+}
+
+const { label, href, description, icon } = Astro.props;
+---
+
+<a 
+  href={href} 
+  class="group relative flex flex-col gap-5 rounded-[2.5rem] bg-white/70 backdrop-blur-md p-8 transition-all duration-500 hover:bg-blue-600 hover:shadow-[0_24px_60px_rgba(37,99,235,0.25)] hover:-translate-y-2 border border-slate-100/50"
+>
+  {/* Ikon Latar - Hanya muncul saat dihover */}
+  <div class="absolute top-6 right-6 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none">
+     <CmsIcon name={icon} class="size-24 text-white" />
+  </div>
+
+  {/* Ikon Utama */}
+  <div class="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 shadow-sm transition-all duration-500 group-hover:bg-white/20 group-hover:text-white group-hover:shadow-[0_8px_20px_rgba(0,0,0,0.1)]">
+    <CmsIcon name={icon} class="size-8" />
+  </div>
+
+  {/* Konten Teks */}
+  <div class="relative z-10 mt-2 space-y-3">
+    <h3 class="text-2xl font-black tracking-tight text-slate-900 group-hover:text-white transition-colors duration-300">
+      {label}
+    </h3>
+    <p class="text-sm font-bold leading-relaxed text-slate-400 group-hover:text-blue-100 transition-colors duration-300 line-clamp-3">
+      {description}
+    </p>
+  </div>
+
+  {/* Tombol Akses - Muncul saat dihover */}
+  <div class="relative z-10 mt-auto pt-6 flex items-center text-xs font-black uppercase tracking-widest text-white opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500">
+    Akses Data <span class="material-symbols-outlined ml-2 text-[18px]">arrow_forward</span>
+  </div>
+</a>

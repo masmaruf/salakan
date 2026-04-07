@@ -1,11 +1,12 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import UmkmCatalogApp from '../../components/UmkmCatalogApp.tsx';
 import { getPengaturan, getUmkm } from '../../lib/keystatic';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
-const pengaturan = await getPengaturan();
-const allUmkm = (await getUmkm())
+const [umkmItems, pengaturan] = await Promise.all([getUmkm(), getPengaturan()]);
+const allUmkm = umkmItems
   .filter(({ entry }) => entry.statusPublikasi === 'publish')
   .sort((a, b) => {
     if (a.entry.unggulan !== b.entry.unggulan) return Number(b.entry.unggulan) - Number(a.entry.unggulan);
@@ -28,6 +29,12 @@ const serializedUmkm = allUmkm.map(item => ({
   }
 }));
 
+const breadcrumbItems = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Pusat Data', href: '/data' },
+  { label: 'UMKM Berdaya', active: true },
+];
+
 const seo = pengaturan?.seoHalamanData?.umkm;
 ---
 
@@ -39,33 +46,24 @@ const seo = pengaturan?.seoHalamanData?.umkm;
   <section class="section-premium bg-slate-50/50">
     <div class="container-premium relative z-10">
       
-      {/* Breadcrumb Premium */}
-      <nav class="flex text-sm font-bold text-slate-400 uppercase tracking-[0.2em] mb-8" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center gap-3">
-          <li><a href="/" class="hover:text-blue-600 transition">Beranda</a></li>
-          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
-          <li><a href="/data" class="hover:text-blue-600 transition">Pusat Data</a></li>
-          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
-          <li class="text-blue-700 bg-blue-50 px-3 py-1 rounded-full text-[0.7rem] ring-1 ring-blue-100">UMKM</li>
-        </ol>
-      </nav>
+      <Breadcrumbs items={breadcrumbItems} />
 
-      <div class="card-premium p-8 md:p-12 mb-16">
+      <header class="card-premium p-8 md:p-12 mb-16 border border-white/50">
         <div class="relative z-10 space-y-8">
-          <span class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-2 text-[0.7rem] font-black text-emerald-700 uppercase tracking-widest ring-1 ring-emerald-100">
+          <span class="badge-emerald">
             <span class="material-symbols-outlined text-[18px]">store</span> Penggerak Ekonomi Lokal
           </span>
-          <h1 class="hero-title text-gradient !mb-4 leading-none text-slate-900 md:text-5xl lg:text-6xl">UMKM Berdaya Salakan</h1>
+          <h1 class="hero-title text-gradient !mb-4 leading-none truncate overflow-visible">UMKM Berdaya Salakan</h1>
           <p class="max-w-2xl text-xl font-bold text-slate-400 leading-relaxed">
             Katalog terpadu produk dan jasa unggulan warga. Dukung kemandirian ekonomi kampung dengan mengenal usaha tetangga Anda.
           </p>
           <div class="flex flex-wrap gap-4 pt-4">
-            <a class="inline-flex h-14 items-center gap-3 rounded-full bg-slate-900 px-8 text-sm font-black text-white shadow-xl transition-all hover:bg-blue-600 hover:-translate-y-0.5" href="/data">
+            <a class="btn-premium btn-premium-sm" href="/data">
               <span class="material-symbols-outlined text-[20px]">arrow_back</span> Kembali ke Indeks
             </a>
           </div>
         </div>
-      </div>
+      </header>
 
       <div class="rounded-[3rem] bg-white p-8 md:p-12 shadow-sm border border-slate-100">
         <UmkmCatalogApp client:load initialItems={serializedUmkm} />

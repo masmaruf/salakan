@@ -26,6 +26,19 @@ const sidebarMenus = [
     ]
   }
 ];
+
+// Deteksi Admin
+import { getAdminSession, getSessionCookieName } from '../lib/admin-auth';
+const isAdmin = !!getAdminSession(Astro.cookies.get(getSessionCookieName())?.value);
+if (isAdmin) {
+  sidebarMenus.push({
+    group: "Admin Padukuhan",
+    menus: [
+      { id: 'admin-surat', label: 'Kelola Pengajuan', icon: 'admin_panel_settings', href: '/admin/surat' },
+      { id: 'admin-users', label: 'Manajemen User', icon: 'group_add', href: '/admin/users' },
+    ]
+  });
+}
 ---
 
 <!doctype html>

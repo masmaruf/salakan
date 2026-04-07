@@ -1,12 +1,7 @@
 ---
-import RoleAwareKeystaticApp from '../../components/RoleAwareKeystaticApp';
-import { getAdminSession, getSessionCookieName } from '../../lib/admin-auth';
+import KeystaticApp from '../../components/KeystaticApp';
 
 export const prerender = false;
-
-const sessionCookie = Astro.cookies.get(getSessionCookieName())?.value;
-const session = getAdminSession(sessionCookie);
-const role = session?.role ?? 'editor';
 ---
 
-<RoleAwareKeystaticApp client:only="react" role={role} />
+<KeystaticApp client:only="react" />

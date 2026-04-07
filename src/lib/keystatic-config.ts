@@ -4,7 +4,6 @@ const keystaticConfig = config({
   storage: {
     kind: 'local',
   },
-  locale: 'id-ID',
   ui: {
     brand: {
       name: 'Padukuhan Salakan',
@@ -12,8 +11,9 @@ const keystaticConfig = config({
     navigation: {
       Beranda: ['beranda'],
       Editorial: ['pengumuman', 'kegiatan', 'agenda', 'kategoriBerita', 'galeri'],
-      'Data Kampung': ['dokumen', 'umkm', 'strukturOrganisasi', 'layananWarga', 'faq'],
+      'Data Kampung': ['monografi', 'dokumen', 'umkm', 'strukturOrganisasi', 'layananWarga', 'faq'],
       'Profil & Situs': ['profil', 'pengaturan', 'akunAdmin'],
+      'E-Surat': ['rt'],
       Referensi: ['laboratoriumFieldApi'],
     },
   },
@@ -711,6 +711,42 @@ const keystaticConfig = config({
         }),
       },
     }),
+    rt: collection({
+      label: 'Daftar RT',
+      path: 'src/content/rt/*',
+      format: { data: 'json' },
+      slugField: 'rt_id',
+      schema: {
+        rt_id: fields.slug({
+          name: {
+            label: 'ID RT',
+            description: 'contoh: rt-01, rt-02 — dipakai sebagai slug & kode nomor surat',
+          },
+        }),
+        nomor_rt: fields.text({
+          label: 'Nomor RT',
+          description: 'contoh: 01, 02, 05',
+        }),
+        nama_ketua: fields.text({
+          label: 'Nama Ketua RT',
+          description: 'Nama lengkap ketua RT aktif',
+        }),
+        no_hp_ketua: fields.text({
+          label: 'No. HP/WA Ketua RT',
+          description: 'Untuk notifikasi pengajuan masuk',
+        }),
+        aktif: fields.checkbox({
+          label: 'RT Aktif',
+          description: 'Centang jika RT ini menerima pengajuan',
+          defaultValue: true,
+        }),
+        catatan: fields.text({
+          label: 'Catatan',
+          multiline: true,
+          description: 'Opsional — misal jam layanan, lokasi sekretariat',
+        }),
+      },
+    }),
   },
   singletons: {
     profil: singleton({
@@ -853,6 +889,16 @@ const keystaticConfig = config({
             }),
             ogImage: fields.text({
               label: 'OG image halaman FAQ',
+            }),
+          }),
+          monografi: fields.object({
+            seoTitle: fields.text({ label: 'SEO title halaman Monografi' }),
+            seoDescription: fields.text({
+              label: 'SEO description halaman Monografi',
+              multiline: true,
+            }),
+            ogImage: fields.text({
+              label: 'OG image halaman Monografi',
             }),
           }),
         }),
@@ -1078,6 +1124,72 @@ const keystaticConfig = config({
             label: 'Link tombol kedua penutup',
           }),
         }),
+      },
+    }),
+    monografi: singleton({
+      label: 'Data Monografi',
+      path: 'src/content/singletons/monografi/',
+      entryLayout: 'form',
+      schema: {
+        identitasDukuh: fields.object(
+          {
+            namaDukuh: fields.text({ label: 'Nama Dukuh' }),
+            pendidikan: fields.text({ label: 'Pendidikan Terakhir' }),
+            alamat: fields.text({ label: 'Alamat Dukuh', multiline: true }),
+          },
+          { label: 'Identitas Dukuh' }
+        ),
+        demografi: fields.object(
+          {
+            luasWilayah: fields.text({ label: 'Luas Wilayah', description: 'Contoh: 12.5 Ha' }),
+            jumlahRT: fields.integer({ label: 'Jumlah RT', defaultValue: 3 }),
+            totalJiwa: fields.integer({ label: 'Total Jiwa' }),
+            totalLakiLaki: fields.integer({ label: 'Jumlah Laki-laki' }),
+            totalPerempuan: fields.integer({ label: 'Jumlah Perempuan' }),
+            totalKK: fields.integer({ label: 'Total Kepala Keluarga (KK)' }),
+            kkLakiLaki: fields.integer({ label: 'KK Laki-laki' }),
+            kkPerempuan: fields.integer({ label: 'KK Perempuan' }),
+          },
+          { label: 'Data Demografi & Kependudukan', layout: [4, 4, 4, 4, 4, 4, 6, 6] }
+        ),
+        fasilitas: fields.object(
+          {
+            pendidikan: fields.object(
+              {
+                tkPaud: fields.text({ label: 'TK dan PAUD', defaultValue: '-' }),
+                sd: fields.text({ label: 'SD', defaultValue: '-' }),
+                smp: fields.text({ label: 'SMP', defaultValue: '-' }),
+                smk: fields.text({ label: 'SMK', defaultValue: '-' }),
+                slb: fields.text({ label: 'SLB', defaultValue: '-' }),
+                pkbm: fields.text({ label: 'PKBM', defaultValue: '-' }),
+                universitas: fields.text({ label: 'Sekolah Tinggi/Univ', defaultValue: '-' }),
+              },
+              { label: 'Sarana Pendidikan' }
+            ),
+            kesehatan: fields.object(
+              {
+                puskesmas: fields.text({ label: 'Puskesmas', defaultValue: '-' }),
+                posyanduBalita: fields.text({ label: 'Posyandu Balita', defaultValue: '-' }),
+                posyanduLansia: fields.text({ label: 'Posyandu Lansia', defaultValue: '-' }),
+              },
+              { label: 'Sarana Kesehatan' }
+            ),
+          },
+          { label: 'Fasilitas & Layanan Publik' }
+        ),
+        potensi: fields.object(
+          {
+             seniBudaya: fields.array(fields.text({ label: 'Nama Seni/Budaya' }), {
+                label: 'Daftar Seni & Budaya',
+                itemLabel: (props) => props.value || 'Seni Budaya',
+             }),
+             umkmIndustri: fields.array(fields.text({ label: 'Nama UMKM/Industri' }), {
+                label: 'Daftar UMKM & Industri',
+                itemLabel: (props) => props.value || 'UMKM Industri',
+             }),
+          },
+          { label: 'Potensi & Ekonomi Kreatif' }
+        ),
       },
     }),
     laboratoriumFieldApi: singleton({

@@ -1,0 +1,38 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import AdminSuratList from '../../components/AdminSuratList';
+import { db, Pengajuan, desc } from 'astro:db';
+import { getAdminSession, getSessionCookieName } from '../../lib/admin-auth';
+
+// Proteksi Halaman Admin
+const session = getAdminSession(Astro.cookies.get(getSessionCookieName())?.value);
+if (!session) {
+  return Astro.redirect('/admin/login?next=/admin/surat');
+}
+
+const allPengajuan = await db
+  .select()
+  .from(Pengajuan)
+  .orderBy(desc(Pengajuan.created_at));
+
+const rawData = allPengajuan.map(item => ({
+  ...item,
+  created_at: item.created_at.toISOString() // Serialisasi data untuk React
+}));
+
+---
+
+<DashboardLayout title="Panel Kelola Surat" activeMenu="admin-surat" description="Halaman khusus pengurus untuk manajemen permohonan surat warga.">
+  <div class="flex flex-col gap-4 mb-10">
+    <div class="flex items-center gap-3">
+       <span class="badge-blue px-3 py-1 bg-blue-50 text-blue-600 font-black text-[0.65rem] uppercase tracking-widest">Admin Control</span>
+       <h2 class="text-gradient">Manajemen Pengajuan Warga</h2>
+    </div>
+    <p class="text-base font-medium text-slate-500 max-w-3xl leading-relaxed">
+       Halo, <strong>{session.username}</strong>. Gunakan panel ini untuk memverifikasi data pemohon, 
+       mengubah status pengajuan, dan memberikan catatan penolakan jika berkas tidak lengkap.
+    </p>
+  </div>
+
+  <AdminSuratList client:load initialData={rawData} />
+</DashboardLayout>

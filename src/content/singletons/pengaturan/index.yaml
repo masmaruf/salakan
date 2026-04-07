@@ -5,7 +5,8 @@ alamat: |
 kontakWhatsApp: '6283867181105'
 email: info@padukuhansalakan.id
 jamLayanan: Senin-Ahad, 24Jam
-linkPeta: https://www.google.com/maps?q=-7.8,110.36&z=15&output=embed
+linkPeta: >-
+  https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1397.4383617790154!2d110.29192954961819!3d-7.83708637015088!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sid!2sid!4v1775009284501!5m2!1sid!2sid
 sambutanBeranda: >
   Selamat datang di website Padukuhan Salakan. Portal ini disiapkan untuk
   membantu warga memperoleh pengumuman, agenda, dan dokumentasi kegiatan secara
@@ -14,54 +15,65 @@ seoHalamanData:
   dataUtama:
     seoTitle: Data Kampung
     seoDescription: Pusat akses data, dokumen, UMKM, dan informasi kampung Padukuhan Salakan.
-    ogImage: ''
   pengumuman:
     seoTitle: Pengumuman Warga
-    seoDescription: Halaman data pengumuman untuk melihat informasi aktif warga Padukuhan Salakan dari Keystatic.
-    ogImage: ''
+    seoDescription: >-
+      Halaman data pengumuman untuk melihat informasi aktif warga Padukuhan
+      Salakan dari Keystatic.
   dokumen:
     seoTitle: Dokumen Warga
-    seoDescription: Halaman dokumen warga untuk arsip layanan, format surat, dan dokumen publik Padukuhan Salakan.
-    ogImage: ''
+    seoDescription: >-
+      Halaman dokumen warga untuk arsip layanan, format surat, dan dokumen
+      publik Padukuhan Salakan.
   umkm:
     seoTitle: UMKM Warga
     seoDescription: Katalog UMKM dan potensi ekonomi warga Padukuhan Salakan.
-    ogImage: ''
   strukturOrganisasi:
     seoTitle: Struktur Organisasi
     seoDescription: Halaman struktur organisasi dan peran layanan Padukuhan Salakan.
-    ogImage: ''
   agenda:
     seoTitle: Agenda Warga
-    seoDescription: Jadwal kegiatan dan agenda warga Padukuhan Salakan yang sedang berjalan dan akan datang.
-    ogImage: ''
+    seoDescription: >-
+      Jadwal kegiatan dan agenda warga Padukuhan Salakan yang sedang berjalan
+      dan akan datang.
   layananWarga:
     seoTitle: Layanan Warga
-    seoDescription: Informasi layanan warga, syarat, langkah, dan kontak layanan Padukuhan Salakan.
-    ogImage: ''
+    seoDescription: >-
+      Informasi layanan warga, syarat, langkah, dan kontak layanan Padukuhan
+      Salakan.
   faq:
     seoTitle: FAQ Warga
-    seoDescription: Pertanyaan yang sering diajukan warga Padukuhan Salakan beserta jawabannya.
-    ogImage: ''
+    seoDescription: >-
+      Pertanyaan yang sering diajukan warga Padukuhan Salakan beserta
+      jawabannya.
+  monografi:
+    seoTitle: Monografi Padukuhan
+    seoDescription: Data resmi monografi, kependudukan, dan fasilitas Padukuhan Salakan.
 menuData:
   title: Data & Informasi Kampung
   description: >
     Halaman ini disiapkan sebagai pusat akses menuju data padukuhan, dokumen,
-    informasi UMKM, penerima bantuan, profil wilayah, dan struktur organisasi.
+    informasi UMKM, profil wilayah, dan struktur organisasi.
   items:
     - label: Pengumuman
       href: /data/pengumuman
-      description: Pengumuman aktif padukuhan yang dapat dibaca cepat dari satu halaman data.
+      description: >-
+        Pengumuman aktif padukuhan yang dapat dibaca cepat dari satu halaman
+        data.
       icon: campaign
       status: tampil
     - label: Dokumen
       href: /data/dokumen
-      description: Arsip surat, format layanan, dan dokumen publik yang dapat diakses warga.
+      description: >-
+        Arsip surat, format layanan, dan dokumen publik yang dapat diakses
+        warga.
       icon: description
       status: tampil
     - label: UMKM
       href: /data/umkm
-      description: Daftar usaha warga, produk unggulan, dan potensi ekonomi lokal padukuhan.
+      description: >-
+        Daftar usaha warga, produk unggulan, dan potensi ekonomi lokal
+        padukuhan.
       icon: storefront
       status: tampil
     - label: Struktur Organisasi
@@ -71,16 +83,25 @@ menuData:
       status: tampil
     - label: Agenda
       href: /data/agenda
-      description: Jadwal kegiatan warga dan agenda padukuhan yang sedang atau akan berjalan.
+      description: >-
+        Jadwal kegiatan warga dan agenda padukuhan yang sedang atau akan
+        berjalan.
       icon: event
       status: tampil
     - label: Layanan Warga
       href: /data/layanan-warga
-      description: Informasi layanan warga, syarat, langkah, dan kontak yang bisa dihubungi.
+      description: >-
+        Informasi layanan warga, syarat, langkah, dan kontak yang bisa
+        dihubungi.
       icon: description
       status: tampil
     - label: FAQ
       href: /data/faq
       description: Daftar pertanyaan umum warga yang bisa dibaca cepat dari satu halaman.
       icon: contact_support
+      status: tampil
+    - label: Monografi
+      href: /data/monografi
+      description: Statistik demografi, kependudukan, dan profil wilayah resmi dari Dukuh.
+      icon: analytics
       status: tampil

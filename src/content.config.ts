@@ -227,59 +227,19 @@ const pengaturan = defineCollection({
     kontakWhatsApp: z.string().min(1),
     email: z.string().email(),
     jamLayanan: z.string().min(1),
-    linkPeta: z.union([z.string().url(), z.literal('')]),
+    linkPeta: z.string().default(''),
     sambutanBeranda: z.string().min(1),
     seoHalamanData: z.object({
-      dataUtama: z.object({
-        seoTitle: z.string().default(''),
-        seoDescription: z.string().default(''),
-        ogImage: z.string().default(''),
-      }),
-      pengumuman: z.object({
-        seoTitle: z.string().default(''),
-        seoDescription: z.string().default(''),
-        ogImage: z.string().default(''),
-      }),
-      dokumen: z.object({
-        seoTitle: z.string().default(''),
-        seoDescription: z.string().default(''),
-        ogImage: z.string().default(''),
-      }),
-      umkm: z.object({
-        seoTitle: z.string().default(''),
-        seoDescription: z.string().default(''),
-        ogImage: z.string().default(''),
-      }),
-      strukturOrganisasi: z.object({
-        seoTitle: z.string().default(''),
-        seoDescription: z.string().default(''),
-        ogImage: z.string().default(''),
-      }),
-      agenda: z.object({
-        seoTitle: z.string().default(''),
-        seoDescription: z.string().default(''),
-        ogImage: z.string().default(''),
-      }),
-      layananWarga: z.object({
-        seoTitle: z.string().default(''),
-        seoDescription: z.string().default(''),
-        ogImage: z.string().default(''),
-      }),
-      faq: z.object({
-        seoTitle: z.string().default(''),
-        seoDescription: z.string().default(''),
-        ogImage: z.string().default(''),
-      }),
-    }).default({
-      dataUtama: { seoTitle: '', seoDescription: '', ogImage: '' },
-      pengumuman: { seoTitle: '', seoDescription: '', ogImage: '' },
-      dokumen: { seoTitle: '', seoDescription: '', ogImage: '' },
-      umkm: { seoTitle: '', seoDescription: '', ogImage: '' },
-      strukturOrganisasi: { seoTitle: '', seoDescription: '', ogImage: '' },
-      agenda: { seoTitle: '', seoDescription: '', ogImage: '' },
-      layananWarga: { seoTitle: '', seoDescription: '', ogImage: '' },
-      faq: { seoTitle: '', seoDescription: '', ogImage: '' },
-    }),
+      dataUtama: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
+      pengumuman: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
+      dokumen: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
+      umkm: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
+      strukturOrganisasi: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
+      agenda: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
+      layananWarga: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
+      faq: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
+      monografi: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
+    }).default({}),
     menuData: z.object({
       title: z.string().min(1),
       description: z.string().min(1),
@@ -368,6 +328,47 @@ const beranda = defineCollection({
   }),
 });
 
+const monografi = defineCollection({
+  loader: glob({ pattern: 'index.yaml', base: './src/content/singletons/monografi' }),
+  schema: z.object({
+    identitasDukuh: z.object({
+      namaDukuh: z.string().min(1),
+      pendidikan: z.string().min(1),
+      alamat: z.string().min(1),
+    }),
+    demografi: z.object({
+      luasWilayah: z.string().min(1),
+      jumlahRT: z.number().int(),
+      totalJiwa: z.number().int(),
+      totalLakiLaki: z.number().int(),
+      totalPerempuan: z.number().int(),
+      totalKK: z.number().int(),
+      kkLakiLaki: z.number().int(),
+      kkPerempuan: z.number().int(),
+    }),
+    fasilitas: z.object({
+      pendidikan: z.object({
+        tkPaud: z.string().default('-'),
+        sd: z.string().default('-'),
+        smp: z.string().default('-'),
+        smk: z.string().default('-'),
+        slb: z.string().default('-'),
+        pkbm: z.string().default('-'),
+        universitas: z.string().default('-'),
+      }),
+      kesehatan: z.object({
+        puskesmas: z.string().default('-'),
+        posyanduBalita: z.string().default('-'),
+        posyanduLansia: z.string().default('-'),
+      }),
+    }),
+    potensi: z.object({
+      seniBudaya: z.array(z.string()).default([]),
+      umkmIndustri: z.array(z.string()).default([]),
+    }),
+  }),
+});
+
 export const collections = {
   pengumuman,
   dokumen,
@@ -383,4 +384,6 @@ export const collections = {
   pengaturan,
   akunAdmin,
   beranda,
+  monografi,
 };
+ 

@@ -1,12 +1,14 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
+import db from '@astrojs/db';
 import vercel from '@astrojs/vercel';
 import tailwindcss from '@tailwindcss/vite';
 import manualKeystatic from './src/lib/manual-keystatic-integration.mjs';
 
 const integrations = [
   react(),
+  db(),
   sitemap({
     filter(page) {
       try {
@@ -29,7 +31,10 @@ if (process.env.SKIP_KEYSTATIC !== 'true') {
 
 export default defineConfig({
   site: 'https://salakan-rose.vercel.app',
-  adapter: vercel(),
+  output: 'server',
+  adapter: vercel({
+    webAnalytics: { enabled: true }
+  }),
   integrations,
   security: {
     checkOrigin: false,

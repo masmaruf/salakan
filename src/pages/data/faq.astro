@@ -1,6 +1,6 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import CmsIcon from '../../components/CmsIcon.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import { getFaq, getPengaturan } from '../../lib/keystatic';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
@@ -8,7 +8,13 @@ const [faqItems, pengaturan] = await Promise.all([getFaq(), getPengaturan()]);
 const seo = pengaturan?.seoHalamanData?.faq;
 const items = faqItems
   .filter(({ entry }) => entry.statusTampil === 'tampil')
-  .sort((a, b) => a.entry.urutan - b.entry.urutan);
+  .sort((a, b) => a.entry.pertanyaan.localeCompare(b.entry.pertanyaan, 'id'));
+
+const breadcrumbItems = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Pusat Data', href: '/data' },
+  { label: 'FAQ Warga', active: true },
+];
 
 const categories = [...new Set(items.map(({ entry }) => entry.kategori))];
 ---
@@ -21,43 +27,25 @@ const categories = [...new Set(items.map(({ entry }) => entry.kategori))];
   <section class="section-premium bg-slate-50/50">
     <div class="container-premium relative z-10">
       
-      {/* Breadcrumb Premium */}
-      <nav class="flex text-sm font-bold text-slate-400 uppercase tracking-[0.2em] mb-8" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center gap-3">
-          <li><a href="/" class="hover:text-blue-600 transition">Beranda</a></li>
-          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
-          <li><a href="/data" class="hover:text-blue-600 transition">Pusat Data</a></li>
-          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
-          <li class="text-blue-700 bg-blue-50 px-3 py-1 rounded-full text-[0.7rem] ring-1 ring-blue-100">Bantuan (FAQ)</li>
-        </ol>
-      </nav>
+      <Breadcrumbs items={breadcrumbItems} />
 
-      <div class="card-premium p-8 md:p-12 mb-16">
-        <div class="grid gap-12 lg:grid-cols-[1.2fr_auto] items-center relative z-10">
-          <div class="space-y-8">
-            <span class="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-[0.7rem] font-black text-indigo-700 uppercase tracking-widest ring-1 ring-indigo-100">
-               <span class="material-symbols-outlined text-[18px]">help_center</span> Pusat Pengetahuan Warga
-            </span>
-            <h1 class="hero-title text-gradient !mb-4 leading-none">Pertanyaan Umum (FAQ)</h1>
-            <p class="max-w-2xl text-xl font-bold text-slate-400 leading-relaxed">
-              Temukan jawaban cepat untuk pertanyaan yang sering diajukan mengenai layanan, administrasi, dan kegiatan di Padukuhan Salakan.
-            </p>
-            <div class="flex flex-wrap gap-4 pt-4">
-              <a class="inline-flex h-14 items-center gap-3 rounded-full bg-slate-900 px-8 text-sm font-black text-white shadow-xl transition-all hover:bg-blue-600 hover:-translate-y-0.5" href="/data">
-                <span class="material-symbols-outlined text-[20px]">arrow_back</span> Kembali ke Indeks
-              </a>
-              <a class="inline-flex h-14 items-center gap-3 rounded-full bg-white px-8 text-sm font-black text-slate-700 border border-slate-100 shadow-sm hover:shadow-md transition-all" href="/kontak">Ajukan Pertanyaan</a>
-            </div>
-          </div>
-          <div class="flex flex-col items-center justify-center rounded-[2rem] bg-white p-10 shadow-sm border border-slate-100 min-w-[180px]">
-             <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 mb-4 shadow-inner">
-               <span class="material-symbols-outlined text-4xl">live_help</span>
-             </div>
-             <strong class="text-5xl font-black text-slate-900 leading-none">{items.length}</strong>
-             <span class="mt-3 text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em]">Total Topik</span>
+      <header class="card-premium p-8 md:p-12 mb-16 border border-white/50">
+        <div class="relative z-10 space-y-8">
+          <span class="badge-blue">
+             <span class="material-symbols-outlined text-[18px]">contact_support</span> Pusat Bantuan Warga
+          </span>
+          <h1 class="hero-title text-gradient !mb-4 leading-none truncate overflow-visible">Tanya & Jawab (FAQ)</h1>
+          <p class="max-w-2xl text-xl font-bold text-slate-400 leading-relaxed">
+            Daftar pertanyaan yang sering diajukan warga mengenai layanan, administrasi, dan informasi umum Padukuhan Salakan.
+          </p>
+          <div class="flex flex-wrap gap-4 pt-4">
+            <a class="inline-flex h-14 items-center gap-3 rounded-full bg-slate-900 px-8 text-sm font-black text-white shadow-xl transition-all hover:bg-blue-600 hover:-translate-y-0.5" href="/data">
+              <span class="material-symbols-outlined text-[20px]">arrow_back</span> Kembali ke Indeks
+            </a>
+            <a class="inline-flex h-14 items-center gap-3 rounded-full bg-white px-8 text-sm font-black text-slate-700 border border-slate-100 shadow-sm hover:shadow-md transition-all" href="/kontak">Ajukan Pertanyaan</a>
           </div>
         </div>
-      </div>
+      </header>
 
       {categories.length > 1 && (
         <div class="flex flex-wrap items-center gap-4 mb-10">

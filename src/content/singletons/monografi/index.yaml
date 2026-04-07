@@ -1,0 +1,38 @@
+identitasDukuh:
+  namaDukuh: "Ma'ruf Cahyadi"
+  pendidikan: "SMA Sederajat"
+  alamat: "Salakan RT 03"
+demografi:
+  luasWilayah: "-"
+  jumlahRT: 3
+  totalJiwa: 683
+  totalLakiLaki: 343
+  totalPerempuan: 340
+  totalKK: 223
+  kkLakiLaki: 197
+  kkPerempuan: 26
+fasilitas:
+  pendidikan:
+    tkPaud: "1 buah"
+    sd: "-"
+    smp: "-"
+    smk: "-"
+    slb: "-"
+    pkbm: "-"
+    universitas: "-"
+  kesehatan:
+    puskesmas: "-"
+    posyanduBalita: "1 buah"
+    posyanduLansia: "1 buah"
+potensi:
+  seniBudaya:
+    - "Jathilan"
+    - "Kethoprak"
+    - "Gejog Lesung"
+    - "Hadroh"
+    - "Karawitan"
+  umkmIndustri:
+    - "Pabrik Matcha"
+    - "HandyCraft"
+    - "Kerajinan Bambu"
+    - "UMKM Kuliner"

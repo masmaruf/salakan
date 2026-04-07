@@ -1,16 +1,25 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import { formatTanggal, getDokumen, getPengaturan, sortByDateDesc } from '../../lib/keystatic';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import { formatTanggal, getDokumen, getPengaturan } from '../../lib/keystatic';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
-const pengaturan = await getPengaturan();
-const dokumen = (await getDokumen())
+const [dokumenItems, pengaturan] = await Promise.all([getDokumen(), getPengaturan()]);
+const seo = pengaturan?.seoHalamanData?.dokumen;
+const dokumen = dokumenItems
   .filter(({ entry }) => entry.statusPublikasi === 'publish')
   .sort((a, b) => {
     if (a.entry.unggulan !== b.entry.unggulan) return Number(b.entry.unggulan) - Number(a.entry.unggulan);
     if (a.entry.urutanTampil !== b.entry.urutanTampil) return a.entry.urutanTampil - b.entry.urutanTampil;
     return new Date(b.entry.tanggalUpdate).getTime() - new Date(a.entry.tanggalUpdate).getTime();
   });
+
+const breadcrumbItems = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Pusat Data', href: '/data' },
+  { label: 'Arsip Dokumen', active: true },
+];
+
 const kategoriLabels = {
   layanan: 'Layanan Warga',
   arsip: 'Arsip Publik',
@@ -18,7 +27,6 @@ const kategoriLabels = {
   regulasi: 'Regulasi',
 } as const;
 const totalKategori = new Set(dokumen.map(({ entry }) => entry.kategori)).size;
-const seo = pengaturan?.seoHalamanData?.dokumen;
 ---
 
 <MainLayout
@@ -29,34 +37,6 @@ const seo = pengaturan?.seoHalamanData?.dokumen;
   <section class="section-premium bg-slate-50/50">
     <div class="container-premium relative z-10">
       
-      {/* Breadcrumb Premium */}
-      <nav class="flex text-sm font-bold text-slate-400 uppercase tracking-[0.2em] mb-8" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center gap-3">
-          <li><a href="/" class="hover:text-blue-600 transition">Beranda</a></li>
-          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
-          <li><a href="/data" class="hover:text-blue-600 transition">Pusat Data</a></li>
-          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
-          <li class="text-blue-700 bg-blue-50 px-3 py-1 rounded-full text-[0.7rem] ring-1 ring-blue-100">Dokumen</li>
-        </ol>
-      </nav>
-
-      <div class="card-premium p-8 md:p-12 mb-16">
-        <div class="grid gap-12 lg:grid-cols-[1.2fr_auto] items-center relative z-10">
-          <div class="space-y-8">
-            <span class="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 text-[0.7rem] font-black text-blue-700 uppercase tracking-widest ring-1 ring-blue-100">
-               <span class="material-symbols-outlined text-[18px]">folder_managed</span> Arsip Kepegawaian & Publik
-            </span>
-            <h1 class="hero-title text-gradient !mb-4 leading-none">Pusat Dokumen Resmi</h1>
-            <p class="max-w-2xl text-xl font-bold text-slate-400 leading-relaxed">
-              Akses cepat berkas administratif, regulasi desa, dan formulir layanan publik yang dapat diunduh secara cuma-cuma.
-            </p>
-            <div class="flex flex-wrap gap-4 pt-4">
-              <a class="inline-flex h-14 items-center gap-3 rounded-full bg-slate-900 px-8 text-sm font-black text-white shadow-xl transition-all hover:bg-blue-600 hover:-translate-y-0.5" href="/data">
-                <span class="material-symbols-outlined text-[20px]">arrow_back</span> Kembali ke Indeks
-              </a>
-              <a class="inline-flex h-14 items-center gap-3 rounded-full bg-white px-8 text-sm font-black text-slate-700 border border-slate-100 shadow-sm hover:shadow-md transition-all" href="/kontak">Bantuan Dokumen</a>
-            </div>
-          </div>
           <div class="flex gap-4 lg:flex-col xl:flex-row">
             <div class="flex flex-col items-center justify-center rounded-[2rem] bg-white p-8 shadow-sm border border-slate-100 min-w-[160px]">
               <strong class="text-5xl font-black text-slate-900 leading-none">{dokumen.length}</strong>

@@ -231,6 +231,10 @@ export async function getPengaturan() {
   return (await getEntry('pengaturan', 'index'))?.data ?? null;
 }
 
+export async function getMonografi() {
+  return (await getEntry('monografi', 'index'))?.data ?? null;
+}
+
 export async function getBeranda() {
   return (await getEntry('beranda', 'index'))?.data ?? null;
 }
@@ -256,3 +260,4 @@ export function excerpt(text: string, maxLength = 140) {
   if (text.length <= maxLength) return text;
   return `${text.slice(0, maxLength).trim()}...`;
 }
+ 
