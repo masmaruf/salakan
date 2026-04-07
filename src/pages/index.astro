@@ -64,13 +64,13 @@ const heroStats = [
 
 <MainLayout>
   {/* Hero Section Borderless dengan Ornamen Gradasi Besar */}
-  <section class="section-premium !pt-28 !pb-20 bg-slate-50/50">
-    <div class="container-premium relative z-10 grid gap-16 lg:grid-cols-[minmax(0,1.2fr)_minmax(360px,0.8fr)] lg:items-center">
-      <div class="flex flex-col items-start gap-8 py-6">
-        <span class="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[0.75rem] font-black tracking-widest shadow-sm text-blue-700 uppercase border border-blue-100/50">
-          <span class="relative flex h-2.5 w-2.5">
+  <section class="section-premium !pt-20 !pb-16 bg-slate-50/50">
+    <div class="container-premium relative z-10 grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-center">
+      <div class="flex flex-col items-start gap-6 py-4">
+        <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[0.65rem] font-semibold tracking-wide shadow-sm text-blue-700 uppercase border border-blue-100/50">
+          <span class="relative flex h-2 w-2">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-600"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
           </span>
           {heroSection?.eyebrow ?? 'Portal Resmi Padukuhan'}
         </span>
@@ -78,45 +78,45 @@ const heroStats = [
         <h1 class="hero-title text-gradient !mb-2 drop-shadow-sm">
           {heroSection?.title ?? 'Pusat Informasi Warga Salakan'}
         </h1>
-        <p class="max-w-xl text-lg lg:text-xl font-medium leading-relaxed text-slate-600">
+        <p class="max-w-xl text-base sm:text-lg font-normal leading-relaxed text-slate-600">
           {heroSection?.intro ??
             pengaturan?.sambutanBeranda ??
             'Sistem informasi terpadu yang menyajikan pengumuman, agenda, dokumentasi, dan pelayanan administrasi secara transparan.'}
         </p>
-        <div class="mt-4 flex flex-wrap gap-4">
+        <div class="mt-2 flex flex-wrap gap-3">
           <a class="btn-premium" href={heroSection?.primaryCtaHref ?? '/data/pengumuman'}>
-            <span class="material-symbols-outlined text-[20px]">touch_app</span>
+            <span class="material-symbols-outlined text-[18px]">touch_app</span>
             {heroSection?.primaryCtaLabel ?? 'Layanan Warga'}
           </a>
           <a class="btn-premium-outline" href={heroSection?.secondaryCtaHref ?? '/profil'}>
-            <span class="material-symbols-outlined text-[20px]">account_balance</span>
+            <span class="material-symbols-outlined text-[18px]">account_balance</span>
             {heroSection?.secondaryCtaLabel ?? 'Profil Desa'}
           </a>
         </div>
         
-        <div class="mt-4 flex w-full items-center gap-8 pt-8 border-t border-slate-200/50">
+        <div class="mt-2 flex w-full items-center gap-6 pt-6 border-t border-slate-200/50">
           {heroStats.map((stat) => (
             <div class="flex flex-col items-start group">
-              <strong class="text-3xl font-black bg-gradient-to-r from-blue-600 to-emerald-500 bg-clip-text text-transparent">{stat.value}</strong>
+              <strong class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-emerald-500 bg-clip-text text-transparent">{stat.value}</strong>
               <span class="mt-1 text-label">{stat.label}</span>
             </div>
           ))}
         </div>
       </div>
 
-      <aside class="flex flex-col gap-4 relative">
-        <div class="absolute -right-10 top-1/2 -z-10 h-64 w-64 -translate-y-1/2 rounded-full bg-gradient-to-br from-blue-400/20 to-purple-400/20 blur-3xl"></div>
+      <aside class="flex flex-col gap-3 relative">
+        <div class="absolute -right-8 top-1/2 -z-10 h-48 w-48 -translate-y-1/2 rounded-full bg-gradient-to-br from-blue-400/15 to-purple-400/15 blur-3xl"></div>
         {quickLinks.map((item, id) => (
-          <a class="group card-premium !p-5 flex items-center gap-5" href={item.href}>
-             <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-emerald-50 text-blue-600 group-hover:from-blue-600 group-hover:to-blue-500 group-hover:text-white transition-all shadow-inner border border-white/50">
-               <CmsIcon name={item.icon} class="size-7" />
+          <a class="group card-premium !p-4 flex items-center gap-4" href={item.href}>
+             <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-blue-50 to-emerald-50 text-blue-600 group-hover:from-blue-600 group-hover:to-blue-500 group-hover:text-white transition-all shadow-inner border border-white/50">
+               <CmsIcon name={item.icon} class="size-6" />
              </div>
-             <div class="flex flex-col">
-               <strong class="text-lg font-black text-slate-900 group-hover:text-blue-700 transition-colors">{item.title}</strong>
-               <span class="mt-0.5 text-sm font-bold text-slate-400 line-clamp-1">{item.description}</span>
+             <div class="flex flex-col min-w-0">
+               <strong class="text-base sm:text-lg font-semibold text-slate-900 group-hover:text-blue-700 transition-colors truncate">{item.title}</strong>
+               <span class="mt-0.5 text-xs sm:text-sm font-medium text-slate-400 line-clamp-1">{item.description}</span>
              </div>
              <div class="ml-auto opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-blue-600">
-                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
              </div>
           </a>
         ))}

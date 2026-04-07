@@ -2,31 +2,31 @@
 const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-slate-200 bg-slate-50/50 pt-16 pb-12">
+<footer class="border-t border-slate-200 bg-slate-50/50 pt-12 pb-8">
   <div class="container-premium">
-    <div class="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr]">
-      <div class="space-y-6">
-        <div class="flex items-center gap-3">
-          <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 font-bold text-white shadow-md">PS</span>
-          <span class="text-xl font-black tracking-tight text-slate-900">Padukuhan Salakan</span>
+    <div class="grid gap-8 sm:gap-10 lg:grid-cols-[1.5fr_1fr_1fr_1.2fr]">
+      <div class="space-y-4 sm:space-y-5">
+        <div class="flex items-center gap-2.5">
+          <span class="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg sm:rounded-xl bg-slate-900 font-bold text-white shadow-sm">PS</span>
+          <span class="text-lg sm:text-xl font-bold tracking-tight text-slate-900">Padukuhan Salakan</span>
         </div>
         <p class="max-w-xs text-sm font-medium leading-relaxed text-slate-500">
           Pusat layanan digital dan informasi terpadu untuk warga Salakan. Berkomitmen pada transparansi dan pelayanan publik yang prima.
         </p>
-        <div class="flex gap-4">
+        <div class="flex gap-3">
            {/* Placeholder Social Icons */}
-           <a href="#" class="grid h-10 w-10 place-items-center rounded-full bg-white text-slate-400 shadow-sm transition hover:bg-blue-600 hover:text-white">
-             <span class="material-symbols-outlined text-[20px]">hub</span>
+           <a href="#" class="grid h-9 w-9 place-items-center rounded-full bg-white text-slate-400 shadow-sm transition hover:bg-blue-600 hover:text-white">
+             <span class="material-symbols-outlined text-[18px]">hub</span>
            </a>
-           <a href="#" class="grid h-10 w-10 place-items-center rounded-full bg-white text-slate-400 shadow-sm transition hover:bg-blue-400 hover:text-white">
-             <span class="material-symbols-outlined text-[20px]">public</span>
+           <a href="#" class="grid h-9 w-9 place-items-center rounded-full bg-white text-slate-400 shadow-sm transition hover:bg-blue-400 hover:text-white">
+             <span class="material-symbols-outlined text-[18px]">public</span>
            </a>
         </div>
       </div>
 
-      <div class="space-y-6">
-        <h3 class="text-sm font-black uppercase tracking-[0.2em] text-slate-900">Navigasi</h3>
-        <nav class="grid gap-3 text-sm font-bold text-slate-500">
+      <div class="space-y-4 sm:space-y-5">
+        <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-900">Navigasi</h3>
+        <nav class="grid gap-2.5 text-sm font-medium text-slate-500">
           <a class="transition hover:text-blue-600" href="/profil">Profil Kampung</a>
           <a class="transition hover:text-blue-600" href="/berita">Berita & Kabar</a>
           <a class="transition hover:text-blue-600" href="/data">Pusat Data</a>
@@ -34,9 +34,9 @@ const year = new Date().getFullYear();
         </nav>
       </div>
 
-      <div class="space-y-6">
-        <h3 class="text-sm font-black uppercase tracking-[0.2em] text-slate-900">Layanan</h3>
-        <nav class="grid gap-3 text-sm font-bold text-slate-500">
+      <div class="space-y-4 sm:space-y-5">
+        <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-900">Layanan</h3>
+        <nav class="grid gap-2.5 text-sm font-medium text-slate-500">
           <a class="transition hover:text-blue-600" href="/data/layanan-warga">Layanan Mandiri</a>
           <a class="transition hover:text-blue-600" href="/dasbor">Dasbor Warga</a>
           <a class="transition hover:text-blue-600" href="/kontak">Hubungi Pengurus</a>
@@ -44,30 +44,30 @@ const year = new Date().getFullYear();
         </nav>
       </div>
 
-      <div class="space-y-6">
-        <h3 class="text-sm font-black uppercase tracking-[0.2em] text-slate-900">Kontak Resmi</h3>
-        <div class="space-y-4 text-sm font-medium text-slate-500">
-           <div class="flex gap-3">
-             <span class="material-symbols-outlined text-blue-600 text-[20px]">location_on</span>
+      <div class="space-y-4 sm:space-y-5">
+        <h3 class="text-xs font-semibold uppercase tracking-wide text-slate-900">Kontak Resmi</h3>
+        <div class="space-y-3 text-sm font-medium text-slate-500">
+           <div class="flex gap-2.5">
+             <span class="material-symbols-outlined text-blue-600 text-[18px]">location_on</span>
              <p>Jl. Utama Salakan, Kec. Sewon, Bantul, DIY 55188</p>
            </div>
-           <div class="flex gap-3">
-             <span class="material-symbols-outlined text-emerald-600 text-[20px]">call</span>
+           <div class="flex gap-2.5">
+             <span class="material-symbols-outlined text-emerald-600 text-[18px]">call</span>
              <p>0812-3456-7890 (WA Admin)</p>
            </div>
-           <div class="flex gap-3">
-             <span class="material-symbols-outlined text-amber-600 text-[20px]">mail</span>
+           <div class="flex gap-2.5">
+             <span class="material-symbols-outlined text-amber-600 text-[18px]">mail</span>
              <p>halo@salakan.id</p>
            </div>
         </div>
       </div>
     </div>
     
-    <div class="mt-16 flex flex-col items-center justify-between gap-6 border-t border-slate-200 pt-8 md:flex-row">
+    <div class="mt-10 sm:mt-12 flex flex-col items-center justify-between gap-4 sm:gap-6 border-t border-slate-200 pt-6 sm:pt-8 md:flex-row">
       <p class="text-sm font-medium text-slate-400">
         &copy; {year} Padukuhan Salakan. Crafted with <span class="text-rose-500">♥</span> for the community.
       </p>
-      <div class="flex items-center gap-6 text-xs font-bold uppercase tracking-widest text-slate-400">
+      <div class="flex items-center gap-4 sm:gap-6 text-xs font-semibold uppercase tracking-wide text-slate-400">
          <a href="#" class="hover:text-slate-900">Kebijakan Privasi</a>
          <a href="#" class="hover:text-slate-900">Ketentuan Layanan</a>
       </div>
