@@ -6,19 +6,15 @@ import { resolveSeoImage, resolveSeoText, toAbsoluteUrl, withSiteTitle } from '.
 import { formatTanggal, getKegiatan, getKategoriBeritaMap } from '../../lib/keystatic';
 import NewsGrid from '../../components/NewsGrid.astro';
 
-export async function getStaticPaths() {
-  const items = await getKegiatan();
-  return items
-    .filter((item) => item.entry?.statusPublikasi === 'publish')
-    .map((item) => ({
-      params: { slug: item.slug },
-      props: { item: { slug: item.slug, entry: item.entry! } },
-    }));
+const { slug } = Astro.params;
+const [categoryLabels, allKegiatan] = await Promise.all([getKategoriBeritaMap(), getKegiatan()]);
+
+const item = allKegiatan.find((k) => k.slug === slug && k.entry?.statusPublikasi === 'publish');
+if (!item) {
+  return Astro.redirect('/404');
 }
 
-const { item } = Astro.props;
 const { entry } = item;
-const [categoryLabels, allKegiatan] = await Promise.all([getKategoriBeritaMap(), getKegiatan()]);
 const articleHtml = marked.parse(entry.isi || '', { breaks: true }) as string;
 const articleUrl = toAbsoluteUrl(`/berita/${item.slug}`);
 const seoTitle = withSiteTitle(resolveSeoText(entry.seoTitle, entry.judul));
@@ -231,9 +227,6 @@ const relatedArticles = allKegiatan
             <NewsGrid items={relatedArticles.map(a => ({ slug: a.slug, entry: a.entry as any }))} compact={true} />
           </section>
         )}
-      </article>
-    </div>
-  </section>
       </article>
     </div>
   </section>
