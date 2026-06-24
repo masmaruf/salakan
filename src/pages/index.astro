@@ -1,295 +1,343 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
-import SectionHeading from '../components/SectionHeading.astro';
 import {
   getBeranda,
-  getGaleri,
-  getKegiatan,
-  getPengaturan,
   getPengumuman,
-  getProfil,
-  getKategoriBeritaMap,
+  getKegiatan,
+  getGaleri,
   formatTanggal,
   sortByDateDesc,
 } from '../lib/keystatic';
 
-const [categoryLabels, profil, pengaturan, beranda, pengumumanItems, kegiatanItems, galeriItems] = await Promise.all([
-  getKategoriBeritaMap(),
-  getProfil(),
-  getPengaturan(),
+// Ambil data yang diperlukan
+const [beranda, pengumumanItems, kegiatanItems, galeriItems] = await Promise.all([
   getBeranda(),
   getPengumuman(),
   getKegiatan(),
   getGaleri(),
 ]);
 
+// Proses pengumuman (ambil 2 terbaru)
 const pengumuman = sortByDateDesc(
   pengumumanItems
     .filter((item) => item.entry?.statusPublikasi === 'publish')
     .map((item) => ({ slug: item.slug, entry: item.entry! }))
-)
-  .sort((a, b) => Number(b.entry.unggulan) - Number(a.entry.unggulan))
-  .slice(0, 4);
+).slice(0, 2);
 
-const featuredPengumuman = pengumuman[0];
-const secondaryPengumuman = pengumuman.slice(1, 4);
-
-const kegiatan = sortByDateDesc(
+// Proses kegiatan untuk agenda (ambil 2 terbaru)
+const agendaItems = sortByDateDesc(
   kegiatanItems
     .filter((item) => item.entry?.statusPublikasi === 'publish')
     .map((item) => ({ slug: item.slug, entry: item.entry! }))
-);
+).slice(0, 2);
 
-const manualFeaturedSlug = beranda?.editorialPilihan?.beritaUnggulan;
-const featuredNews =
-  kegiatan.find((item) => item.slug === manualFeaturedSlug) ??
-  kegiatan.find((item) => item.entry.unggulan) ??
-  kegiatan[0];
-const newsList = kegiatan.filter((item) => item.slug !== featuredNews?.slug).slice(0, 3);
-
-const galeri = sortByDateDesc(
-  galeriItems.map((item) => ({ slug: item.slug, entry: item.entry! }))
-).slice(0, 3);
+// Proses berita (ambil 2 terbaru)
+const beritaItems = sortByDateDesc(
+  kegiatanItems
+    .filter((item) => item.entry?.statusPublikasi === 'publish')
+    .map((item) => ({ slug: item.slug, entry: item.entry! }))
+).slice(0, 2);
 
 const heroSection = beranda?.hero;
 
-const quickLinks = [
-  {
-    title: 'Pengumuman',
-    description: 'Lihat info prioritas warga dan agenda yang sedang berjalan.',
-    href: '/data/pengumuman',
-    icon: 'campaign',
-  },
-  {
-    title: 'Berita',
-    description: 'Baca arsip kegiatan warga dan artikel terbaru padukuhan.',
-    href: '#berita-editorial',
-    icon: 'newspaper',
-  },
-  {
-    title: 'Data Kampung',
-    description: 'Masuk ke katalog data, dokumen, UMKM, dan struktur.',
-    href: '/data',
-    icon: 'grid_view',
-  },
-];
+// Kategori label untuk berita
+const categoryLabels: Record<string, string> = {
+  kegiatan: 'Lingkungan',
+  pengumuman: 'Desa',
+  pelayanan: 'Layanan',
+  potensi: 'Potensi',
+};
 
-const heroStats =
-  heroSection?.stats?.filter((item) =>
-    ['Pengumuman aktif', 'Kegiatan terdokumentasi', 'Galeri tersedia'].includes(item.label)
-  ).slice(0, 3) ?? [];
+// Format tanggal untuk agenda
+function formatAgendaDate(date: Date | string): string {
+  const d = new Date(date);
+  const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+  const dayName = days[d.getDay()];
+  const day = d.getDate();
+  const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+  const monthName = months[d.getMonth()];
+  return `${dayName}, ${day} ${monthName}`;
+}
 
-const heroStatsFallback = [
-  { label: 'Pengumuman aktif', value: `${pengumuman.length}` },
-  { label: 'Kegiatan terbaru', value: `${kegiatan.length}` },
-  { label: 'Galeri tersedia', value: `${galeriItems.length}` },
-];
+// Format tanggal relatif untuk berita
+function formatRelativeDate(date: Date | string): string {
+  const now = new Date();
+  const d = new Date(date);
+  const diffDays = Math.floor((now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24));
+  if (diffDays === 0) return 'Hari ini';
+  if (diffDays === 1) return '1 Hari yang lalu';
+  if (diffDays < 7) return `${diffDays} Hari yang lalu`;
+  return formatTanggal(date);
+}
 ---
 
-<MainLayout>
-  <section class="section pb-6 md:pb-8">
-    <div class="container grid items-stretch gap-4 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
-      <div class="rounded-[var(--radius-xl)] bg-[image:var(--hero-grad)] px-7 py-8 text-white shadow-[0_18px_46px_rgba(88,76,193,0.14)] md:px-10 md:py-10">
-        <span class="badge badge-primary badge-outline w-fit border-white/20 bg-white/15 text-white">
-          {heroSection?.eyebrow ?? 'Padukuhan Salakan'}
-        </span>
-        <h1 class="mt-4 max-w-[12ch] text-4xl font-extrabold leading-[0.95] tracking-[-0.045em] text-white md:text-6xl xl:text-7xl">
-          {heroSection?.title ?? 'Pusat informasi warga Padukuhan Salakan'}
-        </h1>
-        <p class="mt-4 max-w-3xl text-body-lg text-white/90">
-          {heroSection?.intro ??
-            pengaturan?.sambutanBeranda ??
-            'Portal ini disiapkan untuk menyajikan pengumuman, agenda kegiatan, dokumentasi warga, dan informasi padukuhan secara cepat dan rapi.'}
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Salakan.id - Portal Informasi Padukuhan Salakan</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  
+  <!-- Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  
+  <!-- Tailwind CSS -->
+  <style>
+    @import "tailwindcss";
+    @plugin "daisyui";
+  </style>
+  
+  <!-- Custom Styles -->
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      min-height: max(884px, 100dvh);
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--surface-container-lowest); }
+    ::-webkit-scrollbar-thumb { 
+      background: var(--surface-container-high); 
+      border-radius: 4px; 
+    }
+    ::-webkit-scrollbar-thumb:hover { background: var(--surface-container-highest); }
+    
+    /* Safe area padding for mobile */
+    .pb-safe {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  </style>
+</head>
+
+<body class="bg-surface text-on-surface antialiased pb-24 flex flex-col min-h-screen">
+  
+  <!-- ==================== TOP APP BAR ==================== -->
+  <header class="shadow-sm bg-surface dark:bg-inverse-surface w-full top-0 sticky z-50">
+    <div class="flex justify-between items-center w-full px-md py-sm z-50">
+      <button 
+        aria-label="Menu" 
+        class="text-primary dark:text-inverse-primary hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
+      >
+        <span class="material-symbols-outlined" data-icon="menu">menu</span>
+      </button>
+      <h1 class="text-headline-md font-bold text-primary dark:text-inverse-primary">Salakan.id</h1>
+      <button 
+        aria-label="Notifications" 
+        class="text-primary dark:text-inverse-primary hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-primary relative"
+      >
+        <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+        <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border border-surface"></span>
+      </button>
+    </div>
+  </header>
+
+  
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="flex-grow w-full max-w-container-max mx-auto px-gutter md:px-md space-y-xl pt-md">
+    
+    <!-- HERO SECTION -->
+    <section class="relative rounded-xl overflow-hidden shadow-lg h-[400px] flex items-end">
+      <img 
+        alt="{heroSection?.gambarAlt ?? 'Pemandangan Padukuhan Salakan'}" 
+        class="absolute inset-0 w-full h-full object-cover" 
+        src="{heroSection?.gambar ?? 'https://lh3.googleusercontent.com/aida-public/AB6AXuCMk6Y6HrLhBOWQtQYJsRsxCPPOZQHretQh2gkaMMXtQ4DH362eQUDs1I4iRv9y_6vii45cpGoJ5WiPQUkxquJncggiJUjgNKNX7P4hWPQJjrrfU0ULgdndt__IOaBAnnADeteX0A9SzVdQu3znx5LZysOou41QosnuRzx4xcgf9nhPi2VArsnibaR3PMaNwKLKVMvJU-RmptAgTSf8BVTwIIeF_o8Ss831HjGJFg6ZhW5sqEJMW1KR2FUfWG_EDTiBdiw1U26K-Q'}" 
+        loading="lazy"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-on-surface/90 via-on-surface/40 to-transparent"></div>
+      <div class="relative p-md z-10 w-full text-center">
+        <h2 class="text-headline-lg-mobile font-headline-lg-mobile text-on-primary mb-xs">
+          {heroSection?.title ?? 'Selamat Datang di Portal Resmi Salakan'}
+        </h2>
+        <p class="text-body-lg font-body-lg text-surface-container-lowest opacity-90">
+          {heroSection?.intro ?? 'Transparan, Interaktif, & Berdaya'}
         </p>
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a class="brand-button btn rounded-[var(--radius-md)]" href={heroSection?.primaryCtaHref ?? '#pengumuman-prioritas'}>
-            {heroSection?.primaryCtaLabel ?? 'Lihat pengumuman'}
-          </a>
-          <a class="btn rounded-[var(--radius-md)] border-white/25 bg-white/10 text-white hover:bg-white/15 hover:text-white" href={heroSection?.secondaryCtaHref ?? '/profil'}>
-            {heroSection?.secondaryCtaLabel ?? 'Baca profil padukuhan'}
-          </a>
-        </div>
-        <div class="mt-6 grid gap-3 md:grid-cols-3">
-          {(heroStats.length ? heroStats : heroStatsFallback).map((stat) => (
-            <article class="rounded-[var(--radius-lg)] border border-white/15 bg-white/15 p-4 backdrop-blur">
-              <strong class="block text-2xl font-extrabold text-white">{stat.value}</strong>
-              <span class="mt-1 block text-sm leading-6 text-white/80">{stat.label}</span>
-            </article>
-          ))}
-        </div>
       </div>
+    </section>
 
-      <aside class="surface-card flex flex-col justify-between gap-5 p-5 md:p-6">
-        <div class="space-y-3">
-          <span class="badge badge-outline w-fit">
-            {heroSection?.panelLabel ?? 'Sorotan layanan warga'}
-          </span>
-          <h2 class="section-title font-extrabold text-slate-950">Layanan utama warga dalam satu halaman</h2>
-          <p class="text-body-md text-slate-600">
-            {heroSection?.panelNote ??
-              'Website ini dirancang agar warga cepat menemukan pengumuman, berita, data kampung, dan layanan komunikasi resmi.'}
-          </p>
-        </div>
-        <div class="grid gap-3">
-          {quickLinks.map((item) => (
-            <a class="grid grid-cols-[3rem_1fr] items-start gap-4 rounded-[var(--radius-lg)] border border-slate-200 bg-white px-4 py-4 transition-all hover:-translate-y-0.5 hover:shadow-sm" href={item.href}>
-              <span class="grid h-12 w-12 place-items-center rounded-[var(--radius-md)] bg-gradient-to-br from-violet-100 to-blue-100 font-['Material_Symbols_Outlined'] text-2xl text-violet-700">
-                {item.icon}
-              </span>
-              <span>
-                <strong class="block text-base font-bold text-slate-950">{item.title}</strong>
-                <small class="mt-1 block text-body-sm text-slate-500">{item.description}</small>
-              </span>
-            </a>
-          ))}
-        </div>
-      </aside>
-    </div>
-  </section>
-
-  <section class="section pt-0" id="pengumuman-prioritas">
-    <div class="container">
-      <SectionHeading
-        title="Pengumuman prioritas"
-        description="Bagian ini menempatkan informasi paling penting untuk warga di posisi paling mudah terlihat."
-      />
-      <div class="grid gap-4 lg:grid-cols-[minmax(0,1.15fr)_minmax(300px,0.85fr)]">
-        {featuredPengumuman && (
-          <article class="surface-card flex flex-col gap-4 p-5 md:p-6">
-            <div class="flex flex-wrap items-center gap-3">
-              <time class="text-sm font-medium text-slate-500" datetime={featuredPengumuman.entry.tanggal}>
-                {formatTanggal(featuredPengumuman.entry.tanggal)}
-              </time>
-            </div>
-            <h2 class="section-title font-extrabold text-slate-950">{featuredPengumuman.entry.judul}</h2>
-            <p class="text-body-lg text-slate-600">{featuredPengumuman.entry.ringkasan}</p>
-            <div class="border-t border-slate-200 pt-4 text-body-sm text-slate-600">
-              {featuredPengumuman.entry.isi}
-            </div>
-            <a class="brand-button btn w-fit rounded-[var(--radius-md)]" href="/data/pengumuman">
-              Buka halaman pengumuman
-            </a>
-          </article>
-        )}
-
-        <div class="grid gap-4">
-          {secondaryPengumuman.map(({ slug, entry }) => (
-            <article class="surface-card flex flex-col gap-3 p-5">
-              <div class="flex flex-wrap items-center gap-3">
-                <time class="text-sm font-medium text-slate-500" datetime={entry.tanggal}>{formatTanggal(entry.tanggal)}</time>
-              </div>
-              <h3 class="card-title font-bold text-slate-950">{entry.judul}</h3>
-              <p class="text-body-md text-slate-600">{entry.ringkasan}</p>
-            </article>
-          ))}
-        </div>
+    
+    <!-- QUICK MENU (Bento Grid Style) -->
+    <section>
+      <div class="grid grid-cols-2 gap-sm">
+        <!-- Agenda -->
+        <a 
+          class="group relative overflow-hidden bg-surface-container-lowest rounded-xl p-md shadow-[0_4px_12px_rgba(15,23,42,0.05)] border border-outline-variant hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)] transition-all duration-300 flex flex-col items-center justify-center min-h-[120px] focus:outline-none focus:ring-2 focus:ring-primary" 
+          href="/agenda"
+        >
+          <div class="absolute top-0 right-0 w-16 h-16 bg-primary-container/20 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150"></div>
+          <span class="material-symbols-outlined text-4xl text-primary mb-sm relative z-10" data-icon="calendar_month" data-weight="fill" style="font-variation-settings: 'FILL' 1;">calendar_month</span>
+          <span class="text-label-md font-label-md text-on-surface relative z-10">Agenda</span>
+        </a>
+        
+        <!-- Berita -->
+        <a 
+          class="group relative overflow-hidden bg-surface-container-lowest rounded-xl p-md shadow-[0_4px_12px_rgba(15,23,42,0.05)] border border-outline-variant hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)] transition-all duration-300 flex flex-col items-center justify-center min-h-[120px] focus:outline-none focus:ring-2 focus:ring-primary" 
+          href="/berita"
+        >
+          <div class="absolute top-0 right-0 w-16 h-16 bg-secondary-container/20 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150"></div>
+          <span class="material-symbols-outlined text-4xl text-secondary mb-sm relative z-10" data-icon="article">article</span>
+          <span class="text-label-md font-label-md text-on-surface relative z-10">Berita</span>
+        </a>
+        
+        <!-- Layanan -->
+        <a 
+          class="group relative overflow-hidden bg-surface-container-lowest rounded-xl p-md shadow-[0_4px_12px_rgba(15,23,42,0.05)] border border-outline-variant hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)] transition-all duration-300 flex flex-col items-center justify-center min-h-[120px] focus:outline-none focus:ring-2 focus:ring-primary" 
+          href="/data"
+        >
+          <div class="absolute bottom-0 left-0 w-16 h-16 bg-tertiary-container/20 rounded-tr-full -ml-8 -mb-8 transition-transform group-hover:scale-150"></div>
+          <span class="material-symbols-outlined text-4xl text-tertiary mb-sm relative z-10" data-icon="gavel">gavel</span>
+          <span class="text-label-md font-label-md text-on-surface relative z-10">Layanan</span>
+        </a>
+        
+        <!-- Galeri -->
+        <a 
+          class="group relative overflow-hidden bg-surface-container-lowest rounded-xl p-md shadow-[0_4px_12px_rgba(15,23,42,0.05)] border border-outline-variant hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)] transition-all duration-300 flex flex-col items-center justify-center min-h-[120px] focus:outline-none focus:ring-2 focus:ring-primary" 
+          href="/galeri"
+        >
+          <div class="absolute bottom-0 right-0 w-16 h-16 bg-primary-container/20 rounded-tl-full -mr-8 -mb-8 transition-transform group-hover:scale-150"></div>
+          <span class="material-symbols-outlined text-4xl text-primary mb-sm relative z-10" data-icon="image">image</span>
+          <span class="text-label-md font-label-md text-on-surface relative z-10">Galeri</span>
+        </a>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section pt-0" id="berita-editorial">
-    <div class="container">
-      <SectionHeading
-        title="Berita terbaru"
-        description="Satu berita unggulan ditampilkan lebih dominan, sementara artikel lain tetap mudah dipindai warga lewat format editorial yang ringkas."
-        href="/berita"
-        linkLabel="Lihat semua berita"
-      />
-      <div class="grid gap-4 lg:grid-cols-[minmax(0,1.15fr)_minmax(300px,0.85fr)]">
-        {featuredNews && (
-          <article class="surface-card overflow-hidden p-5 md:p-6">
-            {featuredNews.entry.gambarUtama && (
-              <div
-                class="mb-5 min-h-[18rem] rounded-[var(--radius-lg)] bg-cover bg-center"
-                style={`background-image:url('${featuredNews.entry.gambarUtama}')`}
-              />
-            )}
-            <div class="flex flex-col gap-4">
-              <div class="flex flex-wrap items-center gap-3">
-                <a class="badge badge-primary badge-outline" href={`/berita/kategori/${featuredNews.entry.kategori}`}>
-                  {categoryLabels[featuredNews.entry.kategori] ?? featuredNews.entry.kategori}
-                </a>
-                <time class="text-sm font-medium text-slate-500" datetime={featuredNews.entry.tanggal}>
-                  {formatTanggal(featuredNews.entry.tanggal)}
-                </time>
+    
+    <!-- AGENDA TERDEKAT -->
+    <section>
+      <div class="flex items-center justify-between mb-md">
+        <h3 class="text-headline-md font-headline-md text-on-surface">Agenda Terdekat</h3>
+        <a class="text-label-md font-label-md text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded" href="/agenda">Lihat Semua</a>
+      </div>
+      <div class="space-y-sm">
+        {agendaItems.length > 0 ? (
+          agendaItems.map((item) => (
+            <a 
+              key={item.slug} 
+              class="bg-surface-container-lowest rounded-xl p-md shadow-[0_4px_12px_rgba(15,23,42,0.05)] border-l-4 border-l-tertiary border-y border-r border-outline-variant flex items-center gap-md hover:bg-surface-container transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
+              href={`/berita/${item.slug}`}
+            >
+              <div class="flex-shrink-0 bg-tertiary-container/30 w-12 h-12 rounded-full flex items-center justify-center">
+                <span class="material-symbols-outlined text-tertiary" data-icon="group_work">group_work</span>
               </div>
-              <h2 class="section-title font-extrabold text-slate-950">{featuredNews.entry.judul}</h2>
-              <p class="text-body-lg text-slate-600">{featuredNews.entry.ringkasan}</p>
-              <div class="flex flex-wrap items-center justify-between gap-3">
-                <a class="brand-button btn rounded-[var(--radius-md)]" href={`/berita/${featuredNews.slug}`}>
-                  Baca artikel
-                </a>
+              <div>
+                <p class="text-label-sm font-label-sm text-on-surface-variant mb-xs">
+                  {formatAgendaDate(item.entry.tanggal)} &bull; 07:00 WIB
+                </p>
+                <h4 class="text-body-md font-body-md font-semibold text-on-surface">{item.entry.judul}</h4>
               </div>
-            </div>
-          </article>
+            </a>
+          ))
+        ) : (
+          <div class="bg-surface-container-lowest rounded-xl p-md text-center text-on-surface-variant">
+            Belum ada agenda terdekat
+          </div>
         )}
+      </div>
+    </section>
 
-        <div class="grid gap-4">
-          {newsList.map(({ slug, entry }) => (
-            <article class="surface-card flex flex-col gap-3 p-5">
-              <div class="flex flex-wrap items-center gap-3">
-                <a class="badge badge-primary badge-outline" href={`/berita/kategori/${entry.kategori}`}>
-                  {categoryLabels[entry.kategori] ?? entry.kategori}
-                </a>
-                <time class="text-sm font-medium text-slate-500" datetime={entry.tanggal}>{formatTanggal(entry.tanggal)}</time>
-              </div>
-              <h3 class="card-title font-bold text-slate-950">{entry.judul}</h3>
-              <p class="text-body-md text-slate-600">{entry.ringkasan}</p>
-              <a class="btn btn-sm w-fit rounded-[var(--radius-md)]" href={`/berita/${slug}`}>
-                Baca ringkas
+    
+    <!-- KABAR TERBARU -->
+    <section>
+      <div class="flex items-center justify-between mb-md">
+        <h3 class="text-headline-md font-headline-md text-on-surface">Kabar Terbaru</h3>
+        <a class="text-label-md font-label-md text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded" href="/berita">Lihat Semua</a>
+      </div>
+      <div class="flex flex-col gap-md">
+        {beritaItems.length > 0 ? (
+          beritaItems.map((item) => {
+            const category = item.entry.kategori || 'Lingkungan';
+            const label = categoryLabels[category.toLowerCase()] || category;
+            const isDesa = label === 'Desa';
+            const imgSrc = item.entry.gambarUtama || item.entry.gambar || 'https://via.placeholder.com/100x100';
+            
+            return (
+              <a 
+                key={item.slug}
+                class="group flex gap-md items-center p-sm rounded-xl hover:bg-surface-container-low transition-colors focus:outline-none focus:ring-2 focus:ring-primary border border-transparent hover:border-outline-variant"
+                href={`/berita/${item.slug}`}
+              >
+                <div class="flex-shrink-0 w-24 h-24 rounded-lg overflow-hidden relative">
+                  <img 
+                    alt={item.entry.judul}
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    src={imgSrc}
+                    loading="lazy"
+                  />
+                  <div class={`absolute top-1 right-1 text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider ${isDesa ? 'bg-secondary text-on-secondary' : 'bg-primary text-on-primary'}`}>
+                    {label}
+                  </div>
+                </div>
+                <div class="flex-col">
+                  <p class="text-label-sm font-label-sm text-on-surface-variant mb-xs">
+                    {formatRelativeDate(item.entry.tanggal)}
+                  </p>
+                  <h4 class="text-body-md font-body-md font-medium text-on-surface group-hover:text-primary transition-colors line-clamp-2">
+                    {item.entry.judul}
+                  </h4>
+                </div>
               </a>
-            </article>
-          ))}
-        </div>
+            );
+          })
+        ) : (
+          <div class="bg-surface-container-lowest rounded-xl p-md text-center text-on-surface-variant">
+            Belum ada berita terbaru
+          </div>
+        )}
       </div>
-    </div>
-  </section>
+    </section>
+  
+  </main>
 
-  <section class="section pt-0">
-    <div class="container">
-      <SectionHeading
-        title="Galeri pilihan"
-        description="Dokumentasi visual tetap hadir di beranda, tetapi dibuat lebih ringkas agar fokus utama tetap pada informasi warga."
-        href="/galeri"
-        linkLabel="Buka galeri lengkap"
-      />
-      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {galeri.map(({ slug, entry }) => (
-          <article class="surface-card flex flex-col gap-4 p-5">
-            {entry.gambar && (
-              <div
-                class="min-h-44 rounded-[var(--radius-lg)] bg-cover bg-center"
-                style={`background-image:url('${entry.gambar}')`}
-              />
-            )}
-            <div class="flex flex-col items-start gap-3">
-              <h3 class="card-title font-bold text-slate-950">{entry.judul}</h3>
-              <p class="text-body-md text-slate-600">{entry.caption}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
+  
+  <!-- ==================== BOTTOM NAV BAR (Mobile only) ==================== -->
+  <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-base pb-safe pt-xs shadow-[0_-4px_12px_rgba(15,23,42,0.05)] bg-surface dark:bg-inverse-surface rounded-t-xl">
+    <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1 hover:bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary rounded-xl" href="/agenda">
+      <span class="material-symbols-outlined mb-1" data-icon="calendar_month">calendar_month</span>
+      <span class="text-label-sm font-label-sm">Agenda</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1 hover:bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary rounded-xl" href="/berita">
+      <span class="material-symbols-outlined mb-1" data-icon="article">article</span>
+      <span class="text-label-sm font-label-sm">Berita</span>
+    </a>
+    <a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1 scale-90 transition-all focus:outline-none focus:ring-2 focus:ring-primary" href="/">
+      <span class="material-symbols-outlined mb-1" data-icon="home" data-weight="fill" style="font-variation-settings: 'FILL' 1;">home</span>
+      <span class="text-label-sm font-label-sm font-bold">Beranda</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1 hover:bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary rounded-xl" href="/data">
+      <span class="material-symbols-outlined mb-1" data-icon="gavel">gavel</span>
+      <span class="text-label-sm font-label-sm">Layanan</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1 hover:bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-primary rounded-xl" href="/galeri">
+      <span class="material-symbols-outlined mb-1" data-icon="image">image</span>
+      <span class="text-label-sm font-label-sm">Galeri</span>
+    </a>
+  </nav>
 
-  <section class="section pt-0">
-    <div class="container">
-      <div class="surface-card flex flex-col gap-5 p-6 md:flex-row md:items-center md:justify-between md:p-7">
-        <div class="space-y-3">
-          <span class="badge badge-outline w-fit">Lanjutkan pencarian informasi</span>
-          <h2 class="section-title font-extrabold text-slate-950">
-            Butuh data kampung atau ingin menghubungi layanan warga?
-          </h2>
-          <p class="max-w-3xl text-body-lg text-slate-600">
-            Beranda ini dibuat sebagai pintu masuk. Untuk eksplorasi lebih lanjut, gunakan katalog data kampung
-            atau langsung menuju halaman kontak resmi.
-          </p>
-        </div>
-        <div class="flex flex-wrap gap-3">
-          <a class="brand-button btn rounded-[var(--radius-md)]" href="/data">Buka data kampung</a>
-          <a class="btn btn-outline rounded-[var(--radius-md)]" href="/kontak">Kontak & layanan</a>
-        </div>
-      </div>
+  
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="w-full flex flex-col items-center gap-md py-xl px-md text-center border-t border-outline-variant bg-surface-container-low mt-xl mb-16 md:mb-0">
+    <h2 class="text-label-md font-label-md font-bold text-on-surface">Salakan.id</h2>
+    <p class="text-body-md font-body-md text-on-surface-variant max-w-md">
+      Portal resmi informasi dan layanan mandiri Padukuhan Salakan. Membangun desa digital yang inklusif.
+    </p>
+    <div class="flex gap-md flex-wrap justify-center">
+      <a class="text-secondary dark:text-secondary-fixed-dim text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors focus:outline-none ring-2 ring-transparent focus:ring-primary rounded text-label-sm font-label-sm" href="#">WhatsApp</a>
+      <a class="text-secondary dark:text-secondary-fixed-dim text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors focus:outline-none ring-2 ring-transparent focus:ring-primary rounded text-label-sm font-label-sm" href="#">Facebook</a>
+      <a class="text-secondary dark:text-secondary-fixed-dim text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors focus:outline-none ring-2 ring-transparent focus:ring-primary rounded text-label-sm font-label-sm" href="#">Instagram</a>
+      <a class="text-secondary dark:text-secondary-fixed-dim text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors focus:outline-none ring-2 ring-transparent focus:ring-primary rounded text-label-sm font-label-sm" href="#">Peta Lokasi</a>
     </div>
-  </section>
-</MainLayout>
+    <p class="text-label-sm font-label-sm text-on-surface-variant opacity-70 mt-md">
+      &copy; 2026 Padukuhan Salakan.id. Digital Village Citizenship.
+    </p>
+  </footer>
+
+</body>
+</html>
