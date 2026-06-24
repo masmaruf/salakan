@@ -1,9 +1,42 @@
-node_modules
-dist
-.astro
-.vercel
+```gitignore
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.nuxt/
+.next/
+public/dist/
+
+# Environment variables
 .env
 .env.local
-.env.*.local
-src/env.d.ts
-env.d.ts
+*.env.*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# Temp files
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Cache directories
+.cache/
+.mypy_cache/
+.pytest_cache/
+.jest/
+.nyc_output/
+```

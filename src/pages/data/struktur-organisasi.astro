@@ -1,82 +1,116 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import { getPengaturan, getProfil, getStrukturOrganisasi } from '../../lib/keystatic';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import { getStrukturOrganisasi, getPengaturan } from '../../lib/keystatic';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
-const pengaturan = await getPengaturan();
-const profil = await getProfil();
-const struktur = (await getStrukturOrganisasi())
+const [organisasiItems, pengaturan] = await Promise.all([getStrukturOrganisasi(), getPengaturan()]);
+const seo = pengaturan?.seoHalamanData?.strukturOrganisasi;
+const items = organisasiItems
   .filter(({ entry }) => entry.statusPublikasi === 'publish')
   .sort((a, b) => a.entry.urutanTampil - b.entry.urutanTampil);
+
+const breadcrumbItems = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Pusat Data', href: '/data' },
+  { label: 'Struktur Organisasi', active: true },
+];
 
 const bidangLabels = {
   pimpinan: 'Pimpinan Padukuhan',
   kegiatan: 'Koordinator Kegiatan Warga',
   wilayah: 'Penghubung Wilayah',
 } as const;
+const bidangIcons = {
+  pimpinan: 'shield_person',
+  kegiatan: 'groups',
+  wilayah: 'location_city',
+} as const;
+const bidangColors = {
+  pimpinan: { bg: 'bg-blue-100', text: 'text-blue-600', hover: 'group-hover:bg-blue-600' },
+  kegiatan: { bg: 'bg-emerald-100', text: 'text-emerald-600', hover: 'group-hover:bg-emerald-600' },
+  wilayah: { bg: 'bg-amber-100', text: 'text-amber-600', hover: 'group-hover:bg-amber-600' },
+} as const;
 
 const grouped = {
-  pimpinan: struktur.filter(({ entry }) => entry.bidang === 'pimpinan'),
-  kegiatan: struktur.filter(({ entry }) => entry.bidang === 'kegiatan'),
-  wilayah: struktur.filter(({ entry }) => entry.bidang === 'wilayah'),
+  pimpinan: items.filter(({ entry }) => entry.bidang === 'pimpinan'),
+  kegiatan: items.filter(({ entry }) => entry.bidang === 'kegiatan'),
+  wilayah: items.filter(({ entry }) => entry.bidang === 'wilayah'),
 };
-const seo = pengaturan?.seoHalamanData?.strukturOrganisasi;
 ---
 
 <MainLayout
   title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'Struktur Organisasi'))}
-  description={resolveSeoText(seo?.seoDescription, 'Halaman struktur organisasi dan peran layanan Padukuhan Salakan.')}
+  description={resolveSeoText(seo?.seoDescription, 'Susunan organisasi dan peran layanan Padukuhan Salakan.')}
   image={resolveSeoImage(seo?.ogImage)}
 >
-  <section class="section">
-    <div class="container space-y-8">
-      <div class="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_360px]">
-        <div class="surface-card ui-radius-xl p-7 md:p-9">
-          <span class="badge badge-primary badge-outline">Sub data struktur organisasi</span>
-          <h1 class="mt-5 max-w-3xl text-3xl font-extrabold tracking-tight text-slate-950 md:text-5xl">Susunan organisasi yang lebih jelas, rapi, dan siap dikelola dari CMS</h1>
-          <p class="mt-4 max-w-2xl text-sm leading-8 text-slate-600 md:text-base">
-            Halaman ini menata pengurus padukuhan ke dalam kelompok yang mudah dipindai. Anda bisa memperbarui jabatan, nama penanggung jawab, dan deskripsi tugas langsung dari Keystatic.
-          </p>
-          <div class="mt-6 flex flex-wrap gap-3">
-            <a class="btn brand-button" href="/data">Kembali ke data</a>
-            <a class="btn btn-outline" href="/kontak">Perbarui susunan</a>
+  <section class="section-premium bg-slate-50/50">
+    <div class="container-premium relative z-10">
+      
+      <Breadcrumbs items={breadcrumbItems} />
+
+      <div class="card-premium p-8 md:p-12 mb-16">
+        <div class="grid gap-12 lg:grid-cols-[1.2fr_auto] items-center relative z-10">
+          <div class="space-y-8">
+            <span class="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 text-[0.7rem] font-black text-blue-700 uppercase tracking-widest ring-1 ring-blue-100">
+               <span class="material-symbols-outlined text-[18px]">account_tree</span> Tata Kelola Padukuhan
+            </span>
+            <h1 class="hero-title text-gradient !mb-4 leading-none text-slate-900 md:text-5xl lg:text-6xl">Struktur Organisasi</h1>
+            <p class="max-w-2xl text-xl font-bold text-slate-400 leading-relaxed">
+              Daftar aparatur dan pengurus lembaga kemasyarakatan yang bertugas melayani kepentingan warga di wilayah Padukuhan Salakan.
+            </p>
+            <div class="flex flex-wrap gap-4 pt-4">
+              <a class="inline-flex h-14 items-center gap-3 rounded-full bg-slate-900 px-8 text-sm font-black text-white shadow-xl transition-all hover:bg-blue-600 hover:-translate-y-0.5" href="/data">
+                <span class="material-symbols-outlined text-[20px]">arrow_back</span> Kembali ke Indeks
+              </a>
+            </div>
+          </div>
+          <div class="flex flex-col items-center justify-center rounded-[2rem] bg-white p-10 shadow-sm border border-slate-100 min-w-[180px]">
+             <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 mb-4 shadow-inner">
+               <span class="material-symbols-outlined text-4xl">badge</span>
+             </div>
+             <strong class="text-5xl font-black text-slate-900 leading-none">{items.length}</strong>
+             <span class="mt-3 text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em]">Total Personel</span>
           </div>
         </div>
-
-        <div class="grid gap-4">
-          <article class="surface-card ui-radius-lg p-5">
-            <p class="text-sm font-semibold text-slate-500">Posisi tampil</p>
-            <strong class="mt-2 block text-4xl font-extrabold tracking-tight text-slate-950">{struktur.length}</strong>
-          </article>
-          <article class="surface-card ui-radius-lg p-5">
-            <p class="text-sm font-semibold text-slate-500">Arah organisasi</p>
-            <p class="mt-3 text-sm leading-7 text-slate-600">{profil?.visi ?? 'Visi organisasi dapat ditampilkan di sini setelah profil dilengkapi.'}</p>
-          </article>
-        </div>
       </div>
 
-      <div class="grid gap-5 xl:grid-cols-3">
-        {Object.entries(grouped).map(([key, items]) => (
-          <section class="surface-card ui-radius-lg p-5">
-            <div class="flex items-center justify-between gap-3">
-              <h2 class="text-xl font-bold tracking-tight text-slate-950">{bidangLabels[key as keyof typeof bidangLabels]}</h2>
-              <span class="badge badge-outline">{items.length} posisi</span>
+      <div class="grid gap-8 xl:grid-cols-3">
+        {Object.entries(grouped).map(([key, items]) => {
+          const colors = bidangColors[key as keyof typeof bidangColors];
+          return (
+            <div class="flex flex-col gap-6">
+              <div class="flex items-center gap-4 px-4">
+                <div class={`flex h-14 w-14 items-center justify-center rounded-2xl ${colors.bg} ${colors.text} shadow-inner`}>
+                  <span class="material-symbols-outlined text-[28px]">{bidangIcons[key as keyof typeof bidangIcons]}</span>
+                </div>
+                <div>
+                  <h2 class="text-xl font-black tracking-tight text-slate-900 leading-none">{bidangLabels[key as keyof typeof bidangLabels]}</h2>
+                  <span class="mt-1 block text-[0.65rem] font-black text-slate-400 uppercase tracking-widest">{items.length} Posisi Aktif</span>
+                </div>
+              </div>
+              
+              <div class="grid gap-6">
+                {items.map(({ slug, entry }) => (
+                  <article class="group relative rounded-[2.5rem] bg-white p-7 shadow-sm border border-slate-100 transition-all hover:shadow-lg hover:-translate-y-1" id={slug}>
+                    <div class="space-y-4">
+                      <span class="inline-flex items-center rounded-full bg-slate-50 px-4 py-1.5 text-[0.65rem] font-black text-blue-600 uppercase tracking-widest ring-1 ring-slate-100 italic">{entry.jabatan}</span>
+                      <h3 class="text-xl font-black tracking-tight text-slate-900 leading-tight">{entry.namaPejabat}</h3>
+                      <p class="text-[0.95rem] font-bold text-slate-400 leading-relaxed">{entry.deskripsiTugas}</p>
+                      
+                      <div class="pt-4 border-t border-slate-50 flex items-center gap-3 text-xs font-black text-slate-500 uppercase tracking-widest group-hover:text-blue-600 transition">
+                        <span class="material-symbols-outlined text-[18px]">call</span> {entry.kontak}
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
-            <div class="mt-5 space-y-4">
-              {items.map(({ slug, entry }) => (
-                <article class="ui-radius-lg border border-slate-200 bg-white p-4 shadow-sm" id={slug}>
-                  <p class="text-sm font-semibold text-violet-700">{entry.jabatan}</p>
-                  <h3 class="mt-2 text-lg font-bold tracking-tight text-slate-950">{entry.namaPejabat}</h3>
-                  <p class="mt-3 text-sm leading-7 text-slate-600">{entry.deskripsiTugas}</p>
-                  <div class="ui-radius-md mt-4 inline-flex border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-slate-600">
-                    {entry.kontak}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-        ))}
+          );
+        })}
       </div>
+    </div>
+  </section>
     </div>
   </section>
 </MainLayout>

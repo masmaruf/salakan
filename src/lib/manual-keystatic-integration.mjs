@@ -29,7 +29,7 @@ import "@keystatic/core/ui";
               },
             ],
             optimizeDeps: {
-              entries: ['keystatic.config.*', '.astro/keystatic-imports.js'],
+              entries: ['src/lib/keystatic-config.ts', '.astro/keystatic-imports.js'],
             },
           },
         });

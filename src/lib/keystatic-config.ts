@@ -4,7 +4,6 @@ const keystaticConfig = config({
   storage: {
     kind: 'local',
   },
-  locale: 'id-ID',
   ui: {
     brand: {
       name: 'Padukuhan Salakan',
@@ -12,8 +11,9 @@ const keystaticConfig = config({
     navigation: {
       Beranda: ['beranda'],
       Editorial: ['pengumuman', 'kegiatan', 'agenda', 'kategoriBerita', 'galeri'],
-      'Data Kampung': ['dokumen', 'umkm', 'strukturOrganisasi', 'layananWarga', 'faq'],
+      'Data Kampung': ['monografi', 'dokumen', 'umkm', 'strukturOrganisasi', 'layananWarga', 'faq'],
       'Profil & Situs': ['profil', 'pengaturan', 'akunAdmin'],
+      'E-Surat': ['rt'],
       Referensi: ['laboratoriumFieldApi'],
     },
   },
@@ -711,6 +711,42 @@ const keystaticConfig = config({
         }),
       },
     }),
+    rt: collection({
+      label: 'Daftar RT',
+      path: 'src/content/rt/*',
+      format: { data: 'json' },
+      slugField: 'rt_id',
+      schema: {
+        rt_id: fields.slug({
+          name: {
+            label: 'ID RT',
+            description: 'contoh: rt-01, rt-02 — dipakai sebagai slug & kode nomor surat',
+          },
+        }),
+        nomor_rt: fields.text({
+          label: 'Nomor RT',
+          description: 'contoh: 01, 02, 05',
+        }),
+        nama_ketua: fields.text({
+          label: 'Nama Ketua RT',
+          description: 'Nama lengkap ketua RT aktif',
+        }),
+        no_hp_ketua: fields.text({
+          label: 'No. HP/WA Ketua RT',
+          description: 'Untuk notifikasi pengajuan masuk',
+        }),
+        aktif: fields.checkbox({
+          label: 'RT Aktif',
+          description: 'Centang jika RT ini menerima pengajuan',
+          defaultValue: true,
+        }),
+        catatan: fields.text({
+          label: 'Catatan',
+          multiline: true,
+          description: 'Opsional — misal jam layanan, lokasi sekretariat',
+        }),
+      },
+    }),
   },
   singletons: {
     profil: singleton({
@@ -825,6 +861,46 @@ const keystaticConfig = config({
               label: 'OG image halaman Struktur Organisasi',
             }),
           }),
+          agenda: fields.object({
+            seoTitle: fields.text({ label: 'SEO title halaman Agenda' }),
+            seoDescription: fields.text({
+              label: 'SEO description halaman Agenda',
+              multiline: true,
+            }),
+            ogImage: fields.text({
+              label: 'OG image halaman Agenda',
+            }),
+          }),
+          layananWarga: fields.object({
+            seoTitle: fields.text({ label: 'SEO title halaman Layanan Warga' }),
+            seoDescription: fields.text({
+              label: 'SEO description halaman Layanan Warga',
+              multiline: true,
+            }),
+            ogImage: fields.text({
+              label: 'OG image halaman Layanan Warga',
+            }),
+          }),
+          faq: fields.object({
+            seoTitle: fields.text({ label: 'SEO title halaman FAQ' }),
+            seoDescription: fields.text({
+              label: 'SEO description halaman FAQ',
+              multiline: true,
+            }),
+            ogImage: fields.text({
+              label: 'OG image halaman FAQ',
+            }),
+          }),
+          monografi: fields.object({
+            seoTitle: fields.text({ label: 'SEO title halaman Monografi' }),
+            seoDescription: fields.text({
+              label: 'SEO description halaman Monografi',
+              multiline: true,
+            }),
+            ogImage: fields.text({
+              label: 'OG image halaman Monografi',
+            }),
+          }),
         }),
         menuData: fields.object({
           title: fields.text({
@@ -842,7 +918,10 @@ const keystaticConfig = config({
                 label: 'Deskripsi singkat',
                 multiline: true,
               }),
-              icon: fields.text({ label: 'Nama ikon Material Symbols' }),
+              icon: fields.text({
+                label: 'Nama ikon',
+                description: 'Gunakan salah satu: campaign, newspaper, grid_view, description, storefront, account_tree, event, contact_support.',
+              }),
               status: fields.select({
                 label: 'Status tampil',
                 options: [
@@ -938,118 +1017,179 @@ const keystaticConfig = config({
             label: 'Link tombol kedua hero',
           }),
           panelLabel: fields.text({
+            label: 'Label panel hero',
+          }),
+          panelTitle: fields.text({
             label: 'Judul panel hero',
           }),
           panelNote: fields.text({
             label: 'Catatan panel hero',
             multiline: true,
           }),
-          stats: fields.array(
+          panelLinks: fields.array(
             fields.object({
-              value: fields.text({ label: 'Nilai' }),
-              label: fields.text({ label: 'Label' }),
-            }),
-            {
-              label: 'Sorotan layanan warga',
-              itemLabel: (props) => props.fields.label.value || 'Item sorotan',
-            }
-          ),
-        }),
-        budaya: fields.object({
-          title: fields.text({
-            label: 'Judul section budaya',
-          }),
-          description: fields.text({
-            label: 'Deskripsi section budaya',
-            multiline: true,
-          }),
-          items: fields.array(
-            fields.object({
-              title: fields.text({ label: 'Judul card' }),
-              label: fields.text({ label: 'Badge utama' }),
-              meta: fields.text({ label: 'Badge kedua' }),
-              icon: fields.text({ label: 'Nama ikon Material Symbols' }),
-              image: fields.image({
-                label: 'Gambar card',
-                directory: 'public/images/beranda',
-                publicPath: '/images/beranda/',
-              }),
+              title: fields.text({ label: 'Judul tautan' }),
               description: fields.text({
-                label: 'Deskripsi card',
-                multiline: true,
-              }),
-            }),
-            {
-              label: 'Daftar card budaya',
-              itemLabel: (props) => props.fields.title.value || 'Card budaya',
-            }
-          ),
-        }),
-        wisata: fields.object({
-          eyebrow: fields.text({
-            label: 'Label section wisata',
-          }),
-          title: fields.text({
-            label: 'Judul wisata',
-          }),
-          description: fields.text({
-            label: 'Deskripsi wisata',
-            multiline: true,
-          }),
-          image: fields.image({
-            label: 'Gambar latar wisata',
-            directory: 'public/images/beranda',
-            publicPath: '/images/beranda/',
-          }),
-          badges: fields.array(fields.text({ label: 'Badge' }), {
-            label: 'Badge tambahan',
-            itemLabel: (props) => props.value || 'Badge',
-          }),
-          primaryCtaLabel: fields.text({
-            label: 'Label tombol utama',
-          }),
-          primaryCtaHref: fields.text({
-            label: 'Link tombol utama',
-          }),
-          secondaryCtaLabel: fields.text({
-            label: 'Label tombol kedua',
-          }),
-          secondaryCtaHref: fields.text({
-            label: 'Link tombol kedua',
-          }),
-        }),
-        ekonomi: fields.object({
-          title: fields.text({
-            label: 'Judul section ekonomi',
-          }),
-          description: fields.text({
-            label: 'Deskripsi section ekonomi',
-            multiline: true,
-          }),
-          items: fields.array(
-            fields.object({
-              title: fields.text({ label: 'Judul card' }),
-              subtitle: fields.text({
                 label: 'Deskripsi singkat',
                 multiline: true,
               }),
-              icon: fields.text({ label: 'Nama ikon Material Symbols' }),
-              tag: fields.text({ label: 'Tag card' }),
-              ctaLabel: fields.text({ label: 'Label footer card' }),
+              href: fields.text({ label: 'Link tujuan' }),
+              icon: fields.text({
+                label: 'Nama ikon',
+                description: 'Gunakan salah satu: campaign, newspaper, grid_view, description, storefront, account_tree, event, contact_support.',
+              }),
+              status: fields.select({
+                label: 'Status tampil',
+                options: [
+                  { label: 'Tampilkan', value: 'tampil' },
+                  { label: 'Sembunyikan', value: 'sembunyi' },
+                ],
+                defaultValue: 'tampil',
+              }),
             }),
             {
-              label: 'Daftar card ekonomi',
-              itemLabel: (props) => props.fields.title.value || 'Card ekonomi',
+              label: 'Tautan panel hero',
+              itemLabel: (props) => props.fields.title.value || 'Tautan hero',
             }
           ),
-        }),
-        editorialPilihan: fields.object({
-          beritaUnggulan: fields.relationship({
-            label: 'Pilih berita unggulan homepage',
-            collection: 'kegiatan',
-            description: 'Artikel ini akan diprioritaskan di section berita homepage tanpa bergantung pada urutan otomatis.',
+          stats: fields.object({
+            pengumumanLabel: fields.text({
+              label: 'Label statistik pengumuman',
+            }),
+            kegiatanLabel: fields.text({
+              label: 'Label statistik berita',
+            }),
+            galeriLabel: fields.text({
+              label: 'Label statistik galeri',
+            }),
           }),
         }),
+        pengumuman: fields.object({
+          title: fields.text({
+            label: 'Judul section pengumuman',
+          }),
+          description: fields.text({
+            label: 'Deskripsi section pengumuman',
+            multiline: true,
+          }),
+          ctaLabel: fields.text({
+            label: 'Label tombol pengumuman utama',
+          }),
+        }),
+        berita: fields.object({
+          title: fields.text({
+            label: 'Judul section berita',
+          }),
+          description: fields.text({
+            label: 'Deskripsi section berita',
+            multiline: true,
+          }),
+          ctaLabel: fields.text({
+            label: 'Label tombol section berita',
+          }),
+        }),
+        galeri: fields.object({
+          title: fields.text({
+            label: 'Judul section galeri',
+          }),
+          description: fields.text({
+            label: 'Deskripsi section galeri',
+            multiline: true,
+          }),
+          ctaLabel: fields.text({
+            label: 'Label tombol galeri',
+          }),
+        }),
+        penutup: fields.object({
+          eyebrow: fields.text({
+            label: 'Label kecil CTA penutup',
+          }),
+          title: fields.text({
+            label: 'Judul CTA penutup',
+          }),
+          description: fields.text({
+            label: 'Deskripsi CTA penutup',
+            multiline: true,
+          }),
+          primaryCtaLabel: fields.text({
+            label: 'Label tombol utama penutup',
+          }),
+          primaryCtaHref: fields.text({
+            label: 'Link tombol utama penutup',
+          }),
+          secondaryCtaLabel: fields.text({
+            label: 'Label tombol kedua penutup',
+          }),
+          secondaryCtaHref: fields.text({
+            label: 'Link tombol kedua penutup',
+          }),
+        }),
+      },
+    }),
+    monografi: singleton({
+      label: 'Data Monografi',
+      path: 'src/content/singletons/monografi/',
+      entryLayout: 'form',
+      schema: {
+        identitasDukuh: fields.object(
+          {
+            namaDukuh: fields.text({ label: 'Nama Dukuh' }),
+            pendidikan: fields.text({ label: 'Pendidikan Terakhir' }),
+            alamat: fields.text({ label: 'Alamat Dukuh', multiline: true }),
+          },
+          { label: 'Identitas Dukuh' }
+        ),
+        demografi: fields.object(
+          {
+            luasWilayah: fields.text({ label: 'Luas Wilayah', description: 'Contoh: 12.5 Ha' }),
+            jumlahRT: fields.integer({ label: 'Jumlah RT', defaultValue: 3 }),
+            totalJiwa: fields.integer({ label: 'Total Jiwa' }),
+            totalLakiLaki: fields.integer({ label: 'Jumlah Laki-laki' }),
+            totalPerempuan: fields.integer({ label: 'Jumlah Perempuan' }),
+            totalKK: fields.integer({ label: 'Total Kepala Keluarga (KK)' }),
+            kkLakiLaki: fields.integer({ label: 'KK Laki-laki' }),
+            kkPerempuan: fields.integer({ label: 'KK Perempuan' }),
+          },
+          { label: 'Data Demografi & Kependudukan', layout: [4, 4, 4, 4, 4, 4, 6, 6] }
+        ),
+        fasilitas: fields.object(
+          {
+            pendidikan: fields.object(
+              {
+                tkPaud: fields.text({ label: 'TK dan PAUD', defaultValue: '-' }),
+                sd: fields.text({ label: 'SD', defaultValue: '-' }),
+                smp: fields.text({ label: 'SMP', defaultValue: '-' }),
+                smk: fields.text({ label: 'SMK', defaultValue: '-' }),
+                slb: fields.text({ label: 'SLB', defaultValue: '-' }),
+                pkbm: fields.text({ label: 'PKBM', defaultValue: '-' }),
+                universitas: fields.text({ label: 'Sekolah Tinggi/Univ', defaultValue: '-' }),
+              },
+              { label: 'Sarana Pendidikan' }
+            ),
+            kesehatan: fields.object(
+              {
+                puskesmas: fields.text({ label: 'Puskesmas', defaultValue: '-' }),
+                posyanduBalita: fields.text({ label: 'Posyandu Balita', defaultValue: '-' }),
+                posyanduLansia: fields.text({ label: 'Posyandu Lansia', defaultValue: '-' }),
+              },
+              { label: 'Sarana Kesehatan' }
+            ),
+          },
+          { label: 'Fasilitas & Layanan Publik' }
+        ),
+        potensi: fields.object(
+          {
+             seniBudaya: fields.array(fields.text({ label: 'Nama Seni/Budaya' }), {
+                label: 'Daftar Seni & Budaya',
+                itemLabel: (props) => props.value || 'Seni Budaya',
+             }),
+             umkmIndustri: fields.array(fields.text({ label: 'Nama UMKM/Industri' }), {
+                label: 'Daftar UMKM & Industri',
+                itemLabel: (props) => props.value || 'UMKM Industri',
+             }),
+          },
+          { label: 'Potensi & Ekonomi Kreatif' }
+        ),
       },
     }),
     laboratoriumFieldApi: singleton({

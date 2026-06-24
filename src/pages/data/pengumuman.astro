@@ -1,107 +1,136 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import { formatTanggal, getPengaturan, getPengumuman, sortByDateDesc } from '../../lib/keystatic';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
-const pengaturan = await getPengaturan();
-const pengumuman = sortByDateDesc(await getPengumuman())
-  .filter(({ entry }) => entry.statusPublikasi === 'publish')
+const [pengumumanItems, pengaturan] = await Promise.all([getPengumuman(), getPengaturan()]);
+const pengumuman = sortByDateDesc(
+  pengumumanItems
+    .filter(({ entry }) => entry.statusPublikasi === 'publish')
+)
   .sort((a, b) => Number(b.entry.unggulan) - Number(a.entry.unggulan));
+
 const [featured, ...others] = pengumuman;
 const latestDate = featured ? formatTanggal(featured.entry.tanggal) : '-';
 const seo = pengaturan?.seoHalamanData?.pengumuman;
+
+const breadcrumbItems = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Pusat Data', href: '/data' },
+  { label: 'Pengumuman Warga', active: true },
+];
 ---
 
 <MainLayout
   title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'Pengumuman Warga'))}
-  description={resolveSeoText(seo?.seoDescription, 'Halaman data pengumuman untuk melihat informasi aktif warga Padukuhan Salakan dari Keystatic.')}
+  description={resolveSeoText(seo?.seoDescription, 'Halaman data pengumuman untuk melihat informasi aktif warga Padukuhan Salakan.')}
   image={resolveSeoImage(seo?.ogImage)}
 >
-  <section class="section">
-    <div class="container space-y-8">
-      <div class="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_360px]">
-        <div class="surface-card ui-radius-xl bg-gradient-to-br from-violet-600 via-indigo-600 to-blue-600 p-7 text-white shadow-2xl md:p-9">
-          <div class="space-y-5">
-            <span class="badge border-white/30 bg-white/10 text-white">Sub data pengumuman</span>
-            <div class="space-y-3">
-              <h1 class="max-w-3xl text-3xl font-extrabold tracking-tight md:text-5xl">Pusat pengumuman warga yang cepat dibuka dan mudah dipahami</h1>
-              <p class="max-w-2xl text-sm leading-8 text-blue-50 md:text-base">
-                Halaman ini menampilkan semua pengumuman aktif dari Keystatic dalam format yang lebih nyaman dibaca warga, dengan sorotan utama di bagian atas dan daftar ringkas di bawahnya.
-              </p>
+  <section class="section-premium bg-slate-50/50">
+    <div class="container-premium relative z-10">
+      
+      <Breadcrumbs items={breadcrumbItems} />
+
+      <header class="card-premium p-8 md:p-12 mb-16 border border-white/50">
+        <div class="relative z-10 space-y-8">
+          <span class="badge-blue">
+            <span class="material-symbols-outlined text-[18px]">campaign</span> Papan Informasi Publik
+          </span>
+          <h1 class="hero-title text-gradient !mb-4 leading-none truncate overflow-visible">Pengumuman Terkini</h1>
+          <p class="max-w-2xl text-xl font-bold text-slate-400 leading-relaxed">
+            Berita, himbauan, dan informasi resmi dari Dukuh atau Kalurahan untuk seluruh warga Padukuhan Salakan.
+          </p>
+          <div class="flex flex-wrap gap-4 pt-4">
+            <a class="btn-premium btn-premium-sm" href="/data">
+              <span class="material-symbols-outlined text-[20px]">arrow_back</span> Kembali ke Indeks
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <div class="grid gap-12 lg:grid-cols-[1.5fr_1fr] items-center mb-16">
+        <div class="flex flex-col gap-6">
+          <div class="card-premium p-8 border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 mb-4 shadow-inner">
+              <span class="material-symbols-outlined text-[28px]">inbox</span>
             </div>
-            <div class="flex flex-wrap gap-3">
-              <a class="btn border-0 bg-white text-slate-950 shadow-sm hover:bg-slate-100" href="/data">Kembali ke data</a>
-              <a class="btn border border-white/30 bg-white/10 text-white hover:bg-white/15" href="/kontak">Hubungi layanan</a>
-            </div>
+            <span class="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Total Pengumuman</span>
+            <strong class="mt-2 block text-5xl font-black text-slate-900 leading-none">{pengumuman.length}</strong>
           </div>
         </div>
 
-        <div class="grid gap-4">
-          <article class="surface-card ui-radius-lg p-5">
-            <p class="text-sm font-semibold text-slate-500">Total pengumuman aktif</p>
-            <strong class="mt-2 block text-4xl font-extrabold tracking-tight text-slate-950">{pengumuman.length}</strong>
-            <p class="mt-2 text-sm leading-7 text-slate-600">Jumlah ini otomatis mengikuti item yang berstatus tampil di collection `pengumuman`.</p>
-          </article>
-          <article class="surface-card ui-radius-lg p-5">
-            <p class="text-sm font-semibold text-slate-500">Pembaruan terbaru</p>
-            <strong class="mt-2 block text-2xl font-bold tracking-tight text-slate-950">{latestDate}</strong>
-            <p class="mt-2 text-sm leading-7 text-slate-600">Cocok dipakai sebagai pusat kabar cepat untuk kegiatan, pelayanan, dan agenda padukuhan.</p>
-          </article>
+        <div class="flex flex-col gap-6">
+          <div class="card-premium p-8 border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 mb-4 shadow-inner">
+              <span class="material-symbols-outlined text-[28px]">update</span>
+            </div>
+            <span class="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">Update Terakhir</span>
+            <strong class="mt-2 block text-2xl font-black text-slate-900 leading-none">{latestDate}</strong>
+          </div>
         </div>
       </div>
 
       {featured ? (
-        <div class="grid gap-5 xl:grid-cols-[minmax(0,1.1fr)_0.9fr]">
-          <article class="surface-card ui-radius-xl p-6 md:p-8">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="badge badge-primary">Sorotan utama</span>
-              <time class="badge badge-outline" datetime={featured.entry.tanggal}>{formatTanggal(featured.entry.tanggal)}</time>
+        <div class="grid gap-12 xl:grid-cols-[1.2fr_0.8fr]">
+          <article class="group relative rounded-[3rem] bg-white p-10 md:p-14 shadow-sm border border-slate-100 transition-all hover:shadow-xl hover:-translate-y-1 overflow-hidden">
+            <div class="absolute top-0 right-0 p-12 opacity-5 group-hover:opacity-10 transition">
+              <span class="material-symbols-outlined text-9xl">priority_high</span>
             </div>
-            <h2 class="mt-5 text-2xl font-extrabold tracking-tight text-slate-950 md:text-4xl">{featured.entry.judul}</h2>
-            <p class="mt-4 max-w-3xl text-base leading-8 text-slate-600 md:text-lg">{featured.entry.ringkasan}</p>
-            <div class="ui-radius-lg mt-6 border border-slate-200 bg-slate-50 p-5">
-              <p class="text-sm leading-8 text-slate-700 md:text-[15px]">{featured.entry.isi}</p>
+            <div class="relative z-10">
+              <div class="flex flex-wrap items-center gap-4 mb-10">
+                <span class="inline-flex items-center gap-2 rounded-full bg-amber-100 px-5 py-2 text-xs font-black text-amber-700 ring-1 ring-amber-200">
+                  <span class="material-symbols-outlined text-[16px]">star</span> SOROTAN UTAMA
+                </span>
+                <time class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-xs font-black text-slate-500" datetime={featured.entry.tanggal}>
+                  <span class="material-symbols-outlined text-[16px]">event</span> {formatTanggal(featured.entry.tanggal)}
+                </time>
+              </div>
+              <h2 class="text-4xl font-black tracking-tight text-slate-900 md:text-5xl group-hover:text-blue-700 transition-colors leading-[1.1]">{featured.entry.judul}</h2>
+              <p class="mt-8 text-xl font-bold text-slate-400 leading-relaxed">{featured.entry.ringkasan}</p>
+              <div class="mt-10 rounded-[2.5rem] bg-slate-50 p-8 md:p-10 text-lg leading-relaxed text-slate-600 border border-slate-100/50 shadow-inner">{featured.entry.isi}</div>
             </div>
           </article>
 
-          <div class="grid gap-4">
+          <div class="flex flex-col gap-6">
+            <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-4">Pengumuman Terbaru</h3>
             {others.slice(0, 3).map(({ slug, entry }) => (
-              <article class="surface-card ui-radius-lg p-5" id={slug}>
-                <div class="flex items-start justify-between gap-4">
-                  <span class="badge badge-outline">Pengumuman</span>
-                  <time class="text-sm text-slate-500" datetime={entry.tanggal}>{formatTanggal(entry.tanggal)}</time>
+              <article class="group relative rounded-[2rem] bg-white p-8 shadow-sm border border-slate-100 transition-all hover:shadow-lg hover:-translate-y-1" id={slug}>
+                <div class="flex items-start justify-between gap-4 mb-6">
+                   <time class="text-xs font-black text-blue-600 uppercase tracking-widest" datetime={entry.tanggal}>{formatTanggal(entry.tanggal)}</time>
+                   <span class="material-symbols-outlined text-slate-200 group-hover:text-blue-500 transition">campaign</span>
                 </div>
-                <h3 class="mt-4 text-xl font-bold tracking-tight text-slate-950">{entry.judul}</h3>
-                <p class="mt-3 text-sm leading-7 text-slate-600">{entry.ringkasan}</p>
-                <details class="ui-radius-md mt-4 border border-slate-200 bg-white p-4">
-                  <summary class="cursor-pointer list-none font-semibold text-violet-700">Baca detail</summary>
-                  <p class="mt-3 text-sm leading-7 text-slate-600">{entry.isi}</p>
+                <h3 class="text-xl font-black tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors leading-snug">{entry.judul}</h3>
+                <p class="mt-4 text-[0.95rem] font-bold text-slate-400 leading-relaxed line-clamp-3">{entry.ringkasan}</p>
+                <details class="mt-6">
+                   <summary class="cursor-pointer list-none text-xs font-black text-blue-600 hover:text-blue-800 transition flex items-center gap-2 uppercase tracking-widest ring-1 ring-blue-50 w-fit px-4 py-2 rounded-full bg-blue-50/10">
+                     <span class="material-symbols-outlined text-[18px]">expand_more</span> Baca Selengkapnya
+                   </summary>
+                   <div class="mt-4 text-[0.9rem] leading-relaxed text-slate-600 p-6 bg-slate-50 rounded-2xl border border-slate-100">{entry.isi}</div>
                 </details>
               </article>
             ))}
           </div>
         </div>
       ) : (
-        <article class="surface-card ui-radius-xl p-8 text-center">
-          <h2 class="text-2xl font-bold tracking-tight text-slate-950">Belum ada pengumuman aktif</h2>
-          <p class="mt-3 text-slate-600">Tambahkan item di `/keystatic/collection/pengumuman` dan set status ke tampil agar muncul di sini.</p>
-        </article>
+        <div class="card-premium p-16 text-center border border-slate-100">
+          <span class="material-symbols-outlined text-7xl text-slate-200 mb-6">notifications_off</span>
+          <h2 class="text-3xl font-black tracking-tight text-slate-900">Belum ada pengumuman aktif</h2>
+          <p class="mt-4 text-xl font-bold text-slate-400">Semua informasi sedang dalam peninjauan aparatur desa.</p>
+        </div>
       )}
 
       {others.length > 3 && (
-        <section class="space-y-4">
-          <div class="flex items-end justify-between gap-4">
-            <div>
-              <span class="badge badge-outline">Daftar lainnya</span>
-              <h2 class="mt-3 text-2xl font-bold tracking-tight text-slate-950">Pengumuman aktif lain</h2>
-            </div>
-          </div>
+        <section class="space-y-6">
+          <h2 class="text-3xl font-extrabold tracking-tight text-slate-900">Pengumuman Lainnya</h2>
           <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {others.slice(3).map(({ slug, entry }) => (
-              <article class="surface-card ui-radius-lg p-5" id={slug}>
-                <time class="text-sm text-slate-500" datetime={entry.tanggal}>{formatTanggal(entry.tanggal)}</time>
-                <h3 class="mt-3 text-lg font-bold tracking-tight text-slate-950">{entry.judul}</h3>
-                <p class="mt-3 text-sm leading-7 text-slate-600">{entry.ringkasan}</p>
+              <article class="group rounded-3xl bg-white/80 backdrop-blur-3xl p-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)] transition hover:shadow-lg hover:-translate-y-1" id={slug}>
+                <time class="flex items-center gap-1.5 text-xs font-bold text-blue-600 mb-3" datetime={entry.tanggal}>
+                  <span class="material-symbols-outlined text-[14px]">event</span> {formatTanggal(entry.tanggal)}
+                </time>
+                <h3 class="text-lg font-bold tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors">{entry.judul}</h3>
+                <p class="mt-3 text-sm font-medium leading-relaxed text-slate-500">{entry.ringkasan}</p>
               </article>
             ))}
           </div>

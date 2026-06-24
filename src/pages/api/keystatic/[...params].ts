@@ -1,5 +1,5 @@
 import { makeHandler } from '@keystatic/astro/api';
-import config from 'virtual:keystatic-config';
+import config from '../../../lib/keystatic-config';
 
 export const all = makeHandler({ config });
 export const ALL = all;

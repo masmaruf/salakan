@@ -1,0 +1,65 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import LayananCard from '../../components/ui/LayananCard.astro';
+import { getLayananWarga, getPengaturan } from '../../lib/keystatic';
+import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
+
+const [layananItems, pengaturan] = await Promise.all([getLayananWarga(), getPengaturan()]);
+const seo = pengaturan?.seoHalamanData?.layananWarga;
+const items = layananItems
+  .filter(({ entry }) => entry.statusTampil === 'tampil')
+  .sort((a, b) => a.entry.namaLayanan.localeCompare(b.entry.namaLayanan, 'id'));
+
+const breadcrumbItems = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Pusat Data', href: '/data' },
+  { label: 'Layanan Warga', active: true },
+];
+---
+
+<MainLayout
+  title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'Layanan Warga'))}
+  description={resolveSeoText(seo?.seoDescription, 'Informasi layanan warga, syarat, langkah, dan kontak layanan Padukuhan Salakan.')}
+  image={resolveSeoImage(seo?.ogImage)}
+>
+  <section class="section-premium bg-slate-50/50">
+    <div class="container-premium relative z-10">
+      
+      <Breadcrumbs items={breadcrumbItems} />
+
+      <header class="card-premium p-8 md:p-12 mb-16 border border-white/50">
+        <div class="relative z-10 space-y-8">
+          <span class="badge-blue">
+             <span class="material-symbols-outlined text-[18px]">handshake</span> Portal Pelayanan Publik
+          </span>
+          <h1 class="hero-title text-gradient !mb-4 leading-none text-slate-900 md:text-5xl lg:text-6xl">Satu Pintu Layanan Warga</h1>
+          <p class="max-w-2xl text-xl font-bold text-slate-400 leading-relaxed">
+            Informasi komprehensif mengenai prosedur administrasi, persyaratan dokumen, dan kanal komunikasi resmi untuk kebutuhan warga Salakan.
+          </p>
+          <div class="flex flex-wrap gap-4 pt-4">
+            <a class="btn-premium btn-premium-sm" href="/data">
+              <span class="material-symbols-outlined text-[20px]">arrow_back</span> Kembali ke Indeks
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <div class="grid gap-10 lg:grid-cols-2 pb-24">
+        {items.map(({ entry }) => (
+          <LayananCard 
+            namaLayanan={entry.namaLayanan}
+            ringkasan={entry.ringkasan}
+            syarat={entry.syarat}
+            langkah={entry.langkah}
+            kontak={entry.kontak}
+            jamLayanan={entry.jamLayanan}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</MainLayout>
+    </div>
+  </section>
+</MainLayout>

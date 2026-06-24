@@ -7,44 +7,82 @@ const profil = await getProfil();
 ---
 
 <MainLayout title="Profil | Padukuhan Salakan" description="Profil, visi misi, dan data wilayah Padukuhan Salakan.">
-  <section class="section">
-    <div class="container">
-      <SectionHeading
-        title={profil?.namaPadukuhan ?? 'Padukuhan Salakan'}
-        description={profil?.tagline ?? 'Profil padukuhan dan arah pengembangan wilayah.'}
-      />
+  <section class="section-premium bg-slate-50">
+    <div class="container-premium relative z-10">
+      <div class="text-center mb-16">
+        <SectionHeading
+          center
+          title={profil?.namaPadukuhan ?? 'Padukuhan Salakan'}
+          description={profil?.tagline ?? 'Profil padukuhan dan arah pengembangan wilayah.'}
+        />
+      </div>
 
-      <div class="grid gap-4 lg:grid-cols-2">
-        <article class="surface-card flex flex-col gap-4 p-5 md:p-6">
-          <span class="badge badge-primary badge-outline w-fit">Sejarah</span>
-          <h2 class="text-2xl font-bold tracking-tight text-slate-950">Sejarah singkat</h2>
-          <p class="text-sm leading-8 text-slate-600 md:text-base">{profil?.sejarahSingkat}</p>
+      <div class="grid gap-8 lg:grid-cols-2">
+        <article class="group card-premium flex flex-col gap-6">
+          <div class="absolute top-6 right-6 opacity-5 group-hover:opacity-10 transition-opacity">
+            <span class="material-symbols-outlined text-[100px] text-blue-600">history_edu</span>
+          </div>
+          <div class="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 shadow-inner group-hover:bg-blue-600 group-hover:text-white transition-all border border-blue-100">
+            <span class="material-symbols-outlined text-[32px]">history_edu</span>
+          </div>
+          <div class="relative z-10 space-y-4">
+            <h2 class="text-3xl font-black tracking-tight text-slate-900">Sejarah Singkat</h2>
+            <p class="text-lg font-medium leading-relaxed text-slate-500">{profil?.sejarahSingkat}</p>
+          </div>
         </article>
-        <article class="surface-card flex flex-col gap-4 p-5 md:p-6">
-          <span class="badge badge-primary badge-outline w-fit">Visi</span>
-          <h2 class="text-2xl font-bold tracking-tight text-slate-950">Visi</h2>
-          <p class="text-sm leading-8 text-slate-600 md:text-base">{profil?.visi}</p>
+
+        <article class="group card-premium flex flex-col gap-6">
+          <div class="absolute top-6 right-6 opacity-5 group-hover:opacity-10 transition-opacity">
+            <span class="material-symbols-outlined text-[100px] text-emerald-600">visibility</span>
+          </div>
+          <div class="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 shadow-inner group-hover:bg-emerald-600 group-hover:text-white transition-all border border-emerald-100">
+            <span class="material-symbols-outlined text-[32px]">visibility</span>
+          </div>
+          <div class="relative z-10 space-y-4">
+            <h2 class="text-3xl font-black tracking-tight text-slate-900">Visi</h2>
+            <p class="text-lg font-medium leading-relaxed text-slate-500">{profil?.visi}</p>
+          </div>
         </article>
       </div>
 
-      <div class="mt-4 grid gap-4 lg:grid-cols-2">
-        <article class="surface-card flex flex-col gap-4 p-5 md:p-6">
-          <span class="badge badge-primary badge-outline w-fit">Misi</span>
-          <h2 class="text-2xl font-bold tracking-tight text-slate-950">Misi</h2>
-          <ul class="list-disc space-y-2 pl-5 text-sm leading-8 text-slate-600 md:text-base">
-            {profil?.misi?.map((item) => <li>{item}</li>)}
-          </ul>
+      <div class="mt-8 grid gap-8 lg:grid-cols-2">
+        <article class="group card-premium flex flex-col gap-6">
+          <div class="absolute top-6 right-6 opacity-5 group-hover:opacity-10 transition-opacity">
+            <span class="material-symbols-outlined text-[100px] text-amber-600">explore</span>
+          </div>
+          <div class="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 shadow-inner group-hover:bg-amber-600 group-hover:text-white transition-all border border-amber-100">
+            <span class="material-symbols-outlined text-[32px]">explore</span>
+          </div>
+          <div class="relative z-10 space-y-4">
+            <h2 class="text-3xl font-black tracking-tight text-slate-900">Misi</h2>
+            <ul class="list-none space-y-5 text-lg font-medium text-slate-500">
+              {profil?.misi?.map((item) => (
+                <li class="flex items-start gap-4">
+                  <span class="material-symbols-outlined mt-1 text-amber-500 text-[24px]">check_circle</span>
+                  <span class="leading-relaxed">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </article>
-        <article class="surface-card flex flex-col gap-4 p-5 md:p-6">
-          <span class="badge badge-primary badge-outline w-fit">Data wilayah</span>
-          <h2 class="text-2xl font-bold tracking-tight text-slate-950">Data wilayah</h2>
-          <div class="grid gap-3">
-            {profil?.dataWilayah?.map((item) => (
-              <div class="rounded-[20px] border border-slate-200 bg-white px-4 py-4 shadow-sm">
-                <strong class="block text-lg font-extrabold tracking-tight text-slate-950">{item.value}</strong>
-                <span class="mt-1 block text-sm text-slate-500">{item.label}</span>
-              </div>
-            ))}
+
+        <article class="group card-premium flex flex-col gap-6">
+          <div class="absolute top-6 right-6 opacity-5 group-hover:opacity-10 transition-opacity">
+            <span class="material-symbols-outlined text-[100px] text-indigo-600">analytics</span>
+          </div>
+          <div class="relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 shadow-inner group-hover:bg-indigo-600 group-hover:text-white transition-all border border-indigo-100">
+            <span class="material-symbols-outlined text-[32px]">analytics</span>
+          </div>
+          <div class="relative z-10 space-y-6">
+            <h2 class="text-3xl font-black tracking-tight text-slate-900">Data Wilayah</h2>
+            <div class="grid gap-5 sm:grid-cols-2">
+              {profil?.dataWilayah?.map((item) => (
+                <div class="rounded-2xl bg-slate-50/50 p-6 border border-slate-100 transition hover:bg-white hover:shadow-xl hover:-translate-y-1">
+                  <strong class="block text-4xl font-black tracking-tighter text-indigo-600">{item.value}</strong>
+                  <span class="mt-2 block text-label">{item.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </article>
       </div>

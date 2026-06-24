@@ -4,21 +4,18 @@ import { marked } from 'marked';
 import MainLayout from '../../layouts/MainLayout.astro';
 import { resolveSeoImage, resolveSeoText, toAbsoluteUrl, withSiteTitle } from '../../lib/site';
 import { formatTanggal, getKegiatan, getKategoriBeritaMap } from '../../lib/keystatic';
+import NewsGrid from '../../components/NewsGrid.astro';
 
-export async function getStaticPaths() {
-  const items = await getKegiatan();
-  return items
-    .filter((item) => item.entry?.statusPublikasi === 'publish')
-    .map((item) => ({
-    params: { slug: item.slug },
-    props: { item: { slug: item.slug, entry: item.entry! } },
-  }));
+const { slug } = Astro.params;
+const [categoryLabels, allKegiatan] = await Promise.all([getKategoriBeritaMap(), getKegiatan()]);
+
+const item = allKegiatan.find((k) => k.slug === slug && k.entry?.statusPublikasi === 'publish');
+if (!item) {
+  return Astro.redirect('/404');
 }
 
-const { item } = Astro.props;
 const { entry } = item;
-const [categoryLabels, allKegiatan] = await Promise.all([getKategoriBeritaMap(), getKegiatan()]);
-const articleHtml = marked.parse(entry.isi, { breaks: true }) as string;
+const articleHtml = marked.parse(entry.isi || '', { breaks: true }) as string;
 const articleUrl = toAbsoluteUrl(`/berita/${item.slug}`);
 const seoTitle = withSiteTitle(resolveSeoText(entry.seoTitle, entry.judul));
 const seoDescription = resolveSeoText(entry.seoDescription, entry.ringkasan);
@@ -29,29 +26,34 @@ const encodedText = encodeURIComponent(shareText);
 const shareLinks = [
   {
     label: 'Facebook',
-    icon: 'thumb_up',
     href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+    className: 'border-blue-200 bg-blue-50 text-blue-700 hover:border-blue-300 hover:bg-blue-100',
+    icon: 'facebook',
   },
   {
     label: 'WhatsApp',
-    icon: 'chat',
     href: `https://wa.me/?text=${encodedText}%20${encodedUrl}`,
+    className: 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-100',
+    icon: 'whatsapp',
   },
   {
     label: 'Telegram',
-    icon: 'send',
     href: `https://t.me/share/url?url=${encodedUrl}&text=${encodedText}`,
+    className: 'border-sky-200 bg-sky-50 text-sky-700 hover:border-sky-300 hover:bg-sky-100',
+    icon: 'telegram',
   },
   {
     label: 'Email',
-    icon: 'mail',
     href: `mailto:?subject=${encodedText}&body=${encodedText}%0A${encodedUrl}`,
+    className: 'border-amber-200 bg-amber-50 text-amber-700 hover:border-amber-300 hover:bg-amber-100',
+    icon: 'email',
   },
   {
     label: 'Salin link',
-    icon: 'link',
     href: articleUrl,
     copy: true,
+    className: 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300 hover:bg-slate-100',
+    icon: 'link',
   },
 ];
 const categoryHref = `/berita/kategori/${entry.kategori}`;
@@ -76,188 +78,156 @@ const relatedArticles = allKegiatan
   type="article"
   publishedTime={entry.tanggal}
 >
-  <section class="section">
-    <div class="container max-w-5xl">
-      <article class="surface-card ui-radius-xl overflow-hidden">
-        {entry.gambarUtama && (
-          <Image
-            src={entry.gambarUtama}
-            alt={entry.altGambarUtama || entry.judul}
-            width={1440}
-            height={900}
-            class="h-[18rem] w-full object-cover md:h-[26rem]"
-            loading="eager"
-            sizes="(max-width: 920px) 100vw, 920px"
-          />
-        )}
-        <div class="px-5 py-6 md:px-10 md:py-10">
-          <nav class="breadcrumbs mb-6 text-sm text-slate-500">
-            <ul>
-              <li><a href="/">Beranda</a></li>
-              <li><a href="/berita">Berita</a></li>
-              <li><a href={categoryHref}>{categoryLabels[entry.kategori] ?? entry.kategori}</a></li>
-              <li class="text-slate-700">{entry.judul}</li>
-            </ul>
-          </nav>
-          <div class="mb-6 flex flex-wrap items-center gap-2">
-            <a class="badge badge-primary badge-outline" href={categoryHref}>{categoryLabels[entry.kategori] ?? entry.kategori}</a>
-            {entry.jenisKonten && <span class="badge badge-ghost capitalize">{entry.jenisKonten}</span>}
-          </div>
-          <div class="space-y-5">
-            <h1 class="max-w-4xl text-3xl font-extrabold tracking-tight text-slate-950 md:text-5xl">{entry.judul}</h1>
-            <div class="flex flex-wrap items-center gap-3 text-sm text-slate-500">
-              <time class="ui-radius-md inline-flex items-center gap-2 border border-slate-200 bg-slate-50 px-3 py-1.5 font-medium" datetime={entry.tanggal}>
-                <span class="material-symbols-outlined text-[18px]">calendar_today</span>
-                {formatTanggal(entry.tanggal)}
-              </time>
-              {entry.penulis && (
-                <p class="ui-radius-md inline-flex items-center gap-2 border border-slate-200 bg-white px-3 py-1.5 font-medium">
-                  <span class="material-symbols-outlined text-[18px]">edit_square</span>
-                  Ditulis oleh {entry.penulis}
-                </p>
-              )}
-              {entry.unggulan && (
-                <p class="ui-radius-md inline-flex items-center gap-2 border border-violet-200 bg-violet-50 px-3 py-1.5 font-semibold text-violet-700">
-                  <span class="material-symbols-outlined text-[18px]">star</span>
-                  Konten unggulan
-                </p>
-              )}
-            </div>
-          </div>
-          <p class="mt-7 max-w-3xl text-lg leading-8 text-slate-600 md:text-xl">{entry.ringkasan}</p>
+  <section class="section-premium bg-slate-50/50">
+    <div class="container-premium max-w-6xl relative z-10">
+      
+      {/* Breadcrumb Premium */}
+      <nav class="flex text-sm font-bold text-slate-400 uppercase tracking-[0.2em] mb-8" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center gap-3">
+          <li><a href="/" class="hover:text-blue-600 transition">Beranda</a></li>
+          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
+          <li><a href="/berita" class="hover:text-blue-600 transition">Berita</a></li>
+          <li><span class="material-symbols-outlined text-[16px]">chevron_right</span></li>
+          <li class="text-blue-700 bg-blue-50 px-3 py-1 rounded-full text-[0.7rem] ring-1 ring-blue-100 truncate max-w-[200px]">{entry.judul}</li>
+        </ol>
+      </nav>
 
-          <div class="ui-radius-lg mt-8 border border-slate-200 bg-slate-50/80 p-4 md:p-5">
-            <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-              <div>
-                <p class="text-sm font-semibold uppercase tracking-[0.14em] text-slate-500">Bagikan artikel</p>
-                <p class="mt-1 text-sm text-slate-600">Sebarkan informasi ini ke warga melalui kanal yang paling nyaman.</p>
+      <article class="space-y-12">
+        {/* Header Artikel Premium */}
+        <div class="card-premium !p-0 overflow-hidden relative border border-slate-100 shadow-xl">
+          <div class="grid lg:grid-cols-[1fr_22rem]">
+            <div class="p-8 md:p-12 lg:p-16 space-y-8">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="badge-premium !bg-blue-600 !text-white">{categoryLabels[entry.kategori] ?? entry.kategori}</span>
+                {entry.jenisKonten && <span class="badge-premium !bg-slate-100 !text-slate-600 capitalize">{entry.jenisKonten}</span>}
+                {entry.unggulan && (
+                  <span class="badge-premium !bg-amber-100 !text-amber-700 flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">star</span> Unggulan
+                  </span>
+                )}
               </div>
-              <div class="flex flex-wrap gap-2">
-                {shareLinks.map((link) => (
-                  link.copy ? (
-                    <button
-                      class="btn btn-sm border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-100"
-                      type="button"
-                      data-copy-link
-                      data-copy-value={articleUrl}
-                    >
-                      <span class="material-symbols-outlined text-[18px]">{link.icon}</span>
-                      <span data-copy-label>{link.label}</span>
-                    </button>
-                  ) : (
-                    <a
-                      class="btn btn-sm border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-100"
-                      href={link.href}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <span class="material-symbols-outlined text-[18px]">{link.icon}</span>
-                      {link.label}
-                    </a>
-                  )
-                ))}
+
+              <h1 class="hero-title text-gradient !mb-4 leading-[1.15]">
+                {entry.judul}
+              </h1>
+              
+              <p class="text-xl font-bold text-slate-400 leading-relaxed max-w-3xl">
+                {entry.ringkasan}
+              </p>
+
+              <div class="flex flex-wrap items-center gap-6 pt-4 text-xs font-black text-slate-400 uppercase tracking-widest border-t border-slate-100">
+                <time class="flex items-center gap-2" datetime={entry.tanggal}>
+                  <span class="material-symbols-outlined text-blue-500">calendar_today</span>
+                  {formatTanggal(entry.tanggal)}
+                </time>
+                {entry.penulis && (
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-emerald-500">person</span>
+                    Penulis: <span class="text-slate-900">{entry.penulis}</span>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
 
-          <div class="mt-10 border-t border-slate-200 pt-8">
-            <div class="article-rich text-slate-700" set:html={articleHtml} />
-          </div>
-
-          <div class="mt-10 grid gap-4 border-t border-slate-200 pt-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
-            <div class="space-y-4">
-              <div>
-                <p class="text-sm font-semibold uppercase tracking-[0.14em] text-slate-500">Kategori artikel</p>
-                <div class="mt-3 flex flex-wrap gap-2">
-                  <a class="badge badge-primary badge-outline" href={categoryHref}>
-                    {categoryLabels[entry.kategori] ?? entry.kategori}
-                  </a>
-                </div>
-              </div>
-              {entry.tag?.length ? (
-                <div>
-                  <p class="text-sm font-semibold uppercase tracking-[0.14em] text-slate-500">Tags</p>
-                  <div class="mt-3 flex flex-wrap gap-2">
-                    {entry.tag.map((tag: string) => (
-                      <a class="badge badge-outline" href={`/berita?tag=${encodeURIComponent(tag)}`}>
-                        {tag}
+            <aside class="bg-blue-50/30 p-8 md:p-12 border-t lg:border-t-0 lg:border-l border-slate-100 flex flex-col justify-center gap-8">
+               <div class="space-y-6">
+                 <p class="text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em] leading-none">Liputan Resmi</p>
+                 <div class="flex items-center gap-4">
+                    <div class="h-12 w-12 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-xs ring-4 ring-white shadow">PS</div>
+                    <div>
+                       <p class="text-sm font-black text-slate-900 leading-none">Redaksi Salakan</p>
+                       <p class="text-[0.7rem] font-bold text-slate-400 mt-1 uppercase tracking-wider">Humas Padukuhan</p>
+                    </div>
+                 </div>
+               </div>
+               
+               <div class="grid gap-3">
+                  <p class="text-[0.65rem] font-black text-slate-400 uppercase tracking-[0.2em] leading-none mb-2">Interaksi</p>
+                  <div class="flex flex-wrap gap-2">
+                    {shareLinks.map((link) => (
+                      <a 
+                        href={link.href} 
+                        class="grid h-10 w-10 place-items-center rounded-xl bg-white border border-slate-100 text-slate-400 shadow-sm transition hover:bg-blue-600 hover:text-white hover:shadow-lg hover:-translate-y-1"
+                        target="_blank"
+                        rel="noreferrer"
+                        title={link.label}
+                      >
+                        <span class="material-symbols-outlined text-[20px]">
+                          {link.icon === 'facebook' ? 'share' : link.icon === 'whatsapp' ? 'chat' : link.icon === 'telegram' ? 'send' : link.icon === 'email' ? 'mail' : 'content_copy'}
+                        </span>
                       </a>
                     ))}
                   </div>
-                </div>
-              ) : null}
-            </div>
-
-            <div class="ui-radius-lg border border-slate-200 bg-slate-50/80 p-4 md:min-w-[280px]">
-              <p class="text-sm font-semibold uppercase tracking-[0.14em] text-slate-500">Bagikan lagi</p>
-              <div class="mt-4 flex flex-wrap gap-2">
-                {shareLinks.map((link) => (
-                  link.copy ? (
-                    <button
-                      class="btn btn-sm border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-100"
-                      type="button"
-                      data-copy-link
-                      data-copy-value={articleUrl}
-                    >
-                      <span class="material-symbols-outlined text-[18px]">{link.icon}</span>
-                      <span data-copy-label>{link.label}</span>
-                    </button>
-                  ) : (
-                    <a
-                      class="btn btn-sm border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-100"
-                      href={link.href}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <span class="material-symbols-outlined text-[18px]">{link.icon}</span>
-                      {link.label}
-                    </a>
-                  )
-                ))}
-              </div>
-            </div>
+               </div>
+            </aside>
           </div>
         </div>
-      </article>
 
-      {relatedArticles.length > 0 && (
-        <section class="mt-6">
-          <div class="surface-card ui-radius-xl p-5 md:p-7">
-            <div class="mb-5 flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <span class="badge badge-outline">Artikel terkait</span>
-                <h2 class="mt-3 text-2xl font-bold tracking-tight text-slate-950">Bacaan lain yang masih berkaitan</h2>
-              </div>
-              <a class="btn btn-outline" href="/berita">Lihat semua berita</a>
-            </div>
-            <div class="grid gap-4 lg:grid-cols-3">
-              {relatedArticles.map(({ slug, entry: relatedEntry }) => (
-                <article class="card ui-radius-lg border border-slate-200 bg-white shadow-sm">
-                  {relatedEntry?.gambarUtama && (
-                    <Image
-                      src={relatedEntry.gambarUtama}
-                      alt={relatedEntry.altGambarUtama || relatedEntry.judul}
-                      width={960}
-                      height={540}
-                      class="h-48 w-full object-cover"
-                      loading="lazy"
-                    />
-                  )}
-                  <div class="flex h-full flex-col gap-3 p-5">
-                    <h3 class="text-xl font-bold tracking-tight text-slate-950">
-                      <a href={`/berita/${slug}`}>{relatedEntry.judul}</a>
-                    </h3>
-                    <time class="text-sm text-slate-500" datetime={relatedEntry.tanggal}>{formatTanggal(relatedEntry.tanggal)}</time>
-                    <a class="btn btn-sm mt-auto w-fit border-slate-200 bg-slate-50 text-slate-700 shadow-none hover:bg-slate-100" href={`/berita/${slug}`}>
-                      Baca artikel
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
+        {entry.gambarUtama && (
+          <div class="rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white">
+            <Image
+              src={entry.gambarUtama}
+              alt={entry.altGambarUtama || entry.judul}
+              width={1440}
+              height={900}
+              class="h-[25rem] w-full object-cover md:h-[35rem] lg:h-[45rem]"
+              loading="eager"
+            />
           </div>
-        </section>
-      )}
+        )}
+
+        {/* Konten Utama */}
+        <div class="grid gap-12 lg:grid-cols-[1fr_22rem] items-start">
+          <div class="card-premium p-8 md:p-12 lg:p-16 !bg-white">
+             <div class="prose prose-slate prose-lg max-w-none prose-headings:font-black prose-headings:tracking-tight prose-a:text-blue-600 prose-img:rounded-[2rem] prose-img:shadow-xl" set:html={articleHtml} />
+             
+             <div class="mt-16 pt-12 border-t border-slate-100">
+                <div class="flex flex-wrap gap-3">
+                  {entry.tag?.map((tag: string) => (
+                    <a href={`/berita?tag=${encodeURIComponent(tag)}`} class="badge-premium !bg-slate-50 !text-slate-500 hover:!bg-blue-50 hover:!text-blue-700 transition">
+                      #{tag}
+                    </a>
+                  ))}
+                </div>
+             </div>
+          </div>
+
+          <aside class="space-y-8 lg:sticky lg:top-28">
+            <div class="card-premium p-8 border border-slate-100 shadow-sm bg-white/50">
+               <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-6">Navigasi Liputan</h3>
+               <div class="grid gap-3">
+                  <a href="/berita" class="flex items-center justify-between p-4 rounded-2xl bg-white border border-slate-50 text-sm font-black text-slate-700 hover:text-blue-600 hover:border-blue-100 transition shadow-sm">
+                    Indeks Berita <span class="material-symbols-outlined text-[18px]">list</span>
+                  </a>
+                  <a href={categoryHref} class="flex items-center justify-between p-4 rounded-2xl bg-blue-50/50 border border-blue-100/50 text-sm font-black text-blue-700 hover:bg-blue-50 transition">
+                    Kategori Sama <span class="material-symbols-outlined text-[18px]">category</span>
+                  </a>
+               </div>
+            </div>
+
+            <div class="card-premium p-8 border border-slate-100 shadow-sm bg-gradient-to-br from-blue-600 to-indigo-700 text-white">
+               <h3 class="text-xs font-black text-blue-100/60 uppercase tracking-[0.3em] mb-4">Layanan Warga</h3>
+               <p class="text-sm font-bold text-blue-50 leading-relaxed mb-6">Butuh bantuan administrasi atau ingin melaporkan sesuatu secara resmi?</p>
+               <a href="/data/layanan-warga" class="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-white text-blue-700 text-sm font-black shadow-xl hover:bg-blue-50 transition">
+                  <span class="material-symbols-outlined">support_agent</span> Portal Layanan
+               </a>
+            </div>
+          </aside>
+        </div>
+
+        {relatedArticles.length > 0 && (
+          <section class="space-y-10 pt-16">
+            <div class="flex items-center justify-between px-4">
+               <div>
+                 <h2 class="text-3xl font-black tracking-tight text-slate-900">Liputan Terkait</h2>
+                 <p class="text-sm font-bold text-slate-400 mt-1 uppercase tracking-widest">Mungkin Anda juga tertarik membaca</p>
+               </div>
+               <a href="/berita" class="hidden md:flex items-center gap-2 text-xs font-black text-blue-600 uppercase tracking-widest hover:text-blue-800 transition">Lihat Semua <span class="material-symbols-outlined text-[18px]">arrow_forward</span></a>
+            </div>
+            <NewsGrid items={relatedArticles.map(a => ({ slug: a.slug, entry: a.entry as any }))} compact={true} />
+          </section>
+        )}
+      </article>
     </div>
   </section>
 </MainLayout>

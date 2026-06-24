@@ -1,0 +1,400 @@
+---
+// src/pages/admin/pengajuan.astro
+// Hanya akses lokal / admin — tambahkan middleware auth sesuai kebutuhan
+import { db, Pengajuan } from 'astro:db';
+import { getCollection } from 'astro:content';
+import { desc } from 'astro:db';
+
+const semuaRt = await getCollection('rt');
+const rtMap = Object.fromEntries(semuaRt.map(r => [r.id, r.data]));
+
+const semuaPengajuan = await db
+  .select()
+  .from(Pengajuan)
+  .orderBy(desc(Pengajuan.created_at));
+
+const statusLabel: Record<string, { label: string; color: string }> = {
+  menunggu:  { label: 'Menunggu',  color: '#d4a017' },
+  diproses:  { label: 'Diproses',  color: '#2980b9' },
+  selesai:   { label: 'Selesai',   color: '#27ae60' },
+  ditolak:   { label: 'Ditolak',   color: '#c0392b' },
+};
+---
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Pengajuan — DK V Salakan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --hijau: #1a4731; --hijau-muda: #2d6a4f; --hijau-terang: #52b788;
+      --krem: #f8f4ed; --krem-tua: #ede8df;
+      --teks: #1c1c1c; --teks-muted: #6b6b6b;
+      --border: #ccc5b5; --merah: #c0392b; --putih: #ffffff;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Source Sans 3', sans-serif; font-weight: 300; background: var(--krem); color: var(--teks); min-height: 100vh; }
+
+    header {
+      background: var(--hijau); color: var(--putih);
+      padding: 1.25rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    header h1 { font-family: 'Lora', serif; font-size: 1.1rem; font-weight: 600; }
+    header a { color: var(--hijau-terang); font-size: 0.82rem; text-decoration: none; }
+
+    main { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
+
+    /* Stats row */
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.9rem; margin-bottom: 2rem; }
+    .stat-card {
+      background: var(--putih); border: 1px solid var(--border); border-radius: 6px;
+      padding: 1rem 1.25rem;
+    }
+    .stat-card .num { font-family: 'Lora', serif; font-size: 2rem; font-weight: 600; color: var(--hijau); line-height: 1; }
+    .stat-card .lbl { font-size: 0.75rem; color: var(--teks-muted); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.07em; }
+
+    /* Filter bar */
+    .filter-bar {
+      display: flex; gap: 0.65rem; margin-bottom: 1.25rem; flex-wrap: wrap; align-items: center;
+    }
+    .filter-bar select, .filter-bar input {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.83rem;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--putih);
+      color: var(--teks);
+      outline: none;
+      appearance: none;
+    }
+    .filter-bar select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b6b6b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 0.7rem center;
+      padding-right: 2rem; cursor: pointer;
+    }
+    .filter-bar input { min-width: 220px; }
+    .filter-bar input:focus, .filter-bar select:focus { border-color: var(--hijau-terang); }
+
+    /* Table */
+    .table-wrap { background: var(--putih); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+    thead { background: var(--krem-tua); }
+    thead th {
+      text-align: left; padding: 0.75rem 1rem;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--hijau); border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid var(--krem-tua); transition: background 0.1s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--krem); }
+    td { padding: 0.75rem 1rem; vertical-align: middle; }
+    td.nama { font-weight: 400; }
+    td.nomor { font-size: 0.78rem; color: var(--teks-muted); font-variant-numeric: tabular-nums; }
+    td.keperluan { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--teks-muted); font-size: 0.81rem; }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 99px;
+      font-size: 0.71rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .badge-menunggu { background: #fef3cd; color: #856404; }
+    .badge-diproses  { background: #cfe2ff; color: #084298; }
+    .badge-selesai   { background: #d1e7dd; color: #0a3622; }
+    .badge-ditolak   { background: #f8d7da; color: #842029; }
+
+    .btn-detail {
+      background: none; border: 1px solid var(--border);
+      border-radius: 3px; padding: 0.25rem 0.6rem;
+      font-size: 0.75rem; color: var(--hijau); cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      transition: all 0.1s;
+    }
+    .btn-detail:hover { background: var(--krem-tua); border-color: var(--hijau); }
+
+    .empty { text-align: center; padding: 3rem; color: var(--teks-muted); font-size: 0.88rem; }
+
+    /* Modal */
+    #modal-backdrop {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45); z-index: 100;
+      align-items: center; justify-content: center;
+    }
+    #modal-backdrop.open { display: flex; }
+    .modal {
+      background: var(--putih); border-radius: 8px;
+      width: 90%; max-width: 540px; max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+    .modal-header {
+      padding: 1.1rem 1.5rem;
+      border-bottom: 1px solid var(--krem-tua);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .modal-header h2 { font-family: 'Lora', serif; font-size: 1rem; font-weight: 600; }
+    .modal-close { background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--teks-muted); line-height: 1; }
+    .modal-body { padding: 1.25rem 1.5rem; }
+    .detail-row { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; font-size: 0.84rem; }
+    .detail-row .dk { width: 150px; flex-shrink: 0; color: var(--teks-muted); font-size: 0.78rem; }
+    .detail-row .dv { font-weight: 400; }
+    .modal-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--krem-tua);
+      display: flex; gap: 0.65rem; align-items: center; flex-wrap: wrap;
+    }
+    .modal-footer label { font-size: 0.78rem; font-weight: 600; color: var(--teks-muted); }
+    .modal-footer select, .modal-footer textarea {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.84rem; padding: 0.4rem 0.65rem;
+      border: 1px solid var(--border); border-radius: 4px;
+      background: var(--krem); outline: none;
+    }
+    .modal-footer select { appearance: none; cursor: pointer; }
+    .btn-simpan {
+      background: var(--hijau); color: var(--putih);
+      border: none; border-radius: 4px;
+      padding: 0.5rem 1.1rem;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.84rem; font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-simpan:hover { background: var(--hijau-muda); }
+
+    @media (max-width: 768px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      table { font-size: 0.78rem; }
+      td, th { padding: 0.6rem 0.65rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Admin Pengajuan Surat — DK V Salakan</h1>
+  <a href="/keystatic">⚙ Pengaturan Keystatic</a>
+</header>
+
+<main>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="num">{semuaPengajuan.length}</div>
+      <div class="lbl">Total Pengajuan</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">{semuaPengajuan.filter(p => p.status === 'menunggu').length}</div>
+      <div class="lbl">Menunggu</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">{semuaPengajuan.filter(p => p.status === 'diproses').length}</div>
+      <div class="lbl">Diproses</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">{semuaPengajuan.filter(p => p.status === 'selesai').length}</div>
+      <div class="lbl">Selesai</div>
+    </div>
+  </div>
+
+  <!-- Filter -->
+  <div class="filter-bar">
+    <input type="text" id="search" placeholder="🔍  Cari nama, NIK, nomor surat..." />
+    <select id="filter-rt">
+      <option value="">Semua RT</option>
+      {semuaRt.map(r => (
+        <option value={r.id}>RT {r.data.nomor_rt}</option>
+      ))}
+    </select>
+    <select id="filter-status">
+      <option value="">Semua Status</option>
+      <option value="menunggu">Menunggu</option>
+      <option value="diproses">Diproses</option>
+      <option value="selesai">Selesai</option>
+      <option value="ditolak">Ditolak</option>
+    </select>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap">
+    {semuaPengajuan.length === 0 ? (
+      <div class="empty">Belum ada pengajuan masuk.</div>
+    ) : (
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th>Nomor Surat</th>
+            <th>RT</th>
+            <th>Nama Pemohon</th>
+            <th>Keperluan</th>
+            <th>Tanggal Masuk</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {semuaPengajuan.map((p) => (
+            <tr
+              data-rt={p.rt_id}
+              data-status={p.status}
+              data-search={`${p.nama} ${p.nik} ${p.nomor_surat}`.toLowerCase()}
+              data-json={JSON.stringify(p)}
+            >
+              <td class="nomor">{p.nomor_surat}</td>
+              <td>
+                {rtMap[p.rt_id]
+                  ? `RT ${rtMap[p.rt_id].nomor_rt}`
+                  : p.rt_id}
+              </td>
+              <td class="nama">{p.nama}</td>
+              <td class="keperluan" title={p.keperluan}>{p.keperluan}</td>
+              <td class="nomor">
+                {new Date(p.created_at).toLocaleDateString('id-ID', {
+                  day: 'numeric', month: 'short', year: 'numeric'
+                })}
+              </td>
+              <td>
+                <span class={`badge badge-${p.status}`}>
+                  {statusLabel[p.status]?.label ?? p.status}
+                </span>
+              </td>
+              <td>
+                <button class="btn-detail" data-id={p.id}>Detail</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+
+</main>
+
+<!-- Modal Detail -->
+<div id="modal-backdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modal-title">Detail Pengajuan</h2>
+      <button class="modal-close" id="modal-close">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer">
+      <label>Status:</label>
+      <select id="modal-status">
+        <option value="menunggu">Menunggu</option>
+        <option value="diproses">Diproses</option>
+        <option value="selesai">Selesai</option>
+        <option value="ditolak">Ditolak</option>
+      </select>
+      <button class="btn-simpan" id="btn-simpan-status">Simpan Status</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Filter + search
+  function applyFilters() {
+    const q      = document.getElementById('search').value.toLowerCase();
+    const rt     = document.getElementById('filter-rt').value;
+    const status = document.getElementById('filter-status').value;
+
+    document.querySelectorAll('#tbl tbody tr').forEach(tr => {
+      const matchQ  = !q      || tr.dataset.search.includes(q);
+      const matchRt = !rt     || tr.dataset.rt === rt;
+      const matchSt = !status || tr.dataset.status === status;
+      tr.style.display = matchQ && matchRt && matchSt ? '' : 'none';
+    });
+  }
+  ['search','filter-rt','filter-status'].forEach(id =>
+    document.getElementById(id).addEventListener('input', applyFilters)
+  );
+
+  // Modal
+  let currentId = null;
+  const backdrop = document.getElementById('modal-backdrop');
+
+  function fmtTgl(val) {
+    if (!val) return '—';
+    return new Date(val).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-detail');
+    if (!btn) return;
+
+    const tr   = btn.closest('tr');
+    const data = JSON.parse(tr.dataset.json);
+    currentId  = data.id;
+
+    document.getElementById('modal-title').textContent = `Surat ${data.nomor_surat}`;
+    document.getElementById('modal-status').value = data.status;
+
+    const fields = [
+      ['Nomor Surat',  data.nomor_surat],
+      ['RT',           data.rt_id],
+      ['Nama',         data.nama],
+      ['Jenis Kelamin',data.jenis_kelamin],
+      ['TTL',          `${data.tempat_lahir}, ${fmtTgl(data.tanggal_lahir)}`],
+      ['Status Kawin', data.status_kawin],
+      ['Agama',        data.agama],
+      ['Pekerjaan',    data.pekerjaan],
+      ['Alamat',       data.alamat],
+      ['NIK',          data.nik],
+      ['Keperluan',    data.keperluan],
+      ['No. HP/WA',    data.no_hp],
+      ['Tanggal Masuk',fmtTgl(data.created_at)],
+      ['Catatan RT',   data.catatan_rt || '—'],
+    ];
+
+    document.getElementById('modal-body').innerHTML = fields.map(([k,v]) =>
+      `<div class="detail-row"><span class="dk">${k}</span><span class="dv">${v ?? '—'}</span></div>`
+    ).join('');
+
+    backdrop.classList.add('open');
+  });
+
+  document.getElementById('modal-close').addEventListener('click', () => {
+    backdrop.classList.remove('open');
+  });
+  backdrop.addEventListener('click', (e) => {
+    if (e.target === backdrop) backdrop.classList.remove('open');
+  });
+
+  // Update status via API
+  document.getElementById('btn-simpan-status').addEventListener('click', async () => {
+    if (!currentId) return;
+    const status = document.getElementById('modal-status').value;
+    try {
+      const res  = await fetch(`/api/pengajuan/${currentId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
+      const json = await res.json();
+      if (json.ok) {
+        // Update badge di tabel
+        const tr = document.querySelector(`[data-json*='"id":${currentId}']`);
+        if (tr) {
+          tr.dataset.status = status;
+          const badge = tr.querySelector('.badge');
+          const labels = { menunggu:'Menunggu', diproses:'Diproses', selesai:'Selesai', ditolak:'Ditolak' };
+          badge.className = `badge badge-${status}`;
+          badge.textContent = labels[status];
+        }
+        backdrop.classList.remove('open');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  });
+</script>
+
+</body>
+</html>
