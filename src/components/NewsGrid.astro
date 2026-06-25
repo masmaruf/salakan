@@ -22,55 +22,60 @@ interface Props {
 
 const { items, compact = false } = Astro.props;
 const categoryLabels = await getKategoriBeritaMap();
-const gridClass = compact ? 'grid-cols-1 gap-4 lg:grid-cols-2' : 'grid-cols-1 gap-5 xl:grid-cols-3 md:grid-cols-2';
+
+function getCategoryClass(kategori: string): string {
+  const key = kategori.toLowerCase();
+  if (key.includes('pengumuman')) return 'bg-error-container text-on-error-container';
+  if (key.includes('kegiatan') || key.includes('warga')) return 'bg-blue-100 text-blue-800';
+  if (key.includes('gotong') || key.includes('lingkungan')) return 'bg-sky-100 text-sky-800';
+  if (key.includes('pelayanan') || key.includes('layanan')) return 'bg-amber-100 text-amber-800';
+  if (key.includes('potensi') || key.includes('umkm')) return 'bg-emerald-100 text-emerald-800';
+  if (key.includes('artikel')) return 'bg-surface-variant text-on-surface-variant border border-outline-variant';
+  return 'bg-primary-container text-on-primary-container';
+}
 ---
 
-<div class:list={['grid gap-10', gridClass]}>
+<div class:list={['grid', compact ? 'grid-cols-1 gap-6 lg:grid-cols-2' : 'grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3']}>
   {items.map(({ slug, entry }) => (
-    <article class="card-premium group !p-0 overflow-hidden flex flex-col h-full bg-white transition-all transform hover:-translate-y-2 hover:shadow-2xl">
-      <div class="relative overflow-hidden aspect-video">
+    <a href={`/berita/${slug}`} class="group flex flex-col transition-all">
+      {/* Image */}
+      <div class="relative aspect-[16/10] w-full overflow-hidden rounded-xl">
         {entry.gambarUtama ? (
           <Image
             src={entry.gambarUtama}
             alt={entry.altGambarUtama || entry.judul}
             width={960}
             height={540}
-            class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
             decoding="async"
             sizes={compact ? '(max-width: 960px) 100vw, 50vw' : '(max-width: 960px) 100vw, 33vw'}
           />
         ) : (
-          <div class="h-full w-full bg-slate-100 flex items-center justify-center">
-             <span class="material-symbols-outlined text-6xl text-slate-200">image</span>
+          <div class="h-full w-full bg-surface-container-low flex items-center justify-center">
+            <span class="material-symbols-outlined text-[48px] text-outline-variant">image</span>
           </div>
         )}
-        <div class="absolute top-4 left-4">
-           <span class="badge-premium !py-1.5 !px-4 !bg-blue-600/90 !text-white !backdrop-blur-md shadow-lg">{categoryLabels[entry.kategori] ?? entry.kategori}</span>
-        </div>
       </div>
 
-      <div class="flex flex-1 flex-col p-8">
-        <time class="mb-4 flex items-center gap-2 text-xs font-black text-blue-600 uppercase tracking-widest" datetime={entry.tanggal}>
-          <span class="material-symbols-outlined text-[16px]">calendar_month</span>
-          {formatTanggal(entry.tanggal)}
-        </time>
-        
-        <div class="space-y-4 flex-1">
-          <h3 class="text-2xl font-black tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors leading-[1.25] line-clamp-2">
-            <a href={`/berita/${slug}`}>{entry.judul}</a>
-          </h3>
-          <p class="text-[0.95rem] font-bold text-slate-400 leading-relaxed line-clamp-3">
-            {compact ? excerpt(entry.ringkasan, 110) : entry.ringkasan}
-          </p>
+      {/* Content */}
+      <div class="pt-3 flex flex-col gap-1 flex-1">
+        <div class="flex items-center gap-2">
+          <span class:list={['text-[12px] font-semibold px-2 py-0.5 rounded-md', getCategoryClass(entry.kategori)]}>
+            {categoryLabels[entry.kategori] ?? entry.kategori}
+          </span>
+          <span class="text-[12px] font-medium text-outline flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">schedule</span>
+            {formatTanggal(entry.tanggal)}
+          </span>
         </div>
-
-        <div class="mt-8 pt-6 border-t border-slate-50">
-          <a class="inline-flex items-center gap-3 text-xs font-black text-slate-900 uppercase tracking-widest group-hover:text-blue-600 transition" href={`/berita/${slug}`}>
-             Selengkapnya <span class="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1">arrow_forward</span>
-          </a>
-        </div>
+        <h3 class="text-base font-bold text-on-surface leading-snug line-clamp-2 group-hover:text-m3-primary transition-colors mt-1">
+          {entry.judul}
+        </h3>
+        <p class="text-sm text-on-surface-variant line-clamp-2 mt-0.5">
+          {compact ? excerpt(entry.ringkasan, 110) : entry.ringkasan}
+        </p>
       </div>
-    </article>
+    </a>
   ))}
 </div>

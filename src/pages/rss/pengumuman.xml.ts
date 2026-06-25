@@ -12,7 +12,7 @@ export const GET: APIRoute = async () => {
     .slice(0, 50)
     .map((item) => ({
       title: item.entry.judul,
-      link: toAbsoluteUrl('/data/pengumuman'),
+      link: toAbsoluteUrl('/agenda'),
       description: item.entry.ringkasan || item.entry.isi,
       pubDate: item.entry.tanggal,
       guid: `pengumuman:${item.slug}`,

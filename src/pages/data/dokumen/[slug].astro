@@ -1,11 +1,11 @@
 ---
 import MainLayout from '../../../layouts/MainLayout.astro';
+import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import { formatTanggal, getDokumen } from '../../../lib/keystatic';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
 export async function getStaticPaths() {
   const items = await getDokumen();
-
   return items
     .filter(({ entry }) => entry.statusPublikasi === 'publish')
     .map((item) => ({
@@ -30,65 +30,56 @@ const seoImage = resolveSeoImage(entry.ogImage);
 ---
 
 <MainLayout title={seoTitle} description={seoDescription} image={seoImage}>
-  <section class="section">
-    <div class="container max-w-5xl space-y-6">
-      <nav class="breadcrumbs text-sm text-slate-500">
-        <ul>
-          <li><a href="/">Beranda</a></li>
-          <li><a href="/data">Data</a></li>
-          <li><a href="/data/dokumen">Dokumen</a></li>
-          <li class="text-slate-700">{entry.judul}</li>
-        </ul>
-      </nav>
 
-      <article class="surface-card overflow-hidden p-6 md:p-8">
-        <div class="flex flex-wrap items-center gap-3">
-          <span class="badge badge-primary badge-outline">{kategoriLabels[entry.kategori]}</span>
-          {entry.unggulan && <span class="badge badge-outline">Dokumen unggulan</span>}
-          <time class="badge badge-ghost" datetime={entry.tanggalUpdate}>{formatTanggal(entry.tanggalUpdate)}</time>
-        </div>
+  <article class="container-premium max-w-3xl py-8">
+    <Breadcrumbs items={[
+      { label: 'Beranda', href: '/' },
+      { label: 'Pusat Data', href: '/data' },
+      { label: 'Dokumen', href: '/data/dokumen' },
+      { label: entry.judul, active: true },
+    ]} />
 
-        <div class="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1fr)_280px]">
-          <div class="space-y-5">
-            <div class="space-y-3">
-              <h1 class="text-3xl font-extrabold tracking-tight text-slate-950 md:text-5xl">{entry.judul}</h1>
-              <p class="max-w-3xl text-base leading-8 text-slate-600 md:text-lg">{entry.ringkasan}</p>
-            </div>
+    <header class="mb-6">
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="text-[12px] font-semibold px-2.5 py-1 rounded-md bg-primary-container text-on-primary-container">
+          {kategoriLabels[entry.kategori]}
+        </span>
+        {entry.unggulan && (
+          <span class="text-[12px] font-semibold px-2.5 py-1 rounded-md bg-amber-100 text-amber-800 flex items-center gap-1">
+            <span class="material-symbols-outlined text-[12px]">star</span> Unggulan
+          </span>
+        )}
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-bold text-on-surface leading-tight tracking-tight">{entry.judul}</h1>
+      <p class="mt-3 text-base text-on-surface-variant leading-relaxed">{entry.ringkasan}</p>
+      <div class="flex items-center gap-4 mt-4 pt-4 border-t border-outline-variant/40 text-sm text-on-surface-variant">
+        <time class="flex items-center gap-1.5" datetime={entry.tanggalUpdate}>
+          <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+          {formatTanggal(entry.tanggalUpdate)}
+        </time>
+        <span class="text-[12px] text-outline">ID: {slug}</span>
+      </div>
+    </header>
 
-            <div class="rounded-[var(--radius-lg)] border border-slate-200 bg-slate-50 p-5 md:p-6">
-              <h2 class="text-xl font-bold tracking-tight text-slate-950">Deskripsi dokumen</h2>
-              <p class="mt-3 text-sm leading-8 text-slate-600 md:text-base">{entry.deskripsi}</p>
-            </div>
-          </div>
-
-          <aside class="space-y-4">
-            <div class="rounded-[var(--radius-lg)] border border-slate-200 bg-white p-5 shadow-sm">
-              <p class="text-sm font-semibold text-slate-500">ID dokumen</p>
-              <strong class="mt-2 block text-base font-bold text-slate-950">{slug}</strong>
-            </div>
-            <div class="rounded-[var(--radius-lg)] border border-slate-200 bg-white p-5 shadow-sm">
-              <p class="text-sm font-semibold text-slate-500">Pembaruan terakhir</p>
-              <strong class="mt-2 block text-base font-bold text-slate-950">{formatTanggal(entry.tanggalUpdate)}</strong>
-            </div>
-            <div class="rounded-[var(--radius-lg)] border border-slate-200 bg-white p-5 shadow-sm">
-              <p class="text-sm font-semibold text-slate-500">Kategori</p>
-              <strong class="mt-2 block text-base font-bold text-slate-950">{kategoriLabels[entry.kategori]}</strong>
-            </div>
-            <div class="flex flex-wrap gap-3">
-              {entry.fileDokumen ? (
-                <a class="brand-button btn w-full rounded-[var(--radius-md)]" href={entry.fileDokumen} target="_blank" rel="noreferrer">
-                  Buka file dokumen
-                </a>
-              ) : (
-                <span class="badge badge-ghost w-full justify-center px-4 py-4">File belum ditambahkan</span>
-              )}
-              <a class="btn btn-outline w-full rounded-[var(--radius-md)]" href="/data/dokumen">
-                Kembali ke katalog
-              </a>
-            </div>
-          </aside>
-        </div>
-      </article>
+    <div class="rounded-xl bg-surface-container-low border border-outline-variant p-5 mb-6">
+      <h2 class="text-[20px] font-bold text-on-surface mb-3">Deskripsi Dokumen</h2>
+      <p class="text-base text-on-surface-variant leading-relaxed">{entry.deskripsi}</p>
     </div>
-  </section>
+
+    <div class="flex flex-wrap gap-3">
+      {entry.fileDokumen ? (
+        <a class="inline-flex items-center gap-2 rounded-xl bg-m3-primary px-5 py-3 text-sm font-semibold text-on-primary transition-all hover:-translate-y-0.5 hover:shadow-md" href={entry.fileDokumen} target="_blank" rel="noreferrer">
+          <span class="material-symbols-outlined text-[18px]">download</span> Buka File Dokumen
+        </a>
+      ) : (
+        <span class="inline-flex items-center gap-2 rounded-xl bg-surface-container-low px-5 py-3 text-sm font-medium text-on-surface-variant border border-outline-variant">
+          <span class="material-symbols-outlined text-[18px]">lock</span> File belum ditambahkan
+        </span>
+      )}
+      <a class="inline-flex items-center gap-2 rounded-xl bg-surface-container-lowest border border-outline-variant px-5 py-3 text-sm font-semibold text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-colors" href="/data/dokumen">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span> Kembali ke katalog
+      </a>
+    </div>
+  </article>
+
 </MainLayout>

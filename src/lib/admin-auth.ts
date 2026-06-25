@@ -1,7 +1,5 @@
 import { createHash, timingSafeEqual } from 'node:crypto';
-import { existsSync, readFileSync } from 'node:fs';
-import path from 'node:path';
-import YAML from 'yaml';
+import adminConfig from '../content/singletons/akun-admin/index.yaml';
 
 const SESSION_COOKIE = 'salakan_admin_session';
 
@@ -37,17 +35,9 @@ function normalizeRole(value: string | undefined): AdminRole {
   return 'editor';
 }
 
-function getKeystaticAdminConfigPath() {
-  return path.join(process.cwd(), 'src', 'content', 'singletons', 'akun-admin', 'index.yaml');
-}
-
 function getKeystaticAdminUsers(): AdminUser[] {
-  const configPath = getKeystaticAdminConfigPath();
-  if (!existsSync(configPath)) return [];
-
   try {
-    const raw = readFileSync(configPath, 'utf8');
-    const parsed = YAML.parse(raw) as
+    const parsed = adminConfig as
       | {
           gunakanPengaturanKeystatic?: boolean;
           users?: Array<{

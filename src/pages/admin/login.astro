@@ -29,25 +29,34 @@ function getSafeNextPath(value: string) {
 
 function isAllowedFormOrigin(request: Request) {
   const requestUrl = new URL(request.url);
-  const vercelOrigin = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : null;
+  const cfPagesUrl = process.env.CF_PAGES_URL || null;
   const allowedOrigins = new Set([
     requestUrl.origin,
     siteMeta.siteUrl,
-    ...(vercelOrigin ? [vercelOrigin] : []),
+    ...(cfPagesUrl ? [cfPagesUrl] : []),
   ]);
 
   const originHeader = request.headers.get('origin');
   if (originHeader) {
-    return allowedOrigins.has(originHeader);
+    if (allowedOrigins.has(originHeader)) return true;
+    try {
+      const originUrl = new URL(originHeader);
+      if (originUrl.hostname.endsWith('.pages.dev') && originUrl.hostname.includes('salakan')) {
+        return true;
+      }
+    } catch {}
+    return false;
   }
 
   const refererHeader = request.headers.get('referer');
   if (refererHeader) {
     try {
       const refererUrl = new URL(refererHeader);
-      return allowedOrigins.has(refererUrl.origin);
+      if (allowedOrigins.has(refererUrl.origin)) return true;
+      if (refererUrl.hostname.endsWith('.pages.dev') && refererUrl.hostname.includes('salakan')) {
+        return true;
+      }
+      return false;
     } catch {
       return false;
     }

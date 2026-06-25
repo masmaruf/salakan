@@ -8,13 +8,7 @@ const [faqItems, pengaturan] = await Promise.all([getFaq(), getPengaturan()]);
 const seo = pengaturan?.seoHalamanData?.faq;
 const items = faqItems
   .filter(({ entry }) => entry.statusTampil === 'tampil')
-  .sort((a, b) => a.entry.pertanyaan.localeCompare(b.entry.pertanyaan, 'id'));
-
-const breadcrumbItems = [
-  { label: 'Beranda', href: '/' },
-  { label: 'Pusat Data', href: '/data' },
-  { label: 'FAQ Warga', active: true },
-];
+  .sort((a, b) => a.entry.urutan - b.entry.urutan);
 
 const categories = [...new Set(items.map(({ entry }) => entry.kategori))];
 ---
@@ -24,63 +18,51 @@ const categories = [...new Set(items.map(({ entry }) => entry.kategori))];
   description={resolveSeoText(seo?.seoDescription, 'Pertanyaan yang sering diajukan warga Padukuhan Salakan.')}
   image={resolveSeoImage(seo?.ogImage)}
 >
-  <section class="section-premium bg-slate-50/50">
-    <div class="container-premium relative z-10">
-      
-      <Breadcrumbs items={breadcrumbItems} />
 
-      <header class="card-premium p-8 md:p-12 mb-16 border border-white/50">
-        <div class="relative z-10 space-y-8">
-          <span class="badge-blue">
-             <span class="material-symbols-outlined text-[18px]">contact_support</span> Pusat Bantuan Warga
+  <div class="container-premium pt-8 pb-4">
+    <Breadcrumbs items={[
+      { label: 'Beranda', href: '/' },
+      { label: 'Pusat Data', href: '/data' },
+      { label: 'FAQ', active: true },
+    ]} />
+    <h1 class="text-[28px] font-bold leading-[36px] text-on-surface">Tanya & Jawab (FAQ)</h1>
+    <p class="text-base text-on-surface-variant mt-1 max-w-2xl">
+      Pertanyaan yang sering diajukan warga mengenai layanan dan informasi Padukuhan Salakan.
+    </p>
+  </div>
+
+  <section class="container-premium py-8">
+    {categories.length > 1 && (
+      <div class="flex flex-wrap gap-2 mb-6">
+        {categories.map((cat) => (
+          <span class="text-[12px] font-semibold px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant border border-outline-variant">
+            {cat}
           </span>
-          <h1 class="hero-title text-gradient !mb-4 leading-none truncate overflow-visible">Tanya & Jawab (FAQ)</h1>
-          <p class="max-w-2xl text-xl font-bold text-slate-400 leading-relaxed">
-            Daftar pertanyaan yang sering diajukan warga mengenai layanan, administrasi, dan informasi umum Padukuhan Salakan.
-          </p>
-          <div class="flex flex-wrap gap-4 pt-4">
-            <a class="inline-flex h-14 items-center gap-3 rounded-full bg-slate-900 px-8 text-sm font-black text-white shadow-xl transition-all hover:bg-blue-600 hover:-translate-y-0.5" href="/data">
-              <span class="material-symbols-outlined text-[20px]">arrow_back</span> Kembali ke Indeks
-            </a>
-            <a class="inline-flex h-14 items-center gap-3 rounded-full bg-white px-8 text-sm font-black text-slate-700 border border-slate-100 shadow-sm hover:shadow-md transition-all" href="/kontak">Ajukan Pertanyaan</a>
-          </div>
-        </div>
-      </header>
-
-      {categories.length > 1 && (
-        <div class="flex flex-wrap items-center gap-4 mb-10">
-          <span class="flex items-center gap-2 text-xs font-black text-slate-400 uppercase tracking-[0.2em] mr-2">
-            <span class="material-symbols-outlined text-[18px]">segment</span> Filter Kategori:
-          </span>
-          {categories.map((cat) => (
-            <span class="inline-flex items-center rounded-full bg-white px-6 py-2.5 text-sm font-black text-slate-600 shadow-sm border border-slate-100 transition hover:bg-indigo-600 hover:text-white cursor-default">{cat}</span>
-          ))}
-        </div>
-      )}
-
-      <div class="grid gap-6">
-        {items.map(({ entry }, idx) => (
-          <article class="group relative rounded-[2.5rem] bg-white p-8 md:p-10 shadow-sm border border-slate-100 transition-all hover:shadow-xl hover:-translate-y-1 overflow-hidden">
-            <div class="absolute top-4 right-4 opacity-5 group-hover:opacity-10 transition">
-              <span class="material-symbols-outlined text-9xl text-indigo-100">contact_support</span>
-            </div>
-            <div class="relative z-10 flex items-start gap-8">
-              <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 shadow-inner group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
-                <span class="text-2xl font-black">{String(idx + 1).padStart(2, '0')}</span>
-              </div>
-              <div class="min-w-0 flex-1 space-y-4">
-                <span class="inline-flex items-center rounded-full bg-slate-100 px-4 py-1 text-[0.65rem] font-black text-slate-500 uppercase tracking-widest">{entry.kategori}</span>
-                <h2 class="text-2xl font-black tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors leading-[1.2]">{entry.pertanyaan}</h2>
-                <div class="mt-4 rounded-3xl bg-slate-50/50 p-6 md:p-8 text-lg font-bold text-slate-400 leading-relaxed border border-slate-100/50 group-hover:bg-white group-hover:shadow-sm transition-all italic">
-                   "{entry.jawaban}"
-                </div>
-              </div>
-            </div>
-          </article>
         ))}
       </div>
+    )}
+
+    <div class="space-y-4">
+      {items.map(({ entry }, idx) => (
+        <details class="group bg-surface-container-lowest border border-outline-variant rounded-xl transition-all hover:shadow-sm open:shadow-md">
+          <summary class="cursor-pointer p-5 flex items-start gap-4 list-none">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary-container text-on-primary-container text-[12px] font-bold mt-0.5">
+              {String(idx + 1).padStart(2, '0')}
+            </span>
+            <div class="flex-1 min-w-0">
+              <span class="text-[12px] font-semibold text-outline uppercase tracking-wider">{entry.kategori}</span>
+              <h2 class="text-base font-bold text-on-surface leading-tight mt-1 group-hover:text-m3-primary transition-colors">{entry.pertanyaan}</h2>
+            </div>
+            <span class="material-symbols-outlined text-[20px] text-outline shrink-0 mt-1 transition-transform group-open:rotate-180">expand_more</span>
+          </summary>
+          <div class="px-5 pb-5 pl-17">
+            <div class="rounded-xl bg-surface-container-low/50 border border-outline-variant/40 p-4 text-sm text-on-surface-variant leading-relaxed ml-12">
+              {entry.jawaban}
+            </div>
+          </div>
+        </details>
+      ))}
     </div>
   </section>
-    </div>
-  </section>
+
 </MainLayout>

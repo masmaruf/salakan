@@ -56,10 +56,10 @@ menuData:
     informasi UMKM, profil wilayah, dan struktur organisasi.
   items:
     - label: Pengumuman
-      href: /data/pengumuman
+      href: /agenda
       description: >-
-        Pengumuman aktif padukuhan yang dapat dibaca cepat dari satu halaman
-        data.
+        Pengumuman aktif padukuhan dan agenda kegiatan warga dalam satu
+        halaman.
       icon: campaign
       status: tampil
     - label: Dokumen
@@ -82,7 +82,7 @@ menuData:
       icon: account_tree
       status: tampil
     - label: Agenda
-      href: /data/agenda
+      href: /agenda
       description: >-
         Jadwal kegiatan warga dan agenda padukuhan yang sedang atau akan
         berjalan.

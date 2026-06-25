@@ -26,7 +26,7 @@ async function generateNomor(rtId: string, nomorRt: string) {
   return `${nomorPad}/RT-${nomorRt}/DkV/${tahun}`;
 }
 
-export const actions = {
+export const server = {
   layanan: {
     ajukanSurat: defineAction({
       accept: 'form',

@@ -1,11 +1,11 @@
 ---
 import MainLayout from '../../../layouts/MainLayout.astro';
+import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import NewsGrid from '../../../components/NewsGrid.astro';
 import { getKegiatan, getKategoriBerita, sortByDateDesc } from '../../../lib/keystatic';
 
 export async function getStaticPaths() {
   const categories = await getKategoriBerita();
-
   return categories
     .filter((item) => item.entry.status === 'tampil')
     .map((item) => ({
@@ -18,50 +18,32 @@ const { category } = Astro.props;
 const allKegiatan = sortByDateDesc(
   (await getKegiatan())
     .filter((item) => item.entry?.statusPublikasi === 'publish')
-    .map((item) => ({
-      slug: item.slug,
-      entry: item.entry!,
-    }))
+    .map((item) => ({ slug: item.slug, entry: item.entry! }))
 );
 
 const kegiatan = allKegiatan.filter(({ entry }) => entry.kategori === category.slug);
 const title = `Kategori: ${category.entry.labelTampil} | Padukuhan Salakan`;
-const description =
-  category.entry.deskripsi ||
-  `Arsip berita dan artikel untuk kategori ${category.entry.labelTampil}.`;
+const description = category.entry.deskripsi || `Arsip berita kategori ${category.entry.labelTampil}.`;
 ---
 
 <MainLayout title={title} description={description}>
-  <section class="section">
-    <div class="container space-y-6">
-      <div class="surface-card space-y-6 p-6 md:p-8">
-        <nav class="breadcrumbs text-sm text-slate-500">
-          <ul>
-            <li><a href="/">Beranda</a></li>
-            <li><a href="/berita">Berita</a></li>
-            <li class="text-slate-700">{category.entry.labelTampil}</li>
-          </ul>
-        </nav>
 
-        <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_220px] lg:items-end">
-          <div class="space-y-3">
-            <h1 class="page-title font-extrabold text-slate-950">{category.entry.labelTampil}</h1>
-            <p class="max-w-3xl text-body-lg text-slate-600">{description}</p>
-          </div>
-          <article class="rounded-[var(--radius-lg)] border border-slate-200 bg-white px-5 py-4 shadow-sm">
-            <small class="block text-sm text-slate-500">Jumlah artikel</small>
-            <strong class="mt-1 block text-3xl font-extrabold tracking-tight text-slate-950">{kegiatan.length}</strong>
-          </article>
-        </div>
-      </div>
-
-      <div class="flex flex-wrap items-center gap-3">
-        <a class="btn btn-sm btn-outline rounded-[var(--radius-md)]" href="/berita">
-          Kembali ke semua berita
-        </a>
-      </div>
-
-      <NewsGrid items={kegiatan} />
+  <div class="container-premium pt-8 pb-4">
+    <Breadcrumbs items={[
+      { label: 'Beranda', href: '/' },
+      { label: 'Berita', href: '/berita' },
+      { label: category.entry.labelTampil, active: true },
+    ]} />
+    <h1 class="text-[28px] font-bold leading-[36px] text-on-surface">{category.entry.labelTampil}</h1>
+    <p class="text-base text-on-surface-variant mt-1 max-w-2xl">{description}</p>
+    <div class="flex items-center gap-3 mt-4">
+      <span class="text-sm text-on-surface-variant">{kegiatan.length} artikel</span>
+      <a class="text-sm font-semibold text-m3-primary hover:underline" href="/berita">Semua berita</a>
     </div>
+  </div>
+
+  <section class="container-premium py-8">
+    <NewsGrid items={kegiatan} />
   </section>
+
 </MainLayout>

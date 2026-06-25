@@ -208,9 +208,28 @@ const profil = defineCollection({
   schema: z.object({
     namaPadukuhan: z.string().min(1),
     tagline: z.string().min(1),
+    hero: z.object({
+      gambar: z.string().optional(),
+      judul: z.string().default(''),
+      badge: z.string().default(''),
+    }).default({ judul: '', badge: '' }),
+    sejarahLabel: z.string().default('Kisah Kami'),
+    sejarahJudul: z.string().default('Sejarah & Filosofi'),
     sejarahSingkat: z.string().min(1),
     visi: z.string().min(1),
     misi: z.array(z.string().min(1)).default([]),
+    potensiDesa: z.array(
+      z.object({
+        ikon: z.string().min(1),
+        judul: z.string().min(1),
+        deskripsi: z.string().min(1),
+      })
+    ).default([]),
+    lokasi: z.object({
+      gambarPeta: z.string().optional(),
+      alamat: z.string().default(''),
+      linkPeta: z.string().default(''),
+    }).default({ alamat: '', linkPeta: '' }),
     dataWilayah: z.array(
       z.object({
         label: z.string().min(1),
@@ -229,17 +248,31 @@ const pengaturan = defineCollection({
     jamLayanan: z.string().min(1),
     linkPeta: z.string().default(''),
     sambutanBeranda: z.string().min(1),
-    seoHalamanData: z.object({
-      dataUtama: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
-      pengumuman: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
-      dokumen: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
-      umkm: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
-      strukturOrganisasi: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
-      agenda: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
-      layananWarga: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
-      faq: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
-      monografi: z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') }),
-    }).default({}),
+    seoHalamanData: (() => {
+      const seoPageSchema = z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') });
+      const seoDefault = { seoTitle: '', seoDescription: '', ogImage: '' } as const;
+      return z.object({
+        dataUtama: seoPageSchema.default(seoDefault),
+        pengumuman: seoPageSchema.default(seoDefault),
+        dokumen: seoPageSchema.default(seoDefault),
+        umkm: seoPageSchema.default(seoDefault),
+        strukturOrganisasi: seoPageSchema.default(seoDefault),
+        agenda: seoPageSchema.default(seoDefault),
+        layananWarga: seoPageSchema.default(seoDefault),
+        faq: seoPageSchema.default(seoDefault),
+        monografi: seoPageSchema.default(seoDefault),
+      }).default({
+        dataUtama: seoDefault,
+        pengumuman: seoDefault,
+        dokumen: seoDefault,
+        umkm: seoDefault,
+        strukturOrganisasi: seoDefault,
+        agenda: seoDefault,
+        layananWarga: seoDefault,
+        faq: seoDefault,
+        monografi: seoDefault,
+      });
+    })(),
     menuData: z.object({
       title: z.string().min(1),
       description: z.string().min(1),

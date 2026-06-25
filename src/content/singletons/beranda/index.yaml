@@ -6,7 +6,7 @@ hero:
     membantu warga memperoleh pengumuman, agenda, dan dokumentasi kegiatan
     secara cepat tanpa meninggalkan karakter lokal yang hangat dan tertata.
   primaryCtaLabel: Lihat pengumuman
-  primaryCtaHref: /data/pengumuman
+  primaryCtaHref: /agenda
   secondaryCtaLabel: Baca profil padukuhan
   secondaryCtaHref: /profil
   panelLabel: Informasi utama warga
@@ -17,7 +17,7 @@ hero:
   panelLinks:
     - title: Pengumuman
       description: Lihat info prioritas warga dan agenda yang sedang berjalan.
-      href: /data/pengumuman
+      href: /agenda
       icon: campaign
       status: tampil
     - title: Berita

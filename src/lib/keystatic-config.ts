@@ -761,8 +761,35 @@ const keystaticConfig = config({
           label: 'Tagline',
           multiline: true,
         }),
+        hero: fields.object(
+          {
+            gambar: fields.image({
+              label: 'Gambar hero',
+              directory: 'public/images/profil',
+              publicPath: '/images/profil/',
+              description: 'Foto latar hero profil (landscape, min 1200px lebar).',
+            }),
+            judul: fields.text({
+              label: 'Judul overlay hero',
+              description: 'Contoh: Salakan: Harmoni Tradisi & Digital',
+            }),
+            badge: fields.text({
+              label: 'Badge hero',
+              description: 'Chip kecil di atas judul hero, contoh: Warisan Budaya',
+            }),
+          },
+          { label: 'Hero Profil' }
+        ),
+        sejarahLabel: fields.text({
+          label: 'Label section sejarah',
+          description: 'Teks kecil di atas judul sejarah, contoh: Kisah Kami',
+        }),
+        sejarahJudul: fields.text({
+          label: 'Judul section sejarah',
+          description: 'Contoh: Sejarah & Filosofi',
+        }),
         sejarahSingkat: fields.text({
-          label: 'Sejarah singkat',
+          label: 'Isi sejarah',
           multiline: true,
         }),
         visi: fields.text({
@@ -773,6 +800,37 @@ const keystaticConfig = config({
           label: 'Misi',
           itemLabel: (props) => props.value || 'Poin misi',
         }),
+        potensiDesa: fields.array(
+          fields.object({
+            ikon: fields.text({
+              label: 'Nama ikon Material',
+              description: 'Contoh: agriculture, self_improvement, palette',
+            }),
+            judul: fields.text({ label: 'Judul potensi' }),
+            deskripsi: fields.text({ label: 'Deskripsi', multiline: true }),
+          }),
+          {
+            label: 'Potensi Desa',
+            itemLabel: (props) => props.fields.judul.value || 'Potensi baru',
+          }
+        ),
+        lokasi: fields.object(
+          {
+            gambarPeta: fields.image({
+              label: 'Gambar peta / foto lokasi',
+              directory: 'public/images/profil',
+              publicPath: '/images/profil/',
+            }),
+            alamat: fields.text({
+              label: 'Alamat lengkap',
+              multiline: true,
+            }),
+            linkPeta: fields.url({
+              label: 'Link Google Maps',
+            }),
+          },
+          { label: 'Lokasi & Peta' }
+        ),
         dataWilayah: fields.array(
           fields.object({
             label: fields.text({ label: 'Label data' }),

@@ -9,69 +9,22 @@ interface Props {
 
 const { label, value, icon, variant = 'slate', description } = Astro.props;
 
-const variants = {
-  blue: {
-    bg: 'bg-blue-50',
-    iconColor: 'text-blue-600',
-    iconBg: 'bg-blue-100',
-    hover: 'group-hover:bg-blue-600 group-hover:text-white',
-    hoverIcon: 'group-hover:bg-white/20 group-hover:text-white'
-  },
-  emerald: {
-    bg: 'bg-emerald-50',
-    iconColor: 'text-emerald-600',
-    iconBg: 'bg-emerald-100',
-    hover: 'group-hover:bg-emerald-600 group-hover:text-white',
-    hoverIcon: 'group-hover:bg-white/20 group-hover:text-white'
-  },
-  amber: {
-    bg: 'bg-amber-50',
-    iconColor: 'text-amber-600',
-    iconBg: 'bg-amber-100',
-    hover: 'group-hover:bg-amber-600 group-hover:text-white',
-    hoverIcon: 'group-hover:bg-white/20 group-hover:text-white'
-  },
-  red: {
-    bg: 'bg-red-50',
-    iconColor: 'text-red-600',
-    iconBg: 'bg-red-100',
-    hover: 'group-hover:bg-red-600 group-hover:text-white',
-    hoverIcon: 'group-hover:bg-white/20 group-hover:text-white'
-  },
-  slate: {
-    bg: 'bg-slate-50',
-    iconColor: 'text-slate-600',
-    iconBg: 'bg-slate-100',
-    hover: 'group-hover:bg-slate-900 group-hover:text-white',
-    hoverIcon: 'group-hover:bg-white/20 group-hover:text-white'
-  }
+const iconBgMap = {
+  blue: 'bg-primary-container/30 text-m3-primary',
+  emerald: 'bg-emerald-100/50 text-emerald-600',
+  amber: 'bg-amber-100/50 text-amber-600',
+  red: 'bg-red-100/50 text-red-600',
+  slate: 'bg-surface-container-high text-on-surface-variant',
 };
-
-const styles = variants[variant];
 ---
 
-<article class={`group relative flex flex-col items-center text-center p-8 rounded-[2.5rem] bg-white border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-500 hover:shadow-xl hover:-translate-y-2 ${styles.hover}`}>
-  {/* Label */}
-  <span class="text-[0.65rem] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-white/70 transition-colors mb-4">
-    {label}
-  </span>
-
-  {/* Value */}
-  <strong class="text-4xl font-black tracking-tight text-slate-900 group-hover:text-white transition-colors leading-none">
-    {value}
-  </strong>
-
-  {/* Decorative bar */}
-  <span class={`mt-6 h-1 w-10 rounded-full transition-all duration-500 group-hover:bg-white group-hover:w-20 ${styles.iconColor} ${styles.iconBg}`}></span>
-
-  {/* Icon - Floating on right top */}
-  <div class={`absolute top-6 right-6 opacity-5 group-hover:opacity-10 transition-opacity`}>
-    <span class="material-symbols-outlined text-6xl">{icon}</span>
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 flex items-center gap-4 transition-all hover:-translate-y-0.5 hover:shadow-md">
+  <div class:list={['grid h-11 w-11 shrink-0 place-items-center rounded-xl', iconBgMap[variant]]}>
+    <span class="material-symbols-outlined text-[22px]">{icon}</span>
   </div>
-
-  {description && (
-    <p class="mt-4 text-xs font-bold text-slate-400 group-hover:text-white/60 transition-colors">
-      {description}
-    </p>
-  )}
+  <div class="min-w-0">
+    <p class="text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">{label}</p>
+    <p class="text-xl font-bold text-on-surface leading-tight">{value}</p>
+    {description && <p class="text-[12px] text-outline mt-0.5">{description}</p>}
+  </div>
 </article>

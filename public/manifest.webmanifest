@@ -1,0 +1,21 @@
+{
+  "name": "Padukuhan Salakan",
+  "short_name": "Salakan",
+  "description": "Portal warga Padukuhan Salakan — pengumuman, berita, agenda, dan layanan.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#3b5998",
+  "background_color": "#ffffff",
+  "lang": "id",
+  "orientation": "portrait-primary",
+  "categories": ["government", "news", "social"],
+  "icons": [
+    {
+      "src": "/images/og-salakan.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

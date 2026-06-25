@@ -42,12 +42,12 @@ Jika ingin mengelola akun langsung dari `/keystatic`, gunakan singleton `Akun Ad
 - `layanan-warga`: alur dan informasi layanan warga.
 - `faq`: pertanyaan yang sering diajukan.
 
-## Catatan deploy Vercel
+## Catatan deploy Cloudflare Pages
 
 - Untuk deploy situs publik tanpa admin lokal, set environment variable `SKIP_KEYSTATIC=true`.
-- Jika CMS tetap diaktifkan di Vercel, isi `ADMIN_USERS_JSON` atau kombinasi `ADMIN_USERNAME`, `ADMIN_PASSWORD`, dan `ADMIN_ROLE` di Project Settings > Environment Variables.
+- Jika CMS tetap diaktifkan di Cloudflare Pages, isi `ADMIN_USERS_JSON` atau kombinasi `ADMIN_USERNAME`, `ADMIN_PASSWORD`, dan `ADMIN_ROLE` di Settings > Environment Variables.
 - Untuk production, disarankan memakai `ADMIN_USERS_JSON` agar role `superadmin`, `admin`, dan `editor` lebih mudah dikontrol.
-- Environment variable sekarang diprioritaskan di atas singleton `Akun Admin`, jadi kredensial production dari Vercel tidak akan tertimpa oleh data konten lokal.
+- Environment variable sekarang diprioritaskan di atas singleton `Akun Admin`, jadi kredensial production dari Cloudflare tidak akan tertimpa oleh data konten lokal.
 - Jika singleton `Akun Admin` ingin dipakai, aktifkan hanya setelah akun production yang valid sudah tersimpan. Untuk production, env tetap lebih aman sebagai sumber utama.
 - Jika ingin CMS aktif di environment ter-deploy, storage Keystatic perlu diganti dari `local` ke mode GitHub/Cloud sesuai kredensial yang dimiliki.
-- Panduan ringkas deploy ada di [DEPLOY_VERCEL.md](C:/Users/maruf/OneDrive/Dokumenku/New%20project/DEPLOY_VERCEL.md).
+- Panduan ringkas deploy ada di [DEPLOY_CLOUDFLARE.md](DEPLOY_CLOUDFLARE.md).

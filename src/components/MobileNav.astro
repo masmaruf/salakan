@@ -1,0 +1,56 @@
+---
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const navItems = [
+  { href: '/agenda', label: 'Agenda', icon: 'calendar_month' },
+  { href: '/berita', label: 'Berita', icon: 'article' },
+  { href: '/', label: 'Beranda', icon: 'home' },
+  { href: '/data', label: 'Layanan', icon: 'gavel' },
+  { href: '/galeri', label: 'Galeri', icon: 'image' },
+];
+
+function isActive(href: string, current: string): boolean {
+  if (href === '/') return current === '/';
+  return current === href || current.startsWith(href + '/');
+}
+---
+
+<nav
+  class="fixed bottom-0 left-0 w-full z-50 md:hidden flex justify-around items-center px-2 pb-[env(safe-area-inset-bottom,8px)] pt-1 shadow-[0_-4px_12px_rgba(15,23,42,0.05)] bg-white rounded-t-xl"
+  aria-label="Navigasi mobile"
+>
+  {navItems.map((item) => {
+    const active = isActive(item.href, currentPath);
+    return (
+      <a
+        href={item.href}
+        class:list={[
+          'flex flex-col items-center justify-center rounded-xl px-4 py-1 min-w-[56px] min-h-[48px] transition-all',
+          active
+            ? 'bg-primary-container text-on-primary-container scale-90'
+            : 'text-on-surface-variant hover:bg-surface-container-low',
+        ]}
+        aria-current={active ? 'page' : undefined}
+      >
+        <span
+          class="material-symbols-outlined mb-0.5 text-[24px]"
+          style={active ? "font-variation-settings: 'FILL' 1;" : "font-variation-settings: 'FILL' 0;"}
+        >
+          {item.icon}
+        </span>
+        <span
+          class:list={[
+            'text-[11px] leading-tight',
+            active ? 'font-bold' : 'font-medium',
+          ]}
+        >
+          {item.label}
+        </span>
+      </a>
+    );
+  })}
+</nav>

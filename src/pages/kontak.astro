@@ -1,6 +1,5 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import SectionHeading from '../components/SectionHeading.astro';
 import { getPengaturan } from '../lib/keystatic';
 
 const pengaturan = await getPengaturan();
@@ -9,97 +8,74 @@ const whatsappLink = nomorWhatsapp ? `https://wa.me/${nomorWhatsapp}` : null;
 ---
 
 <MainLayout title="Kontak | Padukuhan Salakan" description="Alamat dan kontak informasi Padukuhan Salakan.">
-  <section class="section-premium bg-slate-50">
-    <div class="container-premium relative z-10">
-      <div class="text-center mb-16">
-        <SectionHeading
-          center
-          title="Kontak & Layanan Warga"
-          description="Akses cepat ke pusat bantuan, alamat sekretariat, dan layanan komunikasi resmi Padukuhan Salakan."
-        />
+
+  <div class="container-premium pt-8 pb-4">
+    <h1 class="text-[28px] font-bold leading-[36px] text-on-surface">Kontak & Layanan</h1>
+    <p class="text-base text-on-surface-variant mt-1">Pusat bantuan, alamat sekretariat, dan komunikasi resmi Padukuhan Salakan.</p>
+  </div>
+
+  <section class="container-premium py-8">
+    <div class="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
+
+      <!-- Contact Info -->
+      <div class="space-y-4">
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5">
+          <div class="flex items-center gap-2 text-[12px] font-semibold text-m3-primary uppercase tracking-wider mb-2">
+            <span class="material-symbols-outlined text-[16px]">location_on</span> Alamat
+          </div>
+          <p class="text-sm font-bold text-on-surface whitespace-pre-line">{pengaturan?.alamat ?? 'Sekretariat Padukuhan Salakan'}</p>
+        </div>
+
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5">
+          <div class="flex items-center gap-2 text-[12px] font-semibold text-m3-primary uppercase tracking-wider mb-2">
+            <span class="material-symbols-outlined text-[16px]">chat</span> WhatsApp
+          </div>
+          {whatsappLink ? (
+            <a class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md mt-1" href={whatsappLink} target="_blank" rel="noreferrer">
+              <span class="material-symbols-outlined text-[18px]">open_in_new</span> Hubungi Pengurus
+            </a>
+          ) : (
+            <p class="text-sm font-bold text-on-surface mt-1">Dalam pendaftaran</p>
+          )}
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5">
+            <div class="flex items-center gap-2 text-[12px] font-semibold text-m3-primary uppercase tracking-wider mb-2">
+              <span class="material-symbols-outlined text-[16px]">mail</span> Surel
+            </div>
+            <p class="text-sm font-bold text-on-surface break-words">{pengaturan?.email ?? '-'}</p>
+          </div>
+          <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5">
+            <div class="flex items-center gap-2 text-[12px] font-semibold text-m3-primary uppercase tracking-wider mb-2">
+              <span class="material-symbols-outlined text-[16px]">schedule</span> Jam Kerja
+            </div>
+            <p class="text-sm font-bold text-on-surface">{pengaturan?.jamLayanan ?? '-'}</p>
+          </div>
+        </div>
       </div>
 
-      <div class="grid gap-8 lg:grid-cols-[1fr_1.2fr]">
-        <article class="group card-premium flex flex-col gap-8">
-          <div class="absolute top-0 right-0 p-10 opacity-5 transition-opacity group-hover:opacity-10 pointer-events-none">
-            <span class="material-symbols-outlined text-[120px] text-blue-600">admin_panel_settings</span>
+      <!-- Map -->
+      <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+        {pengaturan?.linkPeta ? (
+          <iframe
+            title="Peta Padukuhan Salakan"
+            src={pengaturan.linkPeta}
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            class="h-full w-full min-h-[400px] border-none"
+          />
+        ) : (
+          <div class="flex flex-col items-center justify-center min-h-[400px] text-center p-8">
+            <span class="material-symbols-outlined text-[48px] text-outline mb-4">wrong_location</span>
+            <p class="text-base font-bold text-on-surface">Peta Belum Tersedia</p>
+            <p class="text-sm text-on-surface-variant mt-2 max-w-xs">
+              Sematkan tautan peta melalui dasbor Keystatic agar titik lokasi muncul di sini.
+            </p>
           </div>
-          
-          <div class="relative z-10 flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 shadow-inner group-hover:bg-blue-600 group-hover:text-white transition-all border border-blue-100">
-              <span class="material-symbols-outlined text-[32px]">contact_support</span>
-            </div>
-            <h2 class="text-3xl font-black tracking-tight text-slate-900">Pusat Layanan</h2>
-          </div>
-
-          <div class="relative z-10 space-y-6">
-            <div class="rounded-2xl bg-white/50 p-6 border border-white/50 shadow-sm transition hover:shadow-xl hover:bg-white hover:-translate-y-1">
-              <span class="flex items-center gap-2 text-label !text-blue-500 mb-3">
-                <span class="material-symbols-outlined text-[18px]">location_on</span> Alamat Resmi
-              </span>
-              <strong class="block whitespace-pre-line text-lg font-black text-slate-900 leading-relaxed">{pengaturan?.alamat ?? 'Sekretariat Padukuhan Salakan'}</strong>
-            </div>
-
-            <div class="rounded-2xl bg-white/50 p-6 border border-white/50 shadow-sm transition hover:shadow-xl hover:bg-white hover:-translate-y-1">
-              <span class="flex items-center gap-2 text-label !text-emerald-500 mb-3">
-                <span class="material-symbols-outlined text-[18px]">chat</span> WhatsApp Layanan
-              </span>
-              {whatsappLink ? (
-                <a class="btn-premium !h-12 !bg-emerald-600 !from-emerald-500 !to-emerald-700 !shadow-emerald-100 !text-sm mt-1" href={whatsappLink} target="_blank" rel="noreferrer">
-                  <span>Hubungi Pengurus Sekarang</span>
-                  <span class="material-symbols-outlined text-[20px]">open_in_new</span>
-                </a>
-              ) : (
-                <strong class="block text-lg font-black text-slate-900 mt-1">Dalam pendaftaran</strong>
-              )}
-            </div>
-
-            <div class="grid grid-cols-2 gap-6">
-              <div class="rounded-2xl bg-white/50 p-6 border border-white/50 shadow-sm transition hover:shadow-xl hover:bg-white hover:-translate-y-1">
-                <span class="flex items-center gap-2 text-label mb-3">
-                  <span class="material-symbols-outlined text-[18px]">mail</span> Surel
-                </span>
-                <strong class="block text-base font-black text-slate-900 break-words">{pengaturan?.email ?? '-'}</strong>
-              </div>
-              <div class="rounded-2xl bg-white/50 p-6 border border-white/50 shadow-sm transition hover:shadow-xl hover:bg-white hover:-translate-y-1">
-                <span class="flex items-center gap-2 text-label mb-3">
-                  <span class="material-symbols-outlined text-[18px]">schedule</span> Jam Kerja
-                </span>
-                <strong class="block text-base font-black text-slate-900">{pengaturan?.jamLayanan ?? '-'}</strong>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="group card-premium flex flex-col gap-8 bg-white/40 !backdrop-blur-3xl overflow-hidden">
-           <div class="flex items-center gap-4">
-            <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 shadow-inner group-hover:bg-amber-600 group-hover:text-white transition-all border border-amber-100">
-              <span class="material-symbols-outlined text-[32px]">map</span>
-            </div>
-            <h2 class="text-3xl font-black tracking-tight text-slate-900">Peta Lokasi</h2>
-          </div>
-          
-          <div class="overflow-hidden rounded-3xl bg-slate-100/50 shadow-inner h-[calc(100%-100px)] border border-white/50 relative group/map">
-            {pengaturan?.linkPeta ? (
-              <iframe
-                title="Peta Padukuhan Salakan"
-                src={pengaturan.linkPeta}
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                class="h-full w-full min-h-[450px] border-none grayscale-[40%] contrast-110 transition-all duration-700 group-hover/map:grayscale-0 group-hover/map:contrast-100"
-              />
-            ) : (
-              <div class="flex h-full min-h-[450px] flex-col items-center justify-center p-12 text-center bg-white/20 backdrop-blur-xl">
-                <span class="material-symbols-outlined text-7xl text-slate-300 mb-6 drop-shadow-sm">wrong_location</span>
-                <strong class="text-2xl font-black text-slate-900">Peta Belum Tersedia</strong>
-                <p class="mt-4 text-base font-bold text-slate-400 max-w-xs leading-relaxed">
-                  Sematkan tautan peta melalui dasbor Keystatic agar titik lokasi muncul di halaman ini.
-                </p>
-              </div>
-            )}
-          </div>
-        </article>
+        )}
       </div>
     </div>
   </section>
+
 </MainLayout>

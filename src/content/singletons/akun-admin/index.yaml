@@ -1,6 +1,6 @@
 gunakanPengaturanKeystatic: false
 catatan: >-
-  Untuk production, disarankan memakai environment variable Vercel sebagai sumber
+  Untuk production, disarankan memakai environment variable Cloudflare sebagai sumber
   utama login admin. Aktifkan mode Keystatic ini hanya jika akun production sudah
   benar-benar diganti dan diverifikasi.
 users:

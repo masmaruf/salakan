@@ -17,10 +17,10 @@ export const EDITOR_ALLOWED_COLLECTION_KEYS = [
 
 const EDITOR_ALLOWED_COLLECTION_SET = new Set<string>(EDITOR_ALLOWED_COLLECTION_KEYS);
 
-const EDITOR_NAVIGATION = {
+const EDITOR_NAVIGATION: { [section: string]: string[] } = {
   Editorial: ['pengumuman', 'kegiatan', 'agenda', 'kategoriBerita', 'galeri'],
   'Data Kampung': ['dokumen', 'umkm', 'strukturOrganisasi', 'layananWarga', 'faq'],
-} as const;
+};
 
 export function isEditorAllowedCollectionKey(key: string) {
   return EDITOR_ALLOWED_COLLECTION_SET.has(key);

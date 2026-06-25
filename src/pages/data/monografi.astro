@@ -15,12 +15,6 @@ if (!monografi) {
 const { identitasDukuh, demografi, fasilitas, potensi } = monografi;
 const seo = pengaturan?.seoHalamanData?.monografi;
 
-const breadcrumbItems = [
-  { label: 'Beranda', href: '/' },
-  { label: 'Pusat Data', href: '/data' },
-  { label: 'Monografi', active: true },
-];
-
 const statsPendidikan = [
   { label: 'TK/PAUD', value: fasilitas.pendidikan.tkPaud, icon: 'child_care' },
   { label: 'SD', value: fasilitas.pendidikan.sd, icon: 'school' },
@@ -40,187 +34,145 @@ const statsKesehatan = [
 
 <MainLayout
   title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'Monografi & Data Wilayah'))}
-  description={resolveSeoText(seo?.seoDescription, 'Data resmi monografi, kependudukan, fasilitas, dan potensi Padukuhan Salakan.')}
+  description={resolveSeoText(seo?.seoDescription, 'Data monografi, kependudukan, fasilitas, dan potensi Padukuhan Salakan.')}
   image={resolveSeoImage(seo?.ogImage)}
 >
-  <section class="section-premium bg-slate-50/50">
-    <div class="container-premium relative z-10">
-      
-      <Breadcrumbs items={breadcrumbItems} />
 
-      <header class="card-premium p-8 md:p-12 mb-16 border border-white/50">
-        <div class="grid gap-12 lg:grid-cols-[1.5fr_1fr] items-center relative z-10">
-          <div class="space-y-8">
-            <span class="badge-blue">
-               <span class="material-symbols-outlined text-[18px]">analytics</span> Profil Wilayah Resmi
-            </span>
-            <h1 class="hero-title text-gradient !mb-4 leading-none truncate overflow-visible">Data Monografi</h1>
-            <p class="max-w-2xl text-xl font-bold text-slate-400 leading-relaxed">
-              Informasi komprehensif profil kependudukan, sarana prasarana, serta potensi seni dan ekonomi di wilayah Padukuhan Salakan.
-            </p>
-            <div class="flex flex-wrap gap-4 pt-4">
-              <a class="btn-premium btn-premium-sm" href="/data">
-                <span class="material-symbols-outlined text-[20px]">arrow_back</span> Kembali ke Indeks
-              </a>
+  <div class="container-premium pt-8 pb-4">
+    <Breadcrumbs items={[
+      { label: 'Beranda', href: '/' },
+      { label: 'Pusat Data', href: '/data' },
+      { label: 'Monografi', active: true },
+    ]} />
+    <h1 class="text-[28px] font-bold leading-[36px] text-on-surface">Data Monografi</h1>
+    <p class="text-base text-on-surface-variant mt-1 max-w-2xl">
+      Profil kependudukan, sarana prasarana, dan potensi seni & ekonomi Padukuhan Salakan.
+    </p>
+  </div>
+
+  <section class="container-premium py-8 space-y-10">
+
+    <!-- Identitas Dukuh -->
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 sm:p-6">
+      <div class="flex items-center gap-4">
+        <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary-container/30 text-m3-primary">
+          <span class="material-symbols-outlined text-[22px]">face_6</span>
+        </div>
+        <div>
+          <span class="text-[12px] font-semibold text-m3-primary uppercase tracking-wider">Identitas Dukuh</span>
+          <h2 class="text-lg font-bold text-on-surface">{identitasDukuh.namaDukuh}</h2>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-4 mt-4 text-sm text-on-surface-variant">
+        <span class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">school</span> {identitasDukuh.pendidikan}
+        </span>
+        <span class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">location_on</span> {identitasDukuh.alamat}
+        </span>
+      </div>
+    </div>
+
+    <!-- Demografi -->
+    <div>
+      <h2 class="text-[20px] font-bold text-on-surface mb-4">Kependudukan & Demografi</h2>
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard label="Total Jiwa" value={demografi.totalJiwa} icon="group" variant="blue" />
+        <StatCard label="Laki-laki" value={demografi.totalLakiLaki} icon="male" variant="blue" description={`${Math.round((demografi.totalLakiLaki / demografi.totalJiwa) * 100)}% dari populasi`} />
+        <StatCard label="Perempuan" value={demografi.totalPerempuan} icon="female" variant="amber" description={`${Math.round((demografi.totalPerempuan / demografi.totalJiwa) * 100)}% dari populasi`} />
+        <StatCard label="Kepala Keluarga" value={demografi.totalKK} icon="home" variant="slate" description={`L: ${demografi.kkLakiLaki} | P: ${demografi.kkPerempuan}`} />
+      </div>
+      <div class="grid gap-3 sm:grid-cols-2 mt-3">
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex items-center gap-3">
+          <div class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-surface-container-high text-on-surface-variant">
+            <span class="material-symbols-outlined text-[20px]">straighten</span>
+          </div>
+          <div>
+            <p class="text-[12px] text-on-surface-variant">Luas Wilayah</p>
+            <p class="text-sm font-bold text-on-surface">{demografi.luasWilayah}</p>
+          </div>
+        </div>
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex items-center gap-3">
+          <div class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-surface-container-high text-on-surface-variant">
+            <span class="material-symbols-outlined text-[20px]">grid_view</span>
+          </div>
+          <div>
+            <p class="text-[12px] text-on-surface-variant">Wilayah RT</p>
+            <p class="text-sm font-bold text-on-surface">{demografi.jumlahRT} Unit RT</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fasilitas -->
+    <div class="grid gap-8 lg:grid-cols-2">
+      <div>
+        <h2 class="text-[20px] font-bold text-on-surface mb-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-[20px] text-m3-primary">school</span> Sarana Pendidikan
+        </h2>
+        <div class="grid gap-2 sm:grid-cols-2">
+          {statsPendidikan.map((item) => (
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="grid h-8 w-8 place-items-center rounded-lg bg-surface-container-high text-on-surface-variant">
+                  <span class="material-symbols-outlined text-[16px]">{item.icon}</span>
+                </div>
+                <span class="text-sm font-medium text-on-surface">{item.label}</span>
+              </div>
+              <span class="text-sm font-bold text-m3-primary">{item.value}</span>
             </div>
-          </div>
-
-          {/* Card Identitas Dukuh */}
-          <div class="relative group">
-             <div class="absolute -inset-4 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 rounded-[3rem] blur-2xl transition group-hover:from-blue-500/20 group-hover:to-indigo-500/20"></div>
-             <div class="relative bg-white/70 backdrop-blur-xl border border-white/50 p-8 rounded-[2.5rem] shadow-sm overflow-hidden">
-                <div class="flex items-center gap-5 mb-6">
-                   <div class="h-16 w-16 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-200">
-                      <span class="material-symbols-outlined text-3xl">face_6</span>
-                   </div>
-                   <div>
-                      <span class="text-label text-blue-600">Identitas Dukuh</span>
-                      <h3 class="text-xl font-black text-slate-900">{identitasDukuh.namaDukuh}</h3>
-                   </div>
-                </div>
-                <div class="space-y-4">
-                   <div class="flex items-center gap-3 text-slate-500 font-bold">
-                      <span class="material-symbols-outlined text-lg text-blue-500">school</span>
-                      <span class="text-sm">{identitasDukuh.pendidikan}</span>
-                   </div>
-                   <div class="flex items-center gap-3 text-slate-500 font-bold">
-                      <span class="material-symbols-outlined text-lg text-blue-500">location_on</span>
-                      <span class="text-sm">{identitasDukuh.alamat}</span>
-                   </div>
-                </div>
-             </div>
-          </div>
-        </div>
-      </header>
-
-      <div class="space-y-16">
-        {/* Section Demografi */}
-        <div class="space-y-8">
-           <div class="flex items-center gap-4">
-              <div class="h-12 w-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center shadow-inner">
-                 <span class="material-symbols-outlined">group</span>
-              </div>
-              <h2 class="text-3xl font-black text-slate-900 tracking-tight">Kependudukan & Demografi</h2>
-           </div>
-
-           <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard label="Total Jiwa" value={demografi.totalJiwa} icon="group" variant="blue" />
-              <StatCard label="Laki-laki" value={demografi.totalLakiLaki} icon="male" variant="blue" description={`${Math.round((demografi.totalLakiLaki / demografi.totalJiwa) * 100)}% dari populasi`} />
-              <StatCard label="Perempuan" value={demografi.totalPerempuan} icon="female" variant="amber" description={`${Math.round((demografi.totalPerempuan / demografi.totalJiwa) * 100)}% dari populasi`} />
-              <StatCard label="Kepala Keluarga" value={demografi.totalKK} icon="home" variant="slate" description={`L: ${demografi.kkLakiLaki} | P: ${demografi.kkPerempuan}`} />
-           </div>
-
-           <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <div class="flex items-center gap-4 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm transition hover:shadow-md">
-                 <div class="h-12 w-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center">
-                    <span class="material-symbols-outlined">straighten</span>
-                 </div>
-                 <div>
-                    <span class="block text-label text-slate-400">Luas Wilayah</span>
-                    <strong class="text-lg font-black text-slate-800">{demografi.luasWilayah}</strong>
-                 </div>
-              </div>
-              <div class="flex items-center gap-4 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm transition hover:shadow-md">
-                 <div class="h-12 w-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
-                    <span class="material-symbols-outlined">grid_view</span>
-                 </div>
-                 <div>
-                    <span class="block text-label text-slate-400">Wilayah RT</span>
-                    <strong class="text-lg font-black text-slate-800">{demografi.jumlahRT} Unit RT</strong>
-                 </div>
-              </div>
-           </div>
-        </div>
-
-        {/* Section Fasilitas */}
-        <div class="grid gap-12 lg:grid-cols-2">
-           <div class="space-y-8">
-              <div class="flex items-center gap-4">
-                 <div class="h-12 w-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center shadow-inner">
-                    <span class="material-symbols-outlined">school</span>
-                 </div>
-                 <h2 class="text-2xl font-black text-slate-900 tracking-tight">Sarana Pendidikan</h2>
-              </div>
-              <div class="grid gap-4 sm:grid-cols-2">
-                 {statsPendidikan.map((item) => (
-                    <div class="flex items-center justify-between p-5 bg-white rounded-3xl border border-slate-100 shadow-sm transition hover:border-blue-200 group">
-                       <div class="flex items-center gap-4">
-                          <div class="h-10 w-10 rounded-lg bg-slate-50 text-slate-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                             <span class="material-symbols-outlined text-xl">{item.icon}</span>
-                          </div>
-                          <span class="font-bold text-slate-700">{item.label}</span>
-                       </div>
-                       <strong class="font-black text-blue-700">{item.value}</strong>
-                    </div>
-                 ))}
-              </div>
-           </div>
-
-           <div class="space-y-8">
-              <div class="flex items-center gap-4">
-                 <div class="h-12 w-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center shadow-inner">
-                    <span class="material-symbols-outlined">health_and_safety</span>
-                 </div>
-                 <h2 class="text-2xl font-black text-slate-900 tracking-tight">Sarana Kesehatan</h2>
-              </div>
-              <div class="grid gap-4">
-                 {statsKesehatan.map((item) => (
-                    <div class="flex items-center justify-between p-6 bg-white rounded-[2rem] border border-slate-100 shadow-sm transition hover:border-red-200 group">
-                       <div class="flex items-center gap-4">
-                          <div class="h-12 w-12 rounded-xl bg-red-50 text-red-600 flex items-center justify-center group-hover:bg-red-600 group-hover:text-white transition-colors">
-                             <span class="material-symbols-outlined text-2xl">{item.icon}</span>
-                          </div>
-                          <span class="text-lg font-bold text-slate-700">{item.label}</span>
-                       </div>
-                       <strong class="text-2xl font-black text-red-600">{item.value}</strong>
-                    </div>
-                 ))}
-              </div>
-           </div>
-        </div>
-
-        {/* Section Potensi */}
-        <div class="grid gap-8 lg:grid-cols-2">
-           <div class="card-premium p-10 bg-slate-900 text-white border-0 overflow-hidden relative shadow-2xl shadow-slate-200">
-              <div class="absolute -right-10 -bottom-10 h-40 w-40 bg-white/5 rounded-full blur-3xl"></div>
-              <div class="relative z-10 space-y-8">
-                 <div class="flex items-center gap-4">
-                    <div class="h-12 w-12 rounded-2xl bg-white/10 text-white flex items-center justify-center">
-                       <span class="material-symbols-outlined">theater_comedy</span>
-                    </div>
-                    <h2 class="text-2xl font-black tracking-tight uppercase">Seni & Budaya</h2>
-                 </div>
-                 <div class="flex flex-wrap gap-3">
-                    {potensi.seniBudaya.map((item) => (
-                       <span class="px-5 py-2.5 rounded-full bg-white/10 border border-white/10 text-sm font-bold hover:bg-white/20 transition cursor-default">
-                          {item}
-                       </span>
-                    ))}
-                 </div>
-              </div>
-           </div>
-
-           <div class="card-premium p-10 bg-blue-600 text-white border-0 overflow-hidden relative shadow-2xl shadow-blue-200">
-              <div class="absolute -right-10 -bottom-10 h-40 w-40 bg-white/10 rounded-full blur-3xl"></div>
-              <div class="relative z-10 space-y-8">
-                 <div class="flex items-center gap-4">
-                    <div class="h-12 w-12 rounded-2xl bg-white/20 text-white flex items-center justify-center">
-                       <span class="material-symbols-outlined">storefront</span>
-                    </div>
-                    <h2 class="text-2xl font-black tracking-tight uppercase">UMKM & Industri</h2>
-                 </div>
-                 <div class="flex flex-wrap gap-3">
-                    {potensi.umkmIndustri.map((item) => (
-                       <span class="px-5 py-2.5 rounded-full bg-white/20 border border-white/20 text-sm font-bold hover:bg-white/30 transition cursor-default">
-                          {item}
-                       </span>
-                    ))}
-                 </div>
-              </div>
-           </div>
+          ))}
         </div>
       </div>
 
+      <div>
+        <h2 class="text-[20px] font-bold text-on-surface mb-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-[20px] text-m3-error">health_and_safety</span> Sarana Kesehatan
+        </h2>
+        <div class="grid gap-2">
+          {statsKesehatan.map((item) => (
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="grid h-8 w-8 place-items-center rounded-lg bg-error-container/30 text-m3-error">
+                  <span class="material-symbols-outlined text-[16px]">{item.icon}</span>
+                </div>
+                <span class="text-sm font-medium text-on-surface">{item.label}</span>
+              </div>
+              <span class="text-sm font-bold text-m3-error">{item.value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
+
+    <!-- Potensi -->
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div class="bg-inverse-surface rounded-xl p-6">
+        <h2 class="text-base font-bold text-inverse-on-surface flex items-center gap-2 mb-4">
+          <span class="material-symbols-outlined text-[18px]">theater_comedy</span> Seni & Budaya
+        </h2>
+        <div class="flex flex-wrap gap-2">
+          {potensi.seniBudaya.map((item) => (
+            <span class="text-[12px] font-semibold px-3 py-1.5 rounded-full bg-white/10 text-inverse-on-surface border border-white/10">
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div class="bg-m3-primary rounded-xl p-6">
+        <h2 class="text-base font-bold text-on-primary flex items-center gap-2 mb-4">
+          <span class="material-symbols-outlined text-[18px]">storefront</span> UMKM & Industri
+        </h2>
+        <div class="flex flex-wrap gap-2">
+          {potensi.umkmIndustri.map((item) => (
+            <span class="text-[12px] font-semibold px-3 py-1.5 rounded-full bg-white/20 text-on-primary border border-white/20">
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+
   </section>
+
 </MainLayout>

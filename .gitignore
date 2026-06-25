@@ -1,4 +1,3 @@
-```gitignore
 # Dependencies
 node_modules/
 
@@ -8,6 +7,18 @@ build/
 .nuxt/
 .next/
 public/dist/
+
+# Astro
+.astro/
+
+# Cloudflare
+.wrangler/
+
+# Playwright
+.playwright-mcp/
+
+# Local database
+local.db
 
 # Environment variables
 .env
@@ -30,6 +41,7 @@ htmlcov/
 
 # Temp files
 *.tmp
+*.bak
 .DS_Store
 Thumbs.db
 
@@ -39,4 +51,3 @@ Thumbs.db
 .pytest_cache/
 .jest/
 .nyc_output/
-```

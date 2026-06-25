@@ -114,14 +114,8 @@ const isDataActive = currentPath === '/data' || currentPath.startsWith('/data/')
       </nav>
 
       <div class="flex items-center gap-2 sm:gap-3">
-        <div class="hidden lg:block">
-           <SearchDialog client:idle />
-        </div>
-        <a href="/dasbor" class="inline-flex h-9 sm:h-11 items-center gap-1.5 sm:gap-2 rounded-full bg-slate-900 px-4 sm:px-6 text-xs sm:text-sm font-semibold text-white shadow-md transition-all hover:bg-blue-600 hover:-translate-y-0.5 active:translate-y-0">
-           <span class="material-symbols-outlined text-[16px] sm:text-[18px]">lock_person</span>
-           <span class="hidden md:inline">Dasbor</span>
-        </a>
-        
+        <SearchDialog client:idle />
+
         <details class="group relative md:hidden">
           <summary class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 cursor-pointer transition-colors border-none list-none">
             <span class="material-symbols-outlined transition-opacity group-open:opacity-0">menu</span>
@@ -149,30 +143,29 @@ const isDataActive = currentPath === '/data' || currentPath.startsWith('/data/')
                          >
                            {item.label}
                          </a>
-                         {item.href === '/data' && (
-                           <div class="ml-4 mt-1 grid gap-1 border-l-2 border-slate-100 pl-3 py-1">
-                             {dataSubmenu.map((subItem) => {
-                                return (
-                                  <a
-                                    class="rounded-md px-3 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"
-                                    href={subItem.href}
-                                  >
-                                    {subItem.label}
-                                  </a>
-                                );
-                             })}
-                           </div>
+                         {item.href === '/data' && dataSubmenu.length > 0 && (
+                           <details class="ml-4 mt-1">
+                             <summary class="cursor-pointer list-none flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider hover:text-slate-600 transition-colors">
+                               <span class="material-symbols-outlined text-[14px] transition-transform [details[open]>&]:rotate-180">expand_more</span>
+                               Sub-menu
+                             </summary>
+                             <div class="grid gap-1 border-l-2 border-slate-100 pl-3 py-1 mt-1">
+                               {dataSubmenu.map((subItem) => (
+                                 <a
+                                   class="rounded-md px-3 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors"
+                                   href={subItem.href}
+                                 >
+                                   {subItem.label}
+                                 </a>
+                               ))}
+                             </div>
+                           </details>
                          )}
                        </div>
                      );
                    })}
                  </div>
-                 <div class="mt-4 pt-4 border-t border-slate-100">
-                    <a href="/dasbor" class="flex items-center justify-center gap-2 rounded-lg bg-blue-600 text-white px-4 py-3 text-sm font-semibold shadow-md">
-                       <span class="material-symbols-outlined">login</span>
-                       Portal Akses Warga
-                    </a>
-                 </div>
+                 <!-- Dasbor button hidden for now -->
              </div>
           </div>
         </details>

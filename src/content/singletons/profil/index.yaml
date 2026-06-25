@@ -2,6 +2,11 @@ namaPadukuhan: Padukuhan Salakan
 tagline: >
   Ruang informasi resmi tingkat padukuhan yang menampilkan profil wilayah,
   agenda warga, serta dokumentasi kegiatan secara rapi dan mudah diakses.
+hero:
+  judul: 'Salakan: Harmoni Tradisi & Digital'
+  badge: Warisan Budaya
+sejarahLabel: Kisah Kami
+sejarahJudul: Sejarah & Filosofi
 sejarahSingkat: >
   Padukuhan Salakan digambarkan sebagai wilayah yang tumbuh dari semangat
   kebersamaan, musyawarah, dan penguatan lingkungan sosial antarwarga.
@@ -20,6 +25,28 @@ misi:
   - >-
     Menguatkan identitas lokal melalui publikasi potensi, kegiatan, dan
     kolaborasi masyarakat.
+potensiDesa:
+  - ikon: agriculture
+    judul: Pertanian & Perkebunan
+    deskripsi: >-
+      Lahan produktif yang dikelola warga untuk tanaman pangan dan hasil kebun
+      lokal.
+  - ikon: self_improvement
+    judul: Seni & Budaya
+    deskripsi: >-
+      Tradisi kesenian dan kearifan lokal yang terus dilestarikan lintas
+      generasi.
+  - ikon: palette
+    judul: Kerajinan Warga
+    deskripsi: >-
+      Produk kreatif dan kerajinan tangan yang menjadi identitas ekonomi
+      padukuhan.
+lokasi:
+  alamat: >-
+    Balai Padukuhan Salakan, Kalurahan Bangunjiwo, Kapanewon Kasihan, Kabupaten
+    Bantul, D.I. Yogyakarta
+  linkPeta: >-
+    https://maps.google.com/?q=Padukuhan+Salakan+Bangunjiwo+Kasihan+Bantul
 dataWilayah:
   - label: Wilayah administrasi
     value: 3 RT aktif
