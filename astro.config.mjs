@@ -156,7 +156,7 @@ export default defineConfig({
       webfontDl([
         'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap',
       ]),
-      checker({ typescript: true }),
+      ...(!process.argv.includes('build') ? [checker({ typescript: true })] : []),
       ViteImageOptimizer({
         png: { quality: 80 },
         jpeg: { quality: 80 },

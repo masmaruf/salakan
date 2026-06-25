@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
-    "build:remote": "astro build --remote",
+    "build": "astro build --remote",
+    "build:local": "astro build",
     "preview": "astro preview"
   },
   "dependencies": {
