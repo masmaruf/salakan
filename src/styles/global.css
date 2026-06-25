@@ -227,6 +227,8 @@ body {
   color: var(--on-surface);
   background: var(--surface);
   min-height: 100vh;
+  overflow-x: clip;
+  overflow-y: visible;
   @apply antialiased;
 }
 
