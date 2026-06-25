@@ -5,18 +5,15 @@ import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import { getUmkm } from '../../../lib/keystatic';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
-export async function getStaticPaths() {
-  const items = await getUmkm();
-  return items
-    .filter(({ entry }) => entry.statusPublikasi === 'publish')
-    .map((item) => ({
-      params: { slug: item.slug },
-      props: { item },
-    }));
+const { slug } = Astro.params;
+const items = await getUmkm();
+const item = items.find((i) => i.slug === slug && i.entry.statusPublikasi === 'publish');
+
+if (!item) {
+  return Astro.redirect('/404');
 }
 
-const { item } = Astro.props;
-const { entry, slug } = item;
+const { entry } = item;
 
 const kategoriLabels = {
   kuliner: 'Kuliner',

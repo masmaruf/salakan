@@ -160,7 +160,7 @@ export default defineConfig({
       ...(process.env.ANALYZE ? [analyzer()] : []),
     ],
     build: {
-      chunkSizeWarningLimit: 2500,
+      chunkSizeWarningLimit: 4000,
       rollupOptions: {
         output: {
           manualChunks(id) {

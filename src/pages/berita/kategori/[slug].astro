@@ -4,17 +4,14 @@ import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import NewsGrid from '../../../components/NewsGrid.astro';
 import { getKegiatan, getKategoriBerita, sortByDateDesc } from '../../../lib/keystatic';
 
-export async function getStaticPaths() {
-  const categories = await getKategoriBerita();
-  return categories
-    .filter((item) => item.entry.status === 'tampil')
-    .map((item) => ({
-      params: { slug: item.slug },
-      props: { category: item },
-    }));
+const { slug } = Astro.params;
+const categories = await getKategoriBerita();
+const category = categories.find((item) => item.slug === slug && item.entry.status === 'tampil');
+
+if (!category) {
+  return Astro.redirect('/404');
 }
 
-const { category } = Astro.props;
 const allKegiatan = sortByDateDesc(
   (await getKegiatan())
     .filter((item) => item.entry?.statusPublikasi === 'publish')

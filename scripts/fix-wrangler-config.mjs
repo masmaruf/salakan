@@ -8,7 +8,7 @@ if (!existsSync(configPath)) {
 
 const config = JSON.parse(readFileSync(configPath, 'utf-8'));
 
-// Pages provides ASSETS automatically — declaring it causes "reserved name" error
+// ASSETS is auto-provisioned — declaring it causes "reserved name" error
 delete config.assets;
 
 // Pages does not support these Worker-only fields
@@ -32,4 +32,9 @@ if (config.previews) {
 }
 
 writeFileSync(configPath, JSON.stringify(config));
-console.log('[fix-wrangler-config] Patched generated wrangler.json for Pages compatibility.');
+
+// Create _worker.js in pages output so Pages can find the SSR entry
+const workerPath = 'dist/_worker.js';
+writeFileSync(workerPath, `export { default } from './server/entry.mjs';\n`);
+
+console.log('[fix-wrangler-config] Patched generated wrangler.json and created _worker.js for Pages compatibility.');
