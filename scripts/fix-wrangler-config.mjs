@@ -11,6 +11,11 @@ const config = JSON.parse(readFileSync(configPath, 'utf-8'));
 // Pages provides ASSETS automatically — declaring it causes "reserved name" error
 delete config.assets;
 
+// Pages does not support these Worker-only fields
+delete config.main;
+delete config.rules;
+delete config.images;
+
 // Remove SESSION KV binding if it has no id (adapter auto-adds it without id)
 if (Array.isArray(config.kv_namespaces)) {
   config.kv_namespaces = config.kv_namespaces.filter((kv) => kv.id);
