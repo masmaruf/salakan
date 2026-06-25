@@ -20,7 +20,7 @@ function isActive(href: string, current: string): boolean {
 ---
 
 <nav
-  class="fixed bottom-0 left-0 w-full z-50 md:hidden flex justify-around items-center px-2 pb-[env(safe-area-inset-bottom,8px)] pt-1 shadow-[0_-4px_12px_rgba(15,23,42,0.05)] bg-white rounded-t-xl"
+  class="fixed bottom-0 left-0 w-full z-50 md:hidden flex justify-around items-center px-1 pb-[env(safe-area-inset-bottom,6px)] pt-1.5 shadow-[0_-2px_16px_rgba(15,23,42,0.08)] bg-white/95 backdrop-blur-lg border-t border-slate-100"
   aria-label="Navigasi mobile"
 >
   {navItems.map((item) => {
@@ -29,22 +29,22 @@ function isActive(href: string, current: string): boolean {
       <a
         href={item.href}
         class:list={[
-          'flex flex-col items-center justify-center rounded-xl px-4 py-1 min-w-[56px] min-h-[48px] transition-all',
+          'flex flex-col items-center justify-center rounded-2xl px-3 py-1.5 min-w-[58px] min-h-[52px] transition-colors',
           active
-            ? 'bg-primary-container text-on-primary-container scale-90'
-            : 'text-on-surface-variant hover:bg-surface-container-low',
+            ? 'bg-primary-container text-on-primary-container'
+            : 'text-on-surface-variant active:bg-surface-container-low',
         ]}
         aria-current={active ? 'page' : undefined}
       >
         <span
-          class="material-symbols-outlined mb-0.5 text-[24px]"
+          class="material-symbols-outlined text-[22px]"
           style={active ? "font-variation-settings: 'FILL' 1;" : "font-variation-settings: 'FILL' 0;"}
         >
           {item.icon}
         </span>
         <span
           class:list={[
-            'text-[11px] leading-tight',
+            'text-[10px] leading-tight mt-0.5',
             active ? 'font-bold' : 'font-medium',
           ]}
         >

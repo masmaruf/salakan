@@ -139,8 +139,8 @@
   --text: #171a2b;
   --muted: #5f6787;
   --line: rgba(110, 128, 196, 0.18);
-  --accent: #6d46ff;
-  --accent-2: #3388ff;
+  --accent: #3b5998;
+  --accent-2: #2563eb;
   --heading-hero: clamp(2.4rem, 5vw, 4.75rem);
   --heading-1: clamp(1.85rem, 3vw, 3rem);
   --heading-2: clamp(1.45rem, 2.2vw, 2.2rem);
@@ -151,7 +151,7 @@
   --hero-grad:
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.32), transparent 28%),
     radial-gradient(circle at 85% 18%, rgba(51, 136, 255, 0.22), transparent 24%),
-    linear-gradient(135deg, #6d46ff 0%, #4e63ff 46%, #3388ff 100%);
+    linear-gradient(135deg, #1e3a5f 0%, #2b4f8a 46%, #2563eb 100%);
   --page-grad: #ffffff;
   --shadow: 0 16px 40px rgba(68, 90, 175, 0.08);
   --radius-xl: 20px;
@@ -232,8 +232,8 @@ body {
 
 #app-shell {
   background:
-    radial-gradient(circle at top right, rgba(109, 70, 255, 0.08), transparent 22%),
-    radial-gradient(circle at top left, rgba(51, 136, 255, 0.08), transparent 20%),
+    radial-gradient(circle at top right, rgba(59, 89, 152, 0.06), transparent 22%),
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.05), transparent 20%),
     #ffffff;
 }
 
@@ -284,7 +284,7 @@ img {
   gap: 0.4rem;
   padding: 0.38rem 0.7rem;
   border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, rgba(109, 70, 255, 0.12), rgba(51, 136, 255, 0.12));
+  background: linear-gradient(135deg, rgba(59, 89, 152, 0.12), rgba(37, 99, 235, 0.12));
   color: var(--accent);
   font-size: 0.8rem;
   font-weight: 700;
@@ -308,9 +308,9 @@ img {
 }
 
 .button-primary {
-  background: linear-gradient(135deg, var(--accent) 0%, #5564ff 45%, var(--accent-2) 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, #3b6abf 45%, var(--accent-2) 100%);
   color: #ffffff;
-  box-shadow: 0 18px 34px rgba(109, 70, 255, 0.24);
+  box-shadow: 0 18px 34px rgba(59, 89, 152, 0.24);
 }
 
 .button-secondary {
@@ -381,11 +381,11 @@ input, button, textarea, select {
 }
 
 .badge.badge-primary {
-  @apply border-violet-200 bg-violet-50 text-violet-700;
+  @apply border-blue-200 bg-blue-50 text-blue-700;
 }
 
 .badge.badge-primary.badge-outline {
-  @apply border-violet-200 bg-violet-50 text-violet-700;
+  @apply border-blue-200 bg-blue-50 text-blue-700;
 }
 
 .badge.badge-ghost {
@@ -394,7 +394,7 @@ input, button, textarea, select {
 
 .brand-button {
   @apply btn border-0 text-white shadow-md;
-  background-image: linear-gradient(135deg, var(--accent) 0%, #5564ff 45%, var(--accent-2) 100%);
+  background-image: linear-gradient(135deg, var(--accent) 0%, #3b6abf 45%, var(--accent-2) 100%);
 }
 
 .brand-button:hover {
@@ -402,7 +402,7 @@ input, button, textarea, select {
 }
 
 .btn.btn-outline {
-  @apply border-slate-200 bg-white text-slate-700 shadow-none hover:border-violet-200 hover:bg-violet-50 hover:text-violet-700;
+  @apply border-slate-200 bg-white text-slate-700 shadow-none hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700;
 }
 
 .btn.btn-ghost {
@@ -439,13 +439,13 @@ input, button, textarea, select {
 .article-rich ul { @apply list-disc pl-6; }
 .article-rich ol { @apply list-decimal pl-6; }
 .article-rich li { @apply mt-2 pl-1; }
-.article-rich a { @apply font-semibold text-violet-700 underline decoration-violet-200 underline-offset-4 transition-colors hover:text-blue-600; }
+.article-rich a { @apply font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition-colors hover:text-blue-500; }
 .article-rich strong { @apply font-bold text-slate-950; }
 .article-rich em { @apply italic; }
-.article-rich code:not(pre code) { @apply bg-slate-100 px-2 py-1 font-mono text-[0.95em] text-violet-700; border-radius: var(--radius-sm); }
+.article-rich code:not(pre code) { @apply bg-slate-100 px-2 py-1 font-mono text-[0.95em] text-blue-700; border-radius: var(--radius-sm); }
 .article-rich pre { @apply overflow-x-auto border border-slate-200 bg-slate-950 p-5 text-sm text-slate-100 shadow-lg; border-radius: var(--radius-lg); }
 .article-rich pre code { @apply bg-transparent p-0 text-inherit; }
-.article-rich blockquote { @apply border-l-4 border-violet-500 bg-violet-50 px-5 py-4 text-slate-600; border-radius: 0 var(--radius-lg) var(--radius-lg) 0; }
+.article-rich blockquote { @apply border-l-4 border-blue-500 bg-blue-50 px-5 py-4 text-slate-600; border-radius: 0 var(--radius-lg) var(--radius-lg) 0; }
 .article-rich hr { @apply my-10 border-0 border-t border-slate-200; }
 .article-rich img { @apply my-8 w-full border border-slate-200 shadow-md; border-radius: var(--radius-lg); }
 .article-rich table { @apply w-full overflow-hidden border border-slate-200 text-left text-sm shadow-sm; border-radius: var(--radius-lg); border-collapse: separate; border-spacing: 0; }
@@ -558,6 +558,17 @@ input, button, textarea, select {
   background: radial-gradient(circle, rgba(16, 185, 129, 0.05), transparent 70%);
   pointer-events: none;
   z-index: 0;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .orb-blue, .orb-emerald { display: none; }
 }
 
 /* Mobile Responsive */
