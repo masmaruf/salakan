@@ -138,18 +138,6 @@ export default defineConfig({
         'promise-limit': path.resolve(__dirname, 'src/lib/promise-limit-esm.js'),
       },
     },
-    optimizeDeps: {
-      include: [
-        'react',
-        'react-dom',
-        'react-dom/client',
-        '@radix-ui/react-dialog',
-        '@radix-ui/react-dropdown-menu',
-        '@radix-ui/react-tabs',
-        '@radix-ui/react-tooltip',
-        '@radix-ui/react-scroll-area',
-      ],
-    },
     plugins: [
       yamlPlugin(),
       tailwindcss(),
@@ -172,19 +160,19 @@ export default defineConfig({
       ...(process.env.ANALYZE ? [analyzer()] : []),
     ],
     build: {
-      chunkSizeWarningLimit: 1800,
+      chunkSizeWarningLimit: 2500,
       rollupOptions: {
         output: {
           manualChunks(id) {
             if (!id.includes('node_modules')) return;
 
-            if (
-              id.includes('@keystatic') ||
-              id.includes('@codemirror') ||
-              id.includes('/codemirror/') ||
-              id.includes('prosemirror') ||
-              id.includes('crelt')
-            ) {
+            if (id.includes('@codemirror') || id.includes('/codemirror/')) {
+              return 'keystatic-codemirror';
+            }
+            if (id.includes('prosemirror') || id.includes('crelt')) {
+              return 'keystatic-prosemirror';
+            }
+            if (id.includes('@keystatic')) {
               return 'keystatic-core';
             }
             if (
@@ -206,6 +194,9 @@ export default defineConfig({
             }
             if (id.includes('slate')) {
               return 'keystatic-slate';
+            }
+            if (id.includes('@radix-ui')) {
+              return 'radix-ui';
             }
             if (id.includes('/react/') || id.includes('/react-dom/') || id.includes('scheduler')) {
               return 'react-vendor';
