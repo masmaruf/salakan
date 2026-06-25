@@ -52,9 +52,9 @@ export default function AdminSuratList({ initialData }: Props) {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-xl font-black text-slate-900 tracking-tight">Daftar Pengajuan Masuk</h2>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <span className="badge-amber bg-white border border-amber-100">{data.filter(d => d.status === 'menunggu').length} Menunggu</span>
           <span className="badge-blue bg-white border border-blue-100">{data.filter(d => d.status === 'diproses').length} Diproses</span>
         </div>
@@ -69,8 +69,8 @@ export default function AdminSuratList({ initialData }: Props) {
           data.map((item) => (
             <div key={item.id} className="bg-white/80 backdrop-blur-xl rounded-[2rem] p-6 shadow-sm border border-white/50 hover:shadow-md transition-all group">
               <div className="flex flex-wrap items-start justify-between gap-4">
-                <div className="space-y-3 flex-1 min-w-[280px]">
-                  <div className="flex items-center gap-3">
+                <div className="min-w-0 flex-1 space-y-3 sm:min-w-[280px]">
+                  <div className="flex flex-wrap items-center gap-3">
                     <span className="font-mono text-xs font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-full">{item.nomor_surat}</span>
                     <span className={`text-[0.7rem] font-black uppercase tracking-widest px-3 py-1 rounded-full ${
                       item.status === 'selesai' ? 'bg-emerald-50 text-emerald-600' :
@@ -91,7 +91,7 @@ export default function AdminSuratList({ initialData }: Props) {
                     <p className="text-sm font-medium text-slate-700 leading-relaxed">{item.keperluan}</p>
                   </div>
 
-                  <div className="flex items-center gap-4 text-xs font-bold text-slate-400">
+                  <div className="flex flex-wrap items-center gap-3 text-xs font-bold text-slate-400 sm:gap-4">
                     <span className="flex items-center gap-1.5">
                       <span className="material-symbols-outlined text-[16px]">schedule</span>
                       {formatTgl(item.created_at)}
