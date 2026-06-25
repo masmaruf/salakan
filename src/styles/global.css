@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@plugin "daisyui";
 
 /* Material Symbols Outlined — icon font class */
 .material-symbols-outlined {
@@ -350,7 +349,9 @@ input, button, textarea, select {
 
 /* Card Styles */
 .surface-card {
-  @apply card bg-white/95 border border-slate-200 shadow-xl;
+  @apply bg-white/95 border border-slate-200 shadow-xl;
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(18px);
   box-shadow: 0 10px 26px rgba(148, 163, 184, 0.08);
 }
 
@@ -395,7 +396,11 @@ input, button, textarea, select {
 }
 
 .brand-button {
-  @apply btn border-0 text-white shadow-md;
+  @apply inline-flex items-center justify-center gap-2 border-0 text-white shadow-md font-semibold transition-colors;
+  border-radius: var(--radius-md);
+  min-height: 2.95rem;
+  padding-inline: 1rem;
+  padding-block: 0.78rem;
   background-image: linear-gradient(135deg, var(--accent) 0%, #3b6abf 45%, var(--accent-2) 100%);
 }
 
