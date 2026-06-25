@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, cpSync } from 'node:fs';
 
 const configPath = 'dist/server/wrangler.json';
 if (!existsSync(configPath)) {
@@ -33,8 +33,11 @@ if (config.previews) {
 
 writeFileSync(configPath, JSON.stringify(config));
 
+// Copy static assets from dist/client/ to dist/ so Pages can serve them
+cpSync('dist/client', 'dist', { recursive: true });
+
 // Create _worker.js in pages output so Pages can find the SSR entry
 const workerPath = 'dist/_worker.js';
 writeFileSync(workerPath, `export { default } from './server/entry.mjs';\n`);
 
-console.log('[fix-wrangler-config] Patched generated wrangler.json and created _worker.js for Pages compatibility.');
+console.log('[fix-wrangler-config] Patched config, copied static assets, and created _worker.js.');
