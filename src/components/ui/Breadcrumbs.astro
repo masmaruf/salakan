@@ -10,14 +10,14 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<nav class="flex items-center gap-2 text-sm text-on-surface-variant mb-6" aria-label="Breadcrumb">
+<nav class="mb-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-on-surface-variant" aria-label="Breadcrumb">
   {items.map((item, index) => (
     <>
       {index > 0 && (
         <span class="material-symbols-outlined text-[16px] text-outline-variant">chevron_right</span>
       )}
       {item.active ? (
-        <span class="text-on-surface font-medium truncate max-w-[200px]">{item.label}</span>
+        <span class="max-w-full min-w-0 break-words font-medium text-on-surface sm:max-w-[200px] sm:truncate">{item.label}</span>
       ) : (
         <a href={item.href} class="hover:text-m3-primary transition-colors whitespace-nowrap">{item.label}</a>
       )}

@@ -40,7 +40,7 @@ const whatsappLink = nomorWhatsapp ? `https://wa.me/${nomorWhatsapp}` : null;
             <span class="material-symbols-outlined text-[16px]">chat</span> WhatsApp
           </div>
           {whatsappLink ? (
-            <a class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md mt-1" href={whatsappLink} target="_blank" rel="noreferrer">
+            <a class="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md sm:w-auto sm:justify-start" href={whatsappLink} target="_blank" rel="noreferrer">
               <span class="material-symbols-outlined text-[18px]">open_in_new</span> Hubungi Pengurus
             </a>
           ) : (
@@ -48,7 +48,7 @@ const whatsappLink = nomorWhatsapp ? `https://wa.me/${nomorWhatsapp}` : null;
           )}
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5">
             <div class="flex items-center gap-2 text-[12px] font-semibold text-m3-primary uppercase tracking-wider mb-2">
               <span class="material-symbols-outlined text-[16px]">mail</span> Surel

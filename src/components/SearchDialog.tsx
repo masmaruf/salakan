@@ -84,7 +84,7 @@ export default function SearchDialog() {
       </button>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-2xl p-0 gap-0 overflow-hidden">
+        <DialogContent className="max-h-[85vh] max-w-2xl p-0 gap-0 overflow-hidden sm:max-h-[80vh]">
           <DialogTitle className="sr-only">Pencarian</DialogTitle>
 
           <div className="flex items-center gap-3 px-5 py-4 border-b border-outline-variant/40">
@@ -101,7 +101,7 @@ export default function SearchDialog() {
             </kbd>
           </div>
 
-          <ScrollArea className="max-h-[60vh]">
+          <ScrollArea className="max-h-[calc(85vh-5rem)] sm:max-h-[60vh]">
             <div className="p-4">
               {loading && (
                 <div className="py-12 text-center">

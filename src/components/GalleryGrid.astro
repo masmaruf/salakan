@@ -19,9 +19,9 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+<div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 sm:gap-5">
   {items.map(({ slug, entry }) => (
-    <article class="group bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-md">
+    <article class="group overflow-hidden rounded-2xl border border-outline-variant bg-surface-container-lowest transition-all hover:-translate-y-0.5 hover:shadow-md">
       {entry.gambar && (
         <Image
           src={entry.gambar}
@@ -31,13 +31,13 @@ const { items } = Astro.props;
           loading="lazy"
           decoding="async"
           sizes="(max-width: 960px) 100vw, 33vw"
-          class="h-64 w-full object-cover bg-surface-container-low"
+          class="h-56 w-full bg-surface-container-low object-cover sm:h-64"
         />
       )}
-      <div class="p-5">
+      <div class="p-4 sm:p-5">
         <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-          <span class="text-[12px] font-semibold px-2 py-1 rounded-md bg-primary-container text-on-primary-container">Galeri</span>
-          <time class="text-[12px] font-medium text-outline" datetime={entry.tanggal}>{formatTanggal(entry.tanggal)}</time>
+          <span class="rounded-md bg-primary-container px-2.5 py-1 text-[11px] font-semibold text-on-primary-container sm:text-[12px]">Galeri</span>
+          <time class="text-[11px] font-medium text-outline sm:text-[12px]" datetime={entry.tanggal}>{formatTanggal(entry.tanggal)}</time>
         </div>
         <h3 class="text-base font-bold text-on-surface leading-tight group-hover:text-m3-primary transition-colors sm:text-lg">{entry.judul}</h3>
         <p class="text-sm text-on-surface-variant mt-2 line-clamp-2">{entry.caption}</p>

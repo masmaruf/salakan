@@ -9,20 +9,20 @@ interface Props {
 const { title, description, icon = 'info', eyebrow } = Astro.props;
 ---
 
-<section class="relative isolate overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 py-12 sm:py-16">
+<section class="relative isolate overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 py-11 sm:py-16">
   <div class="pointer-events-none absolute inset-0">
     <div class="absolute -top-20 right-1/4 h-[280px] w-[280px] rounded-full bg-blue-500/15 blur-3xl"></div>
   </div>
   <div class="container-premium relative z-10 text-center">
     {eyebrow && (
-      <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 backdrop-blur mb-4">
+      <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 backdrop-blur sm:px-4">
         <span class="material-symbols-outlined text-blue-300 text-[16px]">{icon}</span>
         <span class="text-xs font-bold uppercase tracking-[0.15em] text-blue-200">{eyebrow}</span>
       </div>
     )}
-    <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">{title}</h1>
+    <h1 class="text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">{title}</h1>
     {description && (
-      <p class="mt-3 text-sm font-medium text-blue-100/70 max-w-lg mx-auto sm:text-base">{description}</p>
+      <p class="mx-auto mt-3 max-w-lg text-sm font-medium leading-relaxed text-blue-100/70 sm:text-base">{description}</p>
     )}
   </div>
 </section>

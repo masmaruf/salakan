@@ -46,7 +46,7 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
   return (
     <div className="bg-white/90 backdrop-blur-3xl shadow-xl rounded-[2.5rem] border border-white/50 overflow-hidden max-w-2xl mx-auto mb-10">
       {/* Header */}
-      <div className="px-8 py-6 border-b border-slate-100 flex items-center gap-3 bg-white/50 sticky top-0 z-10 backdrop-blur-md">
+      <div className="sticky top-20 z-10 flex items-center gap-3 border-b border-slate-100 bg-white/50 px-8 py-6 backdrop-blur-md">
          <div className="h-10 w-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
             <span className="material-symbols-outlined">edit_square</span>
          </div>

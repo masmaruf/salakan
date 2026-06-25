@@ -48,15 +48,15 @@ const relatedArticles = allKegiatan
   publishedTime={entry.tanggal}
 >
 
-  <article class="container-premium max-w-4xl py-8">
+  <article class="container-premium max-w-4xl py-6 sm:py-8">
 
     <!-- Breadcrumb -->
-    <nav class="flex items-center gap-2 text-sm text-on-surface-variant mb-6" aria-label="Breadcrumb">
+    <nav class="mb-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-on-surface-variant" aria-label="Breadcrumb">
       <a href="/" class="hover:text-m3-primary transition-colors">Beranda</a>
       <span class="material-symbols-outlined text-[16px] text-outline-variant">chevron_right</span>
       <a href="/berita" class="hover:text-m3-primary transition-colors">Berita</a>
       <span class="material-symbols-outlined text-[16px] text-outline-variant">chevron_right</span>
-      <span class="text-on-surface font-medium truncate max-w-[200px]">{entry.judul}</span>
+      <span class="max-w-full min-w-0 break-words font-medium text-on-surface sm:max-w-[200px] sm:truncate">{entry.judul}</span>
     </nav>
 
     <!-- Article Header -->

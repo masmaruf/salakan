@@ -20,7 +20,7 @@ function isActive(href: string, current: string): boolean {
 ---
 
 <nav
-  class="fixed bottom-0 left-0 w-full z-50 md:hidden flex justify-around items-center px-1 pb-[env(safe-area-inset-bottom,6px)] pt-1.5 shadow-[0_-2px_16px_rgba(15,23,42,0.08)] bg-white/95 backdrop-blur-lg border-t border-slate-100"
+  class="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around border-t border-slate-100 bg-white/95 px-1.5 pb-[calc(env(safe-area-inset-bottom,0px)+0.35rem)] pt-1.5 shadow-[0_-2px_16px_rgba(15,23,42,0.08)] backdrop-blur-lg md:hidden"
   aria-label="Navigasi mobile"
 >
   {navItems.map((item) => {
@@ -29,7 +29,7 @@ function isActive(href: string, current: string): boolean {
       <a
         href={item.href}
         class:list={[
-          'flex flex-col items-center justify-center rounded-2xl px-3 py-1.5 min-w-[58px] min-h-[52px] transition-colors',
+          'flex min-h-[56px] min-w-[60px] flex-col items-center justify-center rounded-2xl px-3 py-2 transition-colors',
           active
             ? 'bg-primary-container text-on-primary-container'
             : 'text-on-surface-variant active:bg-surface-container-low',
@@ -44,7 +44,7 @@ function isActive(href: string, current: string): boolean {
         </span>
         <span
           class:list={[
-            'text-[10px] leading-tight mt-0.5',
+            'mt-0.5 text-[10px] leading-tight',
             active ? 'font-bold' : 'font-medium',
           ]}
         >

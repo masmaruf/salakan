@@ -97,11 +97,9 @@ const timeline: TimelineItem[] = [
     </div>
   </section>
 
-  <div class="container-premium pt-8 pb-4">
-  </div>
 
   <!-- ===== TIMELINE ===== -->
-  <section class="container-premium pb-10">
+  <section class="container-premium py-8 pb-10">
     <h2 class="text-[20px] font-bold text-on-surface mb-5">Agenda & Pengumuman</h2>
 
     {timeline.length > 0 ? (
@@ -109,7 +107,7 @@ const timeline: TimelineItem[] = [
         {timeline.map((item) => (
           <a
             class="group relative block pl-5 sm:pl-6"
-            href={item.type === 'agenda' ? `/agenda/${item.slug}` : '#'}
+            href={item.type === 'agenda' ? `/agenda/${item.slug}` : '/agenda'}
           >
             {/* Dot */}
             <div class:list={['absolute -left-[11px] top-2 w-4 h-4 rounded-full ring-4 ring-white', item.dotColor]}></div>

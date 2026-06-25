@@ -108,13 +108,13 @@ const seoImage = getSeoImage(image);
     <link rel="alternate" type="application/rss+xml" title="RSS Berita Padukuhan Salakan" href={toAbsoluteUrl('/rss/berita.xml')} />
     <link rel="alternate" type="application/rss+xml" title="RSS Pengumuman Padukuhan Salakan" href={toAbsoluteUrl('/rss/pengumuman.xml')} />
   </head>
-  <body class="bg-slate-50 relative min-h-screen pb-16 md:pb-0">
+  <body class="relative min-h-screen bg-slate-50 pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))] md:pb-0">
     {/* Glowing Orbs Background */}
     <div class="orb-blue"></div>
     <div class="orb-emerald"></div>
 
     <SiteHeader currentPath={Astro.url.pathname} />
-    <main id="app-shell" class="min-h-screen relative z-10">
+    <main id="app-shell" class="relative z-10 min-h-screen">
       <slot />
     </main>
     <SiteFooter />
