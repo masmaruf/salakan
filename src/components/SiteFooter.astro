@@ -3,9 +3,9 @@ import { getPengaturan } from '../lib/content';
 
 const year = new Date().getFullYear();
 const pengaturan = await getPengaturan();
-const alamat = pengaturan?.alamat ?? 'Balai Padukuhan Salakan, Bangunjiwo, Kasihan';
+const alamat = pengaturan?.alamat ?? '';
 const whatsapp = pengaturan?.kontakWhatsApp ?? '';
-const email = pengaturan?.email ?? '';
+const email = pengaturan?.email ?? 'info@salakan.id';
 const waDisplay = whatsapp ? `0${whatsapp.replace(/^62/, '')}` : '';
 
 import Icon from './ui/Icon.tsx';
@@ -64,10 +64,9 @@ import Icon from './ui/Icon.tsx';
       <a class="hover:text-m3-primary transition-colors" href="/">Beranda</a>
       <a class="hover:text-m3-primary transition-colors" href="/profil">Profil</a>
       <a class="hover:text-m3-primary transition-colors" href="/berita">Berita</a>
-      <a class="hover:text-m3-primary transition-colors" href="/data">Data</a>
+      <a class="hover:text-m3-primary transition-colors" href="/agenda">Agenda</a>
       <a class="hover:text-m3-primary transition-colors" href="/galeri">Galeri</a>
       <a class="hover:text-m3-primary transition-colors" href="/kontak">Kontak</a>
-      <a class="hover:text-m3-primary transition-colors" href="/data/layanan-warga">Layanan Warga</a>
     </nav>
 
     <!-- Copyright -->
