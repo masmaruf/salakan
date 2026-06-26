@@ -38,12 +38,12 @@ content:
           - name: statusPublikasi
             label: Status tayang
             type: select
-            description: "Pilih Publish agar tampil di website. Draft = tersimpan tapi tidak tayang."
             options:
-              - value: publish
-                label: Publish / Tayang
-              - value: draft
-                label: Draft / Belum tayang
+              values:
+                - value: publish
+                  label: Publish / Tayang
+                - value: draft
+                  label: Draft / Belum tayang
             default: publish
           - name: unggulan
             label: Tandai sebagai pengumuman unggulan
@@ -67,8 +67,6 @@ content:
         label: Judul dokumen
         type: string
         required: true
-        options:
-          maxlength: 100
       - name: tanggalUpdate
         label: Tanggal pembaruan
         type: date
@@ -113,24 +111,25 @@ content:
             label: Kategori dokumen
             type: select
             options:
-              - value: layanan
-                label: Layanan warga
-              - value: arsip
-                label: Arsip publik
-              - value: kegiatan
-                label: Kegiatan
-              - value: regulasi
-                label: Regulasi
+              values:
+                - value: layanan
+                  label: Layanan warga
+                - value: arsip
+                  label: Arsip publik
+                - value: kegiatan
+                  label: Kegiatan
+                - value: regulasi
+                  label: Regulasi
             default: layanan
           - name: statusPublikasi
             label: Status tayang
             type: select
-            description: "Pilih Publish agar tampil di website. Draft = tersimpan tapi tidak tayang."
             options:
-              - value: publish
-                label: Publish / Tayang
-              - value: draft
-                label: Draft / Belum tayang
+              values:
+                - value: publish
+                  label: Publish / Tayang
+                - value: draft
+                  label: Draft / Belum tayang
             default: publish
           - name: unggulan
             label: Dokumen unggulan
@@ -157,8 +156,6 @@ content:
         label: Judul
         type: string
         required: true
-        options:
-          maxlength: 100
       - name: tanggal
         label: Tanggal
         type: date
@@ -166,12 +163,12 @@ content:
       - name: statusPublikasi
         label: Status artikel
         type: select
-        description: "Pilih Publish agar artikel tampil di website."
         options:
-          - value: publish
-            label: Publish / Tayang
-          - value: draft
-            label: Draft / Belum tayang
+          values:
+            - value: publish
+              label: Publish / Tayang
+            - value: draft
+              label: Draft / Belum tayang
         default: publish
         required: true
       - name: body
@@ -196,10 +193,11 @@ content:
                 label: Jenis konten
                 type: select
                 options:
-                  - value: berita
-                    label: Berita
-                  - value: artikel
-                    label: Artikel
+                  values:
+                    - value: berita
+                      label: Berita
+                    - value: artikel
+                      label: Artikel
                 default: berita
               - name: kategori
                 label: Kategori berita
@@ -264,12 +262,12 @@ content:
       - name: statusPublikasi
         label: Status agenda
         type: select
-        description: "Pilih Publish agar agenda tampil di website."
         options:
-          - value: publish
-            label: Publish / Tayang
-          - value: draft
-            label: Draft / Belum tayang
+          values:
+            - value: publish
+              label: Publish / Tayang
+            - value: draft
+              label: Draft / Belum tayang
         default: publish
         required: true
       - name: kontenUtama
@@ -384,24 +382,25 @@ content:
             label: Kategori usaha
             type: select
             options:
-              - value: kuliner
-                label: Kuliner
-              - value: kerajinan
-                label: Kerajinan
-              - value: jasa
-                label: Jasa
-              - value: perdagangan
-                label: Perdagangan
+              values:
+                - value: kuliner
+                  label: Kuliner
+                - value: kerajinan
+                  label: Kerajinan
+                - value: jasa
+                  label: Jasa
+                - value: perdagangan
+                  label: Perdagangan
             default: kuliner
           - name: statusPublikasi
             label: Status tayang
             type: select
-            description: "Pilih Publish agar tampil di website. Draft = tersimpan tapi tidak tayang."
             options:
-              - value: publish
-                label: Publish / Tayang
-              - value: draft
-                label: Draft / Belum tayang
+              values:
+                - value: publish
+                  label: Publish / Tayang
+                - value: draft
+                  label: Draft / Belum tayang
             default: publish
           - name: unggulan
             label: UMKM unggulan
@@ -464,10 +463,11 @@ content:
             label: Status tampil
             type: select
             options:
-              - value: tampil
-                label: Tampilkan
-              - value: sembunyi
-                label: Sembunyikan
+              values:
+                - value: tampil
+                  label: Tampilkan
+                - value: sembunyi
+                  label: Sembunyikan
             default: tampil
           - name: urutanTampil
             label: Urutan tampil
@@ -505,22 +505,23 @@ content:
             label: Kelompok organisasi
             type: select
             options:
-              - value: pimpinan
-                label: Pimpinan padukuhan
-              - value: kegiatan
-                label: Koordinator kegiatan warga
-              - value: wilayah
-                label: Penghubung wilayah
+              values:
+                - value: pimpinan
+                  label: Pimpinan padukuhan
+                - value: kegiatan
+                  label: Koordinator kegiatan warga
+                - value: wilayah
+                  label: Penghubung wilayah
             default: pimpinan
           - name: statusPublikasi
             label: Status tayang
             type: select
-            description: "Pilih Publish agar tampil di website. Draft = tersimpan tapi tidak tayang."
             options:
-              - value: publish
-                label: Publish / Tayang
-              - value: draft
-                label: Draft / Belum tayang
+              values:
+                - value: publish
+                  label: Publish / Tayang
+                - value: draft
+                  label: Draft / Belum tayang
             default: publish
           - name: urutanTampil
             label: Urutan tampil
@@ -558,10 +559,11 @@ content:
         label: Status tampil
         type: select
         options:
-          - value: tampil
-            label: Tampilkan
-          - value: sembunyi
-            label: Sembunyikan
+          values:
+            - value: tampil
+              label: Tampilkan
+            - value: sembunyi
+              label: Sembunyikan
         default: tampil
 
   - name: faq
@@ -588,10 +590,11 @@ content:
         label: Status tampil
         type: select
         options:
-          - value: tampil
-            label: Tampilkan
-          - value: sembunyi
-            label: Sembunyikan
+          values:
+            - value: tampil
+              label: Tampilkan
+            - value: sembunyi
+              label: Sembunyikan
         default: tampil
 
   - name: rt
@@ -884,10 +887,11 @@ content:
                 label: Status tampil
                 type: select
                 options:
-                  - value: tampil
-                    label: Tampilkan
-                  - value: sembunyi
-                    label: Sembunyikan
+                  values:
+                    - value: tampil
+                      label: Tampilkan
+                    - value: sembunyi
+                      label: Sembunyikan
                 default: tampil
 
   - name: beranda
@@ -950,10 +954,11 @@ content:
                 label: Status tampil
                 type: select
                 options:
-                  - value: tampil
-                    label: Tampilkan
-                  - value: sembunyi
-                    label: Sembunyikan
+                  values:
+                    - value: tampil
+                      label: Tampilkan
+                    - value: sembunyi
+                      label: Sembunyikan
                 default: tampil
           - name: stats
             label: Statistik hero
