@@ -4,7 +4,7 @@ import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import CmsIcon from '../../../components/CmsIcon.astro';
 import Badge from '../../../components/ui/Badge.astro';
 import PageSection from '../../../components/PageSection.astro';
-import { getUmkm, getPengaturan } from '../../../lib/keystatic';
+import { getUmkm, getPengaturan } from '../../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
 const [umkmItems, pengaturan] = await Promise.all([getUmkm(), getPengaturan()]);

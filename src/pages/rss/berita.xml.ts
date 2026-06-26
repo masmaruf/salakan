@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getKegiatan } from '../../lib/keystatic';
+import { getKegiatan } from '../../lib/content';
 import { createRssXml } from '../../lib/rss';
 import { siteMeta, toAbsoluteUrl } from '../../lib/site';
 

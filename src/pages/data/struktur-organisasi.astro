@@ -1,7 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
-import { getStrukturOrganisasi, getPengaturan } from '../../lib/keystatic';
+import { getStrukturOrganisasi, getPengaturan } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const [organisasiItems, pengaturan] = await Promise.all([getStrukturOrganisasi(), getPengaturan()]);

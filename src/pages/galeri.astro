@@ -2,7 +2,7 @@
 import GalleryGrid from '../components/GalleryGrid.astro';
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHero from '../components/PageHero.astro';
-import { getGaleri, sortByDateDesc } from '../lib/keystatic';
+import { getGaleri, sortByDateDesc } from '../lib/content';
 
 const galeri = sortByDateDesc(
   (await getGaleri()).map((item) => ({

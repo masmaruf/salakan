@@ -2,7 +2,7 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import LayananCard from '../../components/ui/LayananCard.astro';
-import { getLayananWarga, getPengaturan } from '../../lib/keystatic';
+import { getLayananWarga, getPengaturan } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const [layananItems, pengaturan] = await Promise.all([getLayananWarga(), getPengaturan()]);

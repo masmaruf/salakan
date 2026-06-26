@@ -4,7 +4,7 @@ import PageHero from '../../components/PageHero.astro';
 import NewsGrid from '../../components/NewsGrid.astro';
 import EmptyStateCard from '../../components/ui/EmptyStateCard.astro';
 import PillFilterBar from '../../components/ui/PillFilterBar.astro';
-import { getKegiatan, getKategoriBeritaMap, sortByDateDesc } from '../../lib/keystatic';
+import { getKegiatan, getKategoriBeritaMap, sortByDateDesc } from '../../lib/content';
 
 const selectedCategory = Astro.url.searchParams.get('kategori');
 const selectedTag = Astro.url.searchParams.get('tag');

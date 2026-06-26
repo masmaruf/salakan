@@ -2,7 +2,7 @@
 import MainLayout from '../../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import NewsGrid from '../../../components/NewsGrid.astro';
-import { getKegiatan, getKategoriBerita, sortByDateDesc } from '../../../lib/keystatic';
+import { getKegiatan, getKategoriBerita, sortByDateDesc } from '../../../lib/content';
 
 const { slug } = Astro.params;
 const categories = await getKategoriBerita();

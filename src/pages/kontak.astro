@@ -3,7 +3,7 @@ import MainLayout from '../layouts/MainLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import InfoCard from '../components/ui/InfoCard.astro';
 import ActionLinkButton from '../components/ui/ActionLinkButton.astro';
-import { getPengaturan } from '../lib/keystatic';
+import { getPengaturan } from '../lib/content';
 
 const pengaturan = await getPengaturan();
 const nomorWhatsapp = pengaturan?.kontakWhatsApp?.replace(/\D/g, '');

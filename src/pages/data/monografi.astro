@@ -2,7 +2,7 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import StatCard from '../../components/ui/StatCard.astro';
-import { getPengaturan, getMonografi } from '../../lib/keystatic';
+import { getPengaturan, getMonografi } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const pengaturan = await getPengaturan();

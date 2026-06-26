@@ -1,4 +1,4 @@
-import { getAgenda, getDokumen, getKegiatan, getLayananWarga, getPengumuman } from '../../lib/keystatic';
+import { getAgenda, getDokumen, getKegiatan, getLayananWarga, getPengumuman } from '../../lib/content';
 
 export async function GET() {
   const [agendas, documents, news, services, announcements] = await Promise.all([

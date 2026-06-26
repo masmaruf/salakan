@@ -59,7 +59,6 @@ export const onRequest = defineMiddleware(async (context, next) => {
       loginUrl.searchParams.set('next', context.url.pathname);
       return withAdminHeaders(context.redirect(loginUrl.toString()));
     }
-
     const response = await next();
     return withAdminHeaders(response);
   }
