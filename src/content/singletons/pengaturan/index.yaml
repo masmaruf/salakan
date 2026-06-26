@@ -15,11 +15,6 @@ seoHalamanData:
   dataUtama:
     seoTitle: Data Kampung
     seoDescription: Pusat akses data, dokumen, UMKM, dan informasi kampung Padukuhan Salakan.
-  pengumuman:
-    seoTitle: Pengumuman Warga
-    seoDescription: >-
-      Halaman data pengumuman untuk melihat informasi aktif warga Padukuhan
-      Salakan.
   dokumen:
     seoTitle: Dokumen Warga
     seoDescription: >-
@@ -55,13 +50,6 @@ menuData:
     Halaman ini disiapkan sebagai pusat akses menuju data padukuhan, dokumen,
     informasi UMKM, profil wilayah, dan struktur organisasi.
   items:
-    - label: Pengumuman
-      href: /agenda
-      description: >-
-        Pengumuman aktif padukuhan dan agenda kegiatan warga dalam satu
-        halaman.
-      icon: campaign
-      status: tampil
     - label: Dokumen
       href: /data/dokumen
       description: >-
