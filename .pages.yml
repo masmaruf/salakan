@@ -1,0 +1,418 @@
+media: public/uploads
+
+content:
+  - name: kegiatan
+    label: Berita & Kegiatan
+    type: collection
+    path: src/content/kegiatan
+    fields:
+      - name: judul
+        type: string
+      - name: tanggal
+        type: date
+      - name: statusPublikasi
+        type: select
+        options:
+          - label: Publish
+            value: publish
+          - label: Draft
+            value: draft
+      - name: ringkasan
+        type: text
+      - name: body
+        type: rich-text
+      - name: kategori
+        type: string
+      - name: penulis
+        type: string
+      - name: unggulan
+        type: boolean
+      - name: gambarUtama
+        type: image
+      - name: altGambarUtama
+        type: string
+      - name: tags
+        type: string
+        list: true
+
+  - name: pengumuman
+    label: Pengumuman
+    type: collection
+    path: src/content/pengumuman
+    fields:
+      - name: judul
+        type: string
+      - name: tanggal
+        type: date
+      - name: ringkasan
+        type: text
+      - name: isi
+        type: rich-text
+      - name: statusPublikasi
+        type: select
+        options:
+          - label: Publish
+            value: publish
+          - label: Draft
+            value: draft
+      - name: unggulan
+        type: boolean
+
+  - name: agenda
+    label: Agenda
+    type: collection
+    path: src/content/agenda
+    fields:
+      - name: judul
+        type: string
+      - name: tanggal
+        type: date
+      - name: statusPublikasi
+        type: select
+        options:
+          - label: Publish
+            value: publish
+          - label: Draft
+            value: draft
+      - name: waktuMulai
+        type: string
+      - name: waktuSelesai
+        type: string
+      - name: lokasi
+        type: string
+      - name: ringkasan
+        type: text
+      - name: deskripsi
+        type: text
+      - name: kontakPic
+        type: string
+      - name: altGambarUtama
+        type: string
+      - name: unggulan
+        type: boolean
+
+  - name: dokumen
+    label: Dokumen
+    type: collection
+    path: src/content/dokumen
+    fields:
+      - name: judul
+        type: string
+      - name: tanggalUpdate
+        type: date
+      - name: ringkasan
+        type: text
+      - name: deskripsi
+        type: text
+      - name: fileDokumen
+        type: file
+      - name: kategori
+        type: select
+        options:
+          - label: Layanan warga
+            value: layanan
+          - label: Arsip publik
+            value: arsip
+          - label: Kegiatan
+            value: kegiatan
+          - label: Regulasi
+            value: regulasi
+      - name: statusPublikasi
+        type: select
+        options:
+          - label: Publish
+            value: publish
+          - label: Draft
+            value: draft
+      - name: unggulan
+        type: boolean
+
+  - name: galeri
+    label: Galeri
+    type: collection
+    path: src/content/galeri
+    fields:
+      - name: judul
+        type: string
+      - name: tanggal
+        type: date
+      - name: gambar
+        type: image
+      - name: caption
+        type: text
+      - name: unggulan
+        type: boolean
+
+  - name: umkm
+    label: UMKM
+    type: collection
+    path: src/content/umkm
+    fields:
+      - name: namaUsaha
+        type: string
+      - name: pemilik
+        type: string
+      - name: ringkasan
+        type: text
+      - name: deskripsi
+        type: text
+      - name: whatsapp
+        type: string
+      - name: lokasi
+        type: string
+      - name: produkUnggulan
+        type: string
+        list: true
+      - name: gambar
+        type: image
+      - name: altGambar
+        type: string
+      - name: kategori
+        type: select
+        options:
+          - label: Kuliner
+            value: kuliner
+          - label: Kerajinan
+            value: kerajinan
+          - label: Jasa
+            value: jasa
+          - label: Perdagangan
+            value: perdagangan
+      - name: statusPublikasi
+        type: select
+        options:
+          - label: Publish
+            value: publish
+          - label: Draft
+            value: draft
+      - name: unggulan
+        type: boolean
+
+  - name: layanan-warga
+    label: Layanan Warga
+    type: collection
+    path: src/content/layanan-warga
+    fields:
+      - name: namaLayanan
+        type: string
+      - name: ringkasan
+        type: text
+      - name: syarat
+        type: string
+        list: true
+      - name: langkah
+        type: string
+        list: true
+      - name: kontak
+        type: string
+      - name: jamLayanan
+        type: string
+      - name: statusTampil
+        type: select
+        options:
+          - label: Tampilkan
+            value: tampil
+          - label: Sembunyikan
+            value: sembunyi
+
+  - name: faq
+    label: FAQ
+    type: collection
+    path: src/content/faq
+    fields:
+      - name: pertanyaan
+        type: string
+      - name: jawaban
+        type: text
+      - name: kategori
+        type: string
+      - name: urutan
+        type: number
+      - name: statusTampil
+        type: select
+        options:
+          - label: Tampilkan
+            value: tampil
+          - label: Sembunyikan
+            value: sembunyi
+
+  - name: struktur-organisasi
+    label: Struktur Organisasi
+    type: collection
+    path: src/content/struktur-organisasi
+    fields:
+      - name: jabatan
+        type: string
+      - name: namaPejabat
+        type: string
+      - name: deskripsiTugas
+        type: text
+      - name: kontak
+        type: string
+      - name: bidang
+        type: select
+        options:
+          - label: Pimpinan padukuhan
+            value: pimpinan
+          - label: Koordinator kegiatan warga
+            value: kegiatan
+          - label: Penghubung wilayah
+            value: wilayah
+      - name: statusPublikasi
+        type: select
+        options:
+          - label: Publish
+            value: publish
+          - label: Draft
+            value: draft
+      - name: urutanTampil
+        type: number
+
+  - name: kategori-berita
+    label: Kategori Berita
+    type: collection
+    path: src/content/kategori-berita
+    fields:
+      - name: namaKategori
+        type: string
+      - name: labelTampil
+        type: string
+      - name: deskripsi
+        type: text
+      - name: status
+        type: select
+        options:
+          - label: Tampilkan
+            value: tampil
+          - label: Sembunyikan
+            value: sembunyi
+      - name: urutanTampil
+        type: number
+
+  - name: beranda
+    label: Beranda
+    type: file
+    path: src/content/singletons/beranda/index.yaml
+    format: yaml
+    fields:
+      - name: sambutanBeranda
+        type: text
+      - name: heroEyebrow
+        type: string
+      - name: heroTitle
+        type: string
+      - name: heroIntro
+        type: text
+      - name: heroPrimaryCtaLabel
+        type: string
+      - name: heroPrimaryCtaHref
+        type: string
+      - name: heroSecondaryCtaLabel
+        type: string
+      - name: heroSecondaryCtaHref
+        type: string
+
+  - name: profil
+    label: Profil
+    type: file
+    path: src/content/singletons/profil/index.yaml
+    format: yaml
+    fields:
+      - name: namaPadukuhan
+        type: string
+      - name: tagline
+        type: text
+      - name: sejarahSingkat
+        type: text
+      - name: visi
+        type: text
+      - name: misi
+        type: string
+        list: true
+      - name: alamat
+        type: text
+      - name: linkPeta
+        type: string
+
+  - name: pengaturan
+    label: Pengaturan Situs
+    type: file
+    path: src/content/singletons/pengaturan/index.yaml
+    format: yaml
+    fields:
+      - name: alamat
+        type: text
+      - name: kontakWhatsApp
+        type: string
+      - name: email
+        type: string
+      - name: jamLayanan
+        type: string
+      - name: linkPeta
+        type: string
+      - name: sambutanBeranda
+        type: text
+
+  - name: monografi
+    label: Monografi
+    type: file
+    path: src/content/singletons/monografi/index.yaml
+    format: yaml
+    fields:
+      - name: namaDukuh
+        type: string
+      - name: pendidikan
+        type: string
+      - name: alamat
+        type: text
+      - name: luasWilayah
+        type: string
+      - name: jumlahRT
+        type: number
+      - name: totalJiwa
+        type: number
+      - name: totalLakiLaki
+        type: number
+      - name: totalPerempuan
+        type: number
+      - name: totalKK
+        type: number
+      - name: kkLakiLaki
+        type: number
+      - name: kkPerempuan
+        type: number
+
+  - name: akun-admin
+    label: Akun Admin
+    type: file
+    path: src/content/singletons/akun-admin/index.yaml
+    format: yaml
+    fields:
+      - name: gunakanPengaturanKeystatic
+        type: boolean
+      - name: catatan
+        type: text
+      - name: users
+        type: object
+        list: true
+        fields:
+          - name: username
+            type: string
+          - name: password
+            type: string
+          - name: role
+            type: select
+            options:
+              - label: Super Admin
+                value: superadmin
+              - label: Admin
+                value: admin
+              - label: Editor
+                value: editor
+          - name: status
+            type: select
+            options:
+              - label: Aktif
+                value: aktif
+              - label: Nonaktif
+                value: nonaktif
