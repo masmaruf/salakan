@@ -26,12 +26,11 @@ const envExample = `ADMIN_USERS_JSON=[{"username":"superadmin","password":"ganti
             <span class="badge badge-primary badge-outline w-fit">User Admin</span>
             <h1 class="page-title font-extrabold text-slate-950">Pengaturan user dan role admin</h1>
             <p class="max-w-3xl text-body-md text-slate-600">
-              Halaman ini menampilkan akun yang diizinkan mengakses `/keystatic` beserta role
-              `superadmin`, `admin`, dan `editor`.
+              Halaman ini menampilkan akun yang diizinkan mengakses panel admin dan membantu mengarahkan siapa saja yang boleh membuka area pengelolaan konten.
             </p>
           </div>
           <div class="flex flex-wrap gap-2">
-            <a class="btn btn-sm rounded-[var(--radius-md)] border border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-50" href="/keystatic">Buka Keystatic</a>
+            <a class="btn btn-sm rounded-[var(--radius-md)] border border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-50" href="https://app.pagescms.org/" target="_blank" rel="noreferrer">Buka Pages CMS</a>
             <a class="btn btn-sm rounded-[var(--radius-md)] border border-slate-200 bg-white text-slate-700 shadow-none hover:bg-slate-50" href="/admin/logout">Logout</a>
           </div>
         </div>
@@ -67,10 +66,10 @@ const envExample = `ADMIN_USERS_JSON=[{"username":"superadmin","password":"ganti
                   <td><span class="badge badge-outline capitalize">{user.role}</span></td>
                   <td class="text-sm text-slate-600">
                     {user.role === 'superadmin'
-                      ? 'Keystatic, halaman user admin, dan seluruh area pengelolaan.'
+                      ? 'Akses penuh ke panel admin, pengelolaan user, dan seluruh area pengelolaan konten.'
                       : user.role === 'admin'
-                        ? 'Keystatic dan area pengelolaan konten.'
-                        : 'Hanya collection Editorial dan Data Kampung. Tidak bisa membuka singleton pengaturan, profil, beranda, atau akun admin.'}
+                        ? 'Akses ke area pengelolaan konten dan utilitas admin.'
+                        : 'Hanya collection Editorial dan Data Kampung. Tidak bisa membuka pengaturan situs, profil, beranda, atau akun admin.'}
                   </td>
                 </tr>
               ))}
@@ -87,8 +86,7 @@ const envExample = `ADMIN_USERS_JSON=[{"username":"superadmin","password":"ganti
             Jika variabel ini tidak diisi, sistem akan fallback ke `ADMIN_USERNAME` dan `ADMIN_PASSWORD`.
           </p>
           <p class="text-body-md text-slate-600">
-            Jika ingin mengelola akun langsung dari CMS, buka singleton <strong>Akun Admin</strong> di `/keystatic`,
-            aktifkan mode `Gunakan akun dari Keystatic`, lalu simpan daftar user di sana.
+            Jika ingin mengelola akun langsung dari CMS, buka Pages CMS lalu edit singleton <strong>Akun Admin</strong> yang tersimpan di repository.
           </p>
           <pre class="ui-radius-lg overflow-x-auto border border-slate-200 bg-slate-950 p-5 text-sm text-slate-100"><code>{envExample}</code></pre>
         </div>
