@@ -13,6 +13,10 @@ content:
     format: yaml
     view:
       fields: [judul, tanggal]
+      primary: judul
+      default:
+        sort: tanggal
+        order: desc
     fields:
       - name: judul
         label: Judul
@@ -34,6 +38,7 @@ content:
           - name: statusPublikasi
             label: Status tayang
             type: select
+            description: "Pilih Publish agar tampil di website. Draft = tersimpan tapi tidak tayang."
             options:
               - value: publish
                 label: Publish / Tayang
@@ -53,11 +58,17 @@ content:
     format: yaml
     view:
       fields: [judul, tanggalUpdate]
+      primary: judul
+      default:
+        sort: tanggalUpdate
+        order: desc
     fields:
       - name: judul
         label: Judul dokumen
         type: string
         required: true
+        options:
+          maxlength: 100
       - name: tanggalUpdate
         label: Tanggal pembaruan
         type: date
@@ -114,6 +125,7 @@ content:
           - name: statusPublikasi
             label: Status tayang
             type: select
+            description: "Pilih Publish agar tampil di website. Draft = tersimpan tapi tidak tayang."
             options:
               - value: publish
                 label: Publish / Tayang
@@ -136,23 +148,32 @@ content:
     format: yaml-frontmatter
     view:
       fields: [judul, tanggal, statusPublikasi]
+      primary: judul
+      default:
+        sort: tanggal
+        order: desc
     fields:
       - name: judul
         label: Judul
         type: string
         required: true
+        options:
+          maxlength: 100
       - name: tanggal
         label: Tanggal
         type: date
+        required: true
       - name: statusPublikasi
         label: Status artikel
         type: select
+        description: "Pilih Publish agar artikel tampil di website."
         options:
           - value: publish
             label: Publish / Tayang
           - value: draft
             label: Draft / Belum tayang
         default: publish
+        required: true
       - name: body
         label: Isi artikel
         type: rich-text
@@ -228,6 +249,10 @@ content:
     format: yaml
     view:
       fields: [judul, tanggal, statusPublikasi]
+      primary: judul
+      default:
+        sort: tanggal
+        order: desc
     fields:
       - name: judul
         label: Judul agenda
@@ -239,12 +264,14 @@ content:
       - name: statusPublikasi
         label: Status agenda
         type: select
+        description: "Pilih Publish agar agenda tampil di website."
         options:
           - value: publish
             label: Publish / Tayang
           - value: draft
             label: Draft / Belum tayang
         default: publish
+        required: true
       - name: kontenUtama
         label: Konten Utama
         type: object
@@ -369,6 +396,7 @@ content:
           - name: statusPublikasi
             label: Status tayang
             type: select
+            description: "Pilih Publish agar tampil di website. Draft = tersimpan tapi tidak tayang."
             options:
               - value: publish
                 label: Publish / Tayang
@@ -487,6 +515,7 @@ content:
           - name: statusPublikasi
             label: Status tayang
             type: select
+            description: "Pilih Publish agar tampil di website. Draft = tersimpan tapi tidak tayang."
             options:
               - value: publish
                 label: Publish / Tayang

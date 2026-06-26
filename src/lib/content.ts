@@ -42,8 +42,8 @@ export async function getPengumuman() {
       tanggal: data.tanggal,
       ringkasan: data.ringkasan,
       isi: data.isi,
-      statusPublikasi: data.pengaturanTampil.statusPublikasi,
-      unggulan: data.pengaturanTampil.unggulan,
+      statusPublikasi: data.pengaturanTampil?.statusPublikasi,
+      unggulan: data.pengaturanTampil?.unggulan,
     },
   }));
 }
@@ -56,16 +56,16 @@ export async function getDokumen() {
     entry: {
       judul: data.judul,
       tanggalUpdate: data.tanggalUpdate,
-      ringkasan: data.kontenUtama.ringkasan,
-      deskripsi: data.kontenUtama.deskripsi,
-      fileDokumen: data.media.fileDokumen,
-      seoTitle: data.seo.seoTitle,
-      seoDescription: data.seo.seoDescription,
-      ogImage: data.seo.ogImage,
-      kategori: data.pengaturanTampil.kategori,
-      statusPublikasi: data.pengaturanTampil.statusPublikasi,
-      unggulan: data.pengaturanTampil.unggulan,
-      urutanTampil: data.pengaturanTampil.urutanTampil,
+      ringkasan: data.kontenUtama?.ringkasan,
+      deskripsi: data.kontenUtama?.deskripsi,
+      fileDokumen: data.media?.fileDokumen,
+      seoTitle: data.seo?.seoTitle,
+      seoDescription: data.seo?.seoDescription,
+      ogImage: data.seo?.ogImage,
+      kategori: data.pengaturanTampil?.kategori,
+      statusPublikasi: data.pengaturanTampil?.statusPublikasi,
+      unggulan: data.pengaturanTampil?.unggulan,
+      urutanTampil: data.pengaturanTampil?.urutanTampil,
     },
   }));
 }
@@ -78,18 +78,18 @@ export async function getKegiatan() {
     entry: {
       judul: data.judul,
       tanggal: data.tanggal,
-      kategori: data.editorArtikel.sidebar.kategori,
-      jenisKonten: data.editorArtikel.sidebar.jenisKonten,
-      penulis: data.editorArtikel.sidebar.penulis,
+      kategori: data.editorArtikel?.sidebar?.kategori,
+      jenisKonten: data.editorArtikel?.sidebar?.jenisKonten,
+      penulis: data.editorArtikel?.sidebar?.penulis,
       statusPublikasi: data.statusPublikasi,
-      gambarUtama: data.editorArtikel.sidebar.gambarUtama,
-      altGambarUtama: data.editorArtikel.sidebar.altGambarUtama,
-      ringkasan: data.editorArtikel.kontenUtama.ringkasan,
-      tag: data.editorArtikel.sidebar.tag,
-      unggulan: data.editorArtikel.sidebar.unggulan,
-      seoTitle: data.editorArtikel.seo.seoTitle,
-      seoDescription: data.editorArtikel.seo.seoDescription,
-      ogImage: data.editorArtikel.seo.ogImage,
+      gambarUtama: data.editorArtikel?.sidebar?.gambarUtama,
+      altGambarUtama: data.editorArtikel?.sidebar?.altGambarUtama,
+      ringkasan: data.editorArtikel?.kontenUtama?.ringkasan,
+      tag: data.editorArtikel?.sidebar?.tag,
+      unggulan: data.editorArtikel?.sidebar?.unggulan,
+      seoTitle: data.editorArtikel?.seo?.seoTitle,
+      seoDescription: data.editorArtikel?.seo?.seoDescription,
+      ogImage: data.editorArtikel?.seo?.ogImage,
       isi: body,
     },
   }));
@@ -104,15 +104,15 @@ export async function getAgenda() {
       judul: data.judul,
       tanggal: data.tanggal,
       statusPublikasi: data.statusPublikasi,
-      waktuMulai: data.kontenUtama.waktuMulai,
-      waktuSelesai: data.kontenUtama.waktuSelesai,
-      lokasi: data.kontenUtama.lokasi,
-      ringkasan: data.kontenUtama.ringkasan,
-      deskripsi: data.kontenUtama.deskripsi,
-      kontakPic: data.kontenUtama.kontakPic,
-      gambarUtama: data.media.gambarUtama,
-      altGambarUtama: data.media.altGambarUtama,
-      unggulan: data.pengaturanTampil.unggulan,
+      waktuMulai: data.kontenUtama?.waktuMulai,
+      waktuSelesai: data.kontenUtama?.waktuSelesai,
+      lokasi: data.kontenUtama?.lokasi,
+      ringkasan: data.kontenUtama?.ringkasan,
+      deskripsi: data.kontenUtama?.deskripsi,
+      kontakPic: data.kontenUtama?.kontakPic,
+      gambarUtama: data.media?.gambarUtama,
+      altGambarUtama: data.media?.altGambarUtama,
+      unggulan: data.pengaturanTampil?.unggulan,
     },
   }));
 }
@@ -124,21 +124,21 @@ export async function getUmkm() {
     slug: normalizeEntryId(id),
     entry: {
       namaUsaha: data.namaUsaha,
-      pemilik: data.kontenUtama.pemilik,
-      ringkasan: data.kontenUtama.ringkasan,
-      deskripsi: data.kontenUtama.deskripsi,
-      whatsapp: data.kontenUtama.whatsapp,
-      lokasi: data.kontenUtama.lokasi,
-      produkUnggulan: data.kontenUtama.produkUnggulan,
-      gambar: data.media.gambar,
-      altGambar: data.media.altGambar,
-      seoTitle: data.seo.seoTitle,
-      seoDescription: data.seo.seoDescription,
-      ogImage: data.seo.ogImage,
-      kategori: data.pengaturanTampil.kategori,
-      statusPublikasi: data.pengaturanTampil.statusPublikasi,
-      unggulan: data.pengaturanTampil.unggulan,
-      urutanTampil: data.pengaturanTampil.urutanTampil,
+      pemilik: data.kontenUtama?.pemilik,
+      ringkasan: data.kontenUtama?.ringkasan,
+      deskripsi: data.kontenUtama?.deskripsi,
+      whatsapp: data.kontenUtama?.whatsapp,
+      lokasi: data.kontenUtama?.lokasi,
+      produkUnggulan: data.kontenUtama?.produkUnggulan,
+      gambar: data.media?.gambar,
+      altGambar: data.media?.altGambar,
+      seoTitle: data.seo?.seoTitle,
+      seoDescription: data.seo?.seoDescription,
+      ogImage: data.seo?.ogImage,
+      kategori: data.pengaturanTampil?.kategori,
+      statusPublikasi: data.pengaturanTampil?.statusPublikasi,
+      unggulan: data.pengaturanTampil?.unggulan,
+      urutanTampil: data.pengaturanTampil?.urutanTampil,
     },
   }));
 }
@@ -156,8 +156,8 @@ export async function getKategoriBerita() {
       namaKategori: data.namaKategori,
       labelTampil: data.labelTampil,
       deskripsi: data.deskripsi,
-      status: data.pengaturanTampil.status,
-      urutanTampil: data.pengaturanTampil.urutanTampil,
+      status: data.pengaturanTampil?.status,
+      urutanTampil: data.pengaturanTampil?.urutanTampil,
     },
   }));
 }
@@ -167,7 +167,7 @@ export async function getKategoriBeritaMap() {
 
   return categories
     .filter((item) => item.entry.status === 'tampil')
-    .sort((a, b) => a.entry.urutanTampil - b.entry.urutanTampil)
+    .sort((a, b) => (a.entry.urutanTampil ?? 0) - (b.entry.urutanTampil ?? 0))
     .reduce<Record<string, string>>((acc, item) => {
       acc[item.slug] = item.entry.labelTampil;
       return acc;
@@ -181,12 +181,12 @@ export async function getStrukturOrganisasi() {
     slug: normalizeEntryId(id),
     entry: {
       jabatan: data.jabatan,
-      namaPejabat: data.kontenUtama.namaPejabat,
-      deskripsiTugas: data.kontenUtama.deskripsiTugas,
-      kontak: data.kontenUtama.kontak,
-      bidang: data.pengaturanTampil.bidang,
-      statusPublikasi: data.pengaturanTampil.statusPublikasi,
-      urutanTampil: data.pengaturanTampil.urutanTampil,
+      namaPejabat: data.kontenUtama?.namaPejabat,
+      deskripsiTugas: data.kontenUtama?.deskripsiTugas,
+      kontak: data.kontenUtama?.kontak,
+      bidang: data.pengaturanTampil?.bidang,
+      statusPublikasi: data.pengaturanTampil?.statusPublikasi,
+      urutanTampil: data.pengaturanTampil?.urutanTampil,
     },
   }));
 }
