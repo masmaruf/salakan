@@ -7,7 +7,6 @@ import db from '@astrojs/db';
 import cloudflare from '@astrojs/cloudflare';
 import AstroPWA from '@vite-pwa/astro';
 import tailwindcss from '@tailwindcss/vite';
-import manualKeystatic from './src/lib/manual-keystatic-integration.mjs';
 import robotsTxt from 'astro-robots-txt';
 import checker from 'vite-plugin-checker';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
@@ -39,11 +38,7 @@ const integrations = [
     filter(page) {
       try {
         const pathname = new URL(page).pathname;
-        return !(
-          pathname.startsWith('/admin') ||
-          pathname.startsWith('/keystatic') ||
-          pathname.startsWith('/api/keystatic')
-        );
+        return !pathname.startsWith('/admin');
       } catch {
         return true;
       }
@@ -54,7 +49,7 @@ const integrations = [
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin', '/keystatic', '/api/keystatic'],
+        disallow: ['/admin'],
       },
     ],
   }),
@@ -102,10 +97,6 @@ const integrations = [
   }),
 ];
 
-if (process.env.SKIP_KEYSTATIC !== 'true') {
-  integrations.push(manualKeystatic());
-}
-
 export default defineConfig({
   site: 'https://salakan.pages.dev',
   output: 'server',
@@ -149,35 +140,6 @@ export default defineConfig({
           manualChunks(id) {
             if (!id.includes('node_modules')) return;
 
-            if (id.includes('@codemirror') || id.includes('/codemirror/')) {
-              return 'keystatic-codemirror';
-            }
-            if (id.includes('prosemirror') || id.includes('crelt')) {
-              return 'keystatic-prosemirror';
-            }
-            if (id.includes('@keystatic')) {
-              return 'keystatic-core';
-            }
-            if (
-              id.includes('@react-aria') ||
-              id.includes('@react-stately') ||
-              id.includes('@internationalized')
-            ) {
-              return 'keystatic-spectrum';
-            }
-            if (
-              id.includes('remark') ||
-              id.includes('rehype') ||
-              id.includes('micromark') ||
-              id.includes('mdast') ||
-              id.includes('hast') ||
-              id.includes('unist')
-            ) {
-              return 'keystatic-markdown';
-            }
-            if (id.includes('slate')) {
-              return 'keystatic-slate';
-            }
             if (id.includes('@radix-ui')) {
               return 'radix-ui';
             }
@@ -198,4 +160,3 @@ export default defineConfig({
     },
   },
 });
-
