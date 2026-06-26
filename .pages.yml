@@ -8,8 +8,8 @@ content:
   - name: pengumuman
     label: Pengumuman
     type: collection
-    path: src/content/pengumuman/{slug}
-    filename: index.yaml
+    path: src/content/pengumuman
+    filename: "{slug}/index.yaml"
     format: yaml
     view:
       fields: [judul, tanggal]
@@ -48,8 +48,8 @@ content:
   - name: dokumen
     label: Dokumen
     type: collection
-    path: src/content/dokumen/{slug}
-    filename: index.yaml
+    path: src/content/dokumen
+    filename: "{slug}/index.yaml"
     format: yaml
     view:
       fields: [judul, tanggalUpdate]
@@ -131,8 +131,8 @@ content:
   - name: kegiatan
     label: Berita & Kegiatan
     type: collection
-    path: src/content/kegiatan/{slug}
-    filename: index.md
+    path: src/content/kegiatan
+    filename: "{slug}/index.md"
     format: yaml-frontmatter
     view:
       fields: [judul, tanggal, statusPublikasi]
@@ -219,15 +219,12 @@ content:
               - name: ogImage
                 label: OG image path
                 type: string
-      - name: body
-        label: Isi Artikel
-        type: rich-text
 
   - name: agenda
     label: Agenda
     type: collection
-    path: src/content/agenda/{slug}
-    filename: index.yaml
+    path: src/content/agenda
+    filename: "{slug}/index.yaml"
     format: yaml
     view:
       fields: [judul, tanggal, statusPublikasi]
@@ -295,8 +292,8 @@ content:
   - name: umkm
     label: UMKM
     type: collection
-    path: src/content/umkm/{slug}
-    filename: index.yaml
+    path: src/content/umkm
+    filename: "{slug}/index.yaml"
     format: yaml
     fields:
       - name: namaUsaha
@@ -389,8 +386,8 @@ content:
   - name: galeri
     label: Galeri
     type: collection
-    path: src/content/galeri/{slug}
-    filename: index.yaml
+    path: src/content/galeri
+    filename: "{slug}/index.yaml"
     format: yaml
     view:
       fields: [judul, tanggal]
@@ -415,8 +412,8 @@ content:
   - name: kategoriBerita
     label: Kategori Berita
     type: collection
-    path: src/content/kategori-berita/{slug}
-    filename: index.yaml
+    path: src/content/kategori-berita
+    filename: "{slug}/index.yaml"
     format: yaml
     view:
       fields: [namaKategori, labelTampil]
@@ -451,8 +448,8 @@ content:
   - name: strukturOrganisasi
     label: Struktur Organisasi
     type: collection
-    path: src/content/struktur-organisasi/{slug}
-    filename: index.yaml
+    path: src/content/struktur-organisasi
+    filename: "{slug}/index.yaml"
     format: yaml
     fields:
       - name: jabatan
@@ -503,8 +500,8 @@ content:
   - name: layananWarga
     label: Layanan Warga
     type: collection
-    path: src/content/layanan-warga/{slug}
-    filename: index.yaml
+    path: src/content/layanan-warga
+    filename: "{slug}/index.yaml"
     format: yaml
     fields:
       - name: namaLayanan
@@ -541,8 +538,8 @@ content:
   - name: faq
     label: FAQ
     type: collection
-    path: src/content/faq/{slug}
-    filename: index.yaml
+    path: src/content/faq
+    filename: "{slug}/index.yaml"
     format: yaml
     fields:
       - name: pertanyaan
