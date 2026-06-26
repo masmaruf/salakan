@@ -13,7 +13,7 @@ import { siteMeta } from '../../lib/site';
 export const prerender = false;
 
 const url = new URL(Astro.request.url);
-const requestedNextPath = url.searchParams.get('next') || '/keystatic';
+const requestedNextPath = url.searchParams.get('next') || '/admin/users';
 const configured = isAdminConfigured();
 const existingSession = getAdminSession(Astro.cookies.get(getSessionCookieName())?.value);
 
@@ -21,9 +21,9 @@ let errorMessage = '';
 let loginResult: AdminSession | null = null;
 
 function getSafeNextPath(value: string) {
-  if (!value.startsWith('/')) return '/keystatic';
-  if (value.startsWith('//')) return '/keystatic';
-  if (value.startsWith('/admin/login')) return '/keystatic';
+  if (!value.startsWith('/')) return '/admin/users';
+  if (value.startsWith('//')) return '/admin/users';
+  if (value.startsWith('/admin/login')) return '/admin/users';
   return value;
 }
 
@@ -71,30 +71,30 @@ if (Astro.request.method === 'POST') {
   if (!isAllowedFormOrigin(Astro.request)) {
     errorMessage = 'Pengiriman form ditolak karena asal permintaan tidak valid.';
   } else {
-  const formData = await Astro.request.formData();
-  const username = String(formData.get('username') || '');
-  const password = String(formData.get('password') || '');
-  const nextTarget = getSafeNextPath(String(formData.get('next') || '/keystatic'));
+    const formData = await Astro.request.formData();
+    const username = String(formData.get('username') || '');
+    const password = String(formData.get('password') || '');
+    const nextTarget = getSafeNextPath(String(formData.get('next') || '/admin/users'));
 
-  if (!configured) {
-    errorMessage = 'Akun admin belum dikonfigurasi di file environment.';
-  } else {
-    loginResult = validateAdminLogin(username, password);
-  }
+    if (!configured) {
+      errorMessage = 'Akun admin belum dikonfigurasi di file environment.';
+    } else {
+      loginResult = validateAdminLogin(username, password);
+    }
 
-  if (!loginResult) {
-    errorMessage = 'Username atau password tidak cocok.';
-  } else {
-    Astro.cookies.set(getSessionCookieName(), createAdminSessionValue(loginResult), {
-      httpOnly: true,
-      sameSite: 'strict',
-      secure: Astro.url.protocol === 'https:',
-      path: '/',
-      maxAge: 60 * 60 * 8,
-    });
+    if (!loginResult) {
+      errorMessage = 'Username atau password tidak cocok.';
+    } else {
+      Astro.cookies.set(getSessionCookieName(), createAdminSessionValue(loginResult), {
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: Astro.url.protocol === 'https:',
+        path: '/',
+        maxAge: 60 * 60 * 8,
+      });
 
-    return Astro.redirect(nextTarget);
-  }
+      return Astro.redirect(nextTarget);
+    }
   }
 }
 
@@ -128,7 +128,7 @@ import Icon from '../../components/ui/Icon.tsx';
           </h1>
           <p class="max-w-xl text-lg font-medium leading-relaxed text-blue-100">
             Gunakan akun admin untuk memperbarui pengumuman, berita kegiatan, galeri,
-            dan informasi profil padukuhan melalui Keystatic CMS.
+            dan informasi profil padukuhan melalui Pages CMS yang menyimpan perubahan langsung ke repository Git.
           </p>
 
           <div class="grid gap-4 pt-4">
@@ -180,8 +180,8 @@ import Icon from '../../components/ui/Icon.tsx';
               Sedang login sebagai <strong>{existingSession.username}</strong> (<strong class="capitalize">{existingSession.role}</strong>)
             </div>
             <div class="flex flex-wrap gap-2">
-              <a class="inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2 text-sm font-bold text-blue-700 shadow-sm transition hover:shadow-md hover:-translate-y-0.5" href="/keystatic">
-                <Icon name="dashboard" class="text-[16px]" /> Keystatic
+              <a class="inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2 text-sm font-bold text-blue-700 shadow-sm transition hover:shadow-md hover:-translate-y-0.5" href="https://app.pagescms.org/" target="_blank" rel="noreferrer">
+                <Icon name="dashboard" class="text-[16px]" /> Pages CMS
               </a>
               <a class="inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2 text-sm font-bold text-slate-600 shadow-sm transition hover:shadow-md hover:-translate-y-0.5" href="/admin/logout">
                 <Icon name="logout" class="text-[16px]" /> Logout
@@ -247,7 +247,7 @@ import Icon from '../../components/ui/Icon.tsx';
         </form>
 
         <p class="mt-6 text-sm font-medium leading-relaxed text-slate-400 text-center">
-          Setelah berhasil login, Anda akan diarahkan ke panel <span class="font-bold text-slate-600">/keystatic</span>.
+          Setelah berhasil login, Anda akan diarahkan ke panel <span class="font-bold text-slate-600">/admin/users</span>.
         </p>
       </div>
     </div>
