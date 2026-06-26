@@ -35,11 +35,11 @@ function normalizeRole(value: string | undefined): AdminRole {
   return 'editor';
 }
 
-function getKeystaticAdminUsers(): AdminUser[] {
+function getCmsAdminUsers(): AdminUser[] {
   try {
     const parsed = adminConfig as
       | {
-          gunakanPengaturanKeystatic?: boolean;
+          gunakanPengaturanCms?: boolean;
           users?: Array<{
             username?: string;
             password?: string;
@@ -49,7 +49,7 @@ function getKeystaticAdminUsers(): AdminUser[] {
         }
       | null;
 
-    if (!parsed?.gunakanPengaturanKeystatic || !Array.isArray(parsed.users)) {
+    if (!parsed?.gunakanPengaturanCms || !Array.isArray(parsed.users)) {
       return [];
     }
 
@@ -104,9 +104,9 @@ export function getConfiguredAdminUsers(): AdminUser[] {
     return [{ username, password, role }];
   }
 
-  const keystaticUsers = getKeystaticAdminUsers();
-  if (keystaticUsers.length > 0) {
-    return keystaticUsers;
+  const cmsUsers = getCmsAdminUsers();
+  if (cmsUsers.length > 0) {
+    return cmsUsers;
   }
 
   return [];
