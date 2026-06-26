@@ -9,13 +9,15 @@ import AstroPWA from '@vite-pwa/astro';
 import tailwindcss from '@tailwindcss/vite';
 import manualKeystatic from './src/lib/manual-keystatic-integration.mjs';
 import robotsTxt from 'astro-robots-txt';
-import webfontDl from 'vite-plugin-webfont-dl';
 import checker from 'vite-plugin-checker';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 import { analyzer } from 'vite-bundle-analyzer';
 import YAML from 'yaml';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const isDevCommand = process.argv.includes('dev');
+const enableAstroDbInDev = process.env.ENABLE_ASTRO_DB_DEV === 'true';
+const useCloudflareAdapter = !isDevCommand;
 
 const yamlPlugin = () => ({
   name: 'vite-plugin-yaml-custom',
@@ -32,7 +34,7 @@ const yamlPlugin = () => ({
 
 const integrations = [
   react(),
-  db(),
+  ...(isDevCommand && !enableAstroDbInDev ? [] : [db()]),
   sitemap({
     filter(page) {
       try {
@@ -84,23 +86,6 @@ const integrations = [
       maximumFileSizeToCacheInBytes: 4000000,
       runtimeCaching: [
         {
-          urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'google-fonts-stylesheets',
-            expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
-          },
-        },
-        {
-          urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'google-fonts-webfonts',
-            expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 24 * 365 },
-            cacheableResponse: { statuses: [0, 200] },
-          },
-        },
-        {
           urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp|ico)$/i,
           handler: 'CacheFirst',
           options: {
@@ -124,7 +109,8 @@ if (process.env.SKIP_KEYSTATIC !== 'true') {
 export default defineConfig({
   site: 'https://salakan.pages.dev',
   output: 'server',
-  adapter: cloudflare(),
+  // Keep local development on Astro's default server to avoid Cloudflare worker-runner crashes.
+  adapter: useCloudflareAdapter ? cloudflare() : undefined,
   integrations,
   security: {
     checkOrigin: false,
@@ -141,9 +127,6 @@ export default defineConfig({
     plugins: [
       yamlPlugin(),
       tailwindcss(),
-      webfontDl([
-        'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap',
-      ]),
       ...(!process.argv.includes('build') ? [checker({ typescript: true })] : []),
       ViteImageOptimizer({
         png: { quality: 80 },
@@ -215,3 +198,4 @@ export default defineConfig({
     },
   },
 });
+

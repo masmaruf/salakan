@@ -30,6 +30,8 @@ const statsKesehatan = [
   { label: 'Posyandu Balita', value: fasilitas.kesehatan.posyanduBalita, icon: 'baby_changing_station' },
   { label: 'Posyandu Lansia', value: fasilitas.kesehatan.posyanduLansia, icon: 'elderly' },
 ];
+
+import Icon from '../../components/ui/Icon.tsx';
 ---
 
 <MainLayout
@@ -56,7 +58,7 @@ const statsKesehatan = [
     <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 sm:p-6">
       <div class="flex items-center gap-4">
         <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary-container/30 text-m3-primary">
-          <span class="material-symbols-outlined text-[22px]">face_6</span>
+          <Icon name="face_6" class="text-[22px]" />
         </div>
         <div>
           <span class="text-[12px] font-semibold text-m3-primary uppercase tracking-wider">Identitas Dukuh</span>
@@ -65,10 +67,10 @@ const statsKesehatan = [
       </div>
       <div class="flex flex-wrap gap-4 mt-4 text-sm text-on-surface-variant">
         <span class="flex items-center gap-1.5">
-          <span class="material-symbols-outlined text-[16px]">school</span> {identitasDukuh.pendidikan}
+          <Icon name="school" class="text-[16px]" /> {identitasDukuh.pendidikan}
         </span>
         <span class="flex items-center gap-1.5">
-          <span class="material-symbols-outlined text-[16px]">location_on</span> {identitasDukuh.alamat}
+          <Icon name="location_on" class="text-[16px]" /> {identitasDukuh.alamat}
         </span>
       </div>
     </div>
@@ -85,7 +87,7 @@ const statsKesehatan = [
       <div class="grid gap-3 sm:grid-cols-2 mt-3">
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex items-center gap-3">
           <div class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-surface-container-high text-on-surface-variant">
-            <span class="material-symbols-outlined text-[20px]">straighten</span>
+            <Icon name="straighten" class="text-[20px]" />
           </div>
           <div>
             <p class="text-[12px] text-on-surface-variant">Luas Wilayah</p>
@@ -94,7 +96,7 @@ const statsKesehatan = [
         </div>
         <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex items-center gap-3">
           <div class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-surface-container-high text-on-surface-variant">
-            <span class="material-symbols-outlined text-[20px]">grid_view</span>
+            <Icon name="grid_view" class="text-[20px]" />
           </div>
           <div>
             <p class="text-[12px] text-on-surface-variant">Wilayah RT</p>
@@ -108,14 +110,14 @@ const statsKesehatan = [
     <div class="grid gap-8 lg:grid-cols-2">
       <div>
         <h2 class="text-[20px] font-bold text-on-surface mb-4 flex items-center gap-2">
-          <span class="material-symbols-outlined text-[20px] text-m3-primary">school</span> Sarana Pendidikan
+          <Icon name="school" class="text-[20px] text-m3-primary" /> Sarana Pendidikan
         </h2>
         <div class="grid gap-2 sm:grid-cols-2">
           {statsPendidikan.map((item) => (
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <div class="grid h-8 w-8 place-items-center rounded-lg bg-surface-container-high text-on-surface-variant">
-                  <span class="material-symbols-outlined text-[16px]">{item.icon}</span>
+                  <Icon name={item.icon} class="text-[16px]" />
                 </div>
                 <span class="text-sm font-medium text-on-surface">{item.label}</span>
               </div>
@@ -127,14 +129,14 @@ const statsKesehatan = [
 
       <div>
         <h2 class="text-[20px] font-bold text-on-surface mb-4 flex items-center gap-2">
-          <span class="material-symbols-outlined text-[20px] text-m3-error">health_and_safety</span> Sarana Kesehatan
+          <Icon name="health_and_safety" class="text-[20px] text-m3-error" /> Sarana Kesehatan
         </h2>
         <div class="grid gap-2">
           {statsKesehatan.map((item) => (
             <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <div class="grid h-8 w-8 place-items-center rounded-lg bg-error-container/30 text-m3-error">
-                  <span class="material-symbols-outlined text-[16px]">{item.icon}</span>
+                  <Icon name={item.icon} class="text-[16px]" />
                 </div>
                 <span class="text-sm font-medium text-on-surface">{item.label}</span>
               </div>
@@ -149,7 +151,7 @@ const statsKesehatan = [
     <div class="grid gap-4 sm:grid-cols-2">
       <div class="bg-inverse-surface rounded-xl p-6">
         <h2 class="text-base font-bold text-inverse-on-surface flex items-center gap-2 mb-4">
-          <span class="material-symbols-outlined text-[18px]">theater_comedy</span> Seni & Budaya
+          <Icon name="theater_comedy" class="text-[18px]" /> Seni & Budaya
         </h2>
         <div class="flex flex-wrap gap-2">
           {potensi.seniBudaya.map((item) => (
@@ -161,7 +163,7 @@ const statsKesehatan = [
       </div>
       <div class="bg-m3-primary rounded-xl p-6">
         <h2 class="text-base font-bold text-on-primary flex items-center gap-2 mb-4">
-          <span class="material-symbols-outlined text-[18px]">storefront</span> UMKM & Industri
+          <Icon name="storefront" class="text-[18px]" /> UMKM & Industri
         </h2>
         <div class="flex flex-wrap gap-2">
           {potensi.umkmIndustri.map((item) => (

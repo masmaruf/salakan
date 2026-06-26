@@ -2,6 +2,8 @@
 import CmsIcon from '../../../components/CmsIcon.astro';
 import MainLayout from '../../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
+import InfoCard from '../../../components/ui/InfoCard.astro';
+import ActionLinkButton from '../../../components/ui/ActionLinkButton.astro';
 import { getUmkm } from '../../../lib/keystatic';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
@@ -30,6 +32,8 @@ const whatsappUrl = `https://wa.me/${normalizeWhatsapp(entry.whatsapp)}?text=${e
 const seoTitle = withSiteTitle(resolveSeoText(entry.seoTitle, entry.namaUsaha));
 const seoDescription = resolveSeoText(entry.seoDescription, entry.ringkasan);
 const seoImage = resolveSeoImage(entry.ogImage, entry.gambar);
+
+import Icon from '../../../components/ui/Icon.tsx';
 ---
 
 <MainLayout title={seoTitle} description={seoDescription} image={seoImage}>
@@ -43,8 +47,7 @@ const seoImage = resolveSeoImage(entry.ogImage, entry.gambar);
     ]} />
 
     <div class="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
-      <!-- Image -->
-      <div class="rounded-xl overflow-hidden border border-outline-variant bg-surface-container-low">
+      <div class="overflow-hidden rounded-xl border border-outline-variant bg-surface-container-low">
         {entry.gambar ? (
           <img class="aspect-[16/10] w-full object-cover" src={entry.gambar} alt={entry.altGambar || entry.namaUsaha} loading="lazy" />
         ) : (
@@ -54,39 +57,36 @@ const seoImage = resolveSeoImage(entry.ogImage, entry.gambar);
         )}
       </div>
 
-      <!-- Content -->
       <div>
-        <div class="flex flex-wrap items-center gap-2 mb-3">
-          <span class="text-[12px] font-semibold px-2.5 py-1 rounded-md bg-primary-container text-on-primary-container">
+        <div class="mb-3 flex flex-wrap items-center gap-2">
+          <span class="rounded-md bg-primary-container px-2.5 py-1 text-[12px] font-semibold text-on-primary-container">
             {kategoriLabels[entry.kategori]}
           </span>
           {entry.unggulan && (
-            <span class="text-[12px] font-semibold px-2.5 py-1 rounded-md bg-amber-100 text-amber-800 flex items-center gap-1">
-              <span class="material-symbols-outlined text-[12px]">star</span> Unggulan
+            <span class="flex items-center gap-1 rounded-md bg-amber-100 px-2.5 py-1 text-[12px] font-semibold text-amber-800">
+              <Icon name="star" class="text-[12px]" /> Unggulan
             </span>
           )}
         </div>
 
-        <h1 class="text-2xl sm:text-3xl font-bold text-on-surface leading-tight tracking-tight">{entry.namaUsaha}</h1>
+        <h1 class="text-2xl font-bold leading-tight tracking-tight text-on-surface sm:text-3xl">{entry.namaUsaha}</h1>
         <p class="mt-2 text-base text-on-surface-variant">{entry.ringkasan}</p>
 
-        <div class="grid gap-3 sm:grid-cols-2 mt-4">
-          <div class="rounded-xl border border-outline-variant bg-surface-container-lowest p-4">
-            <p class="text-[12px] text-on-surface-variant uppercase tracking-wider mb-1">Pemilik</p>
+        <div class="mt-4 grid gap-3 sm:grid-cols-2">
+          <InfoCard title="Pemilik">
             <p class="text-sm font-bold text-on-surface">{entry.pemilik}</p>
-          </div>
-          <div class="rounded-xl border border-outline-variant bg-surface-container-lowest p-4">
-            <p class="text-[12px] text-on-surface-variant uppercase tracking-wider mb-1">Lokasi</p>
+          </InfoCard>
+          <InfoCard title="Lokasi">
             <p class="text-sm font-bold text-on-surface">{entry.lokasi}</p>
-          </div>
+          </InfoCard>
         </div>
 
         {entry.produkUnggulan?.length > 0 && (
           <div class="mt-4">
-            <p class="text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider mb-2">Produk Unggulan</p>
+            <p class="mb-2 text-[12px] font-semibold uppercase tracking-wider text-on-surface-variant">Produk Unggulan</p>
             <div class="flex flex-wrap gap-2">
               {entry.produkUnggulan.map((product: string) => (
-                <span class="text-[12px] font-semibold px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant border border-outline-variant">
+                <span class="rounded-full border border-outline-variant bg-surface-container-low px-3 py-1.5 text-[12px] font-semibold text-on-surface-variant">
                   {product}
                 </span>
               ))}
@@ -94,17 +94,13 @@ const seoImage = resolveSeoImage(entry.ogImage, entry.gambar);
           </div>
         )}
 
-        <div class="rounded-xl bg-surface-container-low border border-outline-variant p-4 mt-4">
-          <p class="text-sm text-on-surface-variant leading-relaxed">{entry.deskripsi}</p>
-        </div>
+        <InfoCard class="mt-4 rounded-xl border border-outline-variant bg-surface-container-low p-4">
+          <p class="text-sm leading-relaxed text-on-surface-variant">{entry.deskripsi}</p>
+        </InfoCard>
 
-        <div class="flex flex-wrap gap-3 mt-5">
-          <a class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md" href={whatsappUrl} target="_blank" rel="noreferrer">
-            <span class="material-symbols-outlined text-[18px]">chat</span> Hubungi via WhatsApp
-          </a>
-          <a class="inline-flex items-center gap-2 rounded-xl bg-surface-container-lowest border border-outline-variant px-5 py-3 text-sm font-semibold text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-colors" href="/data/umkm">
-            <span class="material-symbols-outlined text-[18px]">arrow_back</span> Kembali
-          </a>
+        <div class="mt-5 flex flex-wrap gap-3">
+          <ActionLinkButton href={whatsappUrl} label="Hubungi via WhatsApp" icon="chat" variant="success" target="_blank" rel="noreferrer" />
+          <ActionLinkButton href="/data/umkm" label="Kembali" icon="arrow_back" />
         </div>
       </div>
     </div>

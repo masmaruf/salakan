@@ -1,0 +1,40 @@
+---
+import Icon from './Icon.tsx';
+
+interface Item {
+  icon: string;
+  text: string;
+  datetime?: string;
+  accentClass?: string;
+}
+
+interface Props {
+  items: Item[];
+  class?: string;
+  itemClass?: string;
+  iconClass?: string;
+}
+
+const {
+  items,
+  class: className = 'flex flex-wrap items-center gap-4',
+  itemClass = 'text-sm text-on-surface-variant',
+  iconClass = 'text-[16px] text-m3-primary',
+} = Astro.props;
+---
+
+<div class={className}>
+  {items.map((item) => (
+    item.datetime ? (
+      <time class:list={['inline-flex items-center gap-1.5', itemClass, item.accentClass]} datetime={item.datetime}>
+        <Icon name={item.icon} class={['shrink-0', iconClass].filter(Boolean).join(' ')} />
+        <span>{item.text}</span>
+      </time>
+    ) : (
+      <span class:list={['inline-flex items-center gap-1.5', itemClass, item.accentClass]}>
+        <Icon name={item.icon} class={['shrink-0', iconClass].filter(Boolean).join(' ')} />
+        <span>{item.text}</span>
+      </span>
+    )
+  ))}
+</div>

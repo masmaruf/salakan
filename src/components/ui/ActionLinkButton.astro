@@ -1,0 +1,44 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  icon?: string;
+  variant?: 'primary' | 'secondary' | 'outline' | 'success';
+  target?: string;
+  rel?: string;
+  class?: string;
+}
+
+const {
+  href,
+  label,
+  icon,
+  variant = 'outline',
+  target,
+  rel,
+  class: className = '',
+} = Astro.props;
+
+const variantClasses = {
+  primary: 'bg-m3-primary text-on-primary transition-all hover:-translate-y-0.5 hover:shadow-md',
+  secondary: 'bg-surface-container-low text-on-surface-variant border border-outline-variant',
+  outline: 'bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-colors',
+  success: 'bg-emerald-600 text-white transition-all hover:-translate-y-0.5 hover:shadow-md',
+};
+
+import Icon from './Icon.tsx';
+---
+
+<a
+  href={href}
+  target={target}
+  rel={rel}
+  class:list={[
+    'inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold',
+    variantClasses[variant],
+    className,
+  ]}
+>
+  {icon && <Icon name={icon} class="text-[18px]" />}
+  <span>{label}</span>
+</a>

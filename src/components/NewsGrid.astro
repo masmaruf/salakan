@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import Badge from './ui/Badge.astro';
 import { excerpt, formatTanggal, getKategoriBeritaMap } from '../lib/keystatic';
 
 interface Item {
@@ -23,23 +24,24 @@ interface Props {
 const { items, compact = false } = Astro.props;
 const categoryLabels = await getKategoriBeritaMap();
 
-function getCategoryClass(kategori: string): string {
+function getCategoryTone(kategori: string): 'primary' | 'error' | 'info' | 'warning' | 'success' | 'surface' {
   const key = kategori.toLowerCase();
-  if (key.includes('pengumuman')) return 'bg-error-container text-on-error-container';
-  if (key.includes('kegiatan') || key.includes('warga')) return 'bg-blue-100 text-blue-800';
-  if (key.includes('gotong') || key.includes('lingkungan')) return 'bg-sky-100 text-sky-800';
-  if (key.includes('pelayanan') || key.includes('layanan')) return 'bg-amber-100 text-amber-800';
-  if (key.includes('potensi') || key.includes('umkm')) return 'bg-emerald-100 text-emerald-800';
-  if (key.includes('artikel')) return 'bg-surface-variant text-on-surface-variant border border-outline-variant';
-  return 'bg-primary-container text-on-primary-container';
+  if (key.includes('pengumuman')) return 'error';
+  if (key.includes('kegiatan') || key.includes('warga')) return 'info';
+  if (key.includes('gotong') || key.includes('lingkungan')) return 'info';
+  if (key.includes('pelayanan') || key.includes('layanan')) return 'warning';
+  if (key.includes('potensi') || key.includes('umkm')) return 'success';
+  if (key.includes('artikel')) return 'surface';
+  return 'primary';
 }
+
+import Icon from './ui/Icon.tsx';
 ---
 
-<div class:list={['grid', compact ? 'grid-cols-1 gap-6 lg:grid-cols-2' : 'grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3 sm:gap-8']}>
+<div class:list={['grid', compact ? 'grid-cols-1 gap-6 lg:grid-cols-2' : 'grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 xl:grid-cols-3']}>
   {items.map(({ slug, entry }) => (
     <a href={`/berita/${slug}`} class="group flex h-full flex-col rounded-2xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40">
-      {/* Image */}
-      <div class="relative aspect-[16/10] w-full overflow-hidden rounded-2xl">
+      <div class="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-outline-variant bg-surface-container-low">
         {entry.gambarUtama ? (
           <Image
             src={entry.gambarUtama}
@@ -52,27 +54,24 @@ function getCategoryClass(kategori: string): string {
             sizes={compact ? '(max-width: 960px) 100vw, 50vw' : '(max-width: 960px) 100vw, 33vw'}
           />
         ) : (
-          <div class="h-full w-full bg-surface-container-low flex items-center justify-center">
-            <span class="material-symbols-outlined text-[48px] text-outline-variant">image</span>
+          <div class="flex h-full w-full items-center justify-center bg-surface-container-low">
+            <Icon name="image" class="text-[48px] text-outline-variant" />
           </div>
         )}
       </div>
 
-      {/* Content */}
       <div class="flex flex-1 flex-col gap-1.5 px-1 pt-3">
         <div class="flex flex-wrap items-center gap-2">
-          <span class:list={['rounded-md px-2.5 py-1 text-[11px] font-semibold sm:text-[12px]', getCategoryClass(entry.kategori)]}>
-            {categoryLabels[entry.kategori] ?? entry.kategori}
-          </span>
+          <Badge label={categoryLabels[entry.kategori] ?? entry.kategori} tone={getCategoryTone(entry.kategori)} />
           <span class="flex items-center gap-1 text-[11px] font-medium text-outline sm:text-[12px]">
-            <span class="material-symbols-outlined text-[14px]">schedule</span>
+            <Icon name="schedule" class="text-[14px]" />
             {formatTanggal(entry.tanggal)}
           </span>
         </div>
-        <h3 class="mt-1 text-base font-bold leading-snug text-on-surface transition-colors line-clamp-2 group-hover:text-m3-primary sm:text-[1.05rem]">
+        <h3 class="mt-1 line-clamp-2 text-base font-bold leading-snug text-on-surface transition-colors group-hover:text-m3-primary sm:text-[1.05rem]">
           {entry.judul}
         </h3>
-        <p class="mt-0.5 text-sm leading-relaxed text-on-surface-variant line-clamp-3 sm:line-clamp-2">
+        <p class="mt-0.5 line-clamp-3 text-sm leading-relaxed text-on-surface-variant sm:line-clamp-2">
           {compact ? excerpt(entry.ringkasan, 110) : entry.ringkasan}
         </p>
       </div>

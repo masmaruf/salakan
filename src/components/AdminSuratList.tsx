@@ -1,3 +1,4 @@
+import Icon from './ui/Icon.tsx';
 import React, { useState } from 'react';
 import { actions } from 'astro:actions';
 
@@ -93,11 +94,11 @@ export default function AdminSuratList({ initialData }: Props) {
 
                   <div className="flex flex-wrap items-center gap-3 text-xs font-bold text-slate-400 sm:gap-4">
                     <span className="flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[16px]">schedule</span>
+                      <Icon name="schedule" className="text-[16px]" />
                       {formatTgl(item.created_at)}
                     </span>
                     <a href={`https://wa.me/${item.no_hp.replace('+','')}`} target="_blank" className="flex items-center gap-1.5 text-emerald-600 hover:text-emerald-700 transition-colors">
-                      <span className="material-symbols-outlined text-[16px]">chat</span>
+                      <Icon name="chat" className="text-[16px]" />
                       Hubungi WA
                     </a>
                   </div>
@@ -112,7 +113,7 @@ export default function AdminSuratList({ initialData }: Props) {
                          onClick={() => handleUpdateStatus(item.id, 'diproses')}
                          className="flex items-center justify-center gap-2 bg-blue-600 text-white text-xs font-black py-3 rounded-2xl shadow-lg shadow-blue-200 hover:bg-blue-700 hover:-translate-y-0.5 transition-all w-full"
                        >
-                         {updating === item.id ? 'Loading...' : <><span className="material-symbols-outlined text-[18px]">play_arrow</span> Mulai Proses</>}
+                         {updating === item.id ? 'Loading...' : <><Icon name="play_arrow" className="text-[18px]" /> Mulai Proses</>}
                        </button>
                      )}
                      
@@ -122,7 +123,7 @@ export default function AdminSuratList({ initialData }: Props) {
                          onClick={() => handleUpdateStatus(item.id, 'selesai')}
                          className="flex items-center justify-center gap-2 bg-emerald-600 text-white text-xs font-black py-3 rounded-2xl shadow-lg shadow-emerald-200 hover:bg-emerald-700 hover:-translate-y-0.5 transition-all w-full"
                        >
-                         {updating === item.id ? 'Loading...' : <><span className="material-symbols-outlined text-[18px]">check</span> Selesaikan</>}
+                         {updating === item.id ? 'Loading...' : <><Icon name="check" className="text-[18px]" /> Selesaikan</>}
                        </button>
                      )}
 
@@ -135,7 +136,7 @@ export default function AdminSuratList({ initialData }: Props) {
                          }}
                          className="flex items-center justify-center gap-2 bg-white text-rose-600 border-2 border-rose-100 text-xs font-black py-3 rounded-2xl hover:bg-rose-50 transition-all w-full"
                        >
-                         <span className="material-symbols-outlined text-[18px]">close</span> Tolak / Revisi
+                         <Icon name="close" className="text-[18px]" /> Tolak / Revisi
                        </button>
                      )}
 

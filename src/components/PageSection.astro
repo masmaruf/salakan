@@ -1,0 +1,43 @@
+---
+interface Props {
+  title?: string;
+  eyebrow?: string;
+  actionHref?: string;
+  actionLabel?: string;
+  sectionClass?: string;
+  containerClass?: string;
+  headerClass?: string;
+}
+
+const {
+  title,
+  eyebrow,
+  actionHref,
+  actionLabel,
+  sectionClass = 'py-10 sm:py-14',
+  containerClass = 'container-premium',
+  headerClass = 'mb-6 flex items-center justify-between gap-4',
+} = Astro.props;
+---
+
+<section class={sectionClass}>
+  <div class={containerClass}>
+    {(title || eyebrow || actionHref) && (
+      <div class={headerClass}>
+        <div>
+          {eyebrow && (
+            <div class="mb-2 flex items-center gap-3">
+              <div class="h-px w-8 bg-m3-primary"></div>
+              <span class="text-[11px] font-bold uppercase tracking-[0.15em] text-m3-primary">{eyebrow}</span>
+            </div>
+          )}
+          {title && <h2 class="text-[24px] font-bold leading-[32px] text-on-surface sm:text-[28px] sm:leading-[36px]">{title}</h2>}
+        </div>
+        {actionHref && actionLabel && (
+          <a class="shrink-0 text-sm font-semibold text-m3-primary hover:underline" href={actionHref}>{actionLabel}</a>
+        )}
+      </div>
+    )}
+    <slot />
+  </div>
+</section>

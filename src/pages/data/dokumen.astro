@@ -1,6 +1,8 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import Badge from '../../components/ui/Badge.astro';
+import PageSection from '../../components/PageSection.astro';
 import { formatTanggal, getDokumen, getPengaturan } from '../../lib/keystatic';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
@@ -20,6 +22,8 @@ const kategoriLabels = {
   kegiatan: 'Dokumen Kegiatan',
   regulasi: 'Regulasi',
 } as const;
+
+import Icon from '../../components/ui/Icon.tsx';
 ---
 
 <MainLayout
@@ -28,53 +32,51 @@ const kategoriLabels = {
   image={resolveSeoImage(seo?.ogImage)}
 >
 
-  <div class="container-premium pt-8 pb-4">
+  <div class="container-premium pb-4 pt-8">
     <Breadcrumbs items={[
       { label: 'Beranda', href: '/' },
       { label: 'Pusat Data', href: '/data' },
       { label: 'Arsip Dokumen', active: true },
     ]} />
     <h1 class="text-[28px] font-bold leading-[36px] text-on-surface">Arsip Dokumen</h1>
-    <p class="text-base text-on-surface-variant mt-1">
+    <p class="mt-1 text-base text-on-surface-variant">
       {dokumen.length} dokumen tersedia di arsip publik Padukuhan Salakan.
     </p>
   </div>
 
-  <section class="container-premium py-8">
+  <PageSection sectionClass="pb-10 pt-4 sm:pb-14">
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {dokumen.map(({ slug, entry }) => (
-        <article class="group bg-surface-container-lowest border border-outline-variant rounded-xl p-5 transition-all hover:-translate-y-0.5 hover:shadow-md flex flex-col" id={slug}>
-          <div class="flex items-center justify-between gap-2 mb-3">
-            <span class="text-[12px] font-semibold px-2 py-1 rounded-md bg-primary-container text-on-primary-container">
-              {kategoriLabels[entry.kategori]}
-            </span>
+        <article class="group flex flex-col rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 transition-all hover:-translate-y-0.5 hover:shadow-md" id={slug}>
+          <div class="mb-3 flex items-center justify-between gap-2">
+            <Badge label={kategoriLabels[entry.kategori]} tone="primary" class="px-2 py-1" />
             <time class="text-[12px] font-medium text-outline" datetime={entry.tanggalUpdate}>
               {formatTanggal(entry.tanggalUpdate)}
             </time>
           </div>
 
-          <h2 class="text-base font-bold text-on-surface leading-tight group-hover:text-m3-primary transition-colors sm:text-lg">
+          <h2 class="text-base font-bold leading-tight text-on-surface transition-colors group-hover:text-m3-primary sm:text-lg">
             <a href={`/data/dokumen/${slug}`}>{entry.judul}</a>
           </h2>
-          <p class="text-sm text-on-surface-variant mt-2 line-clamp-2 flex-1">{entry.ringkasan}</p>
+          <p class="mt-2 flex-1 line-clamp-2 text-sm text-on-surface-variant">{entry.ringkasan}</p>
 
-          <div class="flex flex-wrap gap-2 mt-4 pt-3 border-t border-outline-variant/40">
+          <div class="mt-4 flex flex-wrap gap-2 border-t border-outline-variant/40 pt-3">
             <a class="inline-flex items-center gap-1 text-[12px] font-semibold text-m3-primary hover:underline" href={`/data/dokumen/${slug}`}>
-              <span class="material-symbols-outlined text-[14px]">visibility</span> Detail
+              <Icon name="visibility" class="text-[14px]" /> Detail
             </a>
             {entry.fileDokumen ? (
               <a class="inline-flex items-center gap-1 text-[12px] font-semibold text-m3-primary hover:underline" href={entry.fileDokumen} target="_blank" rel="noreferrer">
-                <span class="material-symbols-outlined text-[14px]">download</span> Unduh
+                <Icon name="download" class="text-[14px]" /> Unduh
               </a>
             ) : (
               <span class="inline-flex items-center gap-1 text-[12px] font-medium text-outline">
-                <span class="material-symbols-outlined text-[14px]">lock</span> Belum tersedia
+                <Icon name="lock" class="text-[14px]" /> Belum tersedia
               </span>
             )}
           </div>
         </article>
       ))}
     </div>
-  </section>
+  </PageSection>
 
 </MainLayout>

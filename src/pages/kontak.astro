@@ -1,11 +1,15 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import InfoCard from '../components/ui/InfoCard.astro';
+import ActionLinkButton from '../components/ui/ActionLinkButton.astro';
 import { getPengaturan } from '../lib/keystatic';
 
 const pengaturan = await getPengaturan();
 const nomorWhatsapp = pengaturan?.kontakWhatsApp?.replace(/\D/g, '');
 const whatsappLink = nomorWhatsapp ? `https://wa.me/${nomorWhatsapp}` : null;
+
+import Icon from '../components/ui/Icon.tsx';
 ---
 
 <MainLayout title="Kontak | Padukuhan Salakan" description="Alamat dan kontak informasi Padukuhan Salakan.">
@@ -23,47 +27,30 @@ const whatsappLink = nomorWhatsapp ? `https://wa.me/${nomorWhatsapp}` : null;
 
   <section class="container-premium py-10 sm:py-14">
     <div class="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
-
-      <!-- Contact Info -->
       <div class="space-y-4">
-        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5">
-          <div class="flex items-center gap-2 text-[12px] font-semibold text-m3-primary uppercase tracking-wider mb-2">
-            <span class="material-symbols-outlined text-[16px]">location_on</span> Alamat
-          </div>
-          <p class="text-sm font-bold text-on-surface whitespace-pre-line">{pengaturan?.alamat ?? 'Sekretariat Padukuhan Salakan'}</p>
-        </div>
+        <InfoCard title="Alamat" icon="location_on">
+          <p class="whitespace-pre-line text-sm font-bold text-on-surface">{pengaturan?.alamat ?? 'Sekretariat Padukuhan Salakan'}</p>
+        </InfoCard>
 
-        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5">
-          <div class="flex items-center gap-2 text-[12px] font-semibold text-m3-primary uppercase tracking-wider mb-2">
-            <span class="material-symbols-outlined text-[16px]">chat</span> WhatsApp
-          </div>
+        <InfoCard title="WhatsApp" icon="chat">
           {whatsappLink ? (
-            <a class="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:shadow-md sm:w-auto sm:justify-start" href={whatsappLink} target="_blank" rel="noreferrer">
-              <span class="material-symbols-outlined text-[18px]">open_in_new</span> Hubungi Pengurus
-            </a>
+            <ActionLinkButton href={whatsappLink} label="Hubungi Pengurus" icon="open_in_new" variant="success" target="_blank" rel="noreferrer" class="mt-1 w-full justify-center sm:w-auto sm:justify-start" />
           ) : (
-            <p class="text-sm font-bold text-on-surface mt-1">Dalam pendaftaran</p>
+            <p class="mt-1 text-sm font-bold text-on-surface">Dalam pendaftaran</p>
           )}
-        </div>
+        </InfoCard>
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5">
-            <div class="flex items-center gap-2 text-[12px] font-semibold text-m3-primary uppercase tracking-wider mb-2">
-              <span class="material-symbols-outlined text-[16px]">mail</span> Surel
-            </div>
-            <p class="text-sm font-bold text-on-surface break-words">{pengaturan?.email ?? '-'}</p>
-          </div>
-          <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5">
-            <div class="flex items-center gap-2 text-[12px] font-semibold text-m3-primary uppercase tracking-wider mb-2">
-              <span class="material-symbols-outlined text-[16px]">schedule</span> Jam Kerja
-            </div>
+          <InfoCard title="Surel" icon="mail">
+            <p class="break-words text-sm font-bold text-on-surface">{pengaturan?.email ?? '-'}</p>
+          </InfoCard>
+          <InfoCard title="Jam Kerja" icon="schedule">
             <p class="text-sm font-bold text-on-surface">{pengaturan?.jamLayanan ?? '-'}</p>
-          </div>
+          </InfoCard>
         </div>
       </div>
 
-      <!-- Map -->
-      <div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+      <div class="overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest">
         {pengaturan?.linkPeta ? (
           <iframe
             title="Peta Padukuhan Salakan"
@@ -73,10 +60,10 @@ const whatsappLink = nomorWhatsapp ? `https://wa.me/${nomorWhatsapp}` : null;
             class="h-full w-full min-h-[400px] border-none"
           />
         ) : (
-          <div class="flex flex-col items-center justify-center min-h-[400px] text-center p-8">
-            <span class="material-symbols-outlined text-[48px] text-outline mb-4">wrong_location</span>
+          <div class="flex min-h-[400px] flex-col items-center justify-center p-8 text-center">
+            <Icon name="wrong_location" class="mb-4 text-[48px] text-outline" />
             <p class="text-base font-bold text-on-surface">Peta Belum Tersedia</p>
-            <p class="text-sm text-on-surface-variant mt-2 max-w-xs">
+            <p class="mt-2 max-w-xs text-sm text-on-surface-variant">
               Sematkan tautan peta melalui dasbor Keystatic agar titik lokasi muncul di sini.
             </p>
           </div>

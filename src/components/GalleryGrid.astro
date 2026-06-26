@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import Badge from './ui/Badge.astro';
 import { formatTanggal } from '../lib/keystatic';
 
 interface Item {
@@ -19,7 +20,7 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 sm:gap-5">
+<div class="grid gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
   {items.map(({ slug, entry }) => (
     <article class="group overflow-hidden rounded-2xl border border-outline-variant bg-surface-container-lowest transition-all hover:-translate-y-0.5 hover:shadow-md">
       {entry.gambar && (
@@ -35,12 +36,12 @@ const { items } = Astro.props;
         />
       )}
       <div class="p-4 sm:p-5">
-        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-          <span class="rounded-md bg-primary-container px-2.5 py-1 text-[11px] font-semibold text-on-primary-container sm:text-[12px]">Galeri</span>
+        <div class="mb-2 flex flex-wrap items-center justify-between gap-2">
+          <Badge label="Galeri" tone="primary" />
           <time class="text-[11px] font-medium text-outline sm:text-[12px]" datetime={entry.tanggal}>{formatTanggal(entry.tanggal)}</time>
         </div>
-        <h3 class="text-base font-bold text-on-surface leading-tight group-hover:text-m3-primary transition-colors sm:text-lg">{entry.judul}</h3>
-        <p class="text-sm text-on-surface-variant mt-2 line-clamp-2">{entry.caption}</p>
+        <h3 class="text-base font-bold leading-tight text-on-surface transition-colors group-hover:text-m3-primary sm:text-lg">{entry.judul}</h3>
+        <p class="mt-2 line-clamp-2 text-sm text-on-surface-variant">{entry.caption}</p>
       </div>
     </article>
   ))}

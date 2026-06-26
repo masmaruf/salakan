@@ -1,4 +1,6 @@
 ---
+import Icon from './ui/Icon.tsx';
+
 interface Props {
   currentPath: string;
 }
@@ -36,12 +38,7 @@ function isActive(href: string, current: string): boolean {
         ]}
         aria-current={active ? 'page' : undefined}
       >
-        <span
-          class="material-symbols-outlined text-[22px]"
-          style={active ? "font-variation-settings: 'FILL' 1;" : "font-variation-settings: 'FILL' 0;"}
-        >
-          {item.icon}
-        </span>
+        <Icon name={item.icon} class="text-[22px]" />
         <span
           class:list={[
             'mt-0.5 text-[10px] leading-tight',

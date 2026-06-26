@@ -1,0 +1,18 @@
+---
+interface Props {
+  title?: string;
+  message: string;
+  class?: string;
+}
+
+const {
+  title,
+  message,
+  class: className = 'rounded-xl border border-outline-variant bg-surface-container-lowest p-12 text-center text-on-surface-variant',
+} = Astro.props;
+---
+
+<div class={className}>
+  {title && <p class="text-base font-bold text-on-surface mb-2">{title}</p>}
+  <p>{message}</p>
+</div>

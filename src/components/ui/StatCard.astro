@@ -16,11 +16,13 @@ const iconBgMap = {
   red: 'bg-red-100/50 text-red-600',
   slate: 'bg-surface-container-high text-on-surface-variant',
 };
+
+import Icon from './Icon.tsx';
 ---
 
 <article class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 flex items-center gap-4 transition-all hover:-translate-y-0.5 hover:shadow-md">
   <div class:list={['grid h-11 w-11 shrink-0 place-items-center rounded-xl', iconBgMap[variant]]}>
-    <span class="material-symbols-outlined text-[22px]">{icon}</span>
+    <Icon name={icon} class="text-[22px]" />
   </div>
   <div class="min-w-0">
     <p class="text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">{label}</p>

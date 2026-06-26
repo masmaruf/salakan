@@ -11,6 +11,8 @@ const items = faqItems
   .sort((a, b) => a.entry.urutan - b.entry.urutan);
 
 const categories = [...new Set(items.map(({ entry }) => entry.kategori))];
+
+import Icon from '../../components/ui/Icon.tsx';
 ---
 
 <MainLayout
@@ -53,7 +55,7 @@ const categories = [...new Set(items.map(({ entry }) => entry.kategori))];
               <span class="text-[12px] font-semibold text-outline uppercase tracking-wider">{entry.kategori}</span>
               <h2 class="text-base font-bold text-on-surface leading-tight mt-1 group-hover:text-m3-primary transition-colors">{entry.pertanyaan}</h2>
             </div>
-            <span class="material-symbols-outlined text-[20px] text-outline shrink-0 mt-1 transition-transform group-open:rotate-180">expand_more</span>
+            <Icon name="expand_more" class="text-[20px] text-outline shrink-0 mt-1 transition-transform group-open:rotate-180" />
           </summary>
           <div class="px-5 pb-5 pl-17">
             <div class="rounded-xl bg-surface-container-low/50 border border-outline-variant/40 p-4 text-sm text-on-surface-variant leading-relaxed ml-12">

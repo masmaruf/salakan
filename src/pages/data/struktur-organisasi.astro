@@ -27,6 +27,8 @@ const grouped = {
   kegiatan: items.filter(({ entry }) => entry.bidang === 'kegiatan'),
   wilayah: items.filter(({ entry }) => entry.bidang === 'wilayah'),
 };
+
+import Icon from '../../components/ui/Icon.tsx';
 ---
 
 <MainLayout
@@ -53,7 +55,7 @@ const grouped = {
         <div class="space-y-4">
           <div class="flex items-center gap-3 mb-2">
             <div class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary-container/30 text-m3-primary">
-              <span class="material-symbols-outlined text-[20px]">{bidangIcons[key as keyof typeof bidangIcons]}</span>
+              <Icon name={bidangIcons[key as keyof typeof bidangIcons]} class="text-[20px]" />
             </div>
             <div>
               <h2 class="text-base font-bold text-on-surface">{bidangLabels[key as keyof typeof bidangLabels]}</h2>
@@ -68,7 +70,7 @@ const grouped = {
                 <h3 class="text-sm font-bold text-on-surface mt-1">{entry.namaPejabat}</h3>
                 <p class="text-sm text-on-surface-variant mt-1 line-clamp-2">{entry.deskripsiTugas}</p>
                 <div class="flex items-center gap-1.5 mt-3 pt-3 border-t border-outline-variant/40 text-[12px] text-on-surface-variant">
-                  <span class="material-symbols-outlined text-[14px]">call</span> {entry.kontak}
+                  <Icon name="call" class="text-[14px]" /> {entry.kontak}
                 </div>
               </article>
             ))}

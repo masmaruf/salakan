@@ -2,6 +2,10 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import NewsGrid from '../components/NewsGrid.astro';
 import GalleryGrid from '../components/GalleryGrid.astro';
+import PageHero from '../components/PageHero.astro';
+import PageSection from '../components/PageSection.astro';
+import EmptyStateCard from '../components/ui/EmptyStateCard.astro';
+import Badge from '../components/ui/Badge.astro';
 import {
   getBeranda,
   getPengumuman,
@@ -60,6 +64,8 @@ function formatAgendaDate(date: Date | string): string {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
   return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]}`;
 }
+
+import Icon from '../components/ui/Icon.tsx';
 ---
 
 <MainLayout
@@ -67,73 +73,60 @@ function formatAgendaDate(date: Date | string): string {
   description={hero?.intro ?? 'Portal warga Padukuhan Salakan untuk pengumuman, berita, agenda, profil wilayah, galeri, dan informasi kontak.'}
 >
 
-  <!-- ===== HERO ===== -->
-  <section class="relative isolate overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 pt-16 pb-28 sm:pt-24 sm:pb-36">
-    <div class="pointer-events-none absolute inset-0">
-      <div class="absolute -top-24 left-1/3 h-[480px] w-[480px] rounded-full bg-blue-500/15 blur-3xl"></div>
-      <div class="absolute -bottom-24 right-1/4 h-[380px] w-[380px] rounded-full bg-indigo-500/15 blur-3xl"></div>
+  <PageHero
+    eyebrow={hero?.eyebrow ?? 'Padukuhan Salakan'}
+    icon="location_on"
+    title={hero?.title ?? 'Pusat informasi warga Padukuhan Salakan'}
+    description={hero?.intro ?? 'Selamat datang di website Padukuhan Salakan.'}
+    sectionClass="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 pt-16 pb-28 sm:pt-24 sm:pb-36"
+    titleClass="text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl"
+    descriptionClass="mx-auto max-w-2xl text-base font-medium leading-relaxed text-blue-100/70 sm:text-lg"
+    contentClass="mx-auto max-w-3xl space-y-6 text-center"
+    badgeClass="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 backdrop-blur"
+    orbs={[
+      { class: 'absolute -top-24 left-1/3 h-[480px] w-[480px] rounded-full bg-blue-500/15 blur-3xl' },
+      { class: 'absolute -bottom-24 right-1/4 h-[380px] w-[380px] rounded-full bg-indigo-500/15 blur-3xl' },
+    ]}
+  >
+    <div class="flex flex-wrap items-center justify-center gap-3 pt-4">
+      <a
+        class="inline-flex items-center gap-2 rounded-full bg-primary-container px-7 py-3.5 text-sm font-bold text-on-primary-container shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
+        href={hero?.primaryCtaHref ?? '/agenda'}
+      >
+        <Icon name="campaign" class="text-[18px]" />
+        {hero?.primaryCtaLabel ?? 'Lihat pengumuman'}
+      </a>
+      <a
+        class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/20"
+        href={hero?.secondaryCtaHref ?? '/profil'}
+      >
+        {hero?.secondaryCtaLabel ?? 'Baca profil padukuhan'}
+        <Icon name="arrow_forward" class="text-[16px]" />
+      </a>
     </div>
 
-    <div class="container-premium relative z-10 text-center">
-      <div class="mx-auto max-w-3xl space-y-6">
-        <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 backdrop-blur">
-          <span class="material-symbols-outlined text-blue-300 text-[16px]">location_on</span>
-          <span class="text-xs font-bold uppercase tracking-[0.15em] text-blue-200">
-            {hero?.eyebrow ?? 'Padukuhan Salakan'}
-          </span>
+    <div class="mx-auto mt-14 grid max-w-xl grid-cols-3 gap-3 sm:gap-4">
+      {statsData.map((s) => (
+        <div class="flex flex-col items-center gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-3 py-5 backdrop-blur-sm">
+          <Icon name={s.icon} class="mb-1 text-[22px] text-blue-300" />
+          <strong class="text-2xl font-bold text-white sm:text-3xl">{s.value}</strong>
+          <span class="text-center text-[0.6rem] font-bold uppercase leading-tight tracking-[0.12em] text-blue-200/60">{s.label}</span>
         </div>
-
-        <h1 class="text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
-          {hero?.title ?? 'Pusat informasi warga Padukuhan Salakan'}
-        </h1>
-
-        <p class="mx-auto max-w-2xl text-base font-medium leading-relaxed text-blue-100/70 sm:text-lg">
-          {hero?.intro ?? 'Selamat datang di website Padukuhan Salakan.'}
-        </p>
-
-        <div class="flex flex-wrap items-center justify-center gap-3 pt-4">
-          <a
-            class="inline-flex items-center gap-2 rounded-full bg-primary-container text-on-primary-container px-7 py-3.5 text-sm font-bold shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
-            href={hero?.primaryCtaHref ?? '/agenda'}
-          >
-            <span class="material-symbols-outlined text-[18px]">campaign</span>
-            {hero?.primaryCtaLabel ?? 'Lihat pengumuman'}
-          </a>
-          <a
-            class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur-sm transition-all hover:bg-white/20 hover:-translate-y-0.5"
-            href={hero?.secondaryCtaHref ?? '/profil'}
-          >
-            {hero?.secondaryCtaLabel ?? 'Baca profil padukuhan'}
-            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Stats -->
-      <div class="mx-auto mt-14 grid max-w-xl grid-cols-3 gap-3 sm:gap-4">
-        {statsData.map((s) => (
-          <div class="flex flex-col items-center gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-3 py-5 backdrop-blur-sm">
-            <span class="material-symbols-outlined text-blue-300 text-[22px] mb-1">{s.icon}</span>
-            <strong class="text-2xl font-bold text-white sm:text-3xl">{s.value}</strong>
-            <span class="text-[0.6rem] font-bold uppercase tracking-[0.12em] text-blue-200/60 text-center leading-tight">{s.label}</span>
-          </div>
-        ))}
-      </div>
+      ))}
     </div>
-  </section>
+  </PageHero>
 
-  <!-- ===== QUICK ACCESS ===== -->
   {panelLinks.length > 0 && (
     <section class="relative z-20 -mt-14">
       <div class="container-premium">
         <div class="grid gap-3 sm:grid-cols-3">
           {panelLinks.map((link) => (
             <a
-              class="group flex items-start gap-4 rounded-xl bg-surface-container-lowest border border-outline-variant p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+              class="group flex items-start gap-4 rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
               href={link.href}
             >
               <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary-container/30 text-m3-primary transition-colors group-hover:bg-primary-container group-hover:text-on-primary-container">
-                <span class="material-symbols-outlined text-[22px]">{link.icon}</span>
+                <Icon name={link.icon} class="text-[22px]" />
               </div>
               <div class="min-w-0">
                 <h3 class="text-sm font-bold text-on-surface sm:text-base">{link.title}</h3>
@@ -146,141 +139,99 @@ function formatAgendaDate(date: Date | string): string {
     </section>
   )}
 
-  <!-- ===== AGENDA TERDEKAT ===== -->
-  <section class="py-10 sm:py-14">
-    <div class="container-premium">
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-[24px] font-bold leading-[32px] text-on-surface">Agenda Terdekat</h2>
-        <a class="text-sm font-semibold text-m3-primary hover:underline" href="/agenda">Lihat semua</a>
-      </div>
-
-      {agendaTerdekat.length > 0 ? (
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {agendaTerdekat.map((item) => (
-            <a
-              class="group bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden transition-all hover:-translate-y-1 hover:shadow-md active:scale-[0.98]"
-              href={item.type === 'agenda' ? `/agenda/${item.slug}` : '/agenda'}
-            >
-              <div class="flex flex-col p-5 h-full">
-                <div class="flex items-center gap-3 mb-3">
-                  <div class:list={[
-                    'grid h-11 w-11 shrink-0 place-items-center rounded-xl',
-                    item.type === 'agenda' ? 'bg-primary-container/30 text-m3-primary' : 'bg-error-container/30 text-m3-error',
-                  ]}>
-                    <span class="material-symbols-outlined text-[22px]">{item.type === 'agenda' ? 'event' : 'campaign'}</span>
-                  </div>
-                  <div>
-                    <span class:list={[
-                      'text-[12px] font-semibold px-2 py-0.5 rounded-md',
-                      item.type === 'agenda' ? 'bg-primary-container text-on-primary-container' : 'bg-error-container text-on-error-container',
-                    ]}>
-                      {item.type === 'agenda' ? 'Agenda' : 'Pengumuman'}
-                    </span>
-                    <p class="text-[11px] font-medium text-on-surface-variant mt-1">{formatAgendaDate(item.entry.tanggal)}</p>
-                  </div>
+  <PageSection title="Agenda Terdekat" actionHref="/agenda" actionLabel="Lihat semua">
+    {agendaTerdekat.length > 0 ? (
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {agendaTerdekat.map((item) => (
+          <a
+            class="group overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest transition-all hover:-translate-y-1 hover:shadow-md active:scale-[0.98]"
+            href={item.type === 'agenda' ? `/agenda/${item.slug}` : '/agenda'}
+          >
+            <div class="flex h-full flex-col p-5">
+              <div class="mb-3 flex items-center gap-3">
+                <div class:list={[
+                  'grid h-11 w-11 shrink-0 place-items-center rounded-xl',
+                  item.type === 'agenda' ? 'bg-primary-container/30 text-m3-primary' : 'bg-error-container/30 text-m3-error',
+                ]}>
+                  <Icon name={item.type === 'agenda' ? 'event' : 'campaign'} class="text-[22px]" />
                 </div>
-                <h3 class="text-base font-bold text-on-surface leading-tight line-clamp-2 group-hover:text-m3-primary transition-colors sm:text-lg">
-                  {item.entry.judul}
-                </h3>
-                <p class="text-sm text-on-surface-variant line-clamp-2 mt-2 flex-1">
-                  {excerpt(item.entry.ringkasan, 120)}
-                </p>
-                {item.type === 'agenda' && 'lokasi' in item.entry && (
-                  <div class="flex items-center gap-1.5 border-t border-outline-variant/50 pt-3 mt-4 text-xs font-medium text-on-surface-variant">
-                    <span class="material-symbols-outlined text-[14px]">location_on</span>
-                    <span class="truncate">{item.entry.lokasi}</span>
-                  </div>
-                )}
+                <div>
+                  <Badge label={item.type === 'agenda' ? 'Agenda' : 'Pengumuman'} tone={item.type === 'agenda' ? 'primary' : 'error'} class="px-2 py-0.5" />
+                  <p class="mt-1 text-[11px] font-medium text-on-surface-variant">{formatAgendaDate(item.entry.tanggal)}</p>
+                </div>
               </div>
-            </a>
-          ))}
-        </div>
-      ) : (
-        <div class="rounded-xl bg-surface-container-lowest border border-outline-variant p-12 text-center text-on-surface-variant">
-          Belum ada agenda terdekat
-        </div>
-      )}
-    </div>
-  </section>
-
-  <!-- ===== BERITA ===== -->
-  <section class="py-10 sm:py-14">
-    <div class="container-premium">
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-[24px] font-bold leading-[32px] text-on-surface">
-          {beritaSection?.title ?? 'Berita terbaru'}
-        </h2>
-        <a class="text-sm font-semibold text-m3-primary hover:underline" href="/berita">
-          {beritaSection?.ctaLabel ?? 'Lihat semua'}
-        </a>
+              <h3 class="text-base font-bold leading-tight text-on-surface transition-colors line-clamp-2 group-hover:text-m3-primary sm:text-lg">
+                {item.entry.judul}
+              </h3>
+              <p class="mt-2 flex-1 text-sm text-on-surface-variant line-clamp-2">
+                {excerpt(item.entry.ringkasan, 120)}
+              </p>
+              {item.type === 'agenda' && 'lokasi' in item.entry && (
+                <div class="mt-4 flex items-center gap-1.5 border-t border-outline-variant/50 pt-3 text-xs font-medium text-on-surface-variant">
+                  <Icon name="location_on" class="text-[14px]" />
+                  <span class="truncate">{item.entry.lokasi}</span>
+                </div>
+              )}
+            </div>
+          </a>
+        ))}
       </div>
+    ) : (
+      <EmptyStateCard message="Belum ada agenda terdekat" />
+    )}
+  </PageSection>
 
-      {berita.length > 0 ? (
-        <NewsGrid items={berita} />
-      ) : (
-        <div class="rounded-xl bg-surface-container-lowest border border-outline-variant p-12 text-center text-on-surface-variant">
-          Belum ada berita terbaru
-        </div>
-      )}
-    </div>
-  </section>
+  <PageSection title={beritaSection?.title ?? 'Berita terbaru'} actionHref="/berita" actionLabel={beritaSection?.ctaLabel ?? 'Lihat semua'}>
+    {berita.length > 0 ? (
+      <NewsGrid items={berita} />
+    ) : (
+      <EmptyStateCard message="Belum ada berita terbaru" />
+    )}
+  </PageSection>
 
-  <!-- ===== GALERI ===== -->
-  <section class="py-10 sm:py-14 bg-surface-container-low/50">
-    <div class="container-premium">
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-[24px] font-bold leading-[32px] text-on-surface">
-          {galeriSection?.title ?? 'Galeri pilihan'}
-        </h2>
-        <a class="text-sm font-semibold text-m3-primary hover:underline" href="/galeri">
-          {galeriSection?.ctaLabel ?? 'Buka galeri'}
-        </a>
-      </div>
+  <PageSection sectionClass="bg-surface-container-low/50 py-10 sm:py-14" title={galeriSection?.title ?? 'Galeri pilihan'} actionHref="/galeri" actionLabel={galeriSection?.ctaLabel ?? 'Buka galeri'}>
+    {galeri.length > 0 ? (
+      <GalleryGrid items={galeri} />
+    ) : (
+      <EmptyStateCard message="Belum ada galeri tersedia" />
+    )}
+  </PageSection>
 
-      {galeri.length > 0 ? (
-        <GalleryGrid items={galeri} />
-      ) : (
-        <div class="rounded-xl bg-surface-container-lowest border border-outline-variant p-12 text-center text-on-surface-variant">
-          Belum ada galeri tersedia
-        </div>
-      )}
-    </div>
-  </section>
-
-  <!-- ===== PENUTUP ===== -->
   {penutup && (
-    <section class="relative isolate overflow-hidden bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 py-16 sm:py-20">
-      <div class="pointer-events-none absolute inset-0">
-        <div class="absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-3xl"></div>
+    <PageHero
+      eyebrow={penutup.eyebrow}
+      title={penutup.title}
+      description={penutup.description}
+      icon="grid_view"
+      sectionClass="bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 py-16 sm:py-20"
+      containerClass="container-premium relative z-10"
+      contentClass="mx-auto max-w-2xl text-center"
+      titleClass="mt-6 text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl md:text-4xl"
+      descriptionClass="mt-4 text-base font-medium leading-relaxed text-blue-100/70 sm:text-lg"
+      badgeClass="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 backdrop-blur"
+      badgeIconClass="hidden"
+      badgeTextClass="text-xs font-bold uppercase tracking-[0.15em] text-blue-200"
+      orbs={[
+        { class: 'absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-3xl' },
+      ]}
+    >
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <a
+          class="inline-flex items-center gap-2 rounded-full bg-primary-container px-7 py-3.5 text-sm font-bold text-on-primary-container shadow-lg transition-all hover:-translate-y-0.5"
+          href={penutup.primaryCtaHref}
+        >
+          <Icon name="grid_view" class="text-[18px]" />
+          {penutup.primaryCtaLabel}
+        </a>
+        <a
+          class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/20"
+          href={penutup.secondaryCtaHref}
+        >
+          {penutup.secondaryCtaLabel}
+          <Icon name="arrow_forward" class="text-[16px]" />
+        </a>
       </div>
-      <div class="container-premium relative z-10 mx-auto max-w-2xl text-center">
-        <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 backdrop-blur">
-          <span class="text-xs font-bold uppercase tracking-[0.15em] text-blue-200">{penutup.eyebrow}</span>
-        </div>
-        <h2 class="mt-6 text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl md:text-4xl">
-          {penutup.title}
-        </h2>
-        <p class="mt-4 text-base font-medium leading-relaxed text-blue-100/70 sm:text-lg">
-          {penutup.description}
-        </p>
-        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <a
-            class="inline-flex items-center gap-2 rounded-full bg-primary-container text-on-primary-container px-7 py-3.5 text-sm font-bold shadow-lg transition-all hover:-translate-y-0.5"
-            href={penutup.primaryCtaHref}
-          >
-            <span class="material-symbols-outlined text-[18px]">grid_view</span>
-            {penutup.primaryCtaLabel}
-          </a>
-          <a
-            class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur-sm transition-all hover:bg-white/20 hover:-translate-y-0.5"
-            href={penutup.secondaryCtaHref}
-          >
-            {penutup.secondaryCtaLabel}
-            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-          </a>
-        </div>
-      </div>
-    </section>
+    </PageHero>
   )}
 
 </MainLayout>

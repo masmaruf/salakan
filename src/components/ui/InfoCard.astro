@@ -1,0 +1,29 @@
+---
+interface Props {
+  title?: string;
+  icon?: string;
+  class?: string;
+  bodyClass?: string;
+}
+
+const {
+  title,
+  icon,
+  class: className = 'rounded-xl border border-outline-variant bg-surface-container-lowest p-5',
+  bodyClass = '',
+} = Astro.props;
+
+import Icon from './Icon.tsx';
+---
+
+<div class={className}>
+  {(title || icon) && (
+    <div class="mb-2 flex items-center gap-2 text-[12px] font-semibold uppercase tracking-wider text-m3-primary">
+      {icon && <Icon name={icon} class="text-[16px]" />}
+      {title && <span>{title}</span>}
+    </div>
+  )}
+  <div class={bodyClass}>
+    <slot />
+  </div>
+</div>

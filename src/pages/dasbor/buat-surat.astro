@@ -12,12 +12,14 @@ const daftarRt = semuaRt
     nomor: rt.data.nomor_rt,
     nama: rt.id.toUpperCase().replace('-', ' ')
   }));
+
+import Icon from '../../components/ui/Icon.tsx';
 ---
 
 <DashboardLayout title="Pengajuan Surat Baru" activeMenu="berkeluarga" description="Layanan pengajuan surat keterangan atau pengantar KTP/KK secara online.">
    <div class="flex flex-col gap-3 mb-10">
       <a href="/dasbor" class="inline-flex w-fit items-center gap-1.5 rounded-xl bg-white px-4 py-2 text-xs font-bold text-slate-500 hover:text-blue-600 hover:bg-blue-50 transition-all border border-slate-200 hover:border-blue-100 shadow-sm">
-         <span class="material-symbols-outlined text-[16px]">arrow_back</span> Kembali ke Dasbor
+         <Icon name="arrow_back" class="text-[16px]" /> Kembali ke Dasbor
       </a>
       <h2 class="text-gradient">Buat Pengajuan Surat</h2>
       <p class="text-base lg:text-lg font-medium text-slate-500 max-w-3xl leading-relaxed">Mohon lengkapi formulir di bawah ini dengan data diri yang sesuai KTP/KK agar proses verifikasi oleh Ketua RT dapat dipercepat.</p>
@@ -25,7 +27,7 @@ const daftarRt = semuaRt
 
    {daftarRt.length === 0 && (
      <div class="mb-8 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 flex items-start gap-4">
-       <span class="material-symbols-outlined mt-1">warning</span>
+       <Icon name="warning" class="mt-1" />
        <div>
          <h4 class="font-bold mb-1">Peringatan: Data RT Belum Terkonfigurasi</h4>
          <p class="text-sm opacity-90">Pemilihan RT Domisili belum tersedia karena pengelola belum menambahkan data RT aktif melalui dasbor Admin (Keystatic). Silakan hubungi admin.</p>

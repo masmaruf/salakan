@@ -1,3 +1,4 @@
+import Icon from './ui/Icon.tsx';
 import React, { useState } from 'react';
 import { actions } from 'astro:actions';
 
@@ -48,7 +49,7 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
       {/* Header */}
       <div className="sticky top-20 z-10 flex items-center gap-3 border-b border-slate-100 bg-white/50 px-8 py-6 backdrop-blur-md">
          <div className="h-10 w-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-            <span className="material-symbols-outlined">edit_square</span>
+            <Icon name="edit_square" />
          </div>
          <div>
             <h3 className="text-xl font-black text-slate-900 tracking-tight">Formulir Pengajuan</h3>
@@ -60,7 +61,7 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
         {success ? (
           <div className="text-center py-8 space-y-6 animate-in fade-in zoom-in duration-300">
             <div className="h-24 w-24 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center mx-auto shadow-inner">
-              <span className="material-symbols-outlined text-6xl">check_circle</span>
+              <Icon name="check_circle" className="text-6xl" />
             </div>
             <div className="space-y-2">
               <h4 className="text-2xl font-black text-slate-900">Berhasil Terkirim!</h4>
@@ -81,7 +82,7 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
           <form onSubmit={handleSubmit} className="space-y-8">
             {error && (
               <div className="bg-red-50 text-red-700 p-4 rounded-2xl border border-red-100 text-sm font-bold flex items-center gap-3">
-                <span className="material-symbols-outlined text-[18px]">error</span>
+                <Icon name="error" className="text-[18px]" />
                 {error}
               </div>
             )}
@@ -89,7 +90,7 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
             {/* Bagian 1: Tujuan & Wilayah */}
             <div className="space-y-6">
               <div className="flex items-center gap-2 text-blue-600">
-                <span className="material-symbols-outlined text-[20px]">map</span>
+                <Icon name="map" className="text-[20px]" />
                 <h4 className="text-sm font-black uppercase tracking-widest">Wilayah & Tujuan</h4>
               </div>
               
@@ -134,7 +135,7 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
             {/* Bagian 2: Identitas Diri */}
             <div className="space-y-6">
               <div className="flex items-center gap-2 text-blue-600">
-                <span className="material-symbols-outlined text-[20px]">person</span>
+                <Icon name="person" className="text-[20px]" />
                 <h4 className="text-sm font-black uppercase tracking-widest">Identitas Pemohon</h4>
               </div>
 
@@ -216,7 +217,7 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
             {/* Bagian 3: Kontak */}
             <div className="space-y-6">
               <div className="flex items-center gap-2 text-blue-600">
-                <span className="material-symbols-outlined text-[20px]">contact_phone</span>
+                <Icon name="contact_phone" className="text-[20px]" />
                 <h4 className="text-sm font-black uppercase tracking-widest">Kontak Notifikasi</h4>
               </div>
               
@@ -253,7 +254,7 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
                   </>
                 ) : (
                   <>
-                    <span className="material-symbols-outlined">send</span> <span>Kirim Pengajuan</span>
+                    <Icon name="send" /> <span>Kirim Pengajuan</span>
                   </>
                 )}
               </button>

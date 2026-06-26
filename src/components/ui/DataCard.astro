@@ -9,6 +9,8 @@ interface Props {
 }
 
 const { label, href, description, icon } = Astro.props;
+
+import Icon from './Icon.tsx';
 ---
 
 <a
@@ -23,6 +25,6 @@ const { label, href, description, icon } = Astro.props;
     <p class="text-sm text-on-surface-variant line-clamp-2">{description}</p>
   </div>
   <span class="mt-auto inline-flex items-center gap-1 text-[12px] font-semibold text-m3-primary transition-all sm:opacity-0 sm:-translate-x-2 sm:group-hover:translate-x-0 sm:group-hover:opacity-100">
-    Akses Data <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+    Akses Data <Icon name="arrow_forward" class="text-[14px]" />
   </span>
 </a>

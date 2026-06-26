@@ -1,6 +1,9 @@
 ---
 import MainLayout from '../../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
+import ContentMeta from '../../../components/ui/ContentMeta.astro';
+import InfoCard from '../../../components/ui/InfoCard.astro';
+import ActionLinkButton from '../../../components/ui/ActionLinkButton.astro';
 import { formatTanggal, getDokumen } from '../../../lib/keystatic';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
@@ -24,6 +27,8 @@ const kategoriLabels = {
 const seoTitle = withSiteTitle(resolveSeoText(entry.seoTitle, entry.judul));
 const seoDescription = resolveSeoText(entry.seoDescription, entry.ringkasan);
 const seoImage = resolveSeoImage(entry.ogImage);
+
+import Icon from '../../../components/ui/Icon.tsx';
 ---
 
 <MainLayout title={seoTitle} description={seoDescription} image={seoImage}>
@@ -37,45 +42,41 @@ const seoImage = resolveSeoImage(entry.ogImage);
     ]} />
 
     <header class="mb-6">
-      <div class="flex flex-wrap items-center gap-2 mb-3">
-        <span class="text-[12px] font-semibold px-2.5 py-1 rounded-md bg-primary-container text-on-primary-container">
+      <div class="mb-3 flex flex-wrap items-center gap-2">
+        <span class="rounded-md bg-primary-container px-2.5 py-1 text-[12px] font-semibold text-on-primary-container">
           {kategoriLabels[entry.kategori]}
         </span>
         {entry.unggulan && (
-          <span class="text-[12px] font-semibold px-2.5 py-1 rounded-md bg-amber-100 text-amber-800 flex items-center gap-1">
-            <span class="material-symbols-outlined text-[12px]">star</span> Unggulan
+          <span class="flex items-center gap-1 rounded-md bg-amber-100 px-2.5 py-1 text-[12px] font-semibold text-amber-800">
+            <Icon name="star" class="text-[12px]" /> Unggulan
           </span>
         )}
       </div>
-      <h1 class="text-2xl sm:text-3xl font-bold text-on-surface leading-tight tracking-tight">{entry.judul}</h1>
-      <p class="mt-3 text-base text-on-surface-variant leading-relaxed">{entry.ringkasan}</p>
-      <div class="flex items-center gap-4 mt-4 pt-4 border-t border-outline-variant/40 text-sm text-on-surface-variant">
-        <time class="flex items-center gap-1.5" datetime={entry.tanggalUpdate}>
-          <span class="material-symbols-outlined text-[16px]">calendar_today</span>
-          {formatTanggal(entry.tanggalUpdate)}
-        </time>
-        <span class="text-[12px] text-outline">ID: {slug}</span>
-      </div>
+      <h1 class="text-2xl font-bold leading-tight tracking-tight text-on-surface sm:text-3xl">{entry.judul}</h1>
+      <p class="mt-3 text-base leading-relaxed text-on-surface-variant">{entry.ringkasan}</p>
+      <ContentMeta
+        class="mt-4 flex items-center gap-4 border-t border-outline-variant/40 pt-4"
+        items={[
+          { icon: 'calendar_today', text: formatTanggal(entry.tanggalUpdate), datetime: entry.tanggalUpdate, accentClass: 'text-on-surface-variant' },
+          { icon: 'tag', text: `ID: ${slug}`, accentClass: 'text-outline' },
+        ]}
+        iconClass="text-[16px]"
+      />
     </header>
 
-    <div class="rounded-xl bg-surface-container-low border border-outline-variant p-5 mb-6">
-      <h2 class="text-[20px] font-bold text-on-surface mb-3">Deskripsi Dokumen</h2>
-      <p class="text-base text-on-surface-variant leading-relaxed">{entry.deskripsi}</p>
-    </div>
+    <InfoCard title="Deskripsi Dokumen" class="mb-6 rounded-xl border border-outline-variant bg-surface-container-low p-5">
+      <p class="text-base leading-relaxed text-on-surface-variant">{entry.deskripsi}</p>
+    </InfoCard>
 
     <div class="flex flex-wrap gap-3">
       {entry.fileDokumen ? (
-        <a class="inline-flex items-center gap-2 rounded-xl bg-m3-primary px-5 py-3 text-sm font-semibold text-on-primary transition-all hover:-translate-y-0.5 hover:shadow-md" href={entry.fileDokumen} target="_blank" rel="noreferrer">
-          <span class="material-symbols-outlined text-[18px]">download</span> Buka File Dokumen
-        </a>
+        <ActionLinkButton href={entry.fileDokumen} label="Buka File Dokumen" icon="download" variant="primary" target="_blank" rel="noreferrer" />
       ) : (
-        <span class="inline-flex items-center gap-2 rounded-xl bg-surface-container-low px-5 py-3 text-sm font-medium text-on-surface-variant border border-outline-variant">
-          <span class="material-symbols-outlined text-[18px]">lock</span> File belum ditambahkan
+        <span class="inline-flex items-center gap-2 rounded-xl border border-outline-variant bg-surface-container-low px-5 py-3 text-sm font-medium text-on-surface-variant">
+          <Icon name="lock" class="text-[18px]" /> File belum ditambahkan
         </span>
       )}
-      <a class="inline-flex items-center gap-2 rounded-xl bg-surface-container-lowest border border-outline-variant px-5 py-3 text-sm font-semibold text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-colors" href="/data/dokumen">
-        <span class="material-symbols-outlined text-[18px]">arrow_back</span> Kembali ke katalog
-      </a>
+      <ActionLinkButton href="/data/dokumen" label="Kembali ke katalog" icon="arrow_back" />
     </div>
   </article>
 

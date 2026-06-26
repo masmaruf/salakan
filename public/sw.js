@@ -1,4 +1,4 @@
-const CACHE_NAME = 'salakan-v1';
+const CACHE_NAME = 'salakan-v2';
 const STATIC_ASSETS = [
   '/manifest.webmanifest',
   '/images/og-salakan.svg',
@@ -25,24 +25,6 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
 
   if (request.method !== 'GET') return;
-
-  if (
-    url.origin === 'https://fonts.googleapis.com' ||
-    url.origin === 'https://fonts.gstatic.com'
-  ) {
-    event.respondWith(
-      caches.open('google-fonts').then((cache) =>
-        cache.match(request).then((cached) =>
-          cached || fetch(request).then((response) => {
-            cache.put(request, response.clone());
-            return response;
-          })
-        )
-      )
-    );
-    return;
-  }
-
   if (/\.(png|jpg|jpeg|svg|gif|webp|ico)$/i.test(url.pathname)) {
     event.respondWith(
       caches.open('images').then((cache) =>
@@ -63,3 +45,4 @@ self.addEventListener('fetch', (event) => {
     );
   }
 });
+

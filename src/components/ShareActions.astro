@@ -1,0 +1,48 @@
+---
+interface LinkItem {
+  label: string;
+  href: string;
+  icon: string;
+  copy?: boolean;
+}
+
+interface Props {
+  title?: string;
+  links: LinkItem[];
+}
+
+const { title = 'Bagikan halaman ini', links } = Astro.props;
+
+import Icon from './ui/Icon.tsx';
+---
+
+<div class="mt-8 border-t border-outline-variant/40 pt-6">
+  <p class="mb-3 text-sm font-semibold text-on-surface-variant">{title}</p>
+  <div class="flex gap-2">
+    {links.map((link) => (
+      <a
+        href={link.href}
+        class="grid h-10 w-10 place-items-center rounded-xl border border-outline-variant bg-surface-container-lowest text-on-surface-variant transition-colors hover:border-transparent hover:bg-primary-container hover:text-on-primary-container"
+        target={link.copy ? undefined : '_blank'}
+        rel={link.copy ? undefined : 'noreferrer'}
+        title={link.label}
+        data-copy-link={link.copy ? '' : undefined}
+        data-copy-value={link.copy ? link.href : undefined}
+      >
+        <Icon name={link.icon} class="text-[20px]" />
+      </a>
+    ))}
+  </div>
+</div>
+
+<script is:inline>
+  document.querySelectorAll('[data-copy-link]').forEach((button) => {
+    button.addEventListener('click', async (event) => {
+      event.preventDefault();
+      const value = button.getAttribute('data-copy-value') || '';
+      try {
+        await navigator.clipboard.writeText(value);
+      } catch {}
+    });
+  });
+</script>

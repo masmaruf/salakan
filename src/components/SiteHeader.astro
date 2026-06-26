@@ -11,6 +11,8 @@ const { currentPath } = Astro.props;
 const pengaturan = await getPengaturan();
 const dataSubmenu = pengaturan?.menuData?.items?.filter((item) => item.status === 'tampil') ?? [];
 const isDataActive = currentPath === '/data' || currentPath.startsWith('/data/');
+
+import Icon from './ui/Icon.tsx';
 ---
 
 <header class="sticky top-0 z-50 border-b border-slate-200/60 bg-white/95 backdrop-blur-xl transition-all duration-300">
@@ -51,7 +53,7 @@ const isDataActive = currentPath === '/data' || currentPath.startsWith('/data/')
                     ]}
                   >
                     <span>{item.label}</span>
-                    <span class="material-symbols-outlined text-[16px] text-slate-400 transition-transform duration-300 group-hover/nav:rotate-180">expand_more</span>
+                    <Icon name="expand_more" class="text-[16px] text-slate-400 transition-transform duration-300 group-hover/nav:rotate-180" />
                   </div>
 
                   <div class="invisible absolute left-1/2 top-full z-50 mt-1 w-72 -translate-x-1/2 translate-y-3 opacity-0 transition-all duration-300 group-hover/nav:visible group-hover/nav:translate-y-0 group-hover/nav:opacity-100">
@@ -64,7 +66,7 @@ const isDataActive = currentPath === '/data' || currentPath.startsWith('/data/')
                         ]}
                         href="/data"
                       >
-                        <span class="material-symbols-outlined text-blue-500">dashboard_customize</span>
+                        <Icon name="dashboard_customize" class="text-blue-500" />
                         <div>
                           <span class="block text-sm font-semibold">Pusat Data Warga</span>
                           <span class="block text-[0.65rem] font-normal text-slate-400">Indeks semua kategori data</span>
@@ -118,8 +120,8 @@ const isDataActive = currentPath === '/data' || currentPath.startsWith('/data/')
 
         <details class="group relative md:hidden">
           <summary class="inline-flex h-9 w-9 list-none items-center justify-center rounded-full border-none bg-slate-100 text-slate-600 transition-colors hover:bg-slate-200 cursor-pointer">
-            <span class="material-symbols-outlined transition-opacity group-open:opacity-0">menu</span>
-            <span class="material-symbols-outlined absolute opacity-0 transition-opacity group-open:opacity-100">close</span>
+            <Icon name="menu" class="transition-opacity group-open:opacity-0" />
+            <Icon name="close" class="absolute opacity-0 transition-opacity group-open:opacity-100" />
           </summary>
           <div class="absolute right-0 top-full z-50 mt-3 w-[min(22rem,calc(100vw-1.5rem))] max-h-[calc(100vh-6rem)] overflow-y-auto rounded-2xl bg-white/98 p-5 shadow-[0_10px_40px_rgba(15,23,42,0.12)] ring-1 ring-slate-900/5 backdrop-blur-2xl">
             <div class="grid gap-2">
@@ -145,7 +147,7 @@ const isDataActive = currentPath === '/data' || currentPath.startsWith('/data/')
                     {item.href === '/data' && dataSubmenu.length > 0 && (
                       <details class="ml-4 mt-1">
                         <summary class="flex cursor-pointer list-none items-center gap-1 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-slate-400 transition-colors hover:text-slate-600">
-                          <span class="material-symbols-outlined text-[14px] transition-transform [details[open]>&]:rotate-180">expand_more</span>
+                          <Icon name="expand_more" class="text-[14px] transition-transform [details[open]>&]:rotate-180" />
                           Sub-menu
                         </summary>
                         <div class="mt-1 grid gap-1 border-l-2 border-slate-100 py-1 pl-3">

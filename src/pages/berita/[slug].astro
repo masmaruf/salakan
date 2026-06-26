@@ -2,6 +2,9 @@
 import { Image } from 'astro:assets';
 import { marked } from 'marked';
 import MainLayout from '../../layouts/MainLayout.astro';
+import ShareActions from '../../components/ShareActions.astro';
+import ContentMeta from '../../components/ui/ContentMeta.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import { resolveSeoImage, resolveSeoText, toAbsoluteUrl, withSiteTitle } from '../../lib/site';
 import { formatTanggal, getKegiatan, getKategoriBeritaMap } from '../../lib/keystatic';
 import NewsGrid from '../../components/NewsGrid.astro';
@@ -38,6 +41,8 @@ const relatedArticles = allKegiatan
     return sharedB - sharedA;
   })
   .slice(0, 3);
+
+import Icon from '../../components/ui/Icon.tsx';
 ---
 
 <MainLayout
@@ -49,74 +54,63 @@ const relatedArticles = allKegiatan
 >
 
   <article class="container-premium max-w-4xl py-6 sm:py-8">
+    <Breadcrumbs items={[
+      { label: 'Beranda', href: '/' },
+      { label: 'Berita', href: '/berita' },
+      { label: entry.judul, active: true },
+    ]} />
 
-    <!-- Breadcrumb -->
-    <nav class="mb-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-on-surface-variant" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-m3-primary transition-colors">Beranda</a>
-      <span class="material-symbols-outlined text-[16px] text-outline-variant">chevron_right</span>
-      <a href="/berita" class="hover:text-m3-primary transition-colors">Berita</a>
-      <span class="material-symbols-outlined text-[16px] text-outline-variant">chevron_right</span>
-      <span class="max-w-full min-w-0 break-words font-medium text-on-surface sm:max-w-[200px] sm:truncate">{entry.judul}</span>
-    </nav>
-
-    <!-- Article Header -->
     <header class="mb-6">
-      <div class="flex flex-wrap items-center gap-2 mb-3">
+      <div class="mb-3 flex flex-wrap items-center gap-2">
         <a
           href={`/berita?kategori=${entry.kategori}`}
-          class="text-[12px] font-semibold px-2.5 py-1 rounded-md bg-primary-container text-on-primary-container hover:opacity-80 transition-opacity"
+          class="rounded-md bg-primary-container px-2.5 py-1 text-[12px] font-semibold text-on-primary-container transition-opacity hover:opacity-80"
         >
           {categoryLabels[entry.kategori] ?? entry.kategori}
         </a>
         {entry.jenisKonten && (
-          <span class="text-[12px] font-semibold px-2.5 py-1 rounded-md bg-surface-variant text-on-surface-variant border border-outline-variant capitalize">
+          <span class="rounded-md border border-outline-variant bg-surface-variant px-2.5 py-1 text-[12px] font-semibold capitalize text-on-surface-variant">
             {entry.jenisKonten}
           </span>
         )}
         {entry.unggulan && (
-          <span class="text-[12px] font-semibold px-2.5 py-1 rounded-md bg-amber-100 text-amber-800 flex items-center gap-1">
-            <span class="material-symbols-outlined text-[12px]">star</span> Unggulan
+          <span class="flex items-center gap-1 rounded-md bg-amber-100 px-2.5 py-1 text-[12px] font-semibold text-amber-800">
+            <Icon name="star" class="text-[12px]" /> Unggulan
           </span>
         )}
       </div>
 
-      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-on-surface leading-tight tracking-tight">
+      <h1 class="text-2xl font-bold leading-tight tracking-tight text-on-surface sm:text-3xl md:text-4xl">
         {entry.judul}
       </h1>
 
-      <p class="mt-3 text-base text-on-surface-variant leading-relaxed">
+      <p class="mt-3 text-base leading-relaxed text-on-surface-variant">
         {entry.ringkasan}
       </p>
 
-      <div class="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-outline-variant/40 text-sm text-on-surface-variant">
-        <time class="flex items-center gap-1.5" datetime={entry.tanggal}>
-          <span class="material-symbols-outlined text-[16px]">calendar_today</span>
-          {formatTanggal(entry.tanggal)}
-        </time>
-        {entry.penulis && (
-          <span class="flex items-center gap-1.5">
-            <span class="material-symbols-outlined text-[16px]">person</span>
-            {entry.penulis}
-          </span>
-        )}
-      </div>
+      <ContentMeta
+        class="mt-4 flex flex-wrap items-center gap-4 border-t border-outline-variant/40 pt-4"
+        items={[
+          { icon: 'calendar_today', text: formatTanggal(entry.tanggal), datetime: entry.tanggal, accentClass: 'text-on-surface-variant' },
+          ...(entry.penulis ? [{ icon: 'person', text: entry.penulis, accentClass: 'text-on-surface-variant' }] : []),
+        ]}
+        iconClass="text-[16px]"
+      />
     </header>
 
-    <!-- Hero Image -->
     {entry.gambarUtama && (
-      <div class="rounded-xl overflow-hidden mb-8 border border-outline-variant">
+      <div class="mb-8 overflow-hidden rounded-xl border border-outline-variant">
         <Image
           src={entry.gambarUtama}
           alt={entry.altGambarUtama || entry.judul}
           width={1200}
           height={675}
-          class="w-full h-auto object-cover"
+          class="h-auto w-full object-cover"
           loading="eager"
         />
       </div>
     )}
 
-    <!-- Article Body -->
     <div
       class="prose prose-slate prose-lg max-w-none
         prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-on-surface
@@ -129,13 +123,12 @@ const relatedArticles = allKegiatan
       set:html={articleHtml}
     />
 
-    <!-- Tags -->
     {entry.tag && entry.tag.length > 0 && (
-      <div class="flex flex-wrap gap-2 mt-8 pt-6 border-t border-outline-variant/40">
+      <div class="mt-8 flex flex-wrap gap-2 border-t border-outline-variant/40 pt-6">
         {entry.tag.map((tag: string) => (
           <a
             href={`/berita?tag=${encodeURIComponent(tag)}`}
-            class="text-[12px] font-semibold px-3 py-1.5 rounded-full bg-surface-container-low text-on-surface-variant border border-outline-variant hover:bg-primary-container hover:text-on-primary-container transition-colors"
+            class="rounded-full border border-outline-variant bg-surface-container-low px-3 py-1.5 text-[12px] font-semibold text-on-surface-variant transition-colors hover:bg-primary-container hover:text-on-primary-container"
           >
             #{tag}
           </a>
@@ -143,33 +136,13 @@ const relatedArticles = allKegiatan
       </div>
     )}
 
-    <!-- Share -->
-    <div class="mt-8 pt-6 border-t border-outline-variant/40">
-      <p class="text-sm font-semibold text-on-surface-variant mb-3">Bagikan artikel ini</p>
-      <div class="flex gap-2">
-        {shareLinks.map((link) => (
-          <a
-            href={link.href}
-            class="grid h-10 w-10 place-items-center rounded-xl bg-surface-container-lowest border border-outline-variant text-on-surface-variant transition-colors hover:bg-primary-container hover:text-on-primary-container hover:border-transparent"
-            target={link.copy ? undefined : '_blank'}
-            rel={link.copy ? undefined : 'noreferrer'}
-            title={link.label}
-            data-copy-link={link.copy ? '' : undefined}
-            data-copy-value={link.copy ? link.href : undefined}
-          >
-            <span class="material-symbols-outlined text-[20px]">{link.icon}</span>
-          </a>
-        ))}
-      </div>
-    </div>
-
+    <ShareActions title="Bagikan artikel ini" links={shareLinks} />
   </article>
 
-  <!-- Related Articles -->
   {relatedArticles.length > 0 && (
-    <section class="py-10 bg-surface-container-low/50">
+    <section class="bg-surface-container-low/50 py-10">
       <div class="container-premium">
-        <div class="flex items-center justify-between mb-6">
+        <div class="mb-6 flex items-center justify-between">
           <h2 class="text-[24px] font-bold leading-[32px] text-on-surface">Berita Terkait</h2>
           <a class="text-sm font-semibold text-m3-primary hover:underline" href="/berita">Lihat semua</a>
         </div>
@@ -179,15 +152,3 @@ const relatedArticles = allKegiatan
   )}
 
 </MainLayout>
-
-<script is:inline>
-  document.querySelectorAll('[data-copy-link]').forEach((button) => {
-    button.addEventListener('click', async (e) => {
-      e.preventDefault();
-      const value = button.getAttribute('data-copy-value') || '';
-      try {
-        await navigator.clipboard.writeText(value);
-      } catch {}
-    });
-  });
-</script>

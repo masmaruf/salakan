@@ -1,3 +1,4 @@
+import Icon from './Icon.tsx';
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cn } from "../../lib/utils";
@@ -38,7 +39,7 @@ const DialogContent = React.forwardRef<
     >
       {children}
       <DialogPrimitive.Close className="absolute right-4 top-4 rounded-full p-1.5 text-on-surface-variant opacity-70 transition-opacity hover:opacity-100 hover:bg-surface-container-high focus:outline-none disabled:pointer-events-none">
-        <span className="material-symbols-outlined text-[20px]">close</span>
+        <Icon name="close" className="text-[20px]" />
         <span className="sr-only">Tutup</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>

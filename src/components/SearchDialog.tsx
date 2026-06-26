@@ -1,3 +1,4 @@
+import Icon from './ui/Icon.tsx';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Dialog, DialogContent, DialogTitle } from './ui/dialog';
 import { Input } from './ui/input';
@@ -80,7 +81,7 @@ export default function SearchDialog() {
         className="inline-flex h-9 w-9 items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
         aria-label="Cari di website"
       >
-        <span className="material-symbols-outlined text-[22px]">search</span>
+        <Icon name="search" className="text-[22px]" />
       </button>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -88,7 +89,7 @@ export default function SearchDialog() {
           <DialogTitle className="sr-only">Pencarian</DialogTitle>
 
           <div className="flex items-center gap-3 px-5 py-4 border-b border-outline-variant/40">
-            <span className="material-symbols-outlined text-[24px] text-m3-primary shrink-0">search</span>
+            <Icon name="search" className="text-[24px] text-m3-primary shrink-0" />
             <Input
               ref={inputRef}
               className="border-0 bg-transparent p-0 text-base font-semibold text-on-surface placeholder:text-outline focus-visible:ring-0 h-auto"
@@ -105,7 +106,7 @@ export default function SearchDialog() {
             <div className="p-4">
               {loading && (
                 <div className="py-12 text-center">
-                  <span className="material-symbols-outlined text-[40px] text-primary-container animate-pulse">hourglass_empty</span>
+                  <Icon name="hourglass_empty" className="text-[40px] text-primary-container animate-pulse" />
                   <p className="text-[12px] font-semibold text-outline uppercase tracking-wider mt-3">Memuat data...</p>
                 </div>
               )}
@@ -113,7 +114,7 @@ export default function SearchDialog() {
               {!loading && query.trim() !== '' && results.length === 0 && (
                 <div className="py-16 text-center">
                   <div className="grid h-16 w-16 mx-auto place-items-center rounded-full bg-surface-container-low text-outline">
-                    <span className="material-symbols-outlined text-[28px]">search_off</span>
+                    <Icon name="search_off" className="text-[28px]" />
                   </div>
                   <p className="text-base font-bold text-on-surface mt-4">Tidak ditemukan</p>
                   <p className="text-sm text-on-surface-variant mt-1">Coba kata kunci yang berbeda.</p>
@@ -123,7 +124,7 @@ export default function SearchDialog() {
               {!loading && query.trim() === '' && (
                 <div className="py-12 text-center">
                   <div className="grid h-16 w-16 mx-auto place-items-center rounded-xl bg-primary-container/30 text-m3-primary">
-                    <span className="material-symbols-outlined text-[28px]">travel_explore</span>
+                    <Icon name="travel_explore" className="text-[28px]" />
                   </div>
                   <p className="text-base font-bold text-on-surface mt-4">Mulai Menjelajah</p>
                   <p className="text-sm text-on-surface-variant mt-1">Ketik untuk mencari berita, dokumen, atau layanan.</p>
@@ -142,9 +143,7 @@ export default function SearchDialog() {
                       className="group flex items-center gap-4 rounded-xl p-3 transition-colors hover:bg-surface-container-low"
                     >
                       <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary-container/30 text-m3-primary group-hover:bg-m3-primary group-hover:text-on-primary transition-colors">
-                        <span className="material-symbols-outlined text-[20px]">
-                          {typeIcons[item.type] || 'arrow_outward'}
-                        </span>
+                        <Icon name="{typeIcons[item.type] || 'arrow_outward'}" className="text-[20px]" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <span className="text-[12px] font-semibold text-outline uppercase tracking-wider">{item.type}</span>
@@ -153,9 +152,7 @@ export default function SearchDialog() {
                         </h4>
                         <p className="text-[12px] text-on-surface-variant line-clamp-1 mt-0.5">{item.description}</p>
                       </div>
-                      <span className="material-symbols-outlined text-[18px] text-outline group-hover:text-m3-primary transition-transform group-hover:translate-x-0.5">
-                        chevron_right
-                      </span>
+                      <Icon name="chevron_right" className="text-[18px] text-outline group-hover:text-m3-primary transition-transform group-hover:translate-x-0.5" />
                     </a>
                   ))}
                 </div>

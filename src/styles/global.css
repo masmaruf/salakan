@@ -1,25 +1,6 @@
 @import "tailwindcss";
 
-/* Material Symbols Outlined — icon font class */
-.material-symbols-outlined {
-  font-family: 'Material Symbols Outlined';
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: normal;
-  text-transform: none;
-  display: inline-block;
-  white-space: nowrap;
-  word-wrap: normal;
-  direction: ltr;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  font-feature-settings: 'liga';
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-}
-
+/* Local SVG icon host */
 /* Material You Design Tokens — registered as Tailwind utilities */
 @theme {
   --color-surface: #faf8ff;
@@ -224,7 +205,7 @@ html {
 
 body {
   margin: 0;
-  font-family: "Plus Jakarta Sans", "Inter", "Segoe UI", sans-serif;
+  font-family: "Segoe UI Variable", "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   color: var(--on-surface);
   background: var(--surface);
   min-height: 100vh;
@@ -335,7 +316,7 @@ img {
 
 h1, h2, h3, h4 {
   margin: 0;
-  font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+  font-family: "Segoe UI Variable", "Aptos Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   line-height: 1.2;
   letter-spacing: -0.03em;
 }
@@ -599,3 +580,4 @@ input, button, textarea, select {
   .btn.btn-sm { min-height: 2.35rem; padding-inline: 0.82rem; padding-block: 0.52rem; }
   .badge { @apply px-2.5 py-1.5 text-[0.78rem]; }
 }
+

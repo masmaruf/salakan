@@ -1,0 +1,39 @@
+---
+interface Item {
+  href: string;
+  label: string;
+  active?: boolean;
+}
+
+interface Props {
+  items: Item[];
+  class?: string;
+}
+
+const {
+  items,
+  class: className = 'mt-4 flex items-center gap-2 overflow-x-auto pb-2 hide-scrollbar sm:mt-5',
+} = Astro.props;
+---
+
+<div class={className}>
+  {items.map((item) => (
+    <a
+      href={item.href}
+      class:list={[
+        'inline-flex min-h-[38px] items-center whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-colors',
+        item.active
+          ? 'bg-primary-container text-on-primary-container shadow-sm'
+          : 'border border-outline-variant bg-white text-on-surface-variant hover:bg-surface-container-low',
+      ]}
+      aria-current={item.active ? 'page' : undefined}
+    >
+      {item.label}
+    </a>
+  ))}
+</div>
+
+<style>
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>

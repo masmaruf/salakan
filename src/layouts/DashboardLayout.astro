@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import DevServiceWorkerReset from '../components/DevServiceWorkerReset.astro';
 
 interface Props {
   title: string;
@@ -39,6 +40,8 @@ if (isAdmin) {
     ]
   });
 }
+
+import Icon from '../components/ui/Icon.tsx';
 ---
 
 <!doctype html>
@@ -47,14 +50,11 @@ if (isAdmin) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | Portal Layanan Digital Salakan</title>
-    {description && <meta name="description" content={description} />}
+    {description && <meta name="description" content={description} />}
     
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500;700&display=swap" rel="stylesheet" />
   </head>
   <body class="flex min-h-screen flex-col bg-slate-50 relative overflow-x-clip lg:flex-row">
+    <DevServiceWorkerReset />
     
     {/* Glowing Orbs Background */}
     <div class="orb-blue"></div>
@@ -86,7 +86,7 @@ if (isAdmin) {
                           href={menu.href} 
                           class={`flex items-center gap-3.5 px-4 py-3 rounded-2xl text-[0.9rem] font-bold transition-all duration-300 group ${isActive ? 'bg-blue-600 text-white shadow-[0_10px_25px_rgba(37,99,235,0.25)] scale-[1.02]' : 'text-slate-500 hover:bg-blue-50 hover:text-blue-700 hover:translate-x-1'}`}
                         >
-                           <span class={`material-symbols-outlined text-[22px] transition-colors ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-500'}`}>{menu.icon}</span>
+                           <Icon name={menu.icon} class={`text-[22px] transition-colors ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-500'}`} />
                            {menu.label}
                         </a>
                      )
@@ -107,7 +107,7 @@ if (isAdmin) {
             </div>
          </div>
          <a href="/admin/logout" class="mt-4 flex items-center justify-center gap-2 text-xs font-bold text-red-500 bg-red-50/50 hover:bg-red-100/50 border border-red-100/30 rounded-2xl py-3.5 transition-all hover:shadow-sm">
-            <span class="material-symbols-outlined text-[18px]">logout</span> Keluar Sesi
+            <Icon name="logout" class="text-[18px]" /> Keluar Sesi
          </a>
       </div>
     </aside>
@@ -117,17 +117,17 @@ if (isAdmin) {
       <header class="sticky top-0 z-20 flex h-20 shrink-0 items-center justify-between border-b border-white/40 bg-white/40 px-6 backdrop-blur-2xl transition-all lg:px-10">
          <div class="flex items-center gap-5">
             <button class="lg:hidden h-10 w-10 flex items-center justify-center rounded-xl bg-white shadow-sm text-slate-600 hover:text-blue-600">
-               <span class="material-symbols-outlined">menu</span>
+               <Icon name="menu" />
             </button>
             <h1 class="text-xl font-extrabold tracking-tight text-slate-900 hidden sm:block text-gradient">{title}</h1>
          </div>
          <div class="flex items-center gap-5">
             <button class="relative h-11 w-11 flex items-center justify-center rounded-2xl bg-white text-slate-400 hover:bg-blue-50 hover:text-blue-600 transition-all shadow-sm group">
-               <span class="material-symbols-outlined text-[24px]">notifications</span>
+               <Icon name="notifications" class="text-[24px]" />
                <span class="absolute top-3 right-3 h-2.5 w-2.5 rounded-full bg-red-500 ring-4 ring-white group-hover:scale-110 transition-transform"></span>
             </button>
             <a href="/" class="hidden sm:flex items-center gap-2 text-[0.72rem] font-black uppercase tracking-[0.1em] text-blue-700 bg-blue-50 px-5 py-2.5 rounded-full hover:bg-blue-600 hover:text-white transition-all shadow-sm">
-               <span class="material-symbols-outlined text-[16px]">public</span> Kembali Ke Portal Utama
+               <Icon name="public" class="text-[16px]" /> Kembali Ke Portal Utama
             </a>
          </div>
       </header>
@@ -141,3 +141,4 @@ if (isAdmin) {
     
   </body>
 </html>
+

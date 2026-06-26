@@ -1,6 +1,8 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import ContentMeta from '../../components/ui/ContentMeta.astro';
+import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
 import { formatTanggal, getAgenda } from '../../lib/keystatic';
 import { resolveSeoText, withSiteTitle } from '../../lib/site';
 
@@ -21,16 +23,14 @@ const { entry } = item;
 >
 
   <article class="container-premium max-w-3xl py-6 sm:py-8">
-
     <Breadcrumbs items={[
       { label: 'Beranda', href: '/' },
       { label: 'Agenda', href: '/agenda' },
       { label: entry.judul, active: true },
     ]} />
 
-    <!-- Badge + Date -->
     <div class="mb-3 flex flex-wrap items-center gap-2 sm:gap-3">
-      <span class="text-[12px] font-semibold px-2 py-0.5 rounded-md bg-primary-container text-on-primary-container">
+      <span class="rounded-md bg-primary-container px-2 py-0.5 text-[12px] font-semibold text-on-primary-container">
         Agenda
       </span>
       <time class="text-[12px] font-medium text-outline" datetime={entry.tanggal}>
@@ -38,57 +38,42 @@ const { entry } = item;
       </time>
     </div>
 
-    <!-- Title -->
-    <h1 class="text-2xl sm:text-3xl font-bold text-on-surface leading-tight tracking-tight">
+    <h1 class="text-2xl font-bold leading-tight tracking-tight text-on-surface sm:text-3xl">
       {entry.judul}
     </h1>
 
-    <!-- Ringkasan -->
-    <p class="mt-3 text-base text-on-surface-variant leading-relaxed">
+    <p class="mt-3 text-base leading-relaxed text-on-surface-variant">
       {entry.ringkasan}
     </p>
 
-    <!-- Info row -->
-    <div class="flex flex-wrap gap-x-5 gap-y-2 mt-4 text-sm text-on-surface-variant">
-      <span class="inline-flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-[18px] text-m3-primary">schedule</span>
-        {entry.waktuMulai} – {entry.waktuSelesai}
-      </span>
-      <span class="inline-flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-[18px] text-m3-primary">location_on</span>
-        {entry.lokasi}
-      </span>
-      <span class="inline-flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-[18px] text-m3-primary">person</span>
-        {entry.kontakPic}
-      </span>
-    </div>
+    <ContentMeta
+      class="mt-4 flex flex-wrap gap-x-5 gap-y-2"
+      items={[
+        { icon: 'schedule', text: `${entry.waktuMulai} – ${entry.waktuSelesai}`, accentClass: 'text-on-surface-variant' },
+        { icon: 'location_on', text: entry.lokasi, accentClass: 'text-on-surface-variant' },
+        { icon: 'person', text: entry.kontakPic, accentClass: 'text-on-surface-variant' },
+      ]}
+      iconClass="text-[18px] text-m3-primary"
+    />
 
-    <!-- Image -->
     {entry.gambarUtama && (
-      <div class="mt-6 rounded-xl overflow-hidden">
+      <div class="mt-6 overflow-hidden rounded-xl">
         <img
           src={entry.gambarUtama}
           alt={entry.altGambarUtama || entry.judul}
-          class="w-full h-auto object-cover"
+          class="h-auto w-full object-cover"
           loading="eager"
         />
       </div>
     )}
 
-    <!-- Deskripsi -->
-    <div class="mt-6 pt-5 border-t border-outline-variant/40">
-      <p class="text-base text-on-surface-variant leading-relaxed whitespace-pre-line">{entry.deskripsi}</p>
+    <div class="mt-6 border-t border-outline-variant/40 pt-5">
+      <p class="whitespace-pre-line text-base leading-relaxed text-on-surface-variant">{entry.deskripsi}</p>
     </div>
 
-    <!-- Back -->
-    <div class="mt-8 pt-5 border-t border-outline-variant/40">
-      <a href="/agenda" class="inline-flex items-center gap-2 rounded-xl bg-surface-container-lowest border border-outline-variant px-5 py-3 text-sm font-semibold text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-colors">
-        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-        Kembali ke Agenda
-      </a>
+    <div class="mt-8 border-t border-outline-variant/40 pt-5">
+      <ActionLinkButton href="/agenda" label="Kembali ke Agenda" icon="arrow_back" />
     </div>
-
   </article>
 
 </MainLayout>

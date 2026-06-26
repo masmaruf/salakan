@@ -1,0 +1,41 @@
+---
+const shouldResetLocalSw = !import.meta.env.PROD;
+---
+
+{shouldResetLocalSw && (
+  <script is:inline>
+    {`(() => {
+      if (typeof window === 'undefined') return;
+      const hostname = window.location.hostname;
+      const isLocalHost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1' || hostname.endsWith('.local');
+      if (!isLocalHost || !('serviceWorker' in navigator)) return;
+
+      const resetKey = 'salakan-local-sw-reset';
+
+      window.addEventListener('load', async () => {
+        try {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          const hadController = Boolean(navigator.serviceWorker.controller);
+
+          await Promise.all(registrations.map((registration) => registration.unregister()));
+
+          if ('caches' in window) {
+            const cacheKeys = await caches.keys();
+            await Promise.all(cacheKeys.map((cacheKey) => caches.delete(cacheKey)));
+          }
+
+          const needsReload = (registrations.length > 0 || hadController) && !sessionStorage.getItem(resetKey);
+          if (needsReload) {
+            sessionStorage.setItem(resetKey, 'done');
+            window.location.reload();
+            return;
+          }
+
+          sessionStorage.removeItem(resetKey);
+        } catch (error) {
+          console.warn('[dev-sw-reset] Failed to clear local service workers:', error);
+        }
+      }, { once: true });
+    })();`}
+  </script>
+)}

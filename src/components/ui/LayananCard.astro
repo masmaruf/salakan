@@ -9,12 +9,14 @@ interface Props {
 }
 
 const { namaLayanan, ringkasan, syarat, langkah, kontak, jamLayanan } = Astro.props;
+
+import Icon from './Icon.tsx';
 ---
 
 <article class="group bg-surface-container-lowest border border-outline-variant rounded-xl p-5 sm:p-6 transition-all hover:-translate-y-0.5 hover:shadow-md flex flex-col gap-4">
   <div class="flex items-start gap-4">
     <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary-container/30 text-m3-primary">
-      <span class="material-symbols-outlined text-[22px]">description</span>
+      <Icon name="description" class="text-[22px]" />
     </div>
     <div class="min-w-0">
       <h2 class="text-base font-bold text-on-surface sm:text-lg group-hover:text-m3-primary transition-colors">{namaLayanan}</h2>
@@ -26,12 +28,12 @@ const { namaLayanan, ringkasan, syarat, langkah, kontak, jamLayanan } = Astro.pr
     {syarat.length > 0 && (
       <div class="rounded-xl bg-surface-container-low/50 border border-outline-variant/40 p-4">
         <p class="flex items-center gap-1.5 text-[12px] font-semibold text-on-surface uppercase tracking-wider mb-3">
-          <span class="material-symbols-outlined text-[14px] text-m3-primary">checklist</span> Syarat
+          <Icon name="checklist" class="text-[14px] text-m3-primary" /> Syarat
         </p>
         <ul class="space-y-2 text-sm text-on-surface-variant">
           {syarat.map((item) => (
             <li class="flex items-start gap-2">
-              <span class="material-symbols-outlined text-[14px] mt-0.5 text-outline">check_circle</span>
+              <Icon name="check_circle" class="text-[14px] mt-0.5 text-outline" />
               <span>{item}</span>
             </li>
           ))}
@@ -42,7 +44,7 @@ const { namaLayanan, ringkasan, syarat, langkah, kontak, jamLayanan } = Astro.pr
     {langkah.length > 0 && (
       <div class="rounded-xl bg-surface-container-low/50 border border-outline-variant/40 p-4">
         <p class="flex items-center gap-1.5 text-[12px] font-semibold text-on-surface uppercase tracking-wider mb-3">
-          <span class="material-symbols-outlined text-[14px] text-m3-primary">format_list_numbered</span> Alur Proses
+          <Icon name="format_list_numbered" class="text-[14px] text-m3-primary" /> Alur Proses
         </p>
         <ol class="space-y-2 text-sm text-on-surface-variant">
           {langkah.map((item, idx) => (
@@ -60,10 +62,10 @@ const { namaLayanan, ringkasan, syarat, langkah, kontak, jamLayanan } = Astro.pr
 
   <div class="flex flex-wrap gap-3 pt-3 border-t border-outline-variant/40 text-[12px] text-on-surface-variant">
     <span class="flex items-center gap-1.5">
-      <span class="material-symbols-outlined text-[14px] text-m3-primary">call</span> {kontak}
+      <Icon name="call" class="text-[14px] text-m3-primary" /> {kontak}
     </span>
     <span class="flex items-center gap-1.5">
-      <span class="material-symbols-outlined text-[14px] text-m3-primary">schedule</span> {jamLayanan}
+      <Icon name="schedule" class="text-[14px] text-m3-primary" /> {jamLayanan}
     </span>
   </div>
 </article>

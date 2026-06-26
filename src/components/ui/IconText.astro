@@ -1,0 +1,24 @@
+---
+import Icon from './Icon.tsx';
+
+interface Props {
+  icon: string;
+  text: string;
+  class?: string;
+  iconClass?: string;
+  textClass?: string;
+}
+
+const {
+  icon,
+  text,
+  class: className = 'inline-flex items-center gap-1.5',
+  iconClass = 'text-[16px]',
+  textClass,
+} = Astro.props;
+---
+
+<span class={className}>
+  <Icon name={icon} class={['shrink-0', iconClass].filter(Boolean).join(' ')} />
+  <span class={textClass}>{text}</span>
+</span>
