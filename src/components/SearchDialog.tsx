@@ -106,7 +106,9 @@ export default function SearchDialog() {
             <div className="p-4">
               {loading && (
                 <div className="py-12 text-center">
-                  <Icon name="hourglass_empty" className="text-[40px] text-primary-container animate-pulse" />
+                  <div className="grid h-16 w-16 mx-auto place-items-center rounded-xl bg-surface-container-low text-outline animate-pulse">
+                    <Icon name="hourglass_empty" className="text-[32px]" />
+                  </div>
                   <p className="text-[12px] font-semibold text-outline uppercase tracking-wider mt-3">Memuat data...</p>
                 </div>
               )}
@@ -114,7 +116,7 @@ export default function SearchDialog() {
               {!loading && query.trim() !== '' && results.length === 0 && (
                 <div className="py-16 text-center">
                   <div className="grid h-16 w-16 mx-auto place-items-center rounded-full bg-surface-container-low text-outline">
-                    <Icon name="search_off" className="text-[28px]" />
+                    <Icon name="search_off" className="text-[32px]" />
                   </div>
                   <p className="text-base font-bold text-on-surface mt-4">Tidak ditemukan</p>
                   <p className="text-sm text-on-surface-variant mt-1">Coba kata kunci yang berbeda.</p>
@@ -124,7 +126,7 @@ export default function SearchDialog() {
               {!loading && query.trim() === '' && (
                 <div className="py-12 text-center">
                   <div className="grid h-16 w-16 mx-auto place-items-center rounded-xl bg-primary-container/30 text-m3-primary">
-                    <Icon name="travel_explore" className="text-[28px]" />
+                    <Icon name="travel_explore" className="text-[32px]" />
                   </div>
                   <p className="text-base font-bold text-on-surface mt-4">Mulai Menjelajah</p>
                   <p className="text-sm text-on-surface-variant mt-1">Ketik untuk mencari berita, dokumen, atau layanan.</p>
@@ -143,7 +145,7 @@ export default function SearchDialog() {
                       className="group flex items-center gap-4 rounded-xl p-3 transition-colors hover:bg-surface-container-low"
                     >
                       <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary-container/30 text-m3-primary group-hover:bg-m3-primary group-hover:text-on-primary transition-colors">
-                        <Icon name="{typeIcons[item.type] || 'arrow_outward'}" className="text-[20px]" />
+                        <Icon name={typeIcons[item.type] || 'arrow_outward'} className="text-[20px]" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <span className="text-[12px] font-semibold text-outline uppercase tracking-wider">{item.type}</span>
