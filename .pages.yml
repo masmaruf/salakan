@@ -153,6 +153,9 @@ content:
           - value: draft
             label: Draft / Belum tayang
         default: publish
+      - name: body
+        label: Isi artikel
+        type: rich-text
       - name: editorArtikel
         label: Editor Artikel
         type: object
