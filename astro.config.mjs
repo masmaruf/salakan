@@ -38,7 +38,11 @@ const integrations = [
     filter(page) {
       try {
         const pathname = new URL(page).pathname;
-        return !pathname.startsWith('/admin');
+        return !(
+          pathname.startsWith('/admin') ||
+          pathname.startsWith('/cms') ||
+          pathname.startsWith('/api/')
+        );
       } catch {
         return true;
       }
@@ -49,7 +53,7 @@ const integrations = [
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin'],
+        disallow: ['/admin', '/cms', '/api/'],
       },
     ],
   }),
@@ -100,7 +104,6 @@ const integrations = [
 export default defineConfig({
   site: 'https://salakan.pages.dev',
   output: 'server',
-  // Keep local development on Astro's default server to avoid Cloudflare worker-runner crashes.
   adapter: useCloudflareAdapter ? cloudflare() : undefined,
   integrations,
   security: {
@@ -139,7 +142,6 @@ export default defineConfig({
         output: {
           manualChunks(id) {
             if (!id.includes('node_modules')) return;
-
             if (id.includes('@radix-ui')) {
               return 'radix-ui';
             }
