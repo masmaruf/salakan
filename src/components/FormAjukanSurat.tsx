@@ -94,29 +94,18 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
                 <h4 className="text-sm font-black uppercase tracking-widest">Wilayah & Tujuan</h4>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-500 uppercase ml-1">Pilih RT Domisili</label>
-                  <select name="rt_id" required disabled={loading} className="select-premium" defaultValue="">
-                    <option value="" disabled>-- Pilih RT --</option>
-                    {daftarRt && daftarRt.length > 0 ? (
-                      daftarRt.map(rt => (
-                        <option key={rt.id} value={rt.id}>RT {rt.nomor} ({rt.nama})</option>
-                      ))
-                    ) : (
-                      <option disabled>Tidak ada data RT</option>
-                    )}
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-500 uppercase ml-1">Kategori Kepentingan</label>
-                  <select name="kategori" disabled={loading} className="select-premium">
-                    <option value="umum">Umum / Lainnya</option>
-                    <option value="kependudukan">Administrasi Kependudukan</option>
-                    <option value="sosial">Bantuan Sosial / SKTM</option>
-                    <option value="perizinan">Perizinan / Usaha</option>
-                  </select>
-                </div>
+              <div className="space-y-2">
+                <label className="text-xs font-black text-slate-500 uppercase ml-1">Pilih RT Domisili</label>
+                <select name="rt_id" required disabled={loading} className="select-premium" defaultValue="">
+                  <option value="" disabled>-- Pilih RT --</option>
+                  {daftarRt && daftarRt.length > 0 ? (
+                    daftarRt.map(rt => (
+                      <option key={rt.id} value={rt.id}>RT {rt.nomor} ({rt.nama})</option>
+                    ))
+                  ) : (
+                    <option disabled>Tidak ada data RT</option>
+                  )}
+                </select>
               </div>
 
               <div className="space-y-2">

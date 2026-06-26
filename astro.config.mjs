@@ -1,6 +1,4 @@
 import { defineConfig } from 'astro/config';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import db from '@astrojs/db';
@@ -13,7 +11,6 @@ import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 import { analyzer } from 'vite-bundle-analyzer';
 import YAML from 'yaml';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isDevCommand = process.argv.includes('dev');
 const enableAstroDbInDev = process.env.ENABLE_ASTRO_DB_DEV === 'true';
 const useCloudflareAdapter = !isDevCommand;
@@ -113,11 +110,6 @@ export default defineConfig({
     host: true,
   },
   vite: {
-    resolve: {
-      alias: {
-        'promise-limit': path.resolve(__dirname, 'src/lib/promise-limit-esm.js'),
-      },
-    },
     plugins: [
       yamlPlugin(),
       tailwindcss(),

@@ -53,4 +53,4 @@ dataWilayah:
   - label: Fokus informasi
     value: Pengumuman dan agenda warga
   - label: Pengelolaan konten
-    value: Astro + Keystatic CMS
+    value: Astro + Pages CMS

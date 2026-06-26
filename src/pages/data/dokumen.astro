@@ -3,7 +3,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import Badge from '../../components/ui/Badge.astro';
 import PageSection from '../../components/PageSection.astro';
-import { formatTanggal, getDokumen, getPengaturan } from '../../lib/content';
+import { formatTanggal, getDokumen, getPengaturan, kategoriLabelsDokumen } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const [dokumenItems, pengaturan] = await Promise.all([getDokumen(), getPengaturan()]);
@@ -15,13 +15,6 @@ const dokumen = dokumenItems
     if (a.entry.urutanTampil !== b.entry.urutanTampil) return a.entry.urutanTampil - b.entry.urutanTampil;
     return new Date(b.entry.tanggalUpdate).getTime() - new Date(a.entry.tanggalUpdate).getTime();
   });
-
-const kategoriLabels = {
-  layanan: 'Layanan Warga',
-  arsip: 'Arsip Publik',
-  kegiatan: 'Dokumen Kegiatan',
-  regulasi: 'Regulasi',
-} as const;
 
 import Icon from '../../components/ui/Icon.tsx';
 ---
@@ -49,7 +42,7 @@ import Icon from '../../components/ui/Icon.tsx';
       {dokumen.map(({ slug, entry }) => (
         <article class="group flex flex-col rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 transition-all hover:-translate-y-0.5 hover:shadow-md" id={slug}>
           <div class="mb-3 flex items-center justify-between gap-2">
-            <Badge label={kategoriLabels[entry.kategori]} tone="primary" class="px-2 py-1" />
+            <Badge label={kategoriLabelsDokumen[entry.kategori]} tone="primary" class="px-2 py-1" />
             <time class="text-[12px] font-medium text-outline" datetime={entry.tanggalUpdate}>
               {formatTanggal(entry.tanggalUpdate)}
             </time>

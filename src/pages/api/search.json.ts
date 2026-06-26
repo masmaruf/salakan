@@ -12,14 +12,14 @@ export async function GET() {
   const searchIndex = [
     ...news.filter(n => n.entry?.statusPublikasi === 'publish').map(n => ({
       title: n.entry.judul,
-      description: n.entry.ringkasan,
+      description: n.entry.ringkasan || '',
       url: `/berita/${n.slug}`,
       type: 'Berita',
     })),
     ...announcements.filter(a => a.entry?.statusPublikasi === 'publish').map(a => ({
       title: a.entry.judul,
-      description: a.entry.ringkasan,
-      url: `/pengumuman/${a.slug}`,
+      description: a.entry.ringkasan || '',
+      url: `/agenda`,
       type: 'Pengumuman',
     })),
     ...documents.filter(d => d.entry?.statusPublikasi === 'publish').map(d => ({

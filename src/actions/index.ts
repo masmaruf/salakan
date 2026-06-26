@@ -46,8 +46,8 @@ export const server = {
       }),
       handler: async (input) => {
         try {
-          const semuaRt = await getCollection('rt' as any);
-          const rtData = (semuaRt as any[]).find((r: any) => r.id === input.rt_id);
+          const semuaRt = await getCollection('rt');
+          const rtData = semuaRt.find((r) => r.id === input.rt_id);
 
           if (!rtData || !rtData.data.aktif) {
             throw new Error("RT tidak ditemukan atau saat ini tidak aktif.");

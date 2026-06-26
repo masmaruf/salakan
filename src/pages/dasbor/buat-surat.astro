@@ -3,7 +3,6 @@ import DashboardLayout from '../../layouts/DashboardLayout.astro';
 import FormAjukanSurat from '../../components/FormAjukanSurat';
 import { getCollection } from 'astro:content';
 
-// Ambil data RT yang aktif dari Keystatic
 const semuaRt = await getCollection('rt');
 const daftarRt = semuaRt
   .filter(rt => rt.data.aktif)
@@ -30,7 +29,7 @@ import Icon from '../../components/ui/Icon.tsx';
        <Icon name="warning" class="mt-1" />
        <div>
          <h4 class="font-bold mb-1">Peringatan: Data RT Belum Terkonfigurasi</h4>
-         <p class="text-sm opacity-90">Pemilihan RT Domisili belum tersedia karena pengelola belum menambahkan data RT aktif melalui dasbor Admin (Keystatic). Silakan hubungi admin.</p>
+         <p class="text-sm opacity-90">Pemilihan RT Domisili belum tersedia karena pengelola belum menambahkan data RT aktif melalui dasbor Admin. Silakan hubungi admin.</p>
        </div>
      </div>
    )}

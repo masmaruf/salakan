@@ -4,7 +4,7 @@ import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import ContentMeta from '../../../components/ui/ContentMeta.astro';
 import InfoCard from '../../../components/ui/InfoCard.astro';
 import ActionLinkButton from '../../../components/ui/ActionLinkButton.astro';
-import { formatTanggal, getDokumen } from '../../../lib/content';
+import { formatTanggal, getDokumen, kategoriLabelsDokumen } from '../../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
 const { slug } = Astro.params;
@@ -16,13 +16,6 @@ if (!item) {
 }
 
 const { entry } = item;
-
-const kategoriLabels = {
-  layanan: 'Layanan Warga',
-  arsip: 'Arsip Publik',
-  kegiatan: 'Dokumen Kegiatan',
-  regulasi: 'Regulasi',
-} as const;
 
 const seoTitle = withSiteTitle(resolveSeoText(entry.seoTitle, entry.judul));
 const seoDescription = resolveSeoText(entry.seoDescription, entry.ringkasan);
@@ -44,7 +37,7 @@ import Icon from '../../../components/ui/Icon.tsx';
     <header class="mb-6">
       <div class="mb-3 flex flex-wrap items-center gap-2">
         <span class="rounded-md bg-primary-container px-2.5 py-1 text-[12px] font-semibold text-on-primary-container">
-          {kategoriLabels[entry.kategori]}
+          {kategoriLabelsDokumen[entry.kategori]}
         </span>
         {entry.unggulan && (
           <span class="flex items-center gap-1 rounded-md bg-amber-100 px-2.5 py-1 text-[12px] font-semibold text-amber-800">

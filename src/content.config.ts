@@ -292,7 +292,7 @@ const pengaturan = defineCollection({
 const akunAdmin = defineCollection({
   loader: glob({ pattern: 'index.yaml', base: './src/content/singletons/akun-admin' }),
   schema: z.object({
-    gunakanPengaturanKeystatic: z.boolean().default(false),
+    gunakanPengaturanCms: z.boolean().default(false),
     catatan: z.string().default(''),
     users: z.array(
       z.object({
@@ -402,6 +402,17 @@ const monografi = defineCollection({
   }),
 });
 
+const rt = defineCollection({
+  loader: glob({ pattern: '*.json', base: './src/content/rt' }),
+  schema: z.object({
+    rt_id: z.string(),
+    nomor_rt: z.string(),
+    nama_ketua: z.string(),
+    no_hp_ketua: z.string().optional(),
+    aktif: z.boolean().default(false),
+  }),
+});
+
 export const collections = {
   pengumuman,
   dokumen,
@@ -418,5 +429,6 @@ export const collections = {
   akunAdmin,
   beranda,
   monografi,
+  rt,
 };
  

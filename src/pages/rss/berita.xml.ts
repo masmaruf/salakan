@@ -13,7 +13,7 @@ export const GET: APIRoute = async () => {
     .map((item) => ({
       title: item.entry.judul,
       link: toAbsoluteUrl(`/berita/${item.slug}`),
-      description: item.entry.ringkasan,
+      description: item.entry.ringkasan || '',
       pubDate: item.entry.tanggal,
       guid: `berita:${item.slug}`,
     }));

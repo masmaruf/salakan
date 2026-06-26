@@ -26,7 +26,7 @@ editorArtikel:
 
 ## Pengelolaan konten mulai dimandirikan
 
-Sesi pelatihan difokuskan pada pengenalan panel admin Keystatic dan alur kerja publikasi konten.
+Sesi pelatihan difokuskan pada pengenalan panel admin CMS dan alur kerja publikasi konten.
 
 ## Materi yang dipelajari
 
