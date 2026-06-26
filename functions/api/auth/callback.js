@@ -6,24 +6,33 @@ export async function onRequest({ request, env }) {
     return new Response('Missing OAuth code', { status: 400 });
   }
 
-  const tokenRes = await fetch('https://github.com/login/oauth/access_token', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      client_id: env.GITHUB_CLIENT_ID,
-      client_secret: env.GITHUB_CLIENT_SECRET,
-      code,
-    }),
-  });
+  let msg;
+  try {
+    const tokenRes = await fetch('https://github.com/login/oauth/access_token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        client_id: env.GITHUB_CLIENT_ID,
+        client_secret: env.GITHUB_CLIENT_SECRET,
+        code,
+      }),
+    });
 
-  const data = await tokenRes.json();
+    const data = await tokenRes.json();
 
-  const msg = data.error
-    ? `authorization:github:error:${JSON.stringify({ error: data.error })}`
-    : `authorization:github:success:${JSON.stringify({ token: data.access_token, provider: 'github' })}`;
+    if (data.error) {
+      msg = `authorization:github:error:${JSON.stringify({ error: data.error })}`;
+    } else if (data.access_token) {
+      msg = `authorization:github:success:${JSON.stringify({ token: data.access_token, provider: 'github' })}`;
+    } else {
+      msg = `authorization:github:error:${JSON.stringify({ error: 'no_token' })}`;
+    }
+  } catch (err) {
+    msg = `authorization:github:error:${JSON.stringify({ error: 'token_exchange_failed' })}`;
+  }
 
   const html = `<!doctype html>
 <html>
@@ -38,6 +47,7 @@ export async function onRequest({ request, env }) {
     if (window.opener) {
       window.opener.postMessage(msg, '*');
     }
+    window.close();
   })();
 </script>
 </body>
