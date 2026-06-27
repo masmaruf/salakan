@@ -3,12 +3,26 @@ judul: Pelepasan Siswa PAUD SPS Bunga Kaca Piring 2026
 tanggal: 2026-06-27
 statusPublikasi: publish
 editorArtikel:
+  kontenUtama:
+    ringkasan: >-
+      Pelepasan siswa PAUD SPS Bunga Kaca Piring 2026 digelar di Joglo Mangun
+      Diharjo dengan pentas seni dan momen kebersamaan orang tua, guru, dan
+      anak didik.
   sidebar:
     jenisKonten: berita
     kategori: Paud, SPS Bunga Kaca Piring
     penulis: Pak Dukuh
     unggulan: true
     gambarUtama: /images/1002185119.jpg
+    altGambarUtama: Pelepasan siswa PAUD SPS Bunga Kaca Piring 2026 di Joglo Mangun Diharjo.
+    tag:
+      - paud
+      - pendidikan
+      - warga
+  seo:
+    seoTitle: ''
+    seoDescription: ''
+    ogImage: ''
 ---
 Joglo Mangun Diharjo – Sekolah Penggerak Satuan (SPS) Bunga Kaca Piring akan menggelar acara Pelepasan Siswa PAUD pada Sabtu, 27 Juni 2026 pukul 08.00 WIB. Acara yang penuh keceriaan ini akan berlangsung di Joglo Mangun Diharjo.
 
