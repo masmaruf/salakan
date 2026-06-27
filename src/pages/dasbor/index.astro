@@ -1,5 +1,6 @@
 ---
 import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import DashboardStatCard from '../../components/ui/DashboardStatCard.astro';
 import { db, Pengajuan, desc } from 'astro:db';
 import { getPengajuanStatusMeta } from '../../lib/pengajuan';
 
@@ -37,44 +38,9 @@ import Icon from '../../components/ui/Icon.tsx';
   </div>
 
   <div class="mb-10 grid grid-cols-1 gap-6 md:grid-cols-3">
-    <div class="group card-premium">
-      <div class="absolute -right-4 -top-4 opacity-5 transition-opacity group-hover:opacity-10">
-        <Icon name="task_alt" class="text-[64px] text-blue-600" />
-      </div>
-      <p class="mb-2 text-xs font-black uppercase tracking-[0.12em] text-blue-500">Selesai Dicetak</p>
-      <div class="flex items-center justify-between">
-        <strong class="text-5xl font-black tracking-tight text-slate-900">{stats.selesai}</strong>
-        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 shadow-inner transition-all group-hover:bg-blue-600 group-hover:text-white">
-          <Icon name="verified" class="text-[32px]" />
-        </div>
-      </div>
-    </div>
-
-    <div class="group card-premium">
-      <div class="absolute -right-4 -top-4 opacity-5 transition-opacity group-hover:opacity-10">
-        <Icon name="pending_actions" class="text-[64px] text-amber-600" />
-      </div>
-      <p class="mb-2 text-xs font-black uppercase tracking-[0.12em] text-amber-500">Masih Berjalan</p>
-      <div class="flex items-center justify-between">
-        <strong class="text-5xl font-black tracking-tight text-slate-900">{stats.proses}</strong>
-        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 shadow-inner transition-all group-hover:bg-amber-600 group-hover:text-white">
-          <Icon name="hourglass_empty" class="text-[32px]" />
-        </div>
-      </div>
-    </div>
-
-    <div class="group card-premium">
-      <div class="absolute -right-4 -top-4 opacity-5 transition-opacity group-hover:opacity-10">
-        <Icon name="edit_document" class="text-[64px] text-orange-500" />
-      </div>
-      <p class="mb-2 text-xs font-black uppercase tracking-[0.12em] text-orange-500">Perlu Tindak Lanjut</p>
-      <div class="flex items-center justify-between">
-        <strong class="text-5xl font-black tracking-tight text-slate-900">{stats.revisi}</strong>
-        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-50 text-orange-600 shadow-inner transition-all group-hover:bg-orange-600 group-hover:text-white">
-          <Icon name="edit_note" class="text-[32px]" />
-        </div>
-      </div>
-    </div>
+    <DashboardStatCard label="Selesai Dicetak" value={stats.selesai} description="Pengajuan yang sudah selesai dan siap dipakai warga." tone="blue" icon="verified" />
+    <DashboardStatCard label="Masih Berjalan" value={stats.proses} description="Pengajuan yang masih menunggu, diproses, atau perlu revisi." tone="amber" icon="hourglass_empty" />
+    <DashboardStatCard label="Perlu Tindak Lanjut" value={stats.revisi} description="Berkas yang perlu diperbaiki sebelum bisa diproses lanjut." tone="orange" icon="edit_note" />
   </div>
 
   <div class="overflow-hidden rounded-[2.5rem] border border-white/50 bg-white/70 shadow-[0_12px_40px_rgba(0,0,0,0.04)] backdrop-blur-3xl">

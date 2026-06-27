@@ -1,0 +1,28 @@
+---
+import InfoCard from './InfoCard.astro';
+
+interface Props {
+  title?: string;
+  icon?: string;
+  class?: string;
+  bodyClass?: string;
+}
+
+const {
+  title,
+  icon,
+  class: className = '',
+  bodyClass = '',
+} = Astro.props;
+
+const panelClass = [
+  'rounded-[2rem] border border-white/60 bg-white/80 p-6 shadow-sm backdrop-blur-xl',
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<InfoCard title={title} icon={icon} class={panelClass} bodyClass={bodyClass}>
+  <slot />
+</InfoCard>

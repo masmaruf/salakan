@@ -1,7 +1,8 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import PageIntro from '../../components/ui/PageIntro.astro';
 import Badge from '../../components/ui/Badge.astro';
+import StatCard from '../../components/ui/StatCard.astro';
 import PageSection from '../../components/PageSection.astro';
 import { kondisiInventarisLabels, getInventarisWarga, getPengaturan, kategoriLabelsInventaris, statusPinjamInventarisLabels } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
@@ -15,13 +16,19 @@ const statusToneMap = { tersedia: 'success', dipinjam: 'warning', perawatan: 'er
 ---
 
 <MainLayout title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'Inventaris Warga'))} description={resolveSeoText(seo?.seoDescription, 'Daftar inventaris bersama dan status ketersediaannya untuk warga Padukuhan Salakan.')} image={resolveSeoImage(seo?.ogImage)}>
-  <div class="container-premium pb-4 pt-8">
-    <Breadcrumbs items={[{ label: 'Beranda', href: '/' }, { label: 'Pusat Data', href: '/data' }, { label: 'Inventaris Warga', active: true }]} />
-    <h1 class="text-[28px] font-bold leading-[36px] text-on-surface">Inventaris Warga</h1>
-    <p class="mt-1 max-w-3xl text-base text-on-surface-variant">Warga bisa mengecek kategori barang bersama, status ketersediaan, lokasi simpan, dan penanggung jawab sebelum menghubungi pengurus.</p>
-  </div>
+  <PageIntro
+    title="Inventaris Warga"
+    description="Warga bisa mengecek kategori barang bersama, status ketersediaan, lokasi simpan, dan penanggung jawab sebelum menghubungi pengurus."
+    breadcrumbs={[{ label: 'Beranda', href: '/' }, { label: 'Pusat Data', href: '/data' }, { label: 'Inventaris Warga', active: true }]}
+  />
 
-  <section class="container-premium py-4 sm:py-6"><div class="grid gap-4 md:grid-cols-3"><div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5"><p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Total Item</p><p class="mt-2 text-3xl font-bold tracking-tight text-on-surface">{inventory.length}</p></div><div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5"><p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Siap Dipakai</p><p class="mt-2 text-3xl font-bold tracking-tight text-on-surface">{availableCount}</p></div><div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5"><p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Perlu Perawatan</p><p class="mt-2 text-3xl font-bold tracking-tight text-on-surface">{maintenanceCount}</p></div></div></section>
+  <section class="container-premium py-4 sm:py-6">
+    <div class="grid gap-4 md:grid-cols-3">
+      <StatCard label="Total Item" value={inventory.length} icon="inventory_2" variant="blue" />
+      <StatCard label="Siap Dipakai" value={availableCount} icon="task_alt" variant="emerald" />
+      <StatCard label="Perlu Perawatan" value={maintenanceCount} icon="construction" variant="amber" />
+    </div>
+  </section>
 
   <PageSection sectionClass="pb-10 pt-4 sm:pb-14" title="Daftar Inventaris" eyebrow="Status Ketersediaan">
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

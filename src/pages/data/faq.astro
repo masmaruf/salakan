@@ -1,6 +1,6 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import PageIntro from '../../components/ui/PageIntro.astro';
 import { getFaq, getPengaturan } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
@@ -21,17 +21,15 @@ import Icon from '../../components/ui/Icon.tsx';
   image={resolveSeoImage(seo?.ogImage)}
 >
 
-  <div class="container-premium pt-8 pb-4">
-    <Breadcrumbs items={[
+  <PageIntro
+    title="Tanya & Jawab (FAQ)"
+    description="Pertanyaan yang sering diajukan warga mengenai layanan dan informasi Padukuhan Salakan."
+    breadcrumbs={[
       { label: 'Beranda', href: '/' },
       { label: 'Pusat Data', href: '/data' },
       { label: 'FAQ', active: true },
-    ]} />
-    <h1 class="text-[28px] font-bold leading-[36px] text-on-surface">Tanya & Jawab (FAQ)</h1>
-    <p class="text-base text-on-surface-variant mt-1 max-w-2xl">
-      Pertanyaan yang sering diajukan warga mengenai layanan dan informasi Padukuhan Salakan.
-    </p>
-  </div>
+    ]}
+  />
 
   <section class="container-premium py-8">
     {categories.length > 1 && (

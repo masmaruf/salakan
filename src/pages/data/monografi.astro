@@ -1,6 +1,6 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import PageIntro from '../../components/ui/PageIntro.astro';
 import StatCard from '../../components/ui/StatCard.astro';
 import { getPengaturan, getMonografi } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
@@ -40,17 +40,15 @@ import Icon from '../../components/ui/Icon.tsx';
   image={resolveSeoImage(seo?.ogImage)}
 >
 
-  <div class="container-premium pt-8 pb-4">
-    <Breadcrumbs items={[
+  <PageIntro
+    title="Data Monografi"
+    description="Profil kependudukan, sarana prasarana, dan potensi seni & ekonomi Padukuhan Salakan."
+    breadcrumbs={[
       { label: 'Beranda', href: '/' },
       { label: 'Pusat Data', href: '/data' },
       { label: 'Monografi', active: true },
-    ]} />
-    <h1 class="text-[28px] font-bold leading-[36px] text-on-surface">Data Monografi</h1>
-    <p class="text-base text-on-surface-variant mt-1 max-w-2xl">
-      Profil kependudukan, sarana prasarana, dan potensi seni & ekonomi Padukuhan Salakan.
-    </p>
-  </div>
+    ]}
+  />
 
   <section class="container-premium py-8 space-y-10">
 

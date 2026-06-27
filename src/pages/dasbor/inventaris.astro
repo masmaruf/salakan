@@ -1,10 +1,13 @@
 ---
 import DashboardLayout from '../../layouts/DashboardLayout.astro';
-import InfoCard from '../../components/ui/InfoCard.astro';
-import { kondisiInventarisLabels, getInventarisWarga, kategoriLabelsInventaris, statusPinjamInventarisLabels } from '../../lib/content';
+import DashboardPanel from '../../components/ui/DashboardPanel.astro';
+import DashboardStatCard from '../../components/ui/DashboardStatCard.astro';
+import { kondisiInventarisLabels, getDashboardContent, getInventarisWarga, kategoriLabelsInventaris, statusPinjamInventarisLabels } from '../../lib/content';
 import Icon from '../../components/ui/Icon.tsx';
 
-const inventory = (await getInventarisWarga()).filter((item) => item.entry.statusPublikasi === 'publish').sort((a, b) => a.entry.unggulan !== b.entry.unggulan ? Number(b.entry.unggulan) - Number(a.entry.unggulan) : (a.entry.urutanTampil ?? 0) - (b.entry.urutanTampil ?? 0));
+const [dashboardContent, inventoryRaw] = await Promise.all([getDashboardContent(), getInventarisWarga()]);
+const content = dashboardContent?.inventaris;
+const inventory = inventoryRaw.filter((item) => item.entry.statusPublikasi === 'publish').sort((a, b) => a.entry.unggulan !== b.entry.unggulan ? Number(b.entry.unggulan) - Number(a.entry.unggulan) : (a.entry.urutanTampil ?? 0) - (b.entry.urutanTampil ?? 0));
 const tersedia = inventory.filter((item) => item.entry.statusPinjam === 'tersedia').length;
 const dipinjam = inventory.filter((item) => item.entry.statusPinjam === 'dipinjam').length;
 const perawatan = inventory.filter((item) => item.entry.statusPinjam === 'perawatan').length;
@@ -16,25 +19,25 @@ const statusToneMap = { tersedia: 'bg-emerald-100 text-emerald-700', dipinjam: '
   <div class="mb-10 flex flex-col gap-3">
     <a href="/dasbor" class="inline-flex w-fit items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-500 shadow-sm transition-all hover:bg-blue-50 hover:text-blue-600"><Icon name="arrow_back" class="text-[16px]" /> Kembali ke Dasbor</a>
     <h2 class="text-gradient">Peminjaman Inventaris</h2>
-    <p class="max-w-3xl text-base font-medium leading-relaxed text-slate-500 lg:text-lg">Halaman ini kini membaca daftar inventaris warga dari konten lokal. Warga bisa melihat status ketersediaan, kondisi barang, dan penanggung jawab sebelum melakukan koordinasi peminjaman.</p>
+    <p class="max-w-3xl text-base font-medium leading-relaxed text-slate-500 lg:text-lg">{content?.intro ?? 'Halaman ini kini membaca daftar inventaris warga dari konten lokal.'}</p>
   </div>
 
   <div class="mb-8 grid gap-6 md:grid-cols-3">
-    <div class="card-premium"><p class="mb-2 text-xs font-black uppercase tracking-[0.12em] text-emerald-500">Tersedia</p><strong class="text-5xl font-black tracking-tight text-slate-900">{tersedia}</strong><p class="mt-3 text-sm font-medium leading-relaxed text-slate-500">Item yang saat ini siap dipakai atau diajukan peminjamannya.</p></div>
-    <div class="card-premium"><p class="mb-2 text-xs font-black uppercase tracking-[0.12em] text-amber-500">Dipinjam</p><strong class="text-5xl font-black tracking-tight text-slate-900">{dipinjam}</strong><p class="mt-3 text-sm font-medium leading-relaxed text-slate-500">Barang yang sedang dipakai untuk kegiatan atau agenda warga.</p></div>
-    <div class="card-premium"><p class="mb-2 text-xs font-black uppercase tracking-[0.12em] text-red-500">Perawatan</p><strong class="text-5xl font-black tracking-tight text-slate-900">{perawatan}</strong><p class="mt-3 text-sm font-medium leading-relaxed text-slate-500">Peralatan yang perlu dibenahi sebelum aman dipakai kembali.</p></div>
+    <DashboardStatCard label="Tersedia" value={tersedia} description={content?.stats?.tersedia ?? 'Item yang saat ini siap dipakai atau diajukan peminjamannya.'} tone="emerald" icon="inventory_2" />
+    <DashboardStatCard label="Dipinjam" value={dipinjam} description={content?.stats?.dipinjam ?? 'Barang yang sedang dipakai untuk kegiatan atau agenda warga.'} tone="amber" icon="event_available" />
+    <DashboardStatCard label="Perawatan" value={perawatan} description={content?.stats?.perawatan ?? 'Peralatan yang perlu dibenahi sebelum aman dipakai kembali.'} tone="red" icon="construction" />
   </div>
 
   <div class="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-    <InfoCard class="rounded-[2rem] border border-white/60 bg-white/80 p-6 shadow-sm backdrop-blur-xl" title="Sorotan Inventaris" icon="inventory_2">
+    <DashboardPanel title={content?.highlightTitle ?? 'Sorotan Inventaris'} icon="inventory_2">
       {highlight ? (
         <div class="mt-4 space-y-4"><div class="flex flex-wrap gap-2"><span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">{kategoriLabelsInventaris[highlight.entry.kategori]}</span><span class:list={['rounded-full px-3 py-1 text-xs font-black', statusToneMap[highlight.entry.statusPinjam]]}>{statusPinjamInventarisLabels[highlight.entry.statusPinjam]}</span></div><div><p class="text-lg font-black text-slate-900">{highlight.entry.namaItem}</p><p class="mt-2 text-sm leading-relaxed text-slate-600">{highlight.entry.ringkasan}</p></div><div class="grid gap-3 sm:grid-cols-2"><div class="rounded-2xl bg-slate-50 px-4 py-4"><p class="text-[11px] font-black uppercase tracking-[0.12em] text-slate-400">Kondisi</p><p class="mt-2 text-sm font-black text-slate-900">{kondisiInventarisLabels[highlight.entry.kondisi]}</p></div><div class="rounded-2xl bg-slate-50 px-4 py-4"><p class="text-[11px] font-black uppercase tracking-[0.12em] text-slate-400">Lokasi</p><p class="mt-2 text-sm font-black text-slate-900">{highlight.entry.lokasiSimpan}</p></div></div></div>
-      ) : <p class="mt-4 text-sm text-slate-500">Belum ada data inventaris yang dipublikasikan.</p>}
-    </InfoCard>
+      ) : <p class="mt-4 text-sm text-slate-500">{content?.emptyMessage ?? 'Belum ada data inventaris yang dipublikasikan.'}</p>}
+    </DashboardPanel>
 
-    <InfoCard class="rounded-[2rem] border border-white/60 bg-white/80 p-6 shadow-sm backdrop-blur-xl" title="Daftar Cepat" icon="view_list">
+    <DashboardPanel title={content?.quickListTitle ?? 'Daftar Cepat'} icon="view_list">
       <div class="mt-4 space-y-3">{inventory.map((item) => <div class="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4"><div class="flex flex-wrap items-start justify-between gap-3"><div><p class="text-sm font-black text-slate-900">{item.entry.namaItem}</p><p class="mt-1 text-sm text-slate-500">{item.entry.penanggungJawab}</p></div><span class:list={['rounded-full px-3 py-1 text-xs font-black', statusToneMap[item.entry.statusPinjam]]}>{statusPinjamInventarisLabels[item.entry.statusPinjam]}</span></div></div>)}</div>
-      <a href="/data/inventaris" class="mt-5 inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-600">Buka halaman publik <Icon name="arrow_forward" class="text-[16px]" /></a>
-    </InfoCard>
+      <a href="/data/inventaris" class="mt-5 inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-600">{content?.publicCtaLabel ?? 'Buka halaman publik'} <Icon name="arrow_forward" class="text-[16px]" /></a>
+    </DashboardPanel>
   </div>
 </DashboardLayout>

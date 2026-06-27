@@ -1,6 +1,6 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import PageIntro from '../../components/ui/PageIntro.astro';
 import { getStrukturOrganisasi, getPengaturan } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
@@ -37,17 +37,15 @@ import Icon from '../../components/ui/Icon.tsx';
   image={resolveSeoImage(seo?.ogImage)}
 >
 
-  <div class="container-premium pt-8 pb-4">
-    <Breadcrumbs items={[
+  <PageIntro
+    title="Struktur Organisasi"
+    description={`Daftar aparatur dan pengurus yang bertugas melayani warga Padukuhan Salakan. Total ${items.length} posisi aktif.`}
+    breadcrumbs={[
       { label: 'Beranda', href: '/' },
       { label: 'Pusat Data', href: '/data' },
       { label: 'Struktur Organisasi', active: true },
-    ]} />
-    <h1 class="text-[28px] font-bold leading-[36px] text-on-surface">Struktur Organisasi</h1>
-    <p class="text-base text-on-surface-variant mt-1 max-w-2xl">
-      Daftar aparatur dan pengurus yang bertugas melayani warga Padukuhan Salakan. Total {items.length} posisi aktif.
-    </p>
-  </div>
+    ]}
+  />
 
   <section class="container-premium py-8">
     <div class="grid gap-8 lg:grid-cols-3">

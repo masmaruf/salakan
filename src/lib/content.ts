@@ -307,6 +307,10 @@ export async function getBeranda() {
   return (await getEntry('beranda', 'index'))?.data ?? null;
 }
 
+export async function getDashboardContent() {
+  return (await getEntry('dashboard', 'index'))?.data ?? null;
+}
+
 export function sortByDateDesc<T>(items: T[]) {
   return [...items].sort((a, b) => {
     const first = getDateValue(a);

@@ -32,6 +32,7 @@ const faq = defineCollection({ type: 'data', schema: z.any() });
 const profil = defineCollection({ type: 'data', schema: z.any() });
 const pengaturan = defineCollection({ type: 'data', schema: z.any() });
 const monografi = defineCollection({ type: 'data', schema: z.any() });
+const dashboard = defineCollection({ type: 'data', schema: z.any() });
 const beranda = defineCollection({ type: 'data', schema: z.any() });
 
 export const collections = {
@@ -52,5 +53,6 @@ export const collections = {
   profil,
   pengaturan,
   monografi,
+  dashboard,
   beranda,
 };

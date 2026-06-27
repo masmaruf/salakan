@@ -3,6 +3,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import PageSection from '../../components/PageSection.astro';
 import Badge from '../../components/ui/Badge.astro';
+import StatCard from '../../components/ui/StatCard.astro';
 import EmptyStateCard from '../../components/ui/EmptyStateCard.astro';
 import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
 import {
@@ -61,21 +62,9 @@ const stats = {
 
   <section class="container-premium -mt-8 pb-2 sm:-mt-10">
     <div class="grid gap-4 md:grid-cols-3">
-      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
-        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Total Program</p>
-        <p class="mt-2 text-3xl font-bold tracking-tight text-on-surface">{stats.total}</p>
-        <p class="mt-1 text-sm text-on-surface-variant">Program yang sedang ditayangkan untuk dipantau warga.</p>
-      </div>
-      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
-        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Sedang Berjalan</p>
-        <p class="mt-2 text-3xl font-bold tracking-tight text-on-surface">{stats.berjalan}</p>
-        <p class="mt-1 text-sm text-on-surface-variant">Fase kerja aktif yang masih membutuhkan perhatian pelaksanaan.</p>
-      </div>
-      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
-        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Selesai</p>
-        <p class="mt-2 text-3xl font-bold tracking-tight text-on-surface">{stats.selesai}</p>
-        <p class="mt-1 text-sm text-on-surface-variant">Program yang sudah dituntaskan dan bisa dilihat hasil ringkasnya.</p>
-      </div>
+      <StatCard label="Total Program" value={stats.total} icon="timeline" variant="blue" description="Program yang sedang ditayangkan untuk dipantau warga." />
+      <StatCard label="Sedang Berjalan" value={stats.berjalan} icon="pending_actions" variant="amber" description="Fase kerja aktif yang masih membutuhkan perhatian pelaksanaan." />
+      <StatCard label="Selesai" value={stats.selesai} icon="task_alt" variant="emerald" description="Program yang sudah dituntaskan dan bisa dilihat hasil ringkasnya." />
     </div>
   </section>
 

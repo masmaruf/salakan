@@ -1,0 +1,34 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+  active?: boolean;
+}
+
+interface Props {
+  title: string;
+  description?: string;
+  breadcrumbs: BreadcrumbItem[];
+  class?: string;
+  titleClass?: string;
+  descriptionClass?: string;
+}
+
+const {
+  title,
+  description,
+  breadcrumbs,
+  class: className = 'container-premium pb-4 pt-8',
+  titleClass = 'text-[28px] font-bold leading-[36px] text-on-surface',
+  descriptionClass = 'mt-1 max-w-2xl text-base text-on-surface-variant',
+} = Astro.props;
+---
+
+<div class={className}>
+  <Breadcrumbs items={breadcrumbs} />
+  <h1 class={titleClass}>{title}</h1>
+  {description && <p class={descriptionClass}>{description}</p>}
+  <slot />
+</div>

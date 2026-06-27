@@ -8,6 +8,7 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import { resolveSeoImage, resolveSeoText, toAbsoluteUrl, withSiteTitle } from '../../lib/site';
 import { formatTanggal, getKegiatan, getKategoriBeritaMap } from '../../lib/content';
 import NewsGrid from '../../components/NewsGrid.astro';
+import PageSection from '../../components/PageSection.astro';
 
 const { slug } = Astro.params;
 const [categoryLabels, allKegiatan] = await Promise.all([getKategoriBeritaMap(), getKegiatan()]);
@@ -140,15 +141,14 @@ import Icon from '../../components/ui/Icon.tsx';
   </article>
 
   {relatedArticles.length > 0 && (
-    <section class="bg-surface-container-low/50 py-10">
-      <div class="container-premium">
-        <div class="mb-6 flex items-center justify-between">
-          <h2 class="text-[24px] font-bold leading-[32px] text-on-surface">Berita Terkait</h2>
-          <a class="text-sm font-semibold text-m3-primary hover:underline" href="/berita">Lihat semua</a>
-        </div>
-        <NewsGrid items={relatedArticles.map((a) => ({ slug: a.slug, entry: a.entry as any }))} compact />
-      </div>
-    </section>
+    <PageSection
+      sectionClass="bg-surface-container-low/50 py-10"
+      title="Berita Terkait"
+      actionHref="/berita"
+      actionLabel="Lihat semua"
+    >
+      <NewsGrid items={relatedArticles.map((a) => ({ slug: a.slug, entry: a.entry as any }))} compact />
+    </PageSection>
   )}
 
 </MainLayout>

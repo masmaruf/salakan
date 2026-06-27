@@ -1,0 +1,85 @@
+kas:
+  intro: >-
+    Halaman ini sekarang membaca ringkasan laporan kas dari konten lokal. Warga
+    tidak berhenti di narasi saja, tetapi sudah bisa melihat periode, arus kas,
+    dan catatan penggunaan utama.
+  stats:
+    pemasukan: Akumulasi pemasukan dari laporan kas yang sedang ditayangkan.
+    pengeluaran: Ringkasan dana yang sudah dipakai untuk operasional dan kegiatan warga.
+    saldo: Saldo tercatat dari laporan yang sedang dipublikasikan.
+  latestTitle: Laporan Terbaru
+  historyTitle: Riwayat Periode
+  emptyMessage: Belum ada laporan kas yang dipublikasikan.
+  publicCtaLabel: Buka halaman publik
+inventaris:
+  intro: >-
+    Halaman ini kini membaca daftar inventaris warga dari konten lokal. Warga
+    bisa melihat status ketersediaan, kondisi barang, dan penanggung jawab
+    sebelum melakukan koordinasi peminjaman.
+  stats:
+    tersedia: Item yang saat ini siap dipakai atau diajukan peminjamannya.
+    dipinjam: Barang yang sedang dipakai untuk kegiatan atau agenda warga.
+    perawatan: Peralatan yang perlu dibenahi sebelum aman dipakai kembali.
+  highlightTitle: Sorotan Inventaris
+  quickListTitle: Daftar Cepat
+  emptyMessage: Belum ada data inventaris yang dipublikasikan.
+  publicCtaLabel: Buka halaman publik
+profil:
+  intro: >-
+    Sinkronisasi data keluarga per rumah tangga belum kami buka otomatis karena
+    halaman ini belum memakai autentikasi warga per-KK. Sementara itu, kami
+    tampilkan ringkasan wilayah, kontak RT aktif, dan checklist administrasi
+    agar warga tetap terbantu menyiapkan data inti.
+  stats:
+    totalKk: Kepala keluarga yang tercatat pada monografi saat ini.
+    totalJiwa: Ringkasan populasi warga yang bisa dipakai sebagai konteks layanan.
+    rtAktif: Penghubung wilayah yang bisa dihubungi bila ada penyesuaian data keluarga.
+  checklistTitle: Checklist Data Inti
+  checklistItems:
+    - Kartu Keluarga
+    - KTP anggota keluarga
+    - Nomor WhatsApp aktif
+    - Alamat domisili yang sesuai
+  checklistNote: >-
+    Bila ada perubahan anggota keluarga, domisili, atau kebutuhan surat,
+    siapkan dokumen di atas terlebih dahulu agar proses verifikasi lebih cepat
+    saat layanan digital diperluas.
+  activeRtTitle: Kontak RT Aktif
+  serviceAddressTitle: Alamat Layanan
+pengaturan:
+  intro: >-
+    Kami sengaja belum menampilkan toggle palsu untuk notifikasi warga. Halaman
+    ini memusatkan kanal yang memang sudah aktif sekarang, sekaligus
+    menjelaskan apa yang masih menunggu sistem akun warga yang lebih aman.
+  channels:
+    - title: WhatsApp Layanan
+      status: aktif
+      description: Kanal tercepat untuk tindak lanjut manual saat warga butuh konfirmasi langsung.
+      href: https://wa.me/6283867181105
+      label: Buka WhatsApp
+      icon: chat
+    - title: Email Informasi
+      status: aktif
+      description: Cocok untuk pengiriman dokumen, pertanyaan non-mendesak, atau arsip komunikasi.
+      href: mailto:info@salakan.id
+      label: Kirim email
+      icon: mail
+    - title: Notifikasi Otomatis Warga
+      status: segera
+      description: Pengaturan per-warga belum diaktifkan karena sistem akun keluarga belum diterapkan penuh.
+      href: /dasbor/profil
+      label: Lihat data keluarga
+      icon: notifications
+  principlesTitle: Prinsip Implementasi
+  principles:
+    - Hindari notifikasi palsu yang terlihat bisa disimpan tetapi tidak benar-benar aktif.
+    - Utamakan kanal yang memang sudah operasional lebih dulu.
+    - Setelah akun warga stabil, preferensi notifikasi baru dibuka per keluarga.
+  quickHelpTitle: Butuh Respons Cepat?
+  quickLinks:
+    - label: Cek status surat
+      href: /dasbor/lacak-surat
+    - label: Baca panduan layanan
+      href: /data/layanan-warga
+    - label: Hubungi pengurus
+      href: /kontak

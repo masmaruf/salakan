@@ -1167,6 +1167,170 @@ content:
                       label: Sembunyikan
                 default: tampil
 
+  - name: dashboard
+    label: Konten Dashboard Warga
+    type: file
+    path: src/content/singletons/dashboard/index.yaml
+    fields:
+      - name: kas
+        label: Halaman Kas RT
+        type: object
+        fields:
+          - name: intro
+            label: Intro halaman
+            type: text
+          - name: stats
+            label: Deskripsi kartu statistik
+            type: object
+            fields:
+              - name: pemasukan
+                label: Deskripsi pemasukan
+                type: text
+              - name: pengeluaran
+                label: Deskripsi pengeluaran
+                type: text
+              - name: saldo
+                label: Deskripsi saldo
+                type: text
+          - name: latestTitle
+            label: Judul kartu laporan terbaru
+            type: string
+          - name: historyTitle
+            label: Judul kartu riwayat
+            type: string
+          - name: emptyMessage
+            label: Pesan saat kosong
+            type: text
+          - name: publicCtaLabel
+            label: Label tombol halaman publik
+            type: string
+      - name: inventaris
+        label: Halaman Inventaris
+        type: object
+        fields:
+          - name: intro
+            label: Intro halaman
+            type: text
+          - name: stats
+            label: Deskripsi kartu statistik
+            type: object
+            fields:
+              - name: tersedia
+                label: Deskripsi tersedia
+                type: text
+              - name: dipinjam
+                label: Deskripsi dipinjam
+                type: text
+              - name: perawatan
+                label: Deskripsi perawatan
+                type: text
+          - name: highlightTitle
+            label: Judul sorotan
+            type: string
+          - name: quickListTitle
+            label: Judul daftar cepat
+            type: string
+          - name: emptyMessage
+            label: Pesan saat kosong
+            type: text
+          - name: publicCtaLabel
+            label: Label tombol halaman publik
+            type: string
+      - name: profil
+        label: Halaman Data Keluarga
+        type: object
+        fields:
+          - name: intro
+            label: Intro halaman
+            type: text
+          - name: stats
+            label: Deskripsi kartu statistik
+            type: object
+            fields:
+              - name: totalKk
+                label: Deskripsi total KK
+                type: text
+              - name: totalJiwa
+                label: Deskripsi total jiwa
+                type: text
+              - name: rtAktif
+                label: Deskripsi RT aktif
+                type: text
+          - name: checklistTitle
+            label: Judul checklist
+            type: string
+          - name: checklistItems
+            label: Item checklist
+            type: string
+            list: true
+          - name: checklistNote
+            label: Catatan checklist
+            type: text
+          - name: activeRtTitle
+            label: Judul kontak RT
+            type: string
+          - name: serviceAddressTitle
+            label: Judul alamat layanan
+            type: string
+      - name: pengaturan
+        label: Halaman Pengaturan Notifikasi
+        type: object
+        fields:
+          - name: intro
+            label: Intro halaman
+            type: text
+          - name: channels
+            label: Kanal notifikasi
+            type: object
+            list: true
+            fields:
+              - name: title
+                label: Judul kanal
+                type: string
+              - name: status
+                label: Status kanal
+                type: select
+                options:
+                  values:
+                    - value: aktif
+                      label: Aktif
+                    - value: segera
+                      label: Segera
+                default: aktif
+              - name: description
+                label: Deskripsi kanal
+                type: text
+              - name: href
+                label: Tautan kanal
+                type: string
+              - name: label
+                label: Label tombol
+                type: string
+              - name: icon
+                label: Nama ikon
+                type: string
+          - name: principlesTitle
+            label: Judul prinsip
+            type: string
+          - name: principles
+            label: Daftar prinsip
+            type: string
+            list: true
+          - name: quickHelpTitle
+            label: Judul bantuan cepat
+            type: string
+          - name: quickLinks
+            label: Tautan bantuan cepat
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: Label tautan
+                type: string
+              - name: href
+                label: Link tautan
+                type: string
+
   - name: beranda
     label: Konten Beranda
     type: file

@@ -1,6 +1,6 @@
 ---
 import MainLayout from '../../../layouts/MainLayout.astro';
-import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
+import PageIntro from '../../../components/ui/PageIntro.astro';
 import CmsIcon from '../../../components/CmsIcon.astro';
 import Badge from '../../../components/ui/Badge.astro';
 import PageSection from '../../../components/PageSection.astro';
@@ -25,17 +25,15 @@ import Icon from '../../../components/ui/Icon.tsx';
   image={resolveSeoImage(seo?.ogImage, items[0]?.entry.gambar)}
 >
 
-  <div class="container-premium pb-4 pt-8">
-    <Breadcrumbs items={[
+  <PageIntro
+    title="Katalog UMKM"
+    description={`${items.length} usaha warga terdaftar di Padukuhan Salakan.`}
+    breadcrumbs={[
       { label: 'Beranda', href: '/' },
       { label: 'Pusat Data', href: '/data' },
       { label: 'UMKM', active: true },
-    ]} />
-    <h1 class="text-[28px] font-bold leading-[36px] text-on-surface">Katalog UMKM</h1>
-    <p class="mt-1 text-base text-on-surface-variant">
-      {items.length} usaha warga terdaftar di Padukuhan Salakan.
-    </p>
-  </div>
+    ]}
+  />
 
   <PageSection sectionClass="pb-10 pt-4 sm:pb-14">
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

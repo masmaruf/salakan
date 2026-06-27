@@ -369,6 +369,71 @@ const akunAdmin = defineCollection({
   }),
 });
 
+const dashboard = defineCollection({
+  loader: glob({ pattern: 'index.yaml', base: './src/content/singletons/dashboard' }),
+  schema: z.object({
+    kas: z.object({
+      intro: z.string().min(1),
+      stats: z.object({
+        pemasukan: z.string().min(1),
+        pengeluaran: z.string().min(1),
+        saldo: z.string().min(1),
+      }),
+      latestTitle: z.string().min(1),
+      historyTitle: z.string().min(1),
+      emptyMessage: z.string().min(1),
+      publicCtaLabel: z.string().min(1),
+    }),
+    inventaris: z.object({
+      intro: z.string().min(1),
+      stats: z.object({
+        tersedia: z.string().min(1),
+        dipinjam: z.string().min(1),
+        perawatan: z.string().min(1),
+      }),
+      highlightTitle: z.string().min(1),
+      quickListTitle: z.string().min(1),
+      emptyMessage: z.string().min(1),
+      publicCtaLabel: z.string().min(1),
+    }),
+    profil: z.object({
+      intro: z.string().min(1),
+      stats: z.object({
+        totalKk: z.string().min(1),
+        totalJiwa: z.string().min(1),
+        rtAktif: z.string().min(1),
+      }),
+      checklistTitle: z.string().min(1),
+      checklistItems: z.array(z.string().min(1)).default([]),
+      checklistNote: z.string().min(1),
+      activeRtTitle: z.string().min(1),
+      serviceAddressTitle: z.string().min(1),
+    }),
+    pengaturan: z.object({
+      intro: z.string().min(1),
+      channels: z.array(
+        z.object({
+          title: z.string().min(1),
+          status: z.enum(['aktif', 'segera']).default('aktif'),
+          description: z.string().min(1),
+          href: z.string().min(1),
+          label: z.string().min(1),
+          icon: z.string().min(1),
+        })
+      ).default([]),
+      principlesTitle: z.string().min(1),
+      principles: z.array(z.string().min(1)).default([]),
+      quickHelpTitle: z.string().min(1),
+      quickLinks: z.array(
+        z.object({
+          label: z.string().min(1),
+          href: z.string().min(1),
+        })
+      ).default([]),
+    }),
+  }),
+});
+
 const beranda = defineCollection({
   loader: glob({ pattern: 'index.yaml', base: './src/content/singletons/beranda' }),
   schema: z.object({
@@ -494,6 +559,7 @@ export const collections = {
   profil,
   pengaturan,
   akunAdmin,
+  dashboard,
   beranda,
   monografi,
   rt,
