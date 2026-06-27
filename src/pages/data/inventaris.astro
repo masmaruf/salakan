@@ -1,0 +1,38 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import Badge from '../../components/ui/Badge.astro';
+import PageSection from '../../components/PageSection.astro';
+import { kondisiInventarisLabels, getInventarisWarga, getPengaturan, kategoriLabelsInventaris, statusPinjamInventarisLabels } from '../../lib/content';
+import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
+
+const [items, pengaturan] = await Promise.all([getInventarisWarga(), getPengaturan()]);
+const seo = pengaturan?.seoHalamanData?.inventaris;
+const inventory = items.filter(({ entry }) => entry.statusPublikasi === 'publish').sort((a, b) => (a.entry.unggulan !== b.entry.unggulan ? Number(b.entry.unggulan) - Number(a.entry.unggulan) : (a.entry.urutanTampil ?? 0) - (b.entry.urutanTampil ?? 0)));
+const availableCount = inventory.filter((item) => item.entry.statusPinjam === 'tersedia').length;
+const maintenanceCount = inventory.filter((item) => item.entry.statusPinjam === 'perawatan').length;
+const statusToneMap = { tersedia: 'success', dipinjam: 'warning', perawatan: 'error' } as const;
+---
+
+<MainLayout title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'Inventaris Warga'))} description={resolveSeoText(seo?.seoDescription, 'Daftar inventaris bersama dan status ketersediaannya untuk warga Padukuhan Salakan.')} image={resolveSeoImage(seo?.ogImage)}>
+  <div class="container-premium pb-4 pt-8">
+    <Breadcrumbs items={[{ label: 'Beranda', href: '/' }, { label: 'Pusat Data', href: '/data' }, { label: 'Inventaris Warga', active: true }]} />
+    <h1 class="text-[28px] font-bold leading-[36px] text-on-surface">Inventaris Warga</h1>
+    <p class="mt-1 max-w-3xl text-base text-on-surface-variant">Warga bisa mengecek kategori barang bersama, status ketersediaan, lokasi simpan, dan penanggung jawab sebelum menghubungi pengurus.</p>
+  </div>
+
+  <section class="container-premium py-4 sm:py-6"><div class="grid gap-4 md:grid-cols-3"><div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5"><p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Total Item</p><p class="mt-2 text-3xl font-bold tracking-tight text-on-surface">{inventory.length}</p></div><div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5"><p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Siap Dipakai</p><p class="mt-2 text-3xl font-bold tracking-tight text-on-surface">{availableCount}</p></div><div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5"><p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Perlu Perawatan</p><p class="mt-2 text-3xl font-bold tracking-tight text-on-surface">{maintenanceCount}</p></div></div></section>
+
+  <PageSection sectionClass="pb-10 pt-4 sm:pb-14" title="Daftar Inventaris" eyebrow="Status Ketersediaan">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {inventory.map(({ slug, entry }) => (
+        <article class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5" id={slug}>
+          <div class="mb-3 flex flex-wrap items-center gap-2"><Badge label={kategoriLabelsInventaris[entry.kategori]} tone="surface" class="px-2 py-1" /><Badge label={statusPinjamInventarisLabels[entry.statusPinjam]} tone={statusToneMap[entry.statusPinjam]} class="px-2 py-1" />{entry.unggulan && <Badge label="Prioritas" tone="info" class="px-2 py-1" />}</div>
+          <h2 class="text-base font-bold leading-tight text-on-surface sm:text-lg">{entry.namaItem}</h2>
+          <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">{entry.ringkasan}</p>
+          <div class="mt-4 space-y-2 border-t border-outline-variant/40 pt-4 text-sm text-on-surface-variant"><p><span class="font-semibold text-on-surface">Kondisi:</span> {kondisiInventarisLabels[entry.kondisi]}</p><p><span class="font-semibold text-on-surface">Lokasi:</span> {entry.lokasiSimpan}</p><p><span class="font-semibold text-on-surface">Penanggung jawab:</span> {entry.penanggungJawab}</p>{entry.catatan && <p><span class="font-semibold text-on-surface">Catatan:</span> {entry.catatan}</p>}</div>
+        </article>
+      ))}
+    </div>
+  </PageSection>
+</MainLayout>

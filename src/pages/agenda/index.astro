@@ -2,6 +2,7 @@
 import PageHero from '../../components/PageHero.astro';
 import EmptyStateCard from '../../components/ui/EmptyStateCard.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
+import Badge from '../../components/ui/Badge.astro';
 import {
   getAgenda,
   getPengumuman,
@@ -36,6 +37,7 @@ type TimelineItem = {
   lokasi?: string;
   waktuMulai?: string;
   waktuSelesai?: string;
+  unggulan?: boolean;
   dotColor: string;
   badgeBg: string;
   badgeText: string;
@@ -52,6 +54,7 @@ const timeline: TimelineItem[] = [
     lokasi: item.entry.lokasi,
     waktuMulai: item.entry.waktuMulai,
     waktuSelesai: item.entry.waktuSelesai,
+    unggulan: item.entry.unggulan,
     dotColor: 'bg-m3-primary',
     badgeBg: 'bg-primary-container',
     badgeText: 'text-on-primary-container',
@@ -63,6 +66,7 @@ const timeline: TimelineItem[] = [
     judul: item.entry.judul,
     tanggal: item.entry.tanggal,
     ringkasan: item.entry.ringkasan,
+    unggulan: item.entry.unggulan,
     lokasi: undefined,
     waktuMulai: undefined,
     waktuSelesai: undefined,
@@ -73,6 +77,20 @@ const timeline: TimelineItem[] = [
   })),
 ].sort((a, b) => new Date(b.tanggal).getTime() - new Date(a.tanggal).getTime());
 
+const now = Date.now();
+const agendaMingguIni = agendaItems.filter((item) => {
+  const diffDays = Math.floor((new Date(item.entry.tanggal).getTime() - now) / (1000 * 60 * 60 * 24));
+  return diffDays >= 0 && diffDays <= 7;
+}).length;
+
+function getSignal(item: TimelineItem) {
+  const diffDays = Math.floor((new Date(item.tanggal).getTime() - now) / (1000 * 60 * 60 * 24));
+  if (item.unggulan) return { label: 'Penting', tone: 'error' as const };
+  if (diffDays >= 0 && diffDays <= 7) return { label: 'Minggu ini', tone: 'primary' as const };
+  if (diffDays >= -3 && diffDays < 0) return { label: 'Baru', tone: 'surface' as const };
+  return { label: 'Arsip', tone: 'surface' as const };
+}
+
 import Icon from '../../components/ui/Icon.tsx';
 ---
 
@@ -80,63 +98,87 @@ import Icon from '../../components/ui/Icon.tsx';
   title="Agenda & Pengumuman | Padukuhan Salakan"
   description="Informasi kegiatan padukuhan dan pengumuman terbaru untuk warga."
 >
-
   <PageHero
     eyebrow="Jadwal & Info"
     icon="calendar_month"
     title="Agenda & Pengumuman"
-    description="Informasi kegiatan padukuhan dan pengumuman terbaru untuk warga."
+    description="Timeline kegiatan warga, pengumuman penting, dan informasi yang sedang berjalan di Padukuhan Salakan."
   />
 
-  <section class="container-premium py-8 pb-10">
+  <section class="container-premium py-8 pb-5">
+    <div class="grid gap-4 md:grid-cols-3">
+      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Ringkasan</p>
+        <p class="mt-2 text-3xl font-black tracking-tight text-on-surface">{timeline.length}</p>
+        <p class="mt-1 text-sm text-on-surface-variant">Agenda dan pengumuman aktif siap dibagikan ke warga.</p>
+      </div>
+      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Minggu ini</p>
+        <p class="mt-2 text-3xl font-black tracking-tight text-on-surface">{agendaMingguIni}</p>
+        <p class="mt-1 text-sm text-on-surface-variant">Kegiatan yang sedang atau akan berlangsung dalam 7 hari ke depan.</p>
+      </div>
+      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Distribusi</p>
+        <p class="mt-2 text-base font-bold text-on-surface">Siap dibagikan ke grup RT</p>
+        <p class="mt-1 text-sm text-on-surface-variant">Gunakan halaman ini untuk mengecek agenda cepat sebelum membagikan informasi ke WhatsApp warga.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-premium py-3 pb-10">
     {timeline.length > 0 ? (
       <div class="relative space-y-5 border-l-2 border-surface-container-high pl-4 sm:pl-5">
-        {timeline.map((item) => (
-          <a
-            class="group relative block pl-5 sm:pl-6"
-            href={item.type === 'agenda' ? `/agenda/${item.slug}` : '/agenda'}
-          >
-            <div class:list={['absolute -left-[11px] top-2 h-4 w-4 rounded-full ring-4 ring-white', item.dotColor]}></div>
+        {timeline.map((item) => {
+          const signal = getSignal(item);
+          return (
+            <a
+              class="group relative block pl-5 sm:pl-6"
+              href={item.type === 'agenda' ? `/agenda/${item.slug}` : '/agenda'}
+            >
+              <div class:list={['absolute -left-[11px] top-2 h-4 w-4 rounded-full ring-4 ring-white', item.dotColor]}></div>
 
-            <div class="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-[0_4px_12px_rgba(15,23,42,0.05)] transition-all group-hover:-translate-y-0.5 group-hover:shadow-md active:scale-[0.98]">
-              <div class="mb-2 flex flex-wrap items-start justify-between gap-2">
-                <span class:list={['inline-flex items-center rounded-md px-2 py-1 text-[12px] font-semibold', item.badgeBg, item.badgeText]}>
-                  {item.badgeLabel}
-                </span>
-                <span class="text-[12px] font-medium text-outline">{formatTanggal(item.tanggal)}</span>
-              </div>
-
-              <h3 class="mb-1 text-sm font-bold leading-snug text-on-surface transition-colors group-hover:text-m3-primary sm:text-base">
-                {item.judul}
-              </h3>
-
-              {(item.waktuMulai || item.lokasi) && (
-                <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-on-surface-variant">
-                  {item.waktuMulai && (
-                    <span class="flex items-center gap-1">
-                      <Icon name="schedule" class="text-[14px]" />
-                      {item.waktuMulai}{item.waktuSelesai ? ` – ${item.waktuSelesai}` : ''} WIB
+              <div class="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-[0_4px_12px_rgba(15,23,42,0.05)] transition-all group-hover:-translate-y-0.5 group-hover:shadow-md active:scale-[0.98]">
+                <div class="mb-2 flex flex-wrap items-start justify-between gap-2">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class:list={['inline-flex items-center rounded-md px-2 py-1 text-[12px] font-semibold', item.badgeBg, item.badgeText]}>
+                      {item.badgeLabel}
                     </span>
-                  )}
-                  {item.lokasi && (
-                    <span class="flex items-center gap-1">
-                      <Icon name="location_on" class="text-[14px]" />
-                      {item.lokasi}
-                    </span>
-                  )}
+                    <Badge label={signal.label} tone={signal.tone} class="px-2 py-1" />
+                  </div>
+                  <span class="text-[12px] font-medium text-outline">{formatTanggal(item.tanggal)}</span>
                 </div>
-              )}
 
-              <p class="mt-2 line-clamp-2 text-sm text-on-surface-variant">
-                {excerpt(item.ringkasan, 150)}
-              </p>
-            </div>
-          </a>
-        ))}
+                <h3 class="mb-1 text-sm font-bold leading-snug text-on-surface transition-colors group-hover:text-m3-primary sm:text-base">
+                  {item.judul}
+                </h3>
+
+                {(item.waktuMulai || item.lokasi) && (
+                  <div class="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-on-surface-variant">
+                    {item.waktuMulai && (
+                      <span class="flex items-center gap-1">
+                        <Icon name="schedule" class="text-[14px]" />
+                        {item.waktuMulai}{item.waktuSelesai ? ` - ${item.waktuSelesai}` : ''} WIB
+                      </span>
+                    )}
+                    {item.lokasi && (
+                      <span class="flex items-center gap-1">
+                        <Icon name="location_on" class="text-[14px]" />
+                        {item.lokasi}
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                <p class="mt-2 line-clamp-2 text-sm text-on-surface-variant">
+                  {excerpt(item.ringkasan, 150)}
+                </p>
+              </div>
+            </a>
+          );
+        })}
       </div>
     ) : (
       <EmptyStateCard message="Belum ada agenda atau pengumuman." />
     )}
   </section>
-
 </MainLayout>

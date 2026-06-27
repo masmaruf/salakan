@@ -1,0 +1,24 @@
+judul: Bank Sampah dan Kebun Warga
+tanggalUpdate: 2026-05-30
+statusPublikasi: publish
+kontenUtama:
+  ringkasan: Pengelolaan sampah pilah dan kebun komunal untuk memperkuat lingkungan bersih serta aktivitas warga.
+  deskripsi: >-
+    Kegiatan ini menata titik kumpul sampah terpilah, jadwal setor rutin, dan
+    pemanfaatan lahan kosong sebagai kebun bersama. Setelah tahap awal selesai,
+    program masuk fase pendampingan agar pengelolaan tetap berkelanjutan dan
+    hasil kebun bisa dimanfaatkan untuk kegiatan warga.
+  lokasi: Area balai padukuhan dan lahan komunal
+  periode: Januari - Mei 2026
+  penanggungJawab: PKK dan relawan lingkungan
+  sumberDana: Swadaya warga dan kemitraan komunitas
+  anggaran: Rp4.800.000
+  manfaat:
+    - Lingkungan lebih bersih dan pemilahan sampah lebih tertib.
+    - Ada ruang aktivitas bersama untuk ibu-ibu dan remaja.
+    - Hasil kebun dapat dipakai untuk kebutuhan acara warga.
+pengaturanTampil:
+  kategori: lingkungan
+  statusProgram: selesai
+  unggulan: false
+  urutanTampil: 3

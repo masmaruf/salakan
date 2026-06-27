@@ -12,23 +12,26 @@ import {
   getKegiatan,
   getAgenda,
   getGaleri,
+  getLayananWarga,
   formatTanggal,
   sortByDateDesc,
   excerpt,
 } from '../lib/content';
 
-const [beranda, pengumumanItems, kegiatanItems, agendaItems, galeriItems] = await Promise.all([
+const [beranda, pengumumanItems, kegiatanItems, agendaItems, galeriItems, layananItems] = await Promise.all([
   getBeranda(),
   getPengumuman(),
   getKegiatan(),
   getAgenda(),
   getGaleri(),
+  getLayananWarga(),
 ]);
 
 const hero = beranda?.hero;
 const beritaSection = beranda?.berita;
 const galeriSection = beranda?.galeri;
 const penutup = beranda?.penutup;
+const now = Date.now();
 
 const agendaTerdekat = [
   ...pengumumanItems
@@ -50,6 +53,15 @@ const galeri = sortByDateDesc(
   galeriItems.map((item) => ({ slug: item.slug, entry: item.entry! }))
 ).slice(0, 3);
 
+const layananPrioritas = layananItems
+  .filter((item) => item.entry?.statusTampil === 'tampil')
+  .slice(0, 3)
+  .map((item) => ({
+    slug: item.slug,
+    title: item.entry.namaLayanan,
+    description: item.entry.ringkasan,
+  }));
+
 const statsData = [
   { value: pengumumanItems.filter((i) => i.entry?.statusPublikasi === 'publish').length, label: hero?.stats?.pengumumanLabel ?? 'Pengumuman aktif', icon: 'campaign' },
   { value: kegiatanItems.filter((i) => i.entry?.statusPublikasi === 'publish').length, label: hero?.stats?.kegiatanLabel ?? 'Berita terdokumentasi', icon: 'newspaper' },
@@ -65,6 +77,23 @@ function formatAgendaDate(date: Date | string): string {
   return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]}`;
 }
 
+function getSignal(item: { tanggal: string; unggulan?: boolean }) {
+  const diffDays = Math.floor((new Date(item.tanggal).getTime() - now) / (1000 * 60 * 60 * 24));
+  if (item.unggulan) return { label: 'Penting', tone: 'error' as const };
+  if (diffDays >= 0 && diffDays <= 7) return { label: 'Minggu ini', tone: 'primary' as const };
+  if (diffDays >= -3 && diffDays < 0) return { label: 'Baru', tone: 'surface' as const };
+  return { label: 'Info', tone: 'surface' as const };
+}
+
+const pusatInformasi = agendaTerdekat.slice(0, 4).map((item) => ({
+  href: item.type === 'agenda' ? `/agenda/${item.slug}` : '/agenda',
+  title: item.entry.judul,
+  description: excerpt(item.entry.ringkasan, 120),
+  date: formatAgendaDate(item.entry.tanggal),
+  type: item.type === 'agenda' ? 'Agenda warga' : 'Pengumuman',
+  signal: getSignal({ tanggal: item.entry.tanggal, unggulan: item.entry.unggulan }),
+}));
+
 import Icon from '../components/ui/Icon.tsx';
 ---
 
@@ -72,7 +101,6 @@ import Icon from '../components/ui/Icon.tsx';
   title="Beranda | Padukuhan Salakan"
   description={hero?.intro ?? 'Portal warga Padukuhan Salakan untuk pengumuman, berita, agenda, profil wilayah, galeri, dan informasi kontak.'}
 >
-
   <PageHero
     eyebrow={hero?.eyebrow ?? 'Padukuhan Salakan'}
     icon="location_on"
@@ -138,6 +166,57 @@ import Icon from '../components/ui/Icon.tsx';
       </div>
     </section>
   )}
+
+  <section class="container-premium py-10 sm:py-14">
+    <div class="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+      <div class="rounded-[1.75rem] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm sm:p-6">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Pusat Informasi Warga</p>
+            <h2 class="mt-1 text-2xl font-bold tracking-tight text-on-surface">Apa yang perlu diketahui minggu ini</h2>
+          </div>
+          <a class="inline-flex items-center gap-2 text-sm font-bold text-m3-primary hover:underline" href="/agenda">
+            Buka agenda lengkap <Icon name="arrow_forward" class="text-[16px]" />
+          </a>
+        </div>
+
+        <div class="mt-5 grid gap-3 sm:grid-cols-2">
+          {pusatInformasi.map((item) => (
+            <a class="rounded-2xl border border-outline-variant bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-sm" href={item.href}>
+              <div class="flex flex-wrap items-center gap-2">
+                <Badge label={item.type} tone="primary" class="px-2.5 py-1" />
+                <Badge label={item.signal.label} tone={item.signal.tone} class="px-2.5 py-1" />
+              </div>
+              <h3 class="mt-3 line-clamp-2 text-base font-bold leading-tight text-on-surface">{item.title}</h3>
+              <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-on-surface-variant">{item.date}</p>
+              <p class="mt-2 line-clamp-2 text-sm text-on-surface-variant">{item.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div class="rounded-[1.75rem] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm sm:p-6">
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Layanan Populer</p>
+        <h2 class="mt-1 text-2xl font-bold tracking-tight text-on-surface">Akses cepat yang sering dibutuhkan warga</h2>
+        <div class="mt-5 space-y-3">
+          {layananPrioritas.map((item) => (
+            <a class="block rounded-2xl border border-outline-variant bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-sm" href={`/data/layanan-warga#${item.slug}`}>
+              <h3 class="text-sm font-bold text-on-surface sm:text-base">{item.title}</h3>
+              <p class="mt-1 text-sm text-on-surface-variant line-clamp-2">{item.description}</p>
+            </a>
+          ))}
+        </div>
+        <div class="mt-5 grid gap-3 sm:grid-cols-2">
+          <a class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-primary-container px-5 py-3 text-sm font-bold text-on-primary-container transition hover:-translate-y-0.5" href="/dasbor/buat-surat">
+            <Icon name="description" class="text-[18px]" /> Ajukan surat
+          </a>
+          <a class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-outline-variant bg-white px-5 py-3 text-sm font-bold text-on-surface transition hover:bg-surface-container-low" href="/dasbor/lacak-surat">
+            <Icon name="travel_explore" class="text-[18px]" /> Lacak tiket
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <PageSection title="Agenda Terdekat" actionHref="/agenda" actionLabel="Lihat semua">
     {agendaTerdekat.length > 0 ? (
@@ -233,5 +312,5 @@ import Icon from '../components/ui/Icon.tsx';
       </div>
     </PageHero>
   )}
-
 </MainLayout>
+

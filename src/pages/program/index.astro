@@ -1,0 +1,153 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PageSection from '../../components/PageSection.astro';
+import Badge from '../../components/ui/Badge.astro';
+import EmptyStateCard from '../../components/ui/EmptyStateCard.astro';
+import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
+import {
+  formatTanggal,
+  getPengaturan,
+  getProgram,
+  kategoriLabelsProgram,
+  statusProgramLabels,
+} from '../../lib/content';
+import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
+
+const [pengaturan, items] = await Promise.all([getPengaturan(), getProgram()]);
+const programSeo = pengaturan?.seoHalamanData?.program;
+
+const statusToneMap = {
+  rencana: 'warning',
+  berjalan: 'primary',
+  selesai: 'success',
+} as const;
+
+const programs = items
+  .filter((item) => item.entry?.statusPublikasi === 'publish')
+  .sort((a, b) => {
+    const featuredDiff = Number(b.entry.unggulan) - Number(a.entry.unggulan);
+    if (featuredDiff !== 0) return featuredDiff;
+
+    const statusWeight = { berjalan: 0, rencana: 1, selesai: 2 } as const;
+    const statusDiff =
+      statusWeight[a.entry.statusProgram as keyof typeof statusWeight] -
+      statusWeight[b.entry.statusProgram as keyof typeof statusWeight];
+    if (statusDiff !== 0) return statusDiff;
+
+    return (a.entry.urutanTampil ?? 0) - (b.entry.urutanTampil ?? 0);
+  });
+
+const featuredProgram = programs.find((item) => item.entry.unggulan) ?? programs[0] ?? null;
+
+const stats = {
+  total: programs.length,
+  berjalan: programs.filter((item) => item.entry.statusProgram === 'berjalan').length,
+  selesai: programs.filter((item) => item.entry.statusProgram === 'selesai').length,
+};
+---
+
+<MainLayout
+  title={withSiteTitle(resolveSeoText(programSeo?.seoTitle, 'Program Warga'))}
+  description={resolveSeoText(programSeo?.seoDescription, 'Pantau program kerja, pembangunan, dan tindak lanjut layanan warga Padukuhan Salakan.')}
+  image={resolveSeoImage(programSeo?.ogImage)}
+>
+  <PageHero
+    eyebrow="Transparansi Publik"
+    icon="timeline"
+    title="Program warga yang sedang berjalan bisa dipantau dari satu halaman"
+    description="Halaman ini merangkum program kerja, pembangunan, dan perbaikan layanan yang sedang dikerjakan agar warga lebih mudah mengikuti arah tindak lanjut padukuhan."
+  />
+
+  <section class="container-premium -mt-8 pb-2 sm:-mt-10">
+    <div class="grid gap-4 md:grid-cols-3">
+      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Total Program</p>
+        <p class="mt-2 text-3xl font-bold tracking-tight text-on-surface">{stats.total}</p>
+        <p class="mt-1 text-sm text-on-surface-variant">Program yang sedang ditayangkan untuk dipantau warga.</p>
+      </div>
+      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Sedang Berjalan</p>
+        <p class="mt-2 text-3xl font-bold tracking-tight text-on-surface">{stats.berjalan}</p>
+        <p class="mt-1 text-sm text-on-surface-variant">Fase kerja aktif yang masih membutuhkan perhatian pelaksanaan.</p>
+      </div>
+      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Selesai</p>
+        <p class="mt-2 text-3xl font-bold tracking-tight text-on-surface">{stats.selesai}</p>
+        <p class="mt-1 text-sm text-on-surface-variant">Program yang sudah dituntaskan dan bisa dilihat hasil ringkasnya.</p>
+      </div>
+    </div>
+  </section>
+
+  {featuredProgram && (
+    <PageSection sectionClass="py-8 sm:py-10" title="Sorotan Utama" eyebrow="Program Prioritas">
+      <article class="grid gap-5 rounded-[1.75rem] border border-outline-variant bg-surface-container-lowest p-6 shadow-sm lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <Badge label={kategoriLabelsProgram[featuredProgram.entry.kategori as keyof typeof kategoriLabelsProgram]} tone="surface" />
+            <Badge
+              label={statusProgramLabels[featuredProgram.entry.statusProgram as keyof typeof statusProgramLabels]}
+              tone={statusToneMap[featuredProgram.entry.statusProgram as keyof typeof statusToneMap]}
+            />
+          </div>
+          <h2 class="mt-4 text-2xl font-bold tracking-tight text-on-surface sm:text-3xl">{featuredProgram.entry.judul}</h2>
+          <p class="mt-3 text-base leading-relaxed text-on-surface-variant">{featuredProgram.entry.ringkasan}</p>
+          <p class="mt-4 whitespace-pre-line text-sm leading-relaxed text-on-surface-variant">{featuredProgram.entry.deskripsi}</p>
+        </div>
+
+        <div class="grid gap-3">
+          <div class="rounded-2xl border border-outline-variant bg-white p-4">
+            <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Lokasi</p>
+            <p class="mt-2 text-sm font-medium text-on-surface">{featuredProgram.entry.lokasi}</p>
+          </div>
+          <div class="rounded-2xl border border-outline-variant bg-white p-4">
+            <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Periode</p>
+            <p class="mt-2 text-sm font-medium text-on-surface">{featuredProgram.entry.periode}</p>
+          </div>
+          <div class="rounded-2xl border border-outline-variant bg-white p-4">
+            <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Pembaruan Terakhir</p>
+            <p class="mt-2 text-sm font-medium text-on-surface">{formatTanggal(featuredProgram.entry.tanggalUpdate)}</p>
+          </div>
+          <div class="pt-1">
+            <ActionLinkButton href={`/program/${featuredProgram.slug}`} label="Lihat detail program" icon="arrow_forward" variant="primary" />
+          </div>
+        </div>
+      </article>
+    </PageSection>
+  )}
+
+  <PageSection sectionClass="py-8 sm:py-10" title="Daftar Program" eyebrow="Ringkasan Pelaksanaan">
+    {programs.length > 0 ? (
+      <div class="grid gap-4 lg:grid-cols-2">
+        {programs.map((item) => (
+          <a
+            href={`/program/${item.slug}`}
+            class="group rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+          >
+            <div class="flex flex-wrap items-center gap-2">
+              <Badge label={kategoriLabelsProgram[item.entry.kategori as keyof typeof kategoriLabelsProgram]} tone="surface" />
+              <Badge label={statusProgramLabels[item.entry.statusProgram as keyof typeof statusProgramLabels]} tone={statusToneMap[item.entry.statusProgram as keyof typeof statusToneMap]} />
+              {item.entry.unggulan && <Badge label="Prioritas" tone="info" />}
+            </div>
+            <h3 class="mt-4 text-lg font-bold leading-tight text-on-surface transition-colors group-hover:text-m3-primary">
+              {item.entry.judul}
+            </h3>
+            <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-on-surface-variant">{item.entry.ringkasan}</p>
+            <div class="mt-4 grid gap-2 border-t border-outline-variant/50 pt-4 text-sm text-on-surface-variant sm:grid-cols-2">
+              <div>
+                <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-outline">Lokasi</p>
+                <p class="mt-1 line-clamp-2">{item.entry.lokasi}</p>
+              </div>
+              <div>
+                <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-outline">Periode</p>
+                <p class="mt-1">{item.entry.periode}</p>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <EmptyStateCard message="Belum ada program yang ditayangkan." />
+    )}
+  </PageSection>
+</MainLayout>

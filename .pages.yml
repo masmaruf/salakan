@@ -314,6 +314,240 @@ content:
             type: boolean
             default: false
 
+  - name: program
+    label: Program Warga
+    type: collection
+    path: src/content/program
+    filename: "{slug}/index.yaml"
+    format: yaml
+    view:
+      fields: [judul, tanggalUpdate, statusPublikasi]
+      primary: judul
+      default:
+        sort: tanggalUpdate
+        order: desc
+    fields:
+      - name: judul
+        label: Nama program
+        type: string
+        required: true
+      - name: tanggalUpdate
+        label: Tanggal pembaruan
+        type: date
+      - name: statusPublikasi
+        label: Status tayang
+        type: select
+        options:
+          values:
+            - value: publish
+              label: Publish / Tayang
+            - value: draft
+              label: Draft / Belum tayang
+        default: publish
+        required: true
+      - name: kontenUtama
+        label: Konten Utama
+        type: object
+        fields:
+          - name: ringkasan
+            label: Ringkasan
+            type: text
+          - name: deskripsi
+            label: Deskripsi lengkap
+            type: text
+          - name: lokasi
+            label: Lokasi / wilayah
+            type: string
+          - name: periode
+            label: Periode pelaksanaan
+            type: string
+          - name: penanggungJawab
+            label: Penanggung jawab
+            type: string
+          - name: sumberDana
+            label: Sumber dana
+            type: string
+          - name: anggaran
+            label: Kisaran anggaran
+            type: string
+          - name: manfaat
+            label: Manfaat untuk warga
+            type: string
+            list: true
+      - name: pengaturanTampil
+        label: Pengaturan Tampil
+        type: object
+        fields:
+          - name: kategori
+            label: Kategori program
+            type: select
+            options:
+              values:
+                - value: infrastruktur
+                  label: Infrastruktur
+                - value: pelayanan
+                  label: Pelayanan
+                - value: pemberdayaan
+                  label: Pemberdayaan
+                - value: lingkungan
+                  label: Lingkungan
+            default: pelayanan
+          - name: statusProgram
+            label: Status program
+            type: select
+            options:
+              values:
+                - value: rencana
+                  label: Rencana
+                - value: berjalan
+                  label: Berjalan
+                - value: selesai
+                  label: Selesai
+            default: rencana
+          - name: unggulan
+            label: Tampilkan sebagai unggulan
+            type: boolean
+            default: false
+          - name: urutanTampil
+            label: Urutan tampil
+            type: number
+
+  - name: kasRt
+    label: Transparansi Kas RT
+    type: collection
+    path: src/content/kas-rt
+    filename: "{slug}/index.yaml"
+    format: yaml
+    view:
+      fields: [periode, tanggalUpdate, statusPublikasi]
+      primary: periode
+      default:
+        sort: tanggalUpdate
+        order: desc
+    fields:
+      - name: periode
+        label: Periode laporan
+        type: string
+        required: true
+      - name: tanggalUpdate
+        label: Tanggal pembaruan
+        type: date
+      - name: ringkasan
+        label: Ringkasan
+        type: text
+      - name: pemasukan
+        label: Total pemasukan
+        type: number
+      - name: pengeluaran
+        label: Total pengeluaran
+        type: number
+      - name: saldoAkhir
+        label: Saldo akhir
+        type: number
+      - name: sumberDana
+        label: Sumber dana utama
+        type: string
+        list: true
+      - name: catatan
+        label: Catatan
+        type: text
+      - name: statusPublikasi
+        label: Status tayang
+        type: select
+        options:
+          values:
+            - value: publish
+              label: Publish / Tayang
+            - value: draft
+              label: Draft / Belum tayang
+        default: publish
+      - name: unggulan
+        label: Tampilkan sebagai unggulan
+        type: boolean
+        default: false
+
+  - name: inventarisWarga
+    label: Inventaris Warga
+    type: collection
+    path: src/content/inventaris-warga
+    filename: "{slug}/index.yaml"
+    format: yaml
+    view:
+      fields: [namaItem, statusPinjam, kondisi]
+      primary: namaItem
+    fields:
+      - name: namaItem
+        label: Nama item
+        type: string
+        required: true
+      - name: kategori
+        label: Kategori
+        type: select
+        options:
+          values:
+            - value: acara
+              label: Perlengkapan acara
+            - value: kebersihan
+              label: Kebersihan
+            - value: dokumentasi
+              label: Dokumentasi
+            - value: logistik
+              label: Logistik
+        default: acara
+      - name: kondisi
+        label: Kondisi
+        type: select
+        options:
+          values:
+            - value: baik
+              label: Baik
+            - value: perlu-perawatan
+              label: Perlu perawatan
+            - value: terbatas
+              label: Terbatas
+        default: baik
+      - name: statusPinjam
+        label: Status peminjaman
+        type: select
+        options:
+          values:
+            - value: tersedia
+              label: Tersedia
+            - value: dipinjam
+              label: Dipinjam
+            - value: perawatan
+              label: Perawatan
+        default: tersedia
+      - name: lokasiSimpan
+        label: Lokasi simpan
+        type: string
+      - name: penanggungJawab
+        label: Penanggung jawab
+        type: string
+      - name: ringkasan
+        label: Ringkasan
+        type: text
+      - name: catatan
+        label: Catatan
+        type: text
+      - name: statusPublikasi
+        label: Status tayang
+        type: select
+        options:
+          values:
+            - value: publish
+              label: Publish / Tayang
+            - value: draft
+              label: Draft / Belum tayang
+        default: publish
+      - name: unggulan
+        label: Tampilkan sebagai unggulan
+        type: boolean
+        default: false
+      - name: urutanTampil
+        label: Urutan tampil
+        type: number
+
   - name: umkm
     label: UMKM
     type: collection
@@ -816,6 +1050,45 @@ content:
                 type: text
               - name: ogImage
                 label: OG image halaman Agenda
+                type: string
+          - name: program
+            label: SEO Halaman Program
+            type: object
+            fields:
+              - name: seoTitle
+                label: SEO title halaman Program
+                type: string
+              - name: seoDescription
+                label: SEO description halaman Program
+                type: text
+              - name: ogImage
+                label: OG image halaman Program
+                type: string
+          - name: kasRt
+            label: SEO Halaman Kas RT
+            type: object
+            fields:
+              - name: seoTitle
+                label: SEO title halaman Kas RT
+                type: string
+              - name: seoDescription
+                label: SEO description halaman Kas RT
+                type: text
+              - name: ogImage
+                label: OG image halaman Kas RT
+                type: string
+          - name: inventaris
+            label: SEO Halaman Inventaris
+            type: object
+            fields:
+              - name: seoTitle
+                label: SEO title halaman Inventaris
+                type: string
+              - name: seoDescription
+                label: SEO description halaman Inventaris
+                type: text
+              - name: ogImage
+                label: OG image halaman Inventaris
                 type: string
           - name: layananWarga
             label: SEO Halaman Layanan Warga

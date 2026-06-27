@@ -2,6 +2,7 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import LayananCard from '../../components/ui/LayananCard.astro';
+import InfoCard from '../../components/ui/InfoCard.astro';
 import { getLayananWarga, getPengaturan } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
@@ -10,30 +11,82 @@ const seo = pengaturan?.seoHalamanData?.layananWarga;
 const items = layananItems
   .filter(({ entry }) => entry.statusTampil === 'tampil')
   .sort((a, b) => a.entry.namaLayanan.localeCompare(b.entry.namaLayanan, 'id'));
+
+const highlightedServices = items.slice(0, 3).map(({ slug, entry }) => ({
+  slug,
+  title: entry.namaLayanan,
+  description: entry.ringkasan,
+}));
 ---
 
 <MainLayout
   title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'Layanan Warga'))}
-  description={resolveSeoText(seo?.seoDescription, 'Informasi layanan warga, syarat, langkah, dan kontak layanan Padukuhan Salakan.')}
+  description={resolveSeoText(seo?.seoDescription, 'Informasi layanan warga, syarat, langkah, kontak layanan, dan pelacakan pengajuan Padukuhan Salakan.')}
   image={resolveSeoImage(seo?.ogImage)}
 >
-
   <div class="container-premium pt-8 pb-4">
     <Breadcrumbs items={[
       { label: 'Beranda', href: '/' },
       { label: 'Pusat Data', href: '/data' },
       { label: 'Layanan Warga', active: true },
     ]} />
-    <h1 class="text-[28px] font-bold leading-[36px] text-on-surface">Layanan Warga</h1>
-    <p class="text-base text-on-surface-variant mt-1 max-w-2xl">
-      Informasi prosedur administrasi, persyaratan dokumen, dan kontak layanan resmi Padukuhan Salakan.
-    </p>
+    <div class="mt-4 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+      <div>
+        <h1 class="text-[28px] font-bold leading-[36px] text-on-surface sm:text-[34px] sm:leading-[42px]">Pusat Layanan Warga</h1>
+        <p class="mt-2 max-w-2xl text-base text-on-surface-variant">
+          Informasi prosedur administrasi, persyaratan dokumen, estimasi alur, dan akses cepat untuk mengajukan atau melacak layanan warga Padukuhan Salakan.
+        </p>
+        <div class="mt-5 flex flex-wrap gap-3">
+          <a class="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-primary-container px-5 py-3 text-sm font-bold text-on-primary-container transition hover:-translate-y-0.5" href="/dasbor/buat-surat">
+            Ajukan surat sekarang
+          </a>
+          <a class="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-outline-variant bg-white px-5 py-3 text-sm font-bold text-on-surface transition hover:bg-surface-container-low" href="/dasbor/lacak-surat">
+            Lacak status pengajuan
+          </a>
+        </div>
+      </div>
+
+      <div class="rounded-3xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-on-surface-variant">Akses cepat</p>
+        <div class="mt-4 grid gap-3">
+          {highlightedServices.map((service) => (
+            <a class="rounded-2xl border border-outline-variant bg-white px-4 py-4 transition hover:-translate-y-0.5 hover:shadow-sm" href={`#${service.slug}`}>
+              <h2 class="text-sm font-bold text-on-surface">{service.title}</h2>
+              <p class="mt-1 text-sm text-on-surface-variant line-clamp-2">{service.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
   </div>
 
+  <section class="container-premium pb-6">
+    <div class="grid gap-4 md:grid-cols-3">
+      <InfoCard title="Panduan jelas" icon="checklist">
+        <p class="text-sm leading-relaxed text-on-surface-variant">Setiap layanan menampilkan syarat, alur, kontak, dan jam layanan resmi agar warga tidak perlu bertanya ulang.</p>
+      </InfoCard>
+      <InfoCard title="Ajukan mandiri" icon="description">
+        <p class="text-sm leading-relaxed text-on-surface-variant">Untuk layanan surat, warga dapat mengirim pengajuan dari dasbor tanpa menunggu jam tatap muka di balai.</p>
+      </InfoCard>
+      <InfoCard title="Lacak tiket" icon="travel_explore">
+        <p class="text-sm leading-relaxed text-on-surface-variant">Nomor tiket pengajuan dapat dipakai kembali untuk memeriksa progres layanan secara mandiri.</p>
+      </InfoCard>
+    </div>
+  </section>
+
   <section class="container-premium py-8">
+    <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <h2 class="text-2xl font-bold text-on-surface">Daftar layanan aktif</h2>
+        <p class="mt-1 text-sm text-on-surface-variant">Bagikan tautan layanan spesifik langsung ke warga melalui grup RT atau kanal informasi padukuhan.</p>
+      </div>
+      <span class="rounded-full bg-surface-container px-3 py-1 text-xs font-bold uppercase tracking-wider text-on-surface-variant">{items.length} layanan</span>
+    </div>
+
     <div class="grid gap-4 lg:grid-cols-2">
-      {items.map(({ entry }) => (
+      {items.map(({ slug, entry }) => (
         <LayananCard
+          id={slug}
           namaLayanan={entry.namaLayanan}
           ringkasan={entry.ringkasan}
           syarat={entry.syarat}
@@ -44,5 +97,5 @@ const items = layananItems
       ))}
     </div>
   </section>
-
 </MainLayout>
+

@@ -117,6 +117,74 @@ export async function getAgenda() {
   }));
 }
 
+
+export async function getProgram() {
+  const items = await getCollection('program');
+
+  return items.map(({ id, data }) => ({
+    slug: normalizeEntryId(id),
+    entry: {
+      judul: data.judul,
+      tanggalUpdate: data.tanggalUpdate,
+      statusPublikasi: data.statusPublikasi,
+      ringkasan: data.kontenUtama.ringkasan,
+      deskripsi: data.kontenUtama.deskripsi,
+      lokasi: data.kontenUtama.lokasi,
+      periode: data.kontenUtama.periode,
+      penanggungJawab: data.kontenUtama.penanggungJawab,
+      sumberDana: data.kontenUtama.sumberDana,
+      anggaran: data.kontenUtama.anggaran,
+      manfaat: data.kontenUtama.manfaat,
+      kategori: data.pengaturanTampil.kategori,
+      statusProgram: data.pengaturanTampil.statusProgram,
+      unggulan: data.pengaturanTampil.unggulan,
+      urutanTampil: data.pengaturanTampil.urutanTampil,
+    },
+  }));
+}
+
+
+export async function getKasRt() {
+  const items = await getCollection('kasRt');
+
+  return items.map(({ id, data }) => ({
+    slug: normalizeEntryId(id),
+    entry: {
+      periode: data.periode,
+      tanggalUpdate: data.tanggalUpdate,
+      ringkasan: data.ringkasan,
+      pemasukan: data.pemasukan,
+      pengeluaran: data.pengeluaran,
+      saldoAkhir: data.saldoAkhir,
+      sumberDana: data.sumberDana,
+      catatan: data.catatan,
+      statusPublikasi: data.statusPublikasi,
+      unggulan: data.unggulan,
+    },
+  }));
+}
+
+export async function getInventarisWarga() {
+  const items = await getCollection('inventarisWarga');
+
+  return items.map(({ id, data }) => ({
+    slug: normalizeEntryId(id),
+    entry: {
+      namaItem: data.namaItem,
+      kategori: data.kategori,
+      kondisi: data.kondisi,
+      statusPinjam: data.statusPinjam,
+      lokasiSimpan: data.lokasiSimpan,
+      penanggungJawab: data.penanggungJawab,
+      ringkasan: data.ringkasan,
+      catatan: data.catatan,
+      statusPublikasi: data.statusPublikasi,
+      unggulan: data.unggulan,
+      urutanTampil: data.urutanTampil,
+    },
+  }));
+}
+
 export async function getUmkm() {
   const items = await getCollection('umkm');
 
@@ -266,6 +334,42 @@ export const kategoriLabelsDokumen = {
   arsip: 'Arsip Publik',
   kegiatan: 'Dokumen Kegiatan',
   regulasi: 'Regulasi',
+} as const;
+
+export const kategoriLabelsProgram = {
+  infrastruktur: 'Infrastruktur',
+  pelayanan: 'Pelayanan',
+  pemberdayaan: 'Pemberdayaan',
+  lingkungan: 'Lingkungan',
+} as const;
+
+export const statusProgramLabels = {
+  rencana: 'Rencana',
+  berjalan: 'Berjalan',
+  selesai: 'Selesai',
+} as const;
+
+export const kategoriLabelsKasRt = {
+  kasRt: 'Transparansi Kas RT',
+} as const;
+
+export const kategoriLabelsInventaris = {
+  acara: 'Perlengkapan Acara',
+  kebersihan: 'Peralatan Kebersihan',
+  dokumentasi: 'Dokumentasi',
+  logistik: 'Logistik',
+} as const;
+
+export const kondisiInventarisLabels = {
+  baik: 'Baik',
+  'perlu-perawatan': 'Perlu Perawatan',
+  terbatas: 'Terbatas',
+} as const;
+
+export const statusPinjamInventarisLabels = {
+  tersedia: 'Tersedia',
+  dipinjam: 'Dipinjam',
+  perawatan: 'Perawatan',
 } as const;
 
 export const kategoriLabelsUmkm = {

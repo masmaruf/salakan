@@ -223,7 +223,7 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
                     className="input-premium pl-14"
                   />
                 </div>
-                <p className="text-label mt-2 ml-1">Pastikan nomor aktif untuk menerima kabar update dari Ketua RT.</p>
+                <p className="text-label mt-2 ml-1">Pastikan nomor aktif untuk menerima kabar update, revisi data, atau konfirmasi dari Ketua RT.</p>
               </div>
             </div>
 
@@ -257,3 +257,4 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
     </div>
   );
 }
+

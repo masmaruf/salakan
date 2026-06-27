@@ -105,6 +105,64 @@ const agenda = defineCollection({
   }),
 });
 
+const program = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/program' }),
+  schema: z.object({
+    judul: z.string().min(1),
+    tanggalUpdate: tanggalSchema,
+    statusPublikasi: z.enum(['draft', 'publish']).default('publish'),
+    kontenUtama: z.object({
+      ringkasan: z.string().min(1),
+      deskripsi: z.string().min(1),
+      lokasi: z.string().min(1),
+      periode: z.string().min(1),
+      penanggungJawab: z.string().min(1),
+      sumberDana: z.string().default('Swadaya warga'),
+      anggaran: z.string().default(''),
+      manfaat: z.array(z.string().min(1)).default([]),
+    }),
+    pengaturanTampil: z.object({
+      kategori: z.enum(['infrastruktur', 'pelayanan', 'pemberdayaan', 'lingkungan']),
+      statusProgram: z.enum(['rencana', 'berjalan', 'selesai']).default('rencana'),
+      unggulan: z.boolean().default(false),
+      urutanTampil: z.number().int().default(0),
+    }),
+  }),
+});
+
+const kasRt = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/kas-rt' }),
+  schema: z.object({
+    periode: z.string().min(1),
+    tanggalUpdate: tanggalSchema,
+    ringkasan: z.string().min(1),
+    pemasukan: z.number().nonnegative(),
+    pengeluaran: z.number().nonnegative(),
+    saldoAkhir: z.number().nonnegative(),
+    sumberDana: z.array(z.string().min(1)).default([]),
+    catatan: z.string().default(''),
+    statusPublikasi: z.enum(['draft', 'publish']).default('publish'),
+    unggulan: z.boolean().default(false),
+  }),
+});
+
+const inventarisWarga = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/inventaris-warga' }),
+  schema: z.object({
+    namaItem: z.string().min(1),
+    kategori: z.enum(['acara', 'kebersihan', 'dokumentasi', 'logistik']),
+    kondisi: z.enum(['baik', 'perlu-perawatan', 'terbatas']).default('baik'),
+    statusPinjam: z.enum(['tersedia', 'dipinjam', 'perawatan']).default('tersedia'),
+    lokasiSimpan: z.string().min(1),
+    penanggungJawab: z.string().min(1),
+    ringkasan: z.string().min(1),
+    catatan: z.string().default(''),
+    statusPublikasi: z.enum(['draft', 'publish']).default('publish'),
+    unggulan: z.boolean().default(false),
+    urutanTampil: z.number().int().default(0),
+  }),
+});
+
 const umkm = defineCollection({
   loader: glob({ pattern: '**/*.yaml', base: './src/content/umkm' }),
   schema: z.object({
@@ -258,6 +316,9 @@ const pengaturan = defineCollection({
         umkm: seoPageSchema.default(seoDefault),
         strukturOrganisasi: seoPageSchema.default(seoDefault),
         agenda: seoPageSchema.default(seoDefault),
+        program: seoPageSchema.default(seoDefault),
+        kasRt: seoPageSchema.default(seoDefault),
+        inventaris: seoPageSchema.default(seoDefault),
         layananWarga: seoPageSchema.default(seoDefault),
         faq: seoPageSchema.default(seoDefault),
         monografi: seoPageSchema.default(seoDefault),
@@ -268,6 +329,9 @@ const pengaturan = defineCollection({
         umkm: seoDefault,
         strukturOrganisasi: seoDefault,
         agenda: seoDefault,
+        program: seoDefault,
+        kasRt: seoDefault,
+        inventaris: seoDefault,
         layananWarga: seoDefault,
         faq: seoDefault,
         monografi: seoDefault,
@@ -418,6 +482,9 @@ export const collections = {
   dokumen,
   kegiatan,
   agenda,
+  program,
+  kasRt,
+  inventarisWarga,
   umkm,
   galeri,
   kategoriBerita,

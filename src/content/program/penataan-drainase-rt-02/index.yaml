@@ -1,0 +1,24 @@
+judul: Penataan Drainase RT 02
+tanggalUpdate: 2026-06-20
+statusPublikasi: publish
+kontenUtama:
+  ringkasan: Normalisasi saluran air sisi timur RT 02 untuk mengurangi genangan saat hujan deras.
+  deskripsi: >-
+    Program ini mencakup pembersihan sedimen, perapian bibir drainase, dan
+    pembenahan titik aliran yang selama ini memicu genangan di jalur rumah
+    warga. Pekerjaan dikerjakan bertahap bersama tim lingkungan dan relawan
+    warga agar akses jalan tetap aman selama proses berlangsung.
+  lokasi: RT 02 sisi timur padukuhan
+  periode: Juni - Juli 2026
+  penanggungJawab: Tim lingkungan padukuhan dan ketua RT 02
+  sumberDana: Swadaya warga dan dukungan kas lingkungan
+  anggaran: Rp7.500.000
+  manfaat:
+    - Mengurangi genangan di akses rumah warga.
+    - Memperlancar aliran air saat hujan lebat.
+    - Menekan risiko jalan licin dan bau saluran.
+pengaturanTampil:
+  kategori: infrastruktur
+  statusProgram: berjalan
+  unggulan: true
+  urutanTampil: 1

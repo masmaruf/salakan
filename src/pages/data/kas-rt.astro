@@ -1,0 +1,47 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import Badge from '../../components/ui/Badge.astro';
+import PageSection from '../../components/PageSection.astro';
+import { formatTanggal, getKasRt, getPengaturan } from '../../lib/content';
+import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
+
+const [items, pengaturan] = await Promise.all([getKasRt(), getPengaturan()]);
+const seo = pengaturan?.seoHalamanData?.kasRt;
+const reports = items.filter(({ entry }) => entry.statusPublikasi === 'publish').sort((a, b) => new Date(b.entry.tanggalUpdate).getTime() - new Date(a.entry.tanggalUpdate).getTime());
+const totalSaldo = reports.reduce((sum, item) => sum + item.entry.saldoAkhir, 0);
+function formatRupiah(value: number) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(value); }
+---
+
+<MainLayout title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'Transparansi Kas RT'))} description={resolveSeoText(seo?.seoDescription, 'Ringkasan pemasukan, pengeluaran, dan saldo kas RT warga Padukuhan Salakan.')} image={resolveSeoImage(seo?.ogImage)}>
+  <div class="container-premium pb-4 pt-8">
+    <Breadcrumbs items={[{ label: 'Beranda', href: '/' }, { label: 'Pusat Data', href: '/data' }, { label: 'Transparansi Kas RT', active: true }]} />
+    <h1 class="text-[28px] font-bold leading-[36px] text-on-surface">Transparansi Kas RT</h1>
+    <p class="mt-1 max-w-3xl text-base text-on-surface-variant">Ringkasan kas disusun dalam format yang mudah dibaca warga: fokus pada periode, arus masuk-keluar, saldo, dan catatan penggunaan utama.</p>
+  </div>
+
+  <section class="container-premium py-4 sm:py-6">
+    <div class="grid gap-4 md:grid-cols-3">
+      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5"><p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Periode Tayang</p><p class="mt-2 text-3xl font-bold tracking-tight text-on-surface">{reports.length}</p></div>
+      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5"><p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Saldo Tercatat</p><p class="mt-2 text-2xl font-bold tracking-tight text-on-surface">{formatRupiah(totalSaldo)}</p></div>
+      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5"><p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Pembaruan Terakhir</p><p class="mt-2 text-lg font-bold tracking-tight text-on-surface">{reports[0] ? formatTanggal(reports[0].entry.tanggalUpdate) : '-'}</p></div>
+    </div>
+  </section>
+
+  <PageSection sectionClass="pb-10 pt-4 sm:pb-14" title="Laporan Kas" eyebrow="Ringkasan Periode">
+    <div class="grid gap-4 lg:grid-cols-2">
+      {reports.map(({ slug, entry }) => (
+        <article class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5" id={slug}>
+          <div class="mb-3 flex flex-wrap items-center gap-2"><Badge label={entry.periode} tone="primary" />{entry.unggulan && <Badge label="Sorotan" tone="warning" />}<time class="text-[12px] font-medium text-outline" datetime={entry.tanggalUpdate}>{formatTanggal(entry.tanggalUpdate)}</time></div>
+          <p class="text-sm leading-relaxed text-on-surface-variant">{entry.ringkasan}</p>
+          <div class="mt-4 grid gap-3 sm:grid-cols-3">
+            <div class="rounded-xl border border-outline-variant/50 bg-white px-4 py-3"><p class="text-[11px] font-bold uppercase tracking-[0.12em] text-outline">Masuk</p><p class="mt-1 text-sm font-bold text-on-surface">{formatRupiah(entry.pemasukan)}</p></div>
+            <div class="rounded-xl border border-outline-variant/50 bg-white px-4 py-3"><p class="text-[11px] font-bold uppercase tracking-[0.12em] text-outline">Keluar</p><p class="mt-1 text-sm font-bold text-on-surface">{formatRupiah(entry.pengeluaran)}</p></div>
+            <div class="rounded-xl border border-outline-variant/50 bg-white px-4 py-3"><p class="text-[11px] font-bold uppercase tracking-[0.12em] text-outline">Saldo</p><p class="mt-1 text-sm font-bold text-on-surface">{formatRupiah(entry.saldoAkhir)}</p></div>
+          </div>
+          <div class="mt-4 border-t border-outline-variant/40 pt-4"><p class="text-[11px] font-bold uppercase tracking-[0.12em] text-outline">Sumber Dana</p><div class="mt-2 flex flex-wrap gap-2">{entry.sumberDana.map((source) => <Badge label={source} tone="surface" class="px-2 py-1" />)}</div>{entry.catatan && <p class="mt-3 text-sm leading-relaxed text-on-surface-variant">{entry.catatan}</p>}</div>
+        </article>
+      ))}
+    </div>
+  </PageSection>
+</MainLayout>

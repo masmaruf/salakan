@@ -1,0 +1,24 @@
+judul: Digitalisasi Layanan Surat Warga
+tanggalUpdate: 2026-06-24
+statusPublikasi: publish
+kontenUtama:
+  ringkasan: Penguatan layanan administrasi berbasis tiket agar pengajuan surat lebih mudah dilacak warga.
+  deskripsi: >-
+    Program ini memusatkan formulir pengajuan, status proses, dan pelacakan
+    nomor tiket ke dalam satu alur layanan digital. Fokus utamanya adalah
+    memangkas antrean, mengurangi miskomunikasi status, dan membuat warga bisa
+    mengecek progres surat secara mandiri dari ponsel.
+  lokasi: Balai padukuhan dan akses daring warga
+  periode: Mei - Agustus 2026
+  penanggungJawab: Admin layanan warga
+  sumberDana: Operasional padukuhan
+  anggaran: Rp3.000.000
+  manfaat:
+    - Warga bisa mengajukan dan melacak surat dari satu tempat.
+    - Admin lebih mudah memantau permohonan yang perlu revisi.
+    - Riwayat pengajuan tercatat lebih rapi untuk evaluasi layanan.
+pengaturanTampil:
+  kategori: pelayanan
+  statusProgram: berjalan
+  unggulan: true
+  urutanTampil: 2

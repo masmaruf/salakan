@@ -31,6 +31,21 @@ seoHalamanData:
     seoDescription: >-
       Jadwal kegiatan dan agenda warga Padukuhan Salakan yang sedang berjalan
       dan akan datang.
+  program:
+    seoTitle: Program Warga
+    seoDescription: >-
+      Peta program kerja, pembangunan, dan tindak lanjut layanan publik
+      Padukuhan Salakan yang bisa dipantau warga.
+  kasRt:
+    seoTitle: Transparansi Kas RT
+    seoDescription: >-
+      Ringkasan laporan kas RT warga Padukuhan Salakan yang disusun agar mudah
+      dipantau dari satu halaman.
+  inventaris:
+    seoTitle: Inventaris Warga
+    seoDescription: >-
+      Daftar inventaris bersama, status ketersediaan, dan penanggung jawab
+      peminjaman warga Padukuhan Salakan.
   layananWarga:
     seoTitle: Layanan Warga
     seoDescription: >-
@@ -76,12 +91,33 @@ menuData:
         berjalan.
       icon: event
       status: tampil
+    - label: Transparansi Kas RT
+      href: /data/kas-rt
+      description: >-
+        Ringkasan pemasukan, pengeluaran, dan saldo kas RT yang disusun untuk
+        dibaca cepat oleh warga.
+      icon: account_balance_wallet
+      status: tampil
+    - label: Inventaris Warga
+      href: /data/inventaris
+      description: >-
+        Daftar barang bersama, status ketersediaan, lokasi simpan, dan
+        penanggung jawab inventaris warga.
+      icon: inventory_2
+      status: tampil
     - label: Layanan Warga
       href: /data/layanan-warga
       description: >-
         Informasi layanan warga, syarat, langkah, dan kontak yang bisa
         dihubungi.
       icon: description
+      status: tampil
+    - label: Program Warga
+      href: /program
+      description: >-
+        Pantau program kerja, pembangunan, status pelaksanaan, dan manfaat
+        yang sedang dikerjakan untuk warga.
+      icon: timeline
       status: tampil
     - label: FAQ
       href: /data/faq

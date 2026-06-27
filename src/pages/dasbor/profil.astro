@@ -1,0 +1,80 @@
+---
+import { getCollection } from 'astro:content';
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import InfoCard from '../../components/ui/InfoCard.astro';
+import { getMonografi, getPengaturan } from '../../lib/content';
+import Icon from '../../components/ui/Icon.tsx';
+
+const [monografi, pengaturan, rtItems] = await Promise.all([
+  getMonografi(),
+  getPengaturan(),
+  getCollection('rt'),
+]);
+
+const daftarRt = rtItems
+  .filter((item) => item.data.aktif)
+  .sort((a, b) => a.data.nomor_rt.localeCompare(b.data.nomor_rt));
+
+const dokumenKeluarga = ['Kartu Keluarga', 'KTP anggota keluarga', 'Nomor WhatsApp aktif', 'Alamat domisili yang sesuai'];
+---
+
+<DashboardLayout title="Data Keluarga (KK)" activeMenu="profil" description="Ringkasan data wilayah dan kesiapan administrasi keluarga warga.">
+  <div class="mb-10 flex flex-col gap-3">
+    <a href="/dasbor" class="inline-flex w-fit items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-500 shadow-sm transition-all hover:bg-blue-50 hover:text-blue-600">
+      <Icon name="arrow_back" class="text-[16px]" /> Kembali ke Dasbor
+    </a>
+    <h2 class="text-gradient">Data Keluarga (KK)</h2>
+    <p class="max-w-3xl text-base font-medium leading-relaxed text-slate-500 lg:text-lg">
+      Sinkronisasi data keluarga per rumah tangga belum kami buka otomatis karena halaman ini belum memakai autentikasi warga per-KK. Sementara itu, kami tampilkan ringkasan wilayah, kontak RT aktif, dan checklist administrasi agar warga tetap terbantu menyiapkan data inti.
+    </p>
+  </div>
+
+  <div class="mb-8 grid gap-6 md:grid-cols-3">
+    <div class="card-premium">
+      <p class="mb-2 text-xs font-black uppercase tracking-[0.12em] text-blue-500">Total KK</p>
+      <strong class="text-5xl font-black tracking-tight text-slate-900">{monografi?.demografi.totalKK ?? 0}</strong>
+      <p class="mt-3 text-sm font-medium leading-relaxed text-slate-500">Kepala keluarga yang tercatat pada monografi saat ini.</p>
+    </div>
+    <div class="card-premium">
+      <p class="mb-2 text-xs font-black uppercase tracking-[0.12em] text-emerald-500">Total Jiwa</p>
+      <strong class="text-5xl font-black tracking-tight text-slate-900">{monografi?.demografi.totalJiwa ?? 0}</strong>
+      <p class="mt-3 text-sm font-medium leading-relaxed text-slate-500">Ringkasan populasi warga yang bisa dipakai sebagai konteks layanan.</p>
+    </div>
+    <div class="card-premium">
+      <p class="mb-2 text-xs font-black uppercase tracking-[0.12em] text-amber-500">RT Aktif</p>
+      <strong class="text-5xl font-black tracking-tight text-slate-900">{daftarRt.length}</strong>
+      <p class="mt-3 text-sm font-medium leading-relaxed text-slate-500">Penghubung wilayah yang bisa dihubungi bila ada penyesuaian data keluarga.</p>
+    </div>
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+    <InfoCard class="rounded-[2rem] border border-white/60 bg-white/80 p-6 shadow-sm backdrop-blur-xl" title="Checklist Data Inti" icon="fact_check">
+      <ul class="mt-4 grid gap-3 text-sm text-slate-600 sm:grid-cols-2">
+        {dokumenKeluarga.map((item) => (
+          <li class="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3 font-medium">{item}</li>
+        ))}
+      </ul>
+      <div class="mt-5 rounded-2xl border border-blue-100 bg-blue-50 px-4 py-4 text-sm leading-relaxed text-blue-900">
+        Bila ada perubahan anggota keluarga, domisili, atau kebutuhan surat, siapkan dokumen di atas terlebih dahulu agar proses verifikasi lebih cepat saat layanan digital diperluas.
+      </div>
+    </InfoCard>
+
+    <div class="grid gap-6">
+      <InfoCard class="rounded-[2rem] border border-white/60 bg-white/80 p-6 shadow-sm backdrop-blur-xl" title="Kontak RT Aktif" icon="groups">
+        <div class="mt-4 space-y-3">
+          {daftarRt.map((item) => (
+            <div class="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4">
+              <p class="text-sm font-black text-slate-900">RT {item.data.nomor_rt}</p>
+              <p class="mt-1 text-sm font-medium text-slate-600">Ketua: {item.data.nama_ketua}</p>
+              <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-400">{item.data.no_hp_ketua || 'Kontak belum dicantumkan'}</p>
+            </div>
+          ))}
+        </div>
+      </InfoCard>
+
+      <InfoCard class="rounded-[2rem] border border-white/60 bg-white/80 p-6 shadow-sm backdrop-blur-xl" title="Alamat Layanan" icon="home_pin">
+        <p class="mt-4 whitespace-pre-line text-sm leading-relaxed text-slate-600">{pengaturan?.alamat ?? 'Alamat layanan belum diatur.'}</p>
+      </InfoCard>
+    </div>
+  </div>
+</DashboardLayout>

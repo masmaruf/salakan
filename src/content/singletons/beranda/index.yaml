@@ -30,6 +30,11 @@ hero:
       href: /data
       icon: grid_view
       status: tampil
+    - title: Program Warga
+      description: Pantau program kerja dan pembangunan yang sedang berjalan.
+      href: /program
+      icon: timeline
+      status: tampil
   stats:
     pengumumanLabel: Pengumuman aktif
     kegiatanLabel: Berita terdokumentasi

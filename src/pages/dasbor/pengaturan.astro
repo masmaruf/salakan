@@ -1,0 +1,99 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import InfoCard from '../../components/ui/InfoCard.astro';
+import { getPengaturan } from '../../lib/content';
+import Icon from '../../components/ui/Icon.tsx';
+
+const pengaturan = await getPengaturan();
+
+const channels = [
+  {
+    title: 'WhatsApp Layanan',
+    status: 'aktif',
+    description: 'Kanal tercepat untuk tindak lanjut manual saat warga butuh konfirmasi langsung.',
+    href: `https://wa.me/${pengaturan?.kontakWhatsApp ?? ''}`,
+    label: 'Buka WhatsApp',
+    icon: 'chat',
+  },
+  {
+    title: 'Email Informasi',
+    status: 'aktif',
+    description: 'Cocok untuk pengiriman dokumen, pertanyaan non-mendesak, atau arsip komunikasi.',
+    href: `mailto:${pengaturan?.email ?? 'info@salakan.id'}`,
+    label: 'Kirim email',
+    icon: 'mail',
+  },
+  {
+    title: 'Notifikasi Otomatis Warga',
+    status: 'segera',
+    description: 'Pengaturan per-warga belum diaktifkan karena sistem akun keluarga belum diterapkan penuh.',
+    href: '/dasbor/profil',
+    label: 'Lihat data keluarga',
+    icon: 'notifications',
+  },
+];
+
+const prinsip = [
+  'Hindari notifikasi palsu yang terlihat bisa disimpan tetapi tidak benar-benar aktif.',
+  'Utamakan kanal yang memang sudah operasional lebih dulu.',
+  'Setelah akun warga stabil, preferensi notifikasi baru dibuka per keluarga.',
+];
+---
+
+<DashboardLayout title="Pengaturan Notifikasi" activeMenu="pengaturan" description="Pusat kanal komunikasi warga yang sudah aktif dan yang masih disiapkan.">
+  <div class="mb-10 flex flex-col gap-3">
+    <a href="/dasbor" class="inline-flex w-fit items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-500 shadow-sm transition-all hover:bg-blue-50 hover:text-blue-600">
+      <Icon name="arrow_back" class="text-[16px]" /> Kembali ke Dasbor
+    </a>
+    <h2 class="text-gradient">Pengaturan Notifikasi</h2>
+    <p class="max-w-3xl text-base font-medium leading-relaxed text-slate-500 lg:text-lg">
+      Kami sengaja belum menampilkan toggle palsu untuk notifikasi warga. Halaman ini memusatkan kanal yang memang sudah aktif sekarang, sekaligus menjelaskan apa yang masih menunggu sistem akun warga yang lebih aman.
+    </p>
+  </div>
+
+  <div class="mb-8 grid gap-6 lg:grid-cols-3">
+    {channels.map((channel) => (
+      <InfoCard class="rounded-[2rem] border border-white/60 bg-white/80 p-6 shadow-sm backdrop-blur-xl" title={channel.title} icon={channel.icon}>
+        <div class="mt-4 flex items-center gap-2">
+          <span class:list={[
+            'inline-flex rounded-full px-3 py-1 text-xs font-black uppercase tracking-[0.12em]',
+            channel.status === 'aktif' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700',
+          ]}>
+            {channel.status === 'aktif' ? 'Aktif' : 'Segera'}
+          </span>
+        </div>
+        <p class="mt-4 text-sm leading-relaxed text-slate-600">{channel.description}</p>
+        <a class="mt-5 inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-600" href={channel.href} target={channel.href.startsWith('http') ? '_blank' : undefined} rel={channel.href.startsWith('http') ? 'noreferrer' : undefined}>
+          {channel.label} <Icon name="arrow_forward" class="text-[16px]" />
+        </a>
+      </InfoCard>
+    ))}
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+    <InfoCard class="rounded-[2rem] border border-white/60 bg-white/80 p-6 shadow-sm backdrop-blur-xl" title="Prinsip Implementasi" icon="verified_user">
+      <ul class="mt-4 space-y-3 text-sm text-slate-600">
+        {prinsip.map((item) => (
+          <li class="flex gap-3 rounded-2xl bg-slate-50 px-4 py-3">
+            <Icon name="check_circle" class="mt-0.5 text-[16px] text-emerald-500" />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </InfoCard>
+
+    <InfoCard class="rounded-[2rem] border border-white/60 bg-white/80 p-6 shadow-sm backdrop-blur-xl" title="Butuh Respons Cepat?" icon="bolt">
+      <div class="mt-4 grid gap-3">
+        <a class="inline-flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700" href="/dasbor/lacak-surat">
+          Cek status surat <Icon name="arrow_forward" class="text-[16px]" />
+        </a>
+        <a class="inline-flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700" href="/data/layanan-warga">
+          Baca panduan layanan <Icon name="arrow_forward" class="text-[16px]" />
+        </a>
+        <a class="inline-flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700" href="/kontak">
+          Hubungi pengurus <Icon name="arrow_forward" class="text-[16px]" />
+        </a>
+      </div>
+    </InfoCard>
+  </div>
+</DashboardLayout>

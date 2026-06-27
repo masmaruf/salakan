@@ -15,6 +15,7 @@ const sidebarMenus = [
     group: "Layanan Primer",
     menus: [
       { id: 'berkeluarga', label: 'E-Surat & Pengantar', icon: 'description', href: '/dasbor' },
+      { id: 'lacak-surat', label: 'Lacak Status Surat', icon: 'travel_explore', href: '/dasbor/lacak-surat' },
       { id: 'kas', label: 'Transparansi Kas RT', icon: 'account_balance_wallet', href: '/dasbor/kas' },
       { id: 'inventaris', label: 'Peminjaman Inventaris', icon: 'inventory_2', href: '/dasbor/inventaris' },
     ]
@@ -50,7 +51,8 @@ import Icon from '../components/ui/Icon.tsx';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | Portal Layanan Digital Salakan</title>
-    {description && <meta name="description" content={description} />}
+    {description && <meta name="description" content={description} />}
+
     
   </head>
   <body class="flex min-h-screen flex-col bg-slate-50 relative overflow-x-clip lg:flex-row">
@@ -141,4 +143,5 @@ import Icon from '../components/ui/Icon.tsx';
     
   </body>
 </html>
+
 

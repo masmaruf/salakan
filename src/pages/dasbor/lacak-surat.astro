@@ -1,0 +1,60 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import TrackingSuratForm from '../../components/TrackingSuratForm';
+import Icon from '../../components/ui/Icon.tsx';
+
+const initialTicket = Astro.url.searchParams.get('ticket') ?? '';
+---
+
+<DashboardLayout
+  title="Lacak Status Pengajuan"
+  activeMenu="lacak-surat"
+  description="Periksa status pengajuan surat warga dengan nomor tiket dan NIK pemohon."
+>
+  <div class="mb-10 flex flex-col gap-3">
+    <a
+      href="/dasbor"
+      class="inline-flex w-fit items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-500 shadow-sm transition-all hover:bg-blue-50 hover:text-blue-600"
+    >
+      <Icon name="arrow_back" class="text-[16px]" /> Kembali ke Dasbor
+    </a>
+    <h2 class="text-gradient">Lacak Status Pengajuan</h2>
+    <p class="max-w-3xl text-base font-medium leading-relaxed text-slate-500 lg:text-lg">
+      Warga bisa memeriksa progres surat mandiri kapan saja menggunakan nomor tiket pengajuan dan NIK pemohon.
+    </p>
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+    <TrackingSuratForm client:load initialTicket={initialTicket} />
+
+    <aside class="rounded-[2rem] border border-white/60 bg-white/80 p-6 shadow-sm backdrop-blur-xl">
+      <p class="text-xs font-black uppercase tracking-widest text-slate-500">Cara pakai</p>
+      <ol class="mt-4 space-y-4 text-sm text-slate-600">
+        <li class="flex gap-3">
+          <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-blue-50 font-black text-blue-600">1</span>
+          Masukkan nomor tiket yang diterima setelah formulir berhasil dikirim.
+        </li>
+        <li class="flex gap-3">
+          <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-blue-50 font-black text-blue-600">2</span>
+          Isi NIK pemohon yang sama dengan data pada formulir.
+        </li>
+        <li class="flex gap-3">
+          <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-blue-50 font-black text-blue-600">3</span>
+          Bila status perlu revisi atau ditolak, cek catatan pengurus lalu hubungi RT atau ajukan ulang.
+        </li>
+      </ol>
+
+      <div class="mt-6 rounded-2xl bg-slate-50 p-4">
+        <p class="text-xs font-black uppercase tracking-widest text-slate-400">Butuh bantuan cepat?</p>
+        <div class="mt-3 flex flex-col gap-3">
+          <a class="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-blue-700" href="/dasbor/buat-surat">
+            <Icon name="add_circle" class="text-[18px]" /> Buat pengajuan baru
+          </a>
+          <a class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-50" href="/data/layanan-warga">
+            <Icon name="support_agent" class="text-[18px]" /> Lihat panduan layanan
+          </a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</DashboardLayout>

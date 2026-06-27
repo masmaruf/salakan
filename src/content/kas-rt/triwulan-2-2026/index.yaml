@@ -1,0 +1,15 @@
+periode: Triwulan II 2026
+tanggalUpdate: 2026-06-26
+ringkasan: Ringkasan kas RT hasil iuran warga, dukungan kegiatan lingkungan, dan operasional rutin triwulan kedua 2026.
+pemasukan: 8450000
+pengeluaran: 5125000
+saldoAkhir: 3325000
+sumberDana:
+  - Iuran rutin warga
+  - Dukungan kegiatan lingkungan
+  - Sisa saldo triwulan sebelumnya
+catatan: >-
+  Pengeluaran terbesar digunakan untuk kegiatan lingkungan, perawatan ringan,
+  dan dukungan konsumsi musyawarah warga.
+statusPublikasi: publish
+unggulan: true

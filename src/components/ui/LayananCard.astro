@@ -1,5 +1,6 @@
 ---
 interface Props {
+  id?: string;
   namaLayanan: string;
   ringkasan: string;
   syarat: string[];
@@ -8,12 +9,12 @@ interface Props {
   jamLayanan: string;
 }
 
-const { namaLayanan, ringkasan, syarat, langkah, kontak, jamLayanan } = Astro.props;
+const { id, namaLayanan, ringkasan, syarat, langkah, kontak, jamLayanan } = Astro.props;
 
 import Icon from './Icon.tsx';
 ---
 
-<article class="group bg-surface-container-lowest border border-outline-variant rounded-xl p-5 sm:p-6 transition-all hover:-translate-y-0.5 hover:shadow-md flex flex-col gap-4">
+<article id={id} class="group scroll-mt-28 bg-surface-container-lowest border border-outline-variant rounded-xl p-5 sm:p-6 transition-all hover:-translate-y-0.5 hover:shadow-md flex flex-col gap-4">
   <div class="flex items-start gap-4">
     <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary-container/30 text-m3-primary">
       <Icon name="description" class="text-[22px]" />

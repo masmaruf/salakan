@@ -18,6 +18,9 @@ const pengumuman = defineCollection({ type: 'data', schema: z.any() });
 const dokumen = defineCollection({ type: 'data', schema: z.any() });
 const kegiatan = defineCollection({ type: 'content', schema: z.any() });
 const agenda = defineCollection({ type: 'data', schema: z.any() });
+const program = defineCollection({ type: 'data', schema: z.any() });
+const kasRt = defineCollection({ type: 'data', schema: z.any() });
+const inventarisWarga = defineCollection({ type: 'data', schema: z.any() });
 const umkm = defineCollection({ type: 'data', schema: z.any() });
 const galeri = defineCollection({ type: 'data', schema: z.any() });
 const kategoriBerita = defineCollection({ type: 'data', schema: z.any() });
@@ -37,6 +40,9 @@ export const collections = {
   dokumen,
   kegiatan,
   agenda,
+  program,
+  kasRt,
+  inventarisWarga,
   umkm,
   galeri,
   kategoriBerita,

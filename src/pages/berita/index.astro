@@ -4,6 +4,7 @@ import PageHero from '../../components/PageHero.astro';
 import NewsGrid from '../../components/NewsGrid.astro';
 import EmptyStateCard from '../../components/ui/EmptyStateCard.astro';
 import PillFilterBar from '../../components/ui/PillFilterBar.astro';
+import Badge from '../../components/ui/Badge.astro';
 import { getKegiatan, getKategoriBeritaMap, sortByDateDesc } from '../../lib/content';
 
 const selectedCategory = Astro.url.searchParams.get('kategori');
@@ -31,7 +32,7 @@ const pageDescription = selectedCategory
     ? `Arsip berita dan artikel untuk tag ${selectedTag}.`
     : 'Arsip berita, artikel, dan dokumentasi warga Padukuhan Salakan.';
 
-const allCategories = allKegiatan.map(({ entry }) => entry.kategori);
+const allCategories = allKegiatan.map(({ entry }) => entry.kategori).filter(Boolean);
 const activeCategories = Array.from(new Set(allCategories)).slice(0, 6);
 const filterItems = [
   { href: '/berita', label: 'Semua', active: !selectedCategory && !selectedTag },
@@ -42,11 +43,20 @@ const filterItems = [
   })),
 ];
 
+const featured = kegiatan[0] ?? null;
+const shouldShowFeatured = Boolean(featured && !selectedTag);
+const displayItems = shouldShowFeatured ? kegiatan.slice(1) : kegiatan;
+
+const monthlyCount = kegiatan.reduce<Record<string, number>>((acc, item) => {
+  const month = new Intl.DateTimeFormat('id-ID', { month: 'long', year: 'numeric' }).format(new Date(item.entry.tanggal));
+  acc[month] = (acc[month] ?? 0) + 1;
+  return acc;
+}, {});
+
 import Icon from '../../components/ui/Icon.tsx';
 ---
 
 <MainLayout title="Berita & Artikel | Padukuhan Salakan" description={pageDescription}>
-
   <PageHero
     eyebrow="Berita & Artikel"
     icon="newspaper"
@@ -55,33 +65,63 @@ import Icon from '../../components/ui/Icon.tsx';
   />
 
   <div class="container-premium pb-4 pt-6 sm:pt-8">
-    <PillFilterBar items={filterItems} />
+    <div class="grid gap-4 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+      <div>
+        <PillFilterBar items={filterItems} />
 
-    {(selectedCategory || selectedTag) && (
-      <div class="mt-3 flex flex-wrap items-center gap-2">
-        {selectedCategory && (
-          <span class="inline-flex items-center gap-1 rounded-full bg-primary-container px-3 py-1 text-xs font-bold text-on-primary-container">
-            {categoryLabels[selectedCategory] ?? selectedCategory}
-          </span>
+        {(selectedCategory || selectedTag) && (
+          <div class="mt-3 flex flex-wrap items-center gap-2">
+            {selectedCategory && (
+              <Badge label={categoryLabels[selectedCategory] ?? selectedCategory} tone="primary" class="px-3 py-1" />
+            )}
+            {selectedTag && (
+              <Badge label={`Tag: ${selectedTag}`} tone="surface" class="px-3 py-1" />
+            )}
+            <a class="inline-flex items-center gap-1 text-xs font-semibold text-m3-primary hover:underline" href="/berita">
+              <Icon name="close" class="text-[16px]" /> Reset
+            </a>
+          </div>
         )}
-        {selectedTag && (
-          <span class="inline-flex items-center gap-1 rounded-full bg-surface-variant px-3 py-1 text-xs font-bold text-on-surface-variant">
-            Tag: {selectedTag}
-          </span>
-        )}
-        <a class="inline-flex items-center gap-1 text-xs font-semibold text-m3-primary hover:underline" href="/berita">
-          <Icon name="close" class="text-[16px]" /> Reset
-        </a>
       </div>
-    )}
+
+      <div class="rounded-3xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Arsip ringkas</p>
+        <div class="mt-3 grid gap-3 sm:grid-cols-2">
+          <div class="rounded-2xl border border-outline-variant bg-white p-4">
+            <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Hasil tampil</p>
+            <p class="mt-1 text-3xl font-black tracking-tight text-on-surface">{kegiatan.length}</p>
+          </div>
+          <div class="rounded-2xl border border-outline-variant bg-white p-4">
+            <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Bulan aktif</p>
+            <p class="mt-1 text-3xl font-black tracking-tight text-on-surface">{Object.keys(monthlyCount).length}</p>
+          </div>
+        </div>
+        <p class="mt-4 text-sm text-on-surface-variant">Fokus halaman ini adalah arsip baca dan kategori. Untuk pengumuman cepat warga, gunakan halaman agenda.</p>
+      </div>
+    </div>
   </div>
+
+  {shouldShowFeatured && (
+    <section class="container-premium py-3 sm:py-4">
+      <a class="block rounded-[1.75rem] border border-outline-variant bg-surface-container-lowest p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md" href={`/berita/${featured.slug}`}>
+        <div class="flex flex-wrap items-center gap-2">
+          <Badge label="Sorotan" tone="info" class="px-3 py-1" />
+          {featured.entry.kategori && <Badge label={categoryLabels[featured.entry.kategori] ?? featured.entry.kategori} tone="surface" class="px-3 py-1" />}
+        </div>
+        <h2 class="mt-4 text-2xl font-bold leading-tight tracking-tight text-on-surface sm:text-3xl">{featured.entry.judul}</h2>
+        <p class="mt-2 text-sm font-semibold uppercase tracking-wide text-on-surface-variant">{new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(featured.entry.tanggal))}</p>
+        <p class="mt-3 max-w-3xl text-base leading-relaxed text-on-surface-variant">{featured.entry.ringkasan}</p>
+      </a>
+    </section>
+  )}
 
   <section class="container-premium py-3 pb-10 sm:py-4">
     {kegiatan.length > 0 ? (
-      <NewsGrid items={kegiatan} />
+      displayItems.length > 0 && <NewsGrid items={displayItems} />
     ) : (
       <EmptyStateCard message="Belum ada berita untuk filter ini." />
     )}
   </section>
-
 </MainLayout>
+
+
