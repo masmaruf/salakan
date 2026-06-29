@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, sessionDrivers } from 'astro/config';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import db from '@astrojs/db';
@@ -102,6 +102,12 @@ export default defineConfig({
   site: 'https://salakan.pages.dev',
   output: 'server',
   adapter: useCloudflareAdapter ? cloudflare() : undefined,
+  session: {
+    // We use signed cookies for admin auth and do not depend on Astro.session.
+    // Explicitly set a lightweight driver so the Cloudflare adapter does not
+    // auto-require a SESSION KV binding in Pages/preview deployments.
+    driver: sessionDrivers.lruCache(),
+  },
   integrations,
   security: {
     checkOrigin: false,
