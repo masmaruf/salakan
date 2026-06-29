@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import DataCard from '../components/ui/DataCard.astro';
+import Icon from '../components/ui/Icon.tsx';
 import { getPengaturan } from '../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../lib/site';
 
@@ -22,6 +23,24 @@ const dataSeo = pengaturan?.seoHalamanData?.dataUtama;
       {menuData?.description ?? 'Pusat akses data kependudukan, arsip dokumen, direktori UMKM, dan struktur kepengurusan desa.'}
     </p>
   </div>
+
+  <section class="container-premium py-4">
+    <a href="/ketua-rt" class="group grid gap-5 rounded-[1.75rem] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md sm:p-6 lg:grid-cols-[1fr_auto] lg:items-center">
+      <div class="flex gap-4">
+        <div class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-primary-container/40 text-m3-primary transition group-hover:bg-m3-primary group-hover:text-on-primary">
+          <Icon name="contact_phone" class="text-[24px]" />
+        </div>
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Layanan cepat warga</p>
+          <h2 class="mt-1 text-xl font-bold tracking-tight text-on-surface">Hubungi Ketua RT</h2>
+          <p class="mt-2 max-w-2xl text-sm leading-relaxed text-on-surface-variant">Pilih RT sesuai tempat tinggal Anda untuk konsultasi pelayanan warga, koordinasi lingkungan, atau hal yang perlu ditindaklanjuti di tingkat RT.</p>
+        </div>
+      </div>
+      <span class="inline-flex w-fit items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition group-hover:bg-m3-primary">
+        Pilih RT <Icon name="arrow_forward" class="text-[16px]" />
+      </span>
+    </a>
+  </section>
 
   <section class="container-premium py-8">
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

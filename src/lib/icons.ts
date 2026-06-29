@@ -73,6 +73,7 @@ export const iconRegistry: Record<string, IconComponent> = {
   map: LucideIcons.Map,
   menu_book: LucideIcons.BookOpen,
   menu: LucideIcons.Menu,
+  menu_open: LucideIcons.AlignLeft,
   newspaper: LucideIcons.Newspaper,
   notifications: LucideIcons.Bell,
   pending_actions: LucideIcons.ClipboardList,

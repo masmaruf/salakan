@@ -43,9 +43,7 @@ export const navItems = [
   { href: '/', label: 'Beranda' },
   { href: '/profil', label: 'Profil' },
   { href: '/data', label: 'Data' },
-  { href: '/program', label: 'Program' },
   { href: '/berita', label: 'Berita' },
-  { href: '/agenda', label: 'Agenda' },
   { href: '/galeri', label: 'Galeri' },
   { href: '/kontak', label: 'Kontak' },
 ];

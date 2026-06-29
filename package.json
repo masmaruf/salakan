@@ -44,10 +44,17 @@
     "vite-plugin-checker": "^0.14.4",
     "vite-plugin-image-optimizer": "^2.0.3",
     "vite-plugin-webfont-dl": "^3.12.0",
-    "yaml": "^2.8.1"
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
     "esbuild": "^0.28.1",
     "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "yaml-language-server": {
+      "yaml": "2.9.0"
+    }
   }
 }
