@@ -36,10 +36,10 @@ hero:
       icon: timeline
       status: tampil
   stats:
-    pengumumanLabel: Agenda aktif
+    agendaLabel: Agenda aktif
     kegiatanLabel: Berita terdokumentasi
     galeriLabel: Galeri tersedia
-pengumuman:
+agenda:
   title: Agenda prioritas
   description: Bagian ini menempatkan informasi paling penting untuk warga di posisi paling mudah terlihat.
   ctaLabel: Buka halaman agenda
@@ -61,3 +61,5 @@ penutup:
   primaryCtaHref: /data
   secondaryCtaLabel: Kontak & layanan
   secondaryCtaHref: /kontak
+
+

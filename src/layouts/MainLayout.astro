@@ -104,7 +104,7 @@ const seoImage = getSeoImage(image);
     )}
     <link rel="icon" type="image/svg+xml" href="/images/og-salakan.svg" />
     <link rel="alternate" type="application/rss+xml" title="RSS Berita Padukuhan Salakan" href={toAbsoluteUrl('/rss/berita.xml')} />
-    <link rel="alternate" type="application/rss+xml" title="RSS Pengumuman Padukuhan Salakan" href={toAbsoluteUrl('/rss/pengumuman.xml')} />
+    <link rel="alternate" type="application/rss+xml" title="RSS Agenda Warga Padukuhan Salakan" href={toAbsoluteUrl('/rss/pengumuman.xml')} />
   </head>
   <body class="relative min-h-screen bg-slate-50 pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))] md:pb-0">
     <DevServiceWorkerReset />
@@ -120,4 +120,5 @@ const seoImage = getSeoImage(image);
     <MobileNav currentPath={Astro.url.pathname} />
   </body>
 </html>
+
 

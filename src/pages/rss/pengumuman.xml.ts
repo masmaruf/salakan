@@ -15,11 +15,11 @@ export const GET: APIRoute = async () => {
       link: toAbsoluteUrl(`/agenda/${item.slug}`),
       description: item.entry.ringkasan || item.entry.isi,
       pubDate: item.entry.tanggal,
-      guid: `pengumuman:${item.slug}`,
+      guid: `agenda:${item.slug}`,
     }));
 
   const xml = createRssXml({
-    title: `${siteMeta.name} - RSS Pengumuman`,
+    title: `${siteMeta.name} - RSS Agenda Warga`,
     description: 'Feed RSS untuk item agenda berlabel pengumuman atau informasi di Padukuhan Salakan.',
     pathname: '/rss/pengumuman.xml',
     items,
@@ -31,3 +31,4 @@ export const GET: APIRoute = async () => {
     },
   });
 };
+

@@ -14,7 +14,6 @@ const rt = defineCollection({
 
 // Definisi koleksi lainnya sebagai placeholder agar getCollection tetap bekerja
 // (Nanti bisa dilengkapi schema detailnya jika diperlukan)
-const pengumuman = defineCollection({ type: 'data', schema: z.any() });
 const dokumen = defineCollection({ type: 'data', schema: z.any() });
 const kegiatan = defineCollection({ type: 'content', schema: z.any() });
 const agenda = defineCollection({ type: 'data', schema: z.any() });
@@ -55,5 +54,7 @@ export const collections = {
   dashboard,
   beranda,
 };
+
+
 
 

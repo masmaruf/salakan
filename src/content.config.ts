@@ -300,7 +300,6 @@ const pengaturan = defineCollection({
       const seoDefault = { seoTitle: '', seoDescription: '', ogImage: '' } as const;
       return z.object({
         dataUtama: seoPageSchema.default(seoDefault),
-        pengumuman: seoPageSchema.default(seoDefault),
         dokumen: seoPageSchema.default(seoDefault),
         umkm: seoPageSchema.default(seoDefault),
         strukturOrganisasi: seoPageSchema.default(seoDefault),
@@ -313,7 +312,6 @@ const pengaturan = defineCollection({
         monografi: seoPageSchema.default(seoDefault),
       }).default({
         dataUtama: seoDefault,
-        pengumuman: seoDefault,
         dokumen: seoDefault,
         umkm: seoDefault,
         strukturOrganisasi: seoDefault,
@@ -447,12 +445,12 @@ const beranda = defineCollection({
         })
       ).default([]),
       stats: z.object({
-        pengumumanLabel: z.string().min(1),
+        agendaLabel: z.string().min(1),
         kegiatanLabel: z.string().min(1),
         galeriLabel: z.string().min(1),
       }),
     }),
-    pengumuman: z.object({
+    agenda: z.object({
       title: z.string().min(1),
       description: z.string().min(1),
       ctaLabel: z.string().min(1),
@@ -553,5 +551,7 @@ export const collections = {
   rt,
 };
  
+
+
 
 
