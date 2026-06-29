@@ -17,4 +17,8 @@ media:
   gambarUtama: ''
   altGambarUtama: Agenda musyawarah warga Padukuhan Salakan.
 pengaturanTampil:
+  label: Musyawarah
+  tag:
+    - warga
+    - koordinasi
   unggulan: true

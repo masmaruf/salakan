@@ -32,20 +32,33 @@ function getDateValue(item: unknown): DatedValue | undefined {
   return undefined;
 }
 
-export async function getPengumuman() {
-  const items = await getCollection('pengumuman');
+function normalizeAgendaText(value?: string) {
+  return value?.trim().toLowerCase() ?? '';
+}
 
-  return items.map(({ id, data }) => ({
-    slug: normalizeEntryId(id),
-    entry: {
-      judul: data.judul,
-      tanggal: data.tanggal,
-      ringkasan: data.ringkasan,
-      isi: data.isi,
-      statusPublikasi: data.pengaturanTampil?.statusPublikasi,
-      unggulan: data.pengaturanTampil?.unggulan,
-    },
-  }));
+function isAgendaAnnouncementLike(item: { label?: string; tag?: string[] }) {
+  const labels = [item.label, ...(item.tag ?? [])].map(normalizeAgendaText).filter(Boolean);
+  return labels.some((label) => ['pengumuman', 'informasi'].includes(label));
+}
+
+export async function getPengumuman() {
+  const items = await getAgenda();
+
+  return items
+    .filter((item) => isAgendaAnnouncementLike(item.entry))
+    .map((item) => ({
+      slug: item.slug,
+      entry: {
+        judul: item.entry.judul,
+        tanggal: item.entry.tanggal,
+        ringkasan: item.entry.ringkasan,
+        isi: item.entry.deskripsi,
+        label: item.entry.label,
+        tag: item.entry.tag,
+        statusPublikasi: item.entry.statusPublikasi,
+        unggulan: item.entry.unggulan,
+      },
+    }));
 }
 
 export async function getDokumen() {
@@ -112,11 +125,12 @@ export async function getAgenda() {
       kontakPic: data.kontenUtama?.kontakPic,
       gambarUtama: data.media?.gambarUtama,
       altGambarUtama: data.media?.altGambarUtama,
+      label: data.pengaturanTampil?.label,
+      tag: data.pengaturanTampil?.tag,
       unggulan: data.pengaturanTampil?.unggulan,
     },
   }));
 }
-
 
 export async function getProgram() {
   const items = await getCollection('program');
@@ -142,7 +156,6 @@ export async function getProgram() {
     },
   }));
 }
-
 
 export async function getKasRt() {
   const items = await getCollection('kasRt');

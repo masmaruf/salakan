@@ -37,7 +37,6 @@ const beranda = defineCollection({ type: 'data', schema: z.any() });
 
 export const collections = {
   rt,
-  pengumuman,
   dokumen,
   kegiatan,
   agenda,
@@ -56,3 +55,5 @@ export const collections = {
   dashboard,
   beranda,
 };
+
+

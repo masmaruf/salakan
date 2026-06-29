@@ -3,9 +3,9 @@ hero:
   title: Pusat informasi warga Padukuhan Salakan
   intro: >-
     Selamat datang di website Padukuhan Salakan. Portal ini disiapkan untuk
-    membantu warga memperoleh pengumuman, agenda, dan dokumentasi kegiatan
+    membantu warga memperoleh agenda, informasi, dan dokumentasi kegiatan
     secara cepat tanpa meninggalkan karakter lokal yang hangat dan tertata.
-  primaryCtaLabel: Lihat pengumuman
+  primaryCtaLabel: Lihat agenda warga
   primaryCtaHref: /agenda
   secondaryCtaLabel: Baca profil padukuhan
   secondaryCtaHref: /profil
@@ -15,10 +15,10 @@ hero:
     Website ini dirancang sebagai ruang informasi yang cepat dibuka, mudah
     diperbarui, dan tetap terasa dekat dengan identitas lokal padukuhan.
   panelLinks:
-    - title: Pengumuman
-      description: Lihat info prioritas warga dan agenda yang sedang berjalan.
+    - title: Agenda Warga
+      description: Lihat info prioritas warga, jadwal kegiatan, dan agenda yang sedang berjalan.
       href: /agenda
-      icon: campaign
+      icon: event
       status: tampil
     - title: Berita
       description: Baca arsip kegiatan warga dan artikel terbaru padukuhan.
@@ -36,13 +36,13 @@ hero:
       icon: timeline
       status: tampil
   stats:
-    pengumumanLabel: Pengumuman aktif
+    pengumumanLabel: Agenda aktif
     kegiatanLabel: Berita terdokumentasi
     galeriLabel: Galeri tersedia
 pengumuman:
-  title: Pengumuman prioritas
+  title: Agenda prioritas
   description: Bagian ini menempatkan informasi paling penting untuk warga di posisi paling mudah terlihat.
-  ctaLabel: Buka halaman pengumuman
+  ctaLabel: Buka halaman agenda
 berita:
   title: Berita terbaru
   description: Satu berita unggulan ditampilkan lebih dominan, sementara artikel lain tetap mudah dipindai warga lewat format editorial yang ringkas.

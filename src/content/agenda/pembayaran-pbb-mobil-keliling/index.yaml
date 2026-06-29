@@ -1,0 +1,22 @@
+judul: Pembayaran PBB Mobil Keliling
+tanggal: 2026-07-04
+statusPublikasi: publish
+kontenUtama:
+  waktuMulai: 12.00 WIB
+  waktuSelesai: 14.00 WIB
+  lokasi: Rumah Pak Dukuh Ma''ruf Cahyadi
+  ringkasan: >-
+    Informasi kepada warga Padukuhan Salakan yang akan membayar kewajiban pajak
+    PBB P2.
+  deskripsi: >-
+    Akan ada mobil keliling BPKPAD pada hari Sabtu, 4 Juli 2026 pukul 12.00
+    sampai 14.00 WIB di rumah Pak Dukuh Ma''ruf Cahyadi.
+  kontakPic: Dukuh Salakan
+media:
+  altGambarUtama: Informasi pembayaran PBB mobil keliling.
+pengaturanTampil:
+  label: Pengumuman
+  tag:
+    - pbb
+    - layanan warga
+  unggulan: false

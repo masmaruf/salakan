@@ -11,4 +11,8 @@ kontenUtama:
 media:
   altGambarUtama: Agenda Syawalan Padukuhan Salakan.
 pengaturanTampil:
+  label: Pengajian
+  tag:
+    - syawalan
+    - warga
   unggulan: false

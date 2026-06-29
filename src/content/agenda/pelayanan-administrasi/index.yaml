@@ -1,0 +1,25 @@
+judul: Penyesuaian Jam Pelayanan Administrasi
+tanggal: 2026-04-01
+statusPublikasi: publish
+kontenUtama:
+  waktuMulai: 19.00 WIB
+  waktuSelesai: 21.00 WIB
+  lokasi: Balai Padukuhan Salakan
+  ringkasan: >-
+    Pelayanan administrasi padukuhan pada pekan pertama April disesuaikan
+    menjadi pukul 19.00 sampai 21.00 WIB.
+  deskripsi: >-
+    Penyesuaian dilakukan untuk mendukung kelancaran agenda wilayah pada siang
+    hari.
+
+    Warga yang memerlukan surat pengantar atau informasi administratif dapat
+    datang pada jam layanan baru tersebut.
+  kontakPic: Admin Padukuhan Salakan
+media:
+  altGambarUtama: Informasi jam pelayanan administrasi.
+pengaturanTampil:
+  label: Informasi
+  tag:
+    - pelayanan
+    - administrasi
+  unggulan: true

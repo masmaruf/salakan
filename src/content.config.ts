@@ -5,19 +5,6 @@ const tanggalSchema = z
   .union([z.string(), z.date()])
   .transform((value) => (value instanceof Date ? value.toISOString().slice(0, 10) : value));
 
-const pengumuman = defineCollection({
-  loader: glob({ pattern: '**/*.yaml', base: './src/content/pengumuman' }),
-  schema: z.object({
-    judul: z.string().min(1),
-    tanggal: tanggalSchema,
-    ringkasan: z.string().min(1),
-    isi: z.string().min(1),
-    pengaturanTampil: z.object({
-      statusPublikasi: z.enum(['draft', 'publish']).default('publish'),
-      unggulan: z.boolean().default(false),
-    }),
-  }),
-});
 
 const dokumen = defineCollection({
   loader: glob({ pattern: '**/*.yaml', base: './src/content/dokumen' }),
@@ -88,18 +75,20 @@ const agenda = defineCollection({
     tanggal: tanggalSchema,
     statusPublikasi: z.enum(['draft', 'publish']).default('publish'),
     kontenUtama: z.object({
-      waktuMulai: z.string().min(1),
-      waktuSelesai: z.string().min(1),
-      lokasi: z.string().min(1),
+      waktuMulai: z.string().default(''),
+      waktuSelesai: z.string().default(''),
+      lokasi: z.string().default(''),
       ringkasan: z.string().min(1),
       deskripsi: z.string().min(1),
-      kontakPic: z.string().min(1),
+      kontakPic: z.string().default(''),
     }),
     media: z.object({
       gambarUtama: z.string().optional(),
       altGambarUtama: z.string().default('Poster agenda Padukuhan Salakan'),
     }),
     pengaturanTampil: z.object({
+      label: z.string().default('Agenda'),
+      tag: z.array(z.string().min(1)).default([]),
       unggulan: z.boolean().default(false),
     }),
   }),
@@ -543,7 +532,6 @@ const rt = defineCollection({
 });
 
 export const collections = {
-  pengumuman,
   dokumen,
   kegiatan,
   agenda,
@@ -565,3 +553,5 @@ export const collections = {
   rt,
 };
  
+
+

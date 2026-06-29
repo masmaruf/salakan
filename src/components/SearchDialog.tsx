@@ -121,7 +121,7 @@ export default function SearchDialog() {
               <Input
                 ref={inputRef}
                 className="h-auto border-0 bg-transparent p-0 text-base font-semibold text-on-surface placeholder:text-outline focus-visible:ring-0"
-                placeholder="Cari agenda, pengumuman, berita, layanan, atau dokumen"
+                placeholder="Cari agenda, berita, layanan, atau dokumen"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
@@ -168,7 +168,7 @@ export default function SearchDialog() {
               {!loading && query.trim() === '' && (
                 <div className="mb-4 rounded-2xl border border-outline-variant bg-surface-container-low/60 p-4">
                   <p className="text-[12px] font-semibold uppercase tracking-wider text-outline">Akses cepat warga</p>
-                  <p className="mt-1 text-sm text-on-surface-variant">Mulai dari pengumuman penting, agenda terdekat, atau layanan yang paling sering dicari.</p>
+                  <p className="mt-1 text-sm text-on-surface-variant">Mulai dari agenda penting, informasi terbaru, atau layanan yang paling sering dicari.</p>
                 </div>
               )}
 
@@ -225,3 +225,4 @@ export default function SearchDialog() {
     </>
   );
 }
+

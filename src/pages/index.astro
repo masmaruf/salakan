@@ -8,19 +8,16 @@ import EmptyStateCard from '../components/ui/EmptyStateCard.astro';
 import Badge from '../components/ui/Badge.astro';
 import {
   getBeranda,
-  getPengumuman,
   getKegiatan,
   getAgenda,
   getGaleri,
   getLayananWarga,
-  formatTanggal,
   sortByDateDesc,
   excerpt,
 } from '../lib/content';
 
-const [beranda, pengumumanItems, kegiatanItems, agendaItems, galeriItems, layananItems] = await Promise.all([
+const [beranda, kegiatanItems, agendaRaw, galeriItems, layananItems] = await Promise.all([
   getBeranda(),
-  getPengumuman(),
   getKegiatan(),
   getAgenda(),
   getGaleri(),
@@ -33,15 +30,11 @@ const galeriSection = beranda?.galeri;
 const penutup = beranda?.penutup;
 const now = Date.now();
 
-const agendaTerdekat = [
-  ...pengumumanItems
+const agendaTerdekat = sortByDateDesc(
+  agendaRaw
     .filter((item) => item.entry?.statusPublikasi === 'publish')
-    .map((item) => ({ slug: item.slug, entry: item.entry!, type: 'pengumuman' as const })),
-  ...agendaItems
-    .filter((item) => item.entry?.statusPublikasi === 'publish')
-    .map((item) => ({ slug: item.slug, entry: item.entry!, type: 'agenda' as const })),
-].sort((a, b) => new Date(b.entry.tanggal).getTime() - new Date(a.entry.tanggal).getTime())
- .slice(0, 6);
+    .map((item) => ({ slug: item.slug, entry: item.entry! }))
+).slice(0, 6);
 
 const berita = sortByDateDesc(
   kegiatanItems
@@ -63,7 +56,7 @@ const layananPrioritas = layananItems
   }));
 
 const statsData = [
-  { value: pengumumanItems.filter((i) => i.entry?.statusPublikasi === 'publish').length, label: hero?.stats?.pengumumanLabel ?? 'Pengumuman aktif', icon: 'campaign' },
+  { value: agendaPublished.length, label: hero?.stats?.pengumumanLabel ?? 'Agenda aktif', icon: 'event' },
   { value: kegiatanItems.filter((i) => i.entry?.statusPublikasi === 'publish').length, label: hero?.stats?.kegiatanLabel ?? 'Berita terdokumentasi', icon: 'newspaper' },
   { value: galeriItems.length, label: hero?.stats?.galeriLabel ?? 'Galeri tersedia', icon: 'photo_library' },
 ];
@@ -85,12 +78,19 @@ function getSignal(item: { tanggal: string; unggulan?: boolean }) {
   return { label: 'Info', tone: 'surface' as const };
 }
 
+function getLabelTone(label?: string) {
+  const normalized = label?.trim().toLowerCase() ?? '';
+  if (normalized === 'pengumuman') return 'error' as const;
+  if (normalized === 'informasi') return 'surface' as const;
+  return 'primary' as const;
+}
+
 const pusatInformasi = agendaTerdekat.slice(0, 4).map((item) => ({
-  href: item.type === 'agenda' ? `/agenda/${item.slug}` : '/agenda',
+  href: `/agenda/${item.slug}`,
   title: item.entry.judul,
   description: excerpt(item.entry.ringkasan, 120),
   date: formatAgendaDate(item.entry.tanggal),
-  type: item.type === 'agenda' ? 'Agenda warga' : 'Pengumuman',
+  label: item.entry.label || 'Agenda',
   signal: getSignal({ tanggal: item.entry.tanggal, unggulan: item.entry.unggulan }),
 }));
 
@@ -99,7 +99,7 @@ import Icon from '../components/ui/Icon.tsx';
 
 <MainLayout
   title="Beranda | Padukuhan Salakan"
-  description={hero?.intro ?? 'Portal warga Padukuhan Salakan untuk pengumuman, berita, agenda, profil wilayah, galeri, dan informasi kontak.'}
+  description={hero?.intro ?? 'Portal warga Padukuhan Salakan untuk agenda, berita, profil wilayah, galeri, dan informasi kontak.'}
 >
   <PageHero
     eyebrow={hero?.eyebrow ?? 'Padukuhan Salakan'}
@@ -121,8 +121,8 @@ import Icon from '../components/ui/Icon.tsx';
         class="inline-flex items-center gap-2 rounded-full bg-primary-container px-7 py-3.5 text-sm font-bold text-on-primary-container shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl"
         href={hero?.primaryCtaHref ?? '/agenda'}
       >
-        <Icon name="campaign" class="text-[18px]" />
-        {hero?.primaryCtaLabel ?? 'Lihat pengumuman'}
+        <Icon name="event" class="text-[18px]" />
+        {hero?.primaryCtaLabel ?? 'Lihat agenda warga'}
       </a>
       <a
         class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/20"
@@ -207,7 +207,7 @@ import Icon from '../components/ui/Icon.tsx';
           {pusatInformasi.map((item) => (
             <a class="rounded-2xl border border-outline-variant bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-sm" href={item.href}>
               <div class="flex flex-wrap items-center gap-2">
-                <Badge label={item.type} tone="primary" class="px-2.5 py-1" />
+                <Badge label={item.label} tone={getLabelTone(item.label)} class="px-2.5 py-1" />
                 <Badge label={item.signal.label} tone={item.signal.tone} class="px-2.5 py-1" />
               </div>
               <h3 class="mt-3 line-clamp-2 text-base font-bold leading-tight text-on-surface">{item.title}</h3>
@@ -247,18 +247,15 @@ import Icon from '../components/ui/Icon.tsx';
         {agendaTerdekat.map((item) => (
           <a
             class="group overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest transition-all hover:-translate-y-1 hover:shadow-md active:scale-[0.98]"
-            href={item.type === 'agenda' ? `/agenda/${item.slug}` : '/agenda'}
+            href={`/agenda/${item.slug}`}
           >
             <div class="flex h-full flex-col p-5">
               <div class="mb-3 flex items-center gap-3">
-                <div class:list={[
-                  'grid h-11 w-11 shrink-0 place-items-center rounded-xl',
-                  item.type === 'agenda' ? 'bg-primary-container/30 text-m3-primary' : 'bg-error-container/30 text-m3-error',
-                ]}>
-                  <Icon name={item.type === 'agenda' ? 'event' : 'campaign'} class="text-[22px]" />
+                <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary-container/30 text-m3-primary">
+                  <Icon name="event" class="text-[22px]" />
                 </div>
                 <div>
-                  <Badge label={item.type === 'agenda' ? 'Agenda' : 'Pengumuman'} tone={item.type === 'agenda' ? 'primary' : 'error'} class="px-2 py-0.5" />
+                  <Badge label={item.entry.label || 'Agenda'} tone={getLabelTone(item.entry.label)} class="px-2 py-0.5" />
                   <p class="mt-1 text-[11px] font-medium text-on-surface-variant">{formatAgendaDate(item.entry.tanggal)}</p>
                 </div>
               </div>
@@ -268,7 +265,7 @@ import Icon from '../components/ui/Icon.tsx';
               <p class="mt-2 flex-1 text-sm text-on-surface-variant line-clamp-2">
                 {excerpt(item.entry.ringkasan, 120)}
               </p>
-              {item.type === 'agenda' && 'lokasi' in item.entry && (
+              {item.entry.lokasi && (
                 <div class="mt-4 flex items-center gap-1.5 border-t border-outline-variant/50 pt-3 text-xs font-medium text-on-surface-variant">
                   <Icon name="location_on" class="text-[14px]" />
                   <span class="truncate">{item.entry.lokasi}</span>

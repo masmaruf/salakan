@@ -12,7 +12,7 @@ export const GET: APIRoute = async () => {
     .slice(0, 50)
     .map((item) => ({
       title: item.entry.judul,
-      link: toAbsoluteUrl('/agenda'),
+      link: toAbsoluteUrl(`/agenda/${item.slug}`),
       description: item.entry.ringkasan || item.entry.isi,
       pubDate: item.entry.tanggal,
       guid: `pengumuman:${item.slug}`,
@@ -20,7 +20,7 @@ export const GET: APIRoute = async () => {
 
   const xml = createRssXml({
     title: `${siteMeta.name} - RSS Pengumuman`,
-    description: 'Feed RSS untuk pengumuman terbaru Padukuhan Salakan.',
+    description: 'Feed RSS untuk item agenda berlabel pengumuman atau informasi di Padukuhan Salakan.',
     pathname: '/rss/pengumuman.xml',
     items,
   });

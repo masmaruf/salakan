@@ -1,0 +1,25 @@
+judul: Jadwal Posyandu Balita dan Lansia April 2026
+tanggal: 2026-04-16
+statusPublikasi: publish
+kontenUtama:
+  waktuMulai: 07.00 WIB
+  waktuSelesai: ''
+  lokasi: Rumah Bpk Dukuh Ma''ruf Cahyadi
+  ringkasan: >-
+    Kegiatan posyandu dilaksanakan pada Sabtu, 16 April 2026 pukul 07.00 WIB di
+    Rumah Bpk Dukuh Ma''ruf Cahyadi.
+  deskripsi: >-
+    Warga yang memiliki balita maupun anggota keluarga lansia diharapkan hadir
+    tepat waktu.
+
+    Mohon membawa buku KIA atau kartu pemeriksaan yang biasa digunakan agar
+    pendataan berjalan lancar.
+  kontakPic: Kader Posyandu Padukuhan Salakan
+media:
+  altGambarUtama: Informasi jadwal posyandu warga.
+pengaturanTampil:
+  label: Informasi
+  tag:
+    - posyandu
+    - layanan warga
+  unggulan: true

@@ -3,6 +3,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import ContentMeta from '../../components/ui/ContentMeta.astro';
 import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
+import Badge from '../../components/ui/Badge.astro';
 import { formatTanggal, getAgenda } from '../../lib/content';
 import { resolveSeoText, withSiteTitle } from '../../lib/site';
 
@@ -15,6 +16,18 @@ if (!item) {
 }
 
 const { entry } = item;
+const metaItems = [
+  entry.waktuMulai ? { icon: 'schedule', text: `${entry.waktuMulai}${entry.waktuSelesai ? ` - ${entry.waktuSelesai}` : ''}`, accentClass: 'text-on-surface-variant' } : null,
+  entry.lokasi ? { icon: 'location_on', text: entry.lokasi, accentClass: 'text-on-surface-variant' } : null,
+  entry.kontakPic ? { icon: 'person', text: entry.kontakPic, accentClass: 'text-on-surface-variant' } : null,
+].filter(Boolean);
+
+function getLabelTone(label?: string) {
+  const normalized = label?.trim().toLowerCase() ?? '';
+  if (normalized === 'pengumuman') return 'error' as const;
+  if (normalized === 'informasi') return 'surface' as const;
+  return 'primary' as const;
+}
 ---
 
 <MainLayout
@@ -30,12 +43,15 @@ const { entry } = item;
     ]} />
 
     <div class="mb-3 flex flex-wrap items-center gap-2 sm:gap-3">
-      <span class="rounded-md bg-primary-container px-2 py-0.5 text-[12px] font-semibold text-on-primary-container">
-        Agenda
-      </span>
+      <Badge label={entry.label || 'Agenda'} tone={getLabelTone(entry.label)} class="px-2 py-0.5" />
       <time class="text-[12px] font-medium text-outline" datetime={entry.tanggal}>
         {formatTanggal(entry.tanggal)}
       </time>
+      {(entry.tag || []).slice(0, 3).map((tag) => (
+        <span class="rounded-md bg-surface-container px-2 py-0.5 text-[12px] font-semibold text-on-surface-variant">
+          #{tag}
+        </span>
+      ))}
     </div>
 
     <h1 class="text-2xl font-bold leading-tight tracking-tight text-on-surface sm:text-3xl">
@@ -46,15 +62,13 @@ const { entry } = item;
       {entry.ringkasan}
     </p>
 
-    <ContentMeta
-      class="mt-4 flex flex-wrap gap-x-5 gap-y-2"
-      items={[
-        { icon: 'schedule', text: `${entry.waktuMulai} – ${entry.waktuSelesai}`, accentClass: 'text-on-surface-variant' },
-        { icon: 'location_on', text: entry.lokasi, accentClass: 'text-on-surface-variant' },
-        { icon: 'person', text: entry.kontakPic, accentClass: 'text-on-surface-variant' },
-      ]}
-      iconClass="text-[18px] text-m3-primary"
-    />
+    {metaItems.length > 0 && (
+      <ContentMeta
+        class="mt-4 flex flex-wrap gap-x-5 gap-y-2"
+        items={metaItems}
+        iconClass="text-[18px] text-m3-primary"
+      />
+    )}
 
     {entry.gambarUtama && (
       <div class="mt-6 overflow-hidden rounded-xl">
