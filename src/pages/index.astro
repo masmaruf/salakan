@@ -30,11 +30,13 @@ const galeriSection = beranda?.galeri;
 const penutup = beranda?.penutup;
 const now = Date.now();
 
-const agendaTerdekat = sortByDateDesc(
+const agendaPublished = sortByDateDesc(
   agendaRaw
     .filter((item) => item.entry?.statusPublikasi === 'publish')
     .map((item) => ({ slug: item.slug, entry: item.entry! }))
-).slice(0, 6);
+);
+
+const agendaTerdekat = agendaPublished.slice(0, 6);
 
 const berita = sortByDateDesc(
   kegiatanItems

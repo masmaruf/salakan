@@ -15,6 +15,22 @@ delete config.assets;
 delete config.main;
 delete config.rules;
 delete config.images;
+delete config.no_bundle;
+delete config.dev;
+delete config.previews;
+delete config.definedEnvironments;
+delete config.ai_search_namespaces;
+delete config.ai_search;
+delete config.agent_memory;
+delete config.secrets_store_secrets;
+delete config.artifacts;
+delete config.unsafe_hello_world;
+delete config.flagship;
+delete config.worker_loaders;
+delete config.ratelimits;
+delete config.vpc_services;
+delete config.vpc_networks;
+delete config.python_modules;
 
 // Remove SESSION KV binding if it has no id (adapter auto-adds it without id)
 if (Array.isArray(config.kv_namespaces)) {
