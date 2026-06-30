@@ -104,7 +104,8 @@ function normalizeTimeValue(value: unknown) {
 }
 
 async function getAstroDbContext() {
-  const astroDb = await import('astro:db');
+  const astroDbModuleId = 'astro' + ':db';
+  const astroDb = await import(/* @vite-ignore */ astroDbModuleId);
 
   return {
     db: astroDb.db,
