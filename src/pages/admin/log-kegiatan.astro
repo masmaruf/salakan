@@ -1,0 +1,34 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import AdminLogKegiatanManager from '../../components/AdminLogKegiatanManager';
+import { getAdminSession, getSessionCookieName } from '../../lib/admin-auth';
+import { getAdminLogKegiatan } from '../../lib/log-kegiatan-store';
+
+export const prerender = false;
+
+const session = getAdminSession(Astro.cookies.get(getSessionCookieName())?.value);
+if (!session) {
+  return Astro.redirect('/admin/login?next=/admin/log-kegiatan');
+}
+
+const rawData = await getAdminLogKegiatan();
+---
+
+<DashboardLayout
+  title="Panel Log Kegiatan Dukuh"
+  activeMenu="admin-log-kegiatan"
+  description="Halaman admin untuk mencatat, menerbitkan, dan mengelola arsip log kegiatan dukuh."
+>
+  <div class="mb-10 flex flex-col gap-4">
+    <div class="flex items-center gap-3">
+      <span class="badge-blue bg-blue-50 px-3 py-1 font-black text-[0.65rem] uppercase tracking-widest text-blue-600">Admin Control</span>
+      <h2 class="text-gradient">Arsip Operasional Dukuh</h2>
+    </div>
+    <p class="max-w-3xl text-base font-medium leading-relaxed text-slate-500">
+      Halo, <strong>{session.username}</strong>. Gunakan modul ini untuk mencatat pelayanan, administrasi, rapat,
+      serta kehadiran kegiatan undangan secara ringkas, lalu tentukan apakah entri disimpan sebagai draft atau ditayangkan ke publik.
+    </p>
+  </div>
+
+  <AdminLogKegiatanManager client:load initialData={rawData} />
+</DashboardLayout>

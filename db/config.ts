@@ -32,6 +32,26 @@ export const NomorUrut = defineTable({
   },
 });
 
+export const LogKegiatanDukuh = defineTable({
+  columns: {
+    id:                    column.number({ primaryKey: true }),
+    judul:                 column.text(),
+    kategori:              column.text(),
+    tanggal:               column.text(),
+    waktu_mulai:           column.text({ optional: true }),
+    waktu_selesai:         column.text({ optional: true }),
+    lokasi:                column.text({ optional: true }),
+    ringkasan:             column.text(),
+    hasil_tindak_lanjut:   column.text({ optional: true }),
+    pihak_terlibat:        column.text({ optional: true }),
+    foto_dokumentasi:      column.text({ optional: true }),
+    status_publikasi:      column.text({ default: 'draft' }),
+    urutan_tampil:         column.number({ default: 0 }),
+    created_at:            column.date({ default: new Date() }),
+    updated_at:            column.date({ default: new Date() }),
+  },
+});
+
 export default defineDb({
-  tables: { Pengajuan, NomorUrut },
+  tables: { Pengajuan, NomorUrut, LogKegiatanDukuh },
 });

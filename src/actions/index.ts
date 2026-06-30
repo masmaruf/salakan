@@ -3,12 +3,39 @@ import { z } from 'zod';
 import * as astroDb from 'astro:db';
 import { getCollection } from 'astro:content';
 import { PENGAJUAN_STATUS, getPublicTicketLabel } from '../lib/pengajuan';
+import { KATEGORI_LOG_KEGIATAN, STATUS_PUBLIKASI_LOG } from '../lib/log-kegiatan';
 
 const { db, eq, and } = astroDb;
 const { Pengajuan, NomorUrut } = astroDb as typeof astroDb & {
   Pengajuan: any;
   NomorUrut: any;
+  LogKegiatanDukuh: any;
 };
+const { LogKegiatanDukuh } = astroDb as typeof astroDb & { LogKegiatanDukuh: any };
+
+const optionalTrimmedText = z.preprocess(
+  (value) => {
+    if (typeof value !== 'string') return value;
+    const trimmed = value.trim();
+    return trimmed === '' ? undefined : trimmed;
+  },
+  z.string().optional(),
+);
+
+const logKegiatanSchema = z.object({
+  judul: z.string().trim().min(1, 'Judul wajib diisi'),
+  kategori: z.enum(KATEGORI_LOG_KEGIATAN),
+  tanggal: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Tanggal wajib diisi'),
+  waktu_mulai: optionalTrimmedText,
+  waktu_selesai: optionalTrimmedText,
+  lokasi: optionalTrimmedText,
+  ringkasan: z.string().trim().min(1, 'Ringkasan wajib diisi'),
+  hasil_tindak_lanjut: optionalTrimmedText,
+  pihak_terlibat: optionalTrimmedText,
+  foto_dokumentasi: optionalTrimmedText,
+  status_publikasi: z.enum(STATUS_PUBLIKASI_LOG),
+  urutan_tampil: z.coerce.number().int().min(0).default(0),
+});
 
 async function generateNomor(rtId: string, nomorRt: string) {
   const tahun = new Date().getFullYear();
@@ -159,6 +186,104 @@ export const server = {
             success: false,
             message: err.message || 'Gagal memeriksa status pengajuan.',
           };
+        }
+      },
+    }),
+  },
+  logKegiatan: {
+    create: defineAction({
+      accept: 'form',
+      input: logKegiatanSchema,
+      handler: async (input) => {
+        try {
+          await db.insert(LogKegiatanDukuh).values({
+            judul: input.judul,
+            kategori: input.kategori,
+            tanggal: input.tanggal,
+            waktu_mulai: input.waktu_mulai,
+            waktu_selesai: input.waktu_selesai,
+            lokasi: input.lokasi,
+            ringkasan: input.ringkasan,
+            hasil_tindak_lanjut: input.hasil_tindak_lanjut,
+            pihak_terlibat: input.pihak_terlibat,
+            foto_dokumentasi: input.foto_dokumentasi,
+            status_publikasi: input.status_publikasi,
+            urutan_tampil: input.urutan_tampil,
+            created_at: new Date(),
+            updated_at: new Date(),
+          });
+
+          return { success: true, message: 'Log kegiatan berhasil ditambahkan.' };
+        } catch (err: any) {
+          return { success: false, message: err.message || 'Gagal menyimpan log kegiatan.' };
+        }
+      },
+    }),
+    update: defineAction({
+      accept: 'form',
+      input: logKegiatanSchema.extend({
+        id: z.coerce.number().int().positive(),
+      }),
+      handler: async (input) => {
+        try {
+          await db
+            .update(LogKegiatanDukuh)
+            .set({
+              judul: input.judul,
+              kategori: input.kategori,
+              tanggal: input.tanggal,
+              waktu_mulai: input.waktu_mulai,
+              waktu_selesai: input.waktu_selesai,
+              lokasi: input.lokasi,
+              ringkasan: input.ringkasan,
+              hasil_tindak_lanjut: input.hasil_tindak_lanjut,
+              pihak_terlibat: input.pihak_terlibat,
+              foto_dokumentasi: input.foto_dokumentasi,
+              status_publikasi: input.status_publikasi,
+              urutan_tampil: input.urutan_tampil,
+              updated_at: new Date(),
+            })
+            .where(eq(LogKegiatanDukuh.id, input.id));
+
+          return { success: true, message: 'Log kegiatan berhasil diperbarui.' };
+        } catch (err: any) {
+          return { success: false, message: err.message || 'Gagal memperbarui log kegiatan.' };
+        }
+      },
+    }),
+    updateStatus: defineAction({
+      accept: 'form',
+      input: z.object({
+        id: z.coerce.number().int().positive(),
+        status_publikasi: z.enum(STATUS_PUBLIKASI_LOG),
+      }),
+      handler: async (input) => {
+        try {
+          await db
+            .update(LogKegiatanDukuh)
+            .set({
+              status_publikasi: input.status_publikasi,
+              updated_at: new Date(),
+            })
+            .where(eq(LogKegiatanDukuh.id, input.id));
+
+          return { success: true, message: 'Status publikasi berhasil diperbarui.' };
+        } catch (err: any) {
+          return { success: false, message: err.message || 'Gagal memperbarui status publikasi.' };
+        }
+      },
+    }),
+    remove: defineAction({
+      accept: 'form',
+      input: z.object({
+        id: z.coerce.number().int().positive(),
+      }),
+      handler: async (input) => {
+        try {
+          await db.delete(LogKegiatanDukuh).where(eq(LogKegiatanDukuh.id, input.id));
+          return { success: true, message: 'Log kegiatan berhasil dihapus.' };
+        } catch (err: any) {
+          return { success: false, message: err.message || 'Gagal menghapus log kegiatan.' };
         }
       },
     }),

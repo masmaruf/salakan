@@ -1,0 +1,170 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import PageSection from '../components/PageSection.astro';
+import EmptyStateCard from '../components/ui/EmptyStateCard.astro';
+import Badge from '../components/ui/Badge.astro';
+import Icon from '../components/ui/Icon.tsx';
+import { getPublicLogKegiatan } from '../lib/log-kegiatan-store';
+import {
+  KATEGORI_LOG_KEGIATAN,
+  kategoriLogLabels,
+  excerptLog,
+  formatTanggalLog,
+  formatWaktuLog,
+  isValidKategoriLog,
+  isValidPeriodeLog,
+  matchesPeriodeLog,
+} from '../lib/log-kegiatan';
+import { withSiteTitle } from '../lib/site';
+
+export const prerender = false;
+
+const allLogs = await getPublicLogKegiatan();
+
+const kategoriParam = Astro.url.searchParams.get('kategori') ?? 'semua';
+const periodeParam = Astro.url.searchParams.get('periode') ?? 'semua';
+
+const activeKategori = isValidKategoriLog(kategoriParam) ? kategoriParam : 'semua';
+const activePeriode = isValidPeriodeLog(periodeParam) ? periodeParam : 'semua';
+
+const logs = allLogs.filter((item) => {
+  if (activeKategori !== 'semua' && item.kategori !== activeKategori) return false;
+  if (!matchesPeriodeLog(item.tanggal, activePeriode)) return false;
+  return true;
+});
+
+const stats = {
+  total: allLogs.length,
+  bulanIni: allLogs.filter((item) => matchesPeriodeLog(item.tanggal, 'bulan-ini')).length,
+  tahunIni: allLogs.filter((item) => matchesPeriodeLog(item.tanggal, 'tahun-ini')).length,
+};
+---
+
+<MainLayout
+  title={withSiteTitle('Log Kegiatan Dukuh')}
+  description="Arsip ringkas kegiatan dukuh Padukuhan Salakan yang sudah dipublikasikan, mencakup pelayanan, administrasi, rapat, dan kegiatan undangan."
+>
+  <PageHero
+    eyebrow="Arsip Operasional"
+    icon="pending_actions"
+    title="Log kegiatan dukuh yang sudah dipublikasikan bisa dipantau dari satu halaman"
+    description="Halaman ini merangkum kegiatan operasional dukuh secara ringkas agar warga dapat melihat layanan, administrasi, rapat, dan kehadiran kegiatan yang sudah dipublikasikan."
+  />
+
+  <section class="container-premium py-6 sm:py-8">
+    <div class="grid gap-4 md:grid-cols-3">
+      <div class="rounded-[1.5rem] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Total Publish</p>
+        <p class="mt-3 text-3xl font-black tracking-tight text-on-surface">{stats.total}</p>
+        <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">Jumlah log kegiatan yang sudah tayang ke publik.</p>
+      </div>
+      <div class="rounded-[1.5rem] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Bulan Ini</p>
+        <p class="mt-3 text-3xl font-black tracking-tight text-on-surface">{stats.bulanIni}</p>
+        <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">Kegiatan yang tercatat pada bulan berjalan.</p>
+      </div>
+      <div class="rounded-[1.5rem] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Tahun Ini</p>
+        <p class="mt-3 text-3xl font-black tracking-tight text-on-surface">{stats.tahunIni}</p>
+        <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">Ringkasan arsip kegiatan dalam tahun berjalan.</p>
+      </div>
+    </div>
+  </section>
+
+  <PageSection sectionClass="py-8 sm:py-10" title="Filter Arsip" eyebrow="Tampilan Publik">
+    <form class="grid gap-4 rounded-[1.75rem] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm md:grid-cols-2">
+      <label class="grid gap-2">
+        <span class="text-xs font-bold uppercase tracking-[0.14em] text-outline">Kategori</span>
+        <select name="kategori" class="rounded-2xl border border-outline-variant bg-white px-4 py-3 text-sm text-on-surface outline-none">
+          <option value="semua" selected={activeKategori === 'semua'}>Semua kategori</option>
+          {KATEGORI_LOG_KEGIATAN.map((item) => (
+            <option value={item} selected={activeKategori === item}>{kategoriLogLabels[item]}</option>
+          ))}
+        </select>
+      </label>
+
+      <label class="grid gap-2">
+        <span class="text-xs font-bold uppercase tracking-[0.14em] text-outline">Periode</span>
+        <select name="periode" class="rounded-2xl border border-outline-variant bg-white px-4 py-3 text-sm text-on-surface outline-none">
+          <option value="semua" selected={activePeriode === 'semua'}>Semua waktu</option>
+          <option value="bulan-ini" selected={activePeriode === 'bulan-ini'}>Bulan ini</option>
+          <option value="tahun-ini" selected={activePeriode === 'tahun-ini'}>Tahun ini</option>
+        </select>
+      </label>
+
+      <div class="md:col-span-2">
+        <button
+          type="submit"
+          class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-m3-primary"
+        >
+          <Icon name="search" class="text-[16px]" />
+          Terapkan filter
+        </button>
+      </div>
+    </form>
+  </PageSection>
+
+  <PageSection sectionClass="py-8 sm:py-10" title="Daftar Log Kegiatan" eyebrow="Publikasi Terbaru">
+    {logs.length > 0 ? (
+      <div class="grid gap-4 lg:grid-cols-2">
+        {logs.map((item) => {
+          const waktuLabel = formatWaktuLog(item.waktu_mulai, item.waktu_selesai);
+          return (
+            <article class="rounded-[1.75rem] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+              {item.foto_dokumentasi && (
+                <img
+                  src={item.foto_dokumentasi}
+                  alt={`Dokumentasi ${item.judul}`}
+                  class="mb-4 h-52 w-full rounded-[1.25rem] object-cover"
+                  loading="lazy"
+                />
+              )}
+
+              <div class="flex flex-wrap items-center gap-2">
+                <Badge label={kategoriLogLabels[item.kategori]} tone="surface" />
+                <Badge label="Dipublikasikan" tone="success" />
+              </div>
+
+              <h3 class="mt-4 text-xl font-bold tracking-tight text-on-surface">{item.judul}</h3>
+              <p class="mt-3 text-sm leading-relaxed text-on-surface-variant">{excerptLog(item.ringkasan, 220)}</p>
+
+              <div class="mt-4 grid gap-3 border-t border-outline-variant/60 pt-4 text-sm text-on-surface-variant">
+                <div class="flex items-start gap-2">
+                  <Icon name="calendar_today" class="mt-0.5 text-[18px] text-m3-primary" />
+                  <div>
+                    <p class="font-semibold text-on-surface">{formatTanggalLog(item.tanggal)}</p>
+                    {waktuLabel && <p class="mt-1">{waktuLabel}</p>}
+                  </div>
+                </div>
+
+                {item.lokasi && (
+                  <div class="flex items-start gap-2">
+                    <Icon name="location_on" class="mt-0.5 text-[18px] text-m3-primary" />
+                    <p>{item.lokasi}</p>
+                  </div>
+                )}
+
+                {item.pihak_terlibat && (
+                  <div class="flex items-start gap-2">
+                    <Icon name="group" class="mt-0.5 text-[18px] text-m3-primary" />
+                    <p>{item.pihak_terlibat}</p>
+                  </div>
+                )}
+
+                {item.hasil_tindak_lanjut && (
+                  <div class="rounded-2xl border border-emerald-100 bg-emerald-50/70 p-3">
+                    <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-emerald-700">Tindak lanjut</p>
+                    <p class="mt-2 text-sm leading-relaxed text-emerald-950">{excerptLog(item.hasil_tindak_lanjut, 180)}</p>
+                  </div>
+                )}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    ) : (
+      <EmptyStateCard message="Belum ada log kegiatan yang cocok dengan filter saat ini." />
+    )}
+  </PageSection>
+</MainLayout>
