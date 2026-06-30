@@ -1,17 +1,10 @@
 ---
 import DashboardLayout from '../../layouts/DashboardLayout.astro';
 import DashboardStatCard from '../../components/ui/DashboardStatCard.astro';
-import * as astroDb from 'astro:db';
 import { getPengajuanStatusMeta } from '../../lib/pengajuan';
+import { getRecentPengajuanRecords } from '../../lib/dynamic-data';
 
-const { db, desc } = astroDb;
-const { Pengajuan } = astroDb as typeof astroDb & { Pengajuan: any };
-
-const riwayat = await db
-  .select()
-  .from(Pengajuan)
-  .orderBy(desc(Pengajuan.created_at))
-  .limit(20);
+const riwayat = await getRecentPengajuanRecords(20);
 
 const stats = {
   selesai: riwayat.filter((r) => r.status === 'selesai').length,
@@ -19,8 +12,8 @@ const stats = {
   revisi: riwayat.filter((r) => r.status === 'perlu_revisi').length,
 };
 
-function formatTgl(d: Date) {
-  return new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }).format(d);
+function formatTgl(d: string | Date) {
+  return new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(d));
 }
 
 import Icon from '../../components/ui/Icon.tsx';

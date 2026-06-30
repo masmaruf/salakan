@@ -1,17 +1,18 @@
 import { defineAction } from 'astro:actions';
 import { z } from 'zod';
-import * as astroDb from 'astro:db';
 import { getCollection } from 'astro:content';
 import { PENGAJUAN_STATUS, getPublicTicketLabel } from '../lib/pengajuan';
 import { KATEGORI_LOG_KEGIATAN, STATUS_PUBLIKASI_LOG } from '../lib/log-kegiatan';
-
-const { db, eq, and } = astroDb;
-const { Pengajuan, NomorUrut } = astroDb as typeof astroDb & {
-  Pengajuan: any;
-  NomorUrut: any;
-  LogKegiatanDukuh: any;
-};
-const { LogKegiatanDukuh } = astroDb as typeof astroDb & { LogKegiatanDukuh: any };
+import {
+  createLogKegiatanRecord,
+  createPengajuanRecord,
+  deleteLogKegiatanRecord,
+  findPengajuanByTicketAndNik,
+  generateNomorPengajuan,
+  updateLogKegiatanRecord,
+  updateLogKegiatanStatusRecord,
+  updatePengajuanStatusRecord,
+} from '../lib/dynamic-data';
 
 const optionalTrimmedText = z.preprocess(
   (value) => {
@@ -36,29 +37,6 @@ const logKegiatanSchema = z.object({
   status_publikasi: z.enum(STATUS_PUBLIKASI_LOG),
   urutan_tampil: z.coerce.number().int().min(0).default(0),
 });
-
-async function generateNomor(rtId: string, nomorRt: string) {
-  const tahun = new Date().getFullYear();
-  const existing = await db
-    .select()
-    .from(NomorUrut)
-    .where(and(eq(NomorUrut.rt_id, rtId), eq(NomorUrut.tahun, tahun)));
-
-  let urutan: number;
-  if (existing.length === 0) {
-    urutan = 1;
-    await db.insert(NomorUrut).values({ rt_id: rtId, tahun, urutan: 1 });
-  } else {
-    urutan = existing[0].urutan + 1;
-    await db
-      .update(NomorUrut)
-      .set({ urutan })
-      .where(and(eq(NomorUrut.rt_id, rtId), eq(NomorUrut.tahun, tahun)));
-  }
-
-  const nomorPad = String(urutan).padStart(3, '0');
-  return `${nomorPad}/RT-${nomorRt}/DkV/${tahun}`;
-}
 
 export const server = {
   layanan: {
@@ -87,9 +65,9 @@ export const server = {
             throw new Error('RT tidak ditemukan atau saat ini tidak aktif.');
           }
 
-          const nomor_surat = await generateNomor(input.rt_id, rtData.data.nomor_rt);
+          const nomor_surat = await generateNomorPengajuan(input.rt_id, rtData.data.nomor_rt);
 
-          await db.insert(Pengajuan).values({
+          await createPengajuanRecord({
             nomor_surat,
             rt_id: input.rt_id,
             nama: input.nama.trim(),
@@ -104,8 +82,6 @@ export const server = {
             keperluan: input.keperluan.trim(),
             no_hp: input.whatsapp.trim(),
             status: 'menunggu',
-            created_at: new Date(),
-            updated_at: new Date(),
           });
 
           return {
@@ -130,14 +106,11 @@ export const server = {
       }),
       handler: async (input) => {
         try {
-          await db
-            .update(Pengajuan)
-            .set({
-              status: input.status,
-              catatan_rt: input.catatan_rt,
-              updated_at: new Date(),
-            })
-            .where(eq(Pengajuan.id, input.id));
+          await updatePengajuanStatusRecord({
+            id: input.id,
+            status: input.status,
+            catatan_rt: input.catatan_rt,
+          });
 
           return { success: true, message: 'Status berhasil diperbarui.' };
         } catch (err: any) {
@@ -155,12 +128,7 @@ export const server = {
         try {
           const nomorSurat = getPublicTicketLabel(input.nomor_surat);
           const nik = input.nik.replace(/\D/g, '');
-          const result = await db
-            .select()
-            .from(Pengajuan)
-            .where(and(eq(Pengajuan.nomor_surat, nomorSurat), eq(Pengajuan.nik, nik)));
-
-          const item = result[0];
+          const item = await findPengajuanByTicketAndNik(nomorSurat, nik);
           if (!item) {
             return {
               success: false,
@@ -176,9 +144,9 @@ export const server = {
               rt_id: item.rt_id,
               status: item.status,
               keperluan: item.keperluan,
-              catatan_rt: item.catatan_rt,
-              created_at: item.created_at.toISOString(),
-              updated_at: item.updated_at.toISOString(),
+              catatan_rt: item.catatan_rt ?? null,
+              created_at: String(item.created_at),
+              updated_at: String(item.updated_at),
             },
           };
         } catch (err: any) {
@@ -196,7 +164,7 @@ export const server = {
       input: logKegiatanSchema,
       handler: async (input) => {
         try {
-          await db.insert(LogKegiatanDukuh).values({
+          await createLogKegiatanRecord({
             judul: input.judul,
             kategori: input.kategori,
             tanggal: input.tanggal,
@@ -209,8 +177,6 @@ export const server = {
             foto_dokumentasi: input.foto_dokumentasi,
             status_publikasi: input.status_publikasi,
             urutan_tampil: input.urutan_tampil,
-            created_at: new Date(),
-            updated_at: new Date(),
           });
 
           return { success: true, message: 'Log kegiatan berhasil ditambahkan.' };
@@ -226,24 +192,21 @@ export const server = {
       }),
       handler: async (input) => {
         try {
-          await db
-            .update(LogKegiatanDukuh)
-            .set({
-              judul: input.judul,
-              kategori: input.kategori,
-              tanggal: input.tanggal,
-              waktu_mulai: input.waktu_mulai,
-              waktu_selesai: input.waktu_selesai,
-              lokasi: input.lokasi,
-              ringkasan: input.ringkasan,
-              hasil_tindak_lanjut: input.hasil_tindak_lanjut,
-              pihak_terlibat: input.pihak_terlibat,
-              foto_dokumentasi: input.foto_dokumentasi,
-              status_publikasi: input.status_publikasi,
-              urutan_tampil: input.urutan_tampil,
-              updated_at: new Date(),
-            })
-            .where(eq(LogKegiatanDukuh.id, input.id));
+          await updateLogKegiatanRecord({
+            id: input.id,
+            judul: input.judul,
+            kategori: input.kategori,
+            tanggal: input.tanggal,
+            waktu_mulai: input.waktu_mulai,
+            waktu_selesai: input.waktu_selesai,
+            lokasi: input.lokasi,
+            ringkasan: input.ringkasan,
+            hasil_tindak_lanjut: input.hasil_tindak_lanjut,
+            pihak_terlibat: input.pihak_terlibat,
+            foto_dokumentasi: input.foto_dokumentasi,
+            status_publikasi: input.status_publikasi,
+            urutan_tampil: input.urutan_tampil,
+          });
 
           return { success: true, message: 'Log kegiatan berhasil diperbarui.' };
         } catch (err: any) {
@@ -259,13 +222,7 @@ export const server = {
       }),
       handler: async (input) => {
         try {
-          await db
-            .update(LogKegiatanDukuh)
-            .set({
-              status_publikasi: input.status_publikasi,
-              updated_at: new Date(),
-            })
-            .where(eq(LogKegiatanDukuh.id, input.id));
+          await updateLogKegiatanStatusRecord(input.id, input.status_publikasi);
 
           return { success: true, message: 'Status publikasi berhasil diperbarui.' };
         } catch (err: any) {
@@ -280,7 +237,7 @@ export const server = {
       }),
       handler: async (input) => {
         try {
-          await db.delete(LogKegiatanDukuh).where(eq(LogKegiatanDukuh.id, input.id));
+          await deleteLogKegiatanRecord(input.id);
           return { success: true, message: 'Log kegiatan berhasil dihapus.' };
         } catch (err: any) {
           return { success: false, message: err.message || 'Gagal menghapus log kegiatan.' };
