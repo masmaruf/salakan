@@ -1,14 +1,6 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import * as astroDb from 'astro:db';
 import type { LogKegiatanDukuhRecord, StatusPublikasiLog } from './log-kegiatan';
 import type { PengajuanStatus } from './pengajuan';
-
-const { db, eq, and, desc } = astroDb;
-const { Pengajuan, NomorUrut, LogKegiatanDukuh } = astroDb as typeof astroDb & {
-  Pengajuan: any;
-  NomorUrut: any;
-  LogKegiatanDukuh: any;
-};
 
 export interface PengajuanRecord {
   id: number;
@@ -111,6 +103,20 @@ function normalizeTimeValue(value: unknown) {
   return value.length >= 5 ? value.slice(0, 5) : value;
 }
 
+async function getAstroDbContext() {
+  const astroDb = await import('astro:db');
+
+  return {
+    db: astroDb.db,
+    eq: astroDb.eq,
+    and: astroDb.and,
+    desc: astroDb.desc,
+    Pengajuan: (astroDb as typeof astroDb & { Pengajuan: any }).Pengajuan,
+    NomorUrut: (astroDb as typeof astroDb & { NomorUrut: any }).NomorUrut,
+    LogKegiatanDukuh: (astroDb as typeof astroDb & { LogKegiatanDukuh: any }).LogKegiatanDukuh,
+  };
+}
+
 function serializePengajuan(item: any): PengajuanRecord {
   return {
     ...item,
@@ -192,6 +198,8 @@ export async function generateNomorPengajuan(rtId: string, nomorRt: string) {
     return `${String(urutan).padStart(3, '0')}/RT-${nomorRt}/DkV/${tahun}`;
   }
 
+  const { db, eq, and, NomorUrut } = await getAstroDbContext();
+
   const existing = await db
     .select()
     .from(NomorUrut)
@@ -227,6 +235,8 @@ export async function createPengajuanRecord(input: CreatePengajuanInput) {
     return;
   }
 
+  const { db, Pengajuan } = await getAstroDbContext();
+
   await db.insert(Pengajuan).values({
     ...input,
     created_at: new Date(),
@@ -247,6 +257,8 @@ export async function updatePengajuanStatusRecord(input: UpdatePengajuanStatusIn
     if (error) throw error;
     return;
   }
+
+  const { db, eq, Pengajuan } = await getAstroDbContext();
 
   await db
     .update(Pengajuan)
@@ -272,6 +284,8 @@ export async function findPengajuanByTicketAndNik(nomorSurat: string, nik: strin
     return data?.[0] ? serializePengajuan(data[0]) : null;
   }
 
+  const { db, eq, and, Pengajuan } = await getAstroDbContext();
+
   const result = await db
     .select()
     .from(Pengajuan)
@@ -291,6 +305,8 @@ export async function getAllPengajuanRecords() {
     if (error) throw error;
     return (data ?? []).map(serializePengajuan);
   }
+
+  const { db, desc, Pengajuan } = await getAstroDbContext();
 
   const items = await db
     .select()
@@ -324,6 +340,8 @@ export async function getAdminLogKegiatanRecords() {
   }
 
   try {
+    const { db, desc, LogKegiatanDukuh } = await getAstroDbContext();
+
     const items = await db
       .select()
       .from(LogKegiatanDukuh)
@@ -357,6 +375,8 @@ export async function getPublicLogKegiatanRecords() {
   }
 
   try {
+    const { db, eq, desc, LogKegiatanDukuh } = await getAstroDbContext();
+
     const items = await db
       .select()
       .from(LogKegiatanDukuh)
@@ -389,6 +409,8 @@ export async function getLogKegiatanByIdRecord(id: number) {
   }
 
   try {
+    const { db, eq, LogKegiatanDukuh } = await getAstroDbContext();
+
     const items = await db
       .select()
       .from(LogKegiatanDukuh)
@@ -421,6 +443,8 @@ export async function createLogKegiatanRecord(input: CreateLogKegiatanInput) {
     return;
   }
 
+  const { db, LogKegiatanDukuh } = await getAstroDbContext();
+
   await db.insert(LogKegiatanDukuh).values({
     ...input,
     created_at: new Date(),
@@ -452,6 +476,8 @@ export async function updateLogKegiatanRecord(input: UpdateLogKegiatanInput) {
     return;
   }
 
+  const { db, eq, LogKegiatanDukuh } = await getAstroDbContext();
+
   await db
     .update(LogKegiatanDukuh)
     .set({
@@ -474,6 +500,8 @@ export async function updateLogKegiatanStatusRecord(id: number, status: StatusPu
     return;
   }
 
+  const { db, eq, LogKegiatanDukuh } = await getAstroDbContext();
+
   await db
     .update(LogKegiatanDukuh)
     .set({
@@ -491,5 +519,6 @@ export async function deleteLogKegiatanRecord(id: number) {
     return;
   }
 
+  const { db, eq, LogKegiatanDukuh } = await getAstroDbContext();
   await db.delete(LogKegiatanDukuh).where(eq(LogKegiatanDukuh.id, id));
 }
