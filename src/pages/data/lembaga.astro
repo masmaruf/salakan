@@ -1,0 +1,79 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import PageIntro from '../../components/ui/PageIntro.astro';
+import Icon from '../../components/ui/Icon.tsx';
+import { getStrukturOrganisasi, getPengaturan } from '../../lib/content';
+import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
+
+const [lembagaItems, pengaturan] = await Promise.all([getStrukturOrganisasi(), getPengaturan()]);
+const seo = pengaturan?.seoHalamanData?.strukturOrganisasi;
+const items = lembagaItems
+  .filter(({ entry }) => entry.statusPublikasi === 'publish')
+  .sort((a, b) => a.entry.urutanTampil - b.entry.urutanTampil);
+
+const bidangLabels = {
+  pimpinan: 'Lembaga Inti Padukuhan',
+  kegiatan: 'Layanan Sosial & Pendidikan',
+  wilayah: 'Komunitas Warga',
+} as const;
+
+const bidangIcons = {
+  pimpinan: 'account_balance',
+  kegiatan: 'volunteer_activism',
+  wilayah: 'groups',
+} as const;
+
+const grouped = {
+  pimpinan: items.filter(({ entry }) => entry.bidang === 'pimpinan'),
+  kegiatan: items.filter(({ entry }) => entry.bidang === 'kegiatan'),
+  wilayah: items.filter(({ entry }) => entry.bidang === 'wilayah'),
+};
+---
+
+<MainLayout
+  title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'Lembaga Padukuhan'))}
+  description={resolveSeoText(seo?.seoDescription, 'Informasi lembaga dan organisasi yang berada di wilayah Padukuhan Salakan.')}
+  image={resolveSeoImage(seo?.ogImage)}
+>
+  <PageIntro
+    title="Lembaga Padukuhan"
+    description={`Daftar lembaga dan organisasi yang bergerak di wilayah Padukuhan Salakan. Saat ini ada ${items.length} lembaga aktif yang ditampilkan.`}
+    breadcrumbs={[
+      { label: 'Beranda', href: '/' },
+      { label: 'Pusat Data', href: '/data' },
+      { label: 'Lembaga', active: true },
+    ]}
+  />
+
+  <section class="container-premium py-8">
+    <div class="grid gap-8 lg:grid-cols-3">
+      {Object.entries(grouped).map(([key, groupItems]) => (
+        <div class="space-y-4">
+          <div class="mb-2 flex items-center gap-3">
+            <div class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary-container/30 text-m3-primary">
+              <Icon name={bidangIcons[key as keyof typeof bidangIcons]} class="text-[20px]" />
+            </div>
+            <div>
+              <h2 class="text-base font-bold text-on-surface">{bidangLabels[key as keyof typeof bidangLabels]}</h2>
+              <span class="text-[12px] text-on-surface-variant">{groupItems.length} lembaga</span>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            {groupItems.map(({ slug, entry }) => (
+              <article class="rounded-xl border border-outline-variant bg-surface-container-lowest p-4 transition-all hover:-translate-y-0.5 hover:shadow-md" id={slug}>
+                <span class="text-[12px] font-semibold text-m3-primary">Lembaga</span>
+                <h3 class="mt-1 text-sm font-bold text-on-surface">{entry.jabatan}</h3>
+                <p class="mt-1 text-[12px] font-medium text-on-surface-variant">Pengampu: {entry.namaPejabat}</p>
+                <p class="mt-2 line-clamp-3 text-sm text-on-surface-variant">{entry.deskripsiTugas}</p>
+                <div class="mt-3 flex items-center gap-1.5 border-t border-outline-variant/40 pt-3 text-[12px] text-on-surface-variant">
+                  <Icon name="call" class="text-[14px]" /> {entry.kontak}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</MainLayout>

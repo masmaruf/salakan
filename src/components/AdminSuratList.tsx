@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { actions } from 'astro:actions';
 import { getPengajuanStatusMeta, type PengajuanStatus } from '../lib/pengajuan';
 
-interface Pengajuan {
+export interface Pengajuan {
   id: number;
   nomor_surat: string;
   rt_id: string;

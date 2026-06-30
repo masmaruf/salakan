@@ -1,8 +1,11 @@
 ---
 import DashboardLayout from '../../layouts/DashboardLayout.astro';
 import DashboardStatCard from '../../components/ui/DashboardStatCard.astro';
-import { db, Pengajuan, desc } from 'astro:db';
+import * as astroDb from 'astro:db';
 import { getPengajuanStatusMeta } from '../../lib/pengajuan';
+
+const { db, desc } = astroDb;
+const { Pengajuan } = astroDb as typeof astroDb & { Pengajuan: any };
 
 const riwayat = await db
   .select()

@@ -16,11 +16,17 @@ if (!item) {
 }
 
 const { entry } = item;
+type MetaItem = {
+  icon: string;
+  text: string;
+  accentClass: string;
+};
+
 const metaItems = [
   entry.waktuMulai ? { icon: 'schedule', text: `${entry.waktuMulai}${entry.waktuSelesai ? ` - ${entry.waktuSelesai}` : ''}`, accentClass: 'text-on-surface-variant' } : null,
   entry.lokasi ? { icon: 'location_on', text: entry.lokasi, accentClass: 'text-on-surface-variant' } : null,
   entry.kontakPic ? { icon: 'person', text: entry.kontakPic, accentClass: 'text-on-surface-variant' } : null,
-].filter(Boolean);
+].filter((meta): meta is MetaItem => meta !== null);
 
 function getLabelTone(label?: string) {
   const normalized = label?.trim().toLowerCase() ?? '';

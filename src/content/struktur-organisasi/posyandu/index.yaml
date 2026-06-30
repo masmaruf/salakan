@@ -1,0 +1,11 @@
+jabatan: Posyandu
+kontenUtama:
+  namaPejabat: Kader Posyandu
+  deskripsiTugas: >-
+    Melayani kegiatan kesehatan ibu dan anak, pemantauan tumbuh kembang balita,
+    serta edukasi kesehatan dasar bagi keluarga warga.
+  kontak: Jadwal melalui kader posyandu
+pengaturanTampil:
+  bidang: kegiatan
+  statusPublikasi: publish
+  urutanTampil: 4

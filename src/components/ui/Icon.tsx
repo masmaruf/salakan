@@ -29,12 +29,12 @@ export default function Icon({
 
   return (
     <LucideIcon
-      aria-hidden={title ? undefined : true}
       className={mergedClassName}
+      aria-hidden={title ? undefined : true}
+      aria-label={title}
       role={title ? 'img' : undefined}
       strokeWidth={strokeWidth}
       style={{ width: '1em', height: '1em', ...style }}
-      title={title}
     />
   );
 }

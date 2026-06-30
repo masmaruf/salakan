@@ -4,9 +4,10 @@ import PageHero from '../components/PageHero.astro';
 import PageSection from '../components/PageSection.astro';
 import InfoCard from '../components/ui/InfoCard.astro';
 import ActionLinkButton from '../components/ui/ActionLinkButton.astro';
-import { getProfil } from '../lib/content';
+import { getPengaturan, getProfil } from '../lib/content';
 
 const profil = await getProfil();
+const pengaturan = await getPengaturan();
 const heroImg = profil?.hero?.gambar;
 const lokasi = profil?.lokasi;
 const potensi = profil?.potensiDesa ?? [];
@@ -97,34 +98,42 @@ import Icon from '../components/ui/Icon.tsx';
     </PageSection>
   )}
 
-  {(lokasi?.alamat || lokasi?.gambarPeta) && (
+  {(pengaturan?.linkPeta || lokasi?.alamat || lokasi?.linkPeta) && (
     <PageSection eyebrow="Lokasi" title="Temukan Kami" sectionClass="bg-surface-container-low/40 py-10 sm:py-14">
-      <div class="relative overflow-hidden rounded-xl border border-outline-variant">
-        {lokasi?.gambarPeta ? (
-          <img
-            src={lokasi.gambarPeta}
-            alt="Peta lokasi Padukuhan Salakan"
-            class="h-[240px] w-full object-cover sm:h-[300px] md:h-[360px]"
-          />
-        ) : (
-          <div class="flex h-[240px] w-full items-center justify-center bg-surface-container-high sm:h-[300px] md:h-[360px]">
-            <Icon name="map" class="text-[48px] text-outline" />
+      <div class="space-y-5">
+        {(lokasi?.alamat || lokasi?.linkPeta) && (
+          <div class="flex flex-col gap-4 rounded-xl border border-outline-variant bg-surface-container-lowest p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+            <div class="min-w-0">
+              <div class="mb-1 flex items-center gap-1.5">
+                <Icon name="location_on" class="text-[16px] text-m3-primary" />
+                <span class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Alamat</span>
+              </div>
+              <p class="text-sm leading-relaxed text-on-surface">{lokasi?.alamat}</p>
+            </div>
+            {lokasi?.linkPeta && (
+              <ActionLinkButton href={lokasi.linkPeta} label="Buka Peta" icon="open_in_new" target="_blank" rel="noopener noreferrer" class="w-full justify-center sm:w-auto sm:justify-start" />
+            )}
           </div>
         )}
 
-        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/80 to-transparent p-5 sm:p-6">
-          <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div class="text-white">
-              <div class="mb-1 flex items-center gap-1.5">
-                <Icon name="location_on" class="text-[16px]" />
-                <span class="text-xs font-bold uppercase tracking-wider text-white/80">Alamat</span>
-              </div>
-              <p class="max-w-md text-sm leading-relaxed">{lokasi?.alamat}</p>
+        <div class="overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest shadow-[0_10px_30px_rgba(15,23,42,0.08)]">
+          {pengaturan?.linkPeta ? (
+            <iframe
+              title="Peta Padukuhan Salakan"
+              src={pengaturan.linkPeta}
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              class="h-full w-full min-h-[360px] border-none md:min-h-[460px]"
+            />
+          ) : (
+            <div class="flex min-h-[360px] flex-col items-center justify-center p-8 text-center">
+              <Icon name="wrong_location" class="mb-4 text-[48px] text-outline" />
+              <p class="text-base font-bold text-on-surface">Peta Belum Tersedia</p>
+              <p class="mt-2 max-w-xs text-sm text-on-surface-variant">
+                Sematkan tautan peta embed melalui CMS admin agar titik lokasi muncul di sini.
+              </p>
             </div>
-            {lokasi?.linkPeta && (
-              <ActionLinkButton href={lokasi.linkPeta} label="Buka Peta" icon="open_in_new" target="_blank" rel="noopener noreferrer" class="w-full justify-center bg-white text-slate-900 shadow-lg sm:w-auto sm:justify-start" />
-            )}
-          </div>
+          )}
         </div>
       </div>
     </PageSection>

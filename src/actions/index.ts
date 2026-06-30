@@ -1,8 +1,14 @@
 import { defineAction } from 'astro:actions';
 import { z } from 'zod';
-import { db, Pengajuan, NomorUrut, eq, and } from 'astro:db';
+import * as astroDb from 'astro:db';
 import { getCollection } from 'astro:content';
 import { PENGAJUAN_STATUS, getPublicTicketLabel } from '../lib/pengajuan';
+
+const { db, eq, and } = astroDb;
+const { Pengajuan, NomorUrut } = astroDb as typeof astroDb & {
+  Pengajuan: any;
+  NomorUrut: any;
+};
 
 async function generateNomor(rtId: string, nomorRt: string) {
   const tahun = new Date().getFullYear();

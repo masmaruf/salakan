@@ -1,8 +1,10 @@
-jabatan: Penghubung Wilayah
+jabatan: Jaga Warga
 kontenUtama:
-  namaPejabat: Bapak Hadi
-  deskripsiTugas: Menjembatani informasi antar RT dan memastikan kebutuhan layanan warga tersampaikan dengan cepat.
-  kontak: '0813-7000-3333'
+  namaPejabat: Koordinator Jaga Warga
+  deskripsiTugas: >-
+    Mendukung ketertiban lingkungan, kesiapsiagaan warga, dan koordinasi cepat
+    ketika ada kebutuhan keamanan wilayah.
+  kontak: Koordinator jaga warga setempat
 pengaturanTampil:
   bidang: wilayah
   statusPublikasi: publish

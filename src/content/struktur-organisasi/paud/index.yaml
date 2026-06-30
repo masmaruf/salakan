@@ -1,0 +1,11 @@
+jabatan: PAUD
+kontenUtama:
+  namaPejabat: Pengelola PAUD
+  deskripsiTugas: >-
+    Mendampingi pendidikan anak usia dini melalui kegiatan belajar, bermain,
+    pembiasaan sosial, dan komunikasi aktif dengan orang tua.
+  kontak: Hubungi pengelola PAUD padukuhan
+pengaturanTampil:
+  bidang: kegiatan
+  statusPublikasi: publish
+  urutanTampil: 6

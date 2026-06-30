@@ -1,6 +1,6 @@
 import { defineDb, defineTable, column } from 'astro:db';
 
-const Pengajuan = defineTable({
+export const Pengajuan = defineTable({
   columns: {
     id:             column.number({ primaryKey: true }),
     nomor_surat:    column.text(),                          // "001/RT-05/DkV/2025"
@@ -23,7 +23,7 @@ const Pengajuan = defineTable({
   },
 });
 
-const NomorUrut = defineTable({
+export const NomorUrut = defineTable({
   columns: {
     id:      column.number({ primaryKey: true }),
     rt_id:   column.text(),

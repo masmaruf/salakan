@@ -1,8 +1,12 @@
 ---
 import DashboardLayout from '../../layouts/DashboardLayout.astro';
 import AdminSuratList from '../../components/AdminSuratList';
-import { db, Pengajuan, desc } from 'astro:db';
+import type { Pengajuan as AdminPengajuan } from '../../components/AdminSuratList';
+import * as astroDb from 'astro:db';
 import { getAdminSession, getSessionCookieName } from '../../lib/admin-auth';
+
+const { db, desc } = astroDb;
+const { Pengajuan } = astroDb as typeof astroDb & { Pengajuan: any };
 
 // Proteksi Halaman Admin
 const session = getAdminSession(Astro.cookies.get(getSessionCookieName())?.value);
@@ -15,10 +19,10 @@ const allPengajuan = await db
   .from(Pengajuan)
   .orderBy(desc(Pengajuan.created_at));
 
-const rawData = allPengajuan.map(item => ({
+const rawData = allPengajuan.map((item) => ({
   ...item,
-  created_at: item.created_at.toISOString() // Serialisasi data untuk React
-}));
+  created_at: item.created_at.toISOString(), // Serialisasi data untuk React
+})) as AdminPengajuan[];
 
 ---
 

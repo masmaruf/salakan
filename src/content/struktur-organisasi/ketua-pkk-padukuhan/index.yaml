@@ -1,8 +1,10 @@
-jabatan: Ketua PKK Padukuhan
+jabatan: PKK Padukuhan
 kontenUtama:
-  namaPejabat: Octa Ninda Ardhani
-  deskripsiTugas: xxx
-  kontak: 0812-1212-1212
+  namaPejabat: Pengurus PKK Padukuhan
+  deskripsiTugas: >-
+    Menggerakkan kegiatan keluarga, pemberdayaan perempuan, kesehatan rumah
+    tangga, dan pendampingan aktivitas sosial warga.
+  kontak: Hubungi sekretariat PKK padukuhan
 pengaturanTampil:
   bidang: pimpinan
   statusPublikasi: publish

@@ -6,7 +6,7 @@ kontakWhatsApp: '6283867181105'
 email: info@salakan.id
 jamLayanan: Senin-Ahad, 24Jam
 linkPeta: >-
-  https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1397.4383617790154!2d110.29192954961819!3d-7.83708637015088!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sid!2sid!4v1775009284501!5m2!1sid!2sid
+  https://maps.google.com/maps?q=-7.837031,110.292387&z=18&output=embed
 sambutanBeranda: >
   Selamat datang di website Padukuhan Salakan. Portal ini disiapkan untuk
   membantu warga memperoleh agenda, informasi warga, dan dokumentasi kegiatan secara
@@ -24,8 +24,8 @@ seoHalamanData:
     seoTitle: UMKM Warga
     seoDescription: Katalog UMKM dan potensi ekonomi warga Padukuhan Salakan.
   strukturOrganisasi:
-    seoTitle: Struktur Organisasi
-    seoDescription: Halaman struktur organisasi dan peran layanan Padukuhan Salakan.
+    seoTitle: Lembaga Padukuhan
+    seoDescription: Halaman lembaga dan organisasi yang berada di wilayah Padukuhan Salakan.
   agenda:
     seoTitle: Agenda Warga
     seoDescription: >-
@@ -63,7 +63,7 @@ menuData:
   title: Data & Informasi Kampung
   description: >
     Halaman ini disiapkan sebagai pusat akses menuju data padukuhan, dokumen,
-    informasi UMKM, profil wilayah, dan struktur organisasi.
+    informasi UMKM, profil wilayah, dan lembaga padukuhan.
   items:
     - label: Dokumen
       href: /data/dokumen
@@ -79,9 +79,9 @@ menuData:
         padukuhan.
       icon: storefront
       status: tampil
-    - label: Struktur Organisasi
-      href: /data/struktur-organisasi
-      description: Susunan pengurus, perangkat, dan penanggung jawab layanan warga.
+    - label: Lembaga
+      href: /data/lembaga
+      description: Daftar lembaga dan organisasi warga yang aktif di Padukuhan Salakan.
       icon: account_tree
       status: tampil
     - label: Agenda
