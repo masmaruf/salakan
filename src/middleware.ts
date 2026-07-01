@@ -6,20 +6,14 @@ import {
   isAdminConfigured,
 } from './lib/admin-auth';
 
+const ADMIN_PREFIX = '/admin';
 const ADMIN_LOGIN_PATH = '/admin/login';
 const ADMIN_LOGOUT_PATH = '/admin/logout';
 const ADMIN_USERS_PATH = '/admin/users';
 const ADMIN_FORBIDDEN_PATH = '/admin/forbidden';
 
-const ADMIN_PATHS = [
-  ADMIN_LOGIN_PATH,
-  ADMIN_LOGOUT_PATH,
-  ADMIN_USERS_PATH,
-  ADMIN_FORBIDDEN_PATH,
-];
-
 function isAdminPath(pathname: string) {
-  return ADMIN_PATHS.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+  return pathname === ADMIN_PREFIX || pathname.startsWith(`${ADMIN_PREFIX}/`);
 }
 
 function withAdminHeaders(response: Response) {
@@ -28,7 +22,34 @@ function withAdminHeaders(response: Response) {
   return response;
 }
 
+function syncRuntimeEnvToProcess(context: any) {
+  const runtimeEnv = context?.locals?.runtime?.env;
+  if (!runtimeEnv || typeof runtimeEnv !== 'object') return;
+
+  const envKeys = [
+    'ADMIN_USERS_JSON',
+    'ADMIN_USERNAME',
+    'ADMIN_PASSWORD',
+    'ADMIN_ROLE',
+    'SUPABASE_URL',
+    'SUPABASE_SERVICE_ROLE_KEY',
+    'SUPABASE_KEY',
+    'PUBLIC_SUPABASE_URL',
+    'PUBLIC_SUPABASE_ANON_KEY',
+    'CF_PAGES_URL',
+  ] as const;
+
+  for (const key of envKeys) {
+    const value = runtimeEnv[key];
+    if (typeof value === 'string' && value.length > 0) {
+      process.env[key] = value;
+    }
+  }
+}
+
 export const onRequest = defineMiddleware(async (context, next) => {
+  syncRuntimeEnvToProcess(context);
+
   if (!isAdminPath(context.url.pathname)) {
     return next();
   }
@@ -44,7 +65,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   if (!isAdminConfigured()) {
     return withAdminHeaders(
-      new Response('Akses admin belum dikonfigurasi. Atur ADMIN_USERNAME dan ADMIN_PASSWORD terlebih dahulu.', {
+      new Response('Akses admin belum dikonfigurasi. Atur ADMIN_USERS_JSON atau ADMIN_USERNAME dan ADMIN_PASSWORD terlebih dahulu.', {
         status: 503,
       })
     );
