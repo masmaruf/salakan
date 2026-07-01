@@ -1,6 +1,11 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import PageIntro from '../../components/ui/PageIntro.astro';
+import PillFilterBar from '../../components/ui/PillFilterBar.astro';
+import StatCard from '../../components/ui/StatCard.astro';
+import BadgeList from '../../components/ui/BadgeList.astro';
+import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
+import LabelValueList from '../../components/ui/LabelValueList.astro';
 import Icon from '../../components/ui/Icon.tsx';
 import { getStrukturOrganisasi, getPengaturan } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
@@ -9,7 +14,15 @@ const [lembagaItems, pengaturan] = await Promise.all([getStrukturOrganisasi(), g
 const seo = pengaturan?.seoHalamanData?.strukturOrganisasi;
 const items = lembagaItems
   .filter(({ entry }) => entry.statusPublikasi === 'publish')
-  .sort((a, b) => a.entry.urutanTampil - b.entry.urutanTampil);
+  .sort((a, b) => a.entry.urutanTampil - b.entry.urutanTampil)
+  .map((item) => ({
+    ...item,
+    entry: {
+      ...item.entry,
+      fokusKegiatan: item.entry.fokusKegiatan ?? [],
+      layananUtama: item.entry.layananUtama ?? [],
+    },
+  }));
 
 const bidangLabels = {
   pimpinan: 'Lembaga Inti Padukuhan',
@@ -23,11 +36,22 @@ const bidangIcons = {
   wilayah: 'groups',
 } as const;
 
+const bidangParam = Astro.url.searchParams.get('bidang') ?? 'semua';
+const activeBidang = ['semua', 'pimpinan', 'kegiatan', 'wilayah'].includes(bidangParam) ? bidangParam : 'semua';
+
 const grouped = {
   pimpinan: items.filter(({ entry }) => entry.bidang === 'pimpinan'),
   kegiatan: items.filter(({ entry }) => entry.bidang === 'kegiatan'),
   wilayah: items.filter(({ entry }) => entry.bidang === 'wilayah'),
-};
+} as const;
+
+const filteredItems = activeBidang === 'semua'
+  ? items
+  : items.filter(({ entry }) => entry.bidang === activeBidang);
+
+const highlighted = filteredItems[0] ?? items[0] ?? null;
+const rutinCount = items.filter(({ entry }) => entry.jadwalRutin).length;
+const layananCount = items.reduce((sum, item) => sum + item.entry.layananUtama.length, 0);
 ---
 
 <MainLayout
@@ -37,42 +61,190 @@ const grouped = {
 >
   <PageIntro
     title="Lembaga Padukuhan"
-    description={`Daftar lembaga dan organisasi yang bergerak di wilayah Padukuhan Salakan. Saat ini ada ${items.length} lembaga aktif yang ditampilkan.`}
+    description={`Direktori lembaga dan organisasi yang bergerak di wilayah Padukuhan Salakan. Saat ini ada ${items.length} lembaga aktif yang ditampilkan untuk membantu warga mengenali pengampu kegiatan, fokus kerja, dan jalur koordinasinya.`}
     breadcrumbs={[
       { label: 'Beranda', href: '/' },
       { label: 'Pusat Data', href: '/data' },
       { label: 'Lembaga', active: true },
     ]}
-  />
+  >
+    <PillFilterBar
+      items={[
+        { href: '/data/lembaga', label: 'Semua bidang', active: activeBidang === 'semua' },
+        { href: '/data/lembaga?bidang=pimpinan', label: bidangLabels.pimpinan, active: activeBidang === 'pimpinan' },
+        { href: '/data/lembaga?bidang=kegiatan', label: bidangLabels.kegiatan, active: activeBidang === 'kegiatan' },
+        { href: '/data/lembaga?bidang=wilayah', label: bidangLabels.wilayah, active: activeBidang === 'wilayah' },
+      ]}
+    />
+  </PageIntro>
+
+  <section class="container-premium py-4 sm:py-6">
+    <div class="grid gap-4 md:grid-cols-3">
+      <StatCard label="Lembaga Aktif" value={items.length} icon="account_balance" variant="blue" description="Direktori organisasi dan pengampu kegiatan warga yang sedang ditampilkan." />
+      <StatCard label="Jadwal Tersedia" value={rutinCount} icon="event_note" variant="emerald" description="Lembaga yang sudah memiliki informasi ritme kegiatan atau pertemuan rutin." />
+      <StatCard label="Layanan Utama" value={layananCount} icon="support_agent" variant="amber" description="Ringkasan fungsi dan jalur koordinasi yang bisa dimanfaatkan warga." />
+    </div>
+  </section>
 
   <section class="container-premium py-8">
-    <div class="grid gap-8 lg:grid-cols-3">
-      {Object.entries(grouped).map(([key, groupItems]) => (
-        <div class="space-y-4">
-          <div class="mb-2 flex items-center gap-3">
-            <div class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary-container/30 text-m3-primary">
-              <Icon name={bidangIcons[key as keyof typeof bidangIcons]} class="text-[20px]" />
+    <div class="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+      {highlighted && (
+        <article class="section-card grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="rounded-full bg-primary-container px-3 py-1 text-[12px] font-semibold text-on-primary-container">
+                {bidangLabels[highlighted.entry.bidang as keyof typeof bidangLabels]}
+              </span>
+              {highlighted.entry.fokusKegiatan.length > 0 && (
+                <span class="rounded-full border border-outline-variant bg-white px-3 py-1 text-[12px] font-semibold text-on-surface-variant">
+                  {highlighted.entry.fokusKegiatan.length} fokus kerja
+                </span>
+              )}
             </div>
-            <div>
-              <h2 class="text-base font-bold text-on-surface">{bidangLabels[key as keyof typeof bidangLabels]}</h2>
-              <span class="text-[12px] text-on-surface-variant">{groupItems.length} lembaga</span>
-            </div>
+            <h2 class="mt-4 text-2xl font-bold tracking-tight text-on-surface">{highlighted.entry.jabatan}</h2>
+            <p class="mt-1 text-sm font-semibold text-on-surface-variant">Pengampu: {highlighted.entry.namaPejabat}</p>
+            <p class="mt-3 text-base leading-relaxed text-on-surface-variant">
+              {highlighted.entry.ringkasan || highlighted.entry.deskripsiTugas}
+            </p>
+            {highlighted.entry.fokusKegiatan.length > 0 && (
+              <BadgeList
+                class="mt-4 flex flex-wrap gap-2"
+                items={highlighted.entry.fokusKegiatan.map((item) => ({
+                  label: item,
+                  tone: 'surface' as const,
+                }))}
+              />
+            )}
+            {highlighted.entry.layananUtama.length > 0 && (
+              <div class="mt-5 border-t border-outline-variant/40 pt-4">
+                <p class="detail-label">Layanan atau peran utama</p>
+                <ul class="mt-3 grid gap-2 text-sm leading-relaxed text-on-surface-variant">
+                  {highlighted.entry.layananUtama.map((item) => (
+                    <li class="rounded-xl border border-outline-variant/50 bg-surface-container-low px-4 py-3">{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
-          <div class="space-y-3">
-            {groupItems.map(({ slug, entry }) => (
-              <article class="rounded-xl border border-outline-variant bg-surface-container-lowest p-4 transition-all hover:-translate-y-0.5 hover:shadow-md" id={slug}>
-                <span class="text-[12px] font-semibold text-m3-primary">Lembaga</span>
-                <h3 class="mt-1 text-sm font-bold text-on-surface">{entry.jabatan}</h3>
-                <p class="mt-1 text-[12px] font-medium text-on-surface-variant">Pengampu: {entry.namaPejabat}</p>
-                <p class="mt-2 line-clamp-3 text-sm text-on-surface-variant">{entry.deskripsiTugas}</p>
-                <div class="mt-3 flex items-center gap-1.5 border-t border-outline-variant/40 pt-3 text-[12px] text-on-surface-variant">
-                  <Icon name="call" class="text-[14px]" /> {entry.kontak}
-                </div>
-              </article>
-            ))}
+          <div class="grid gap-3">
+            <div class="section-subcard">
+              <p class="section-kicker">Bidang</p>
+              <p class="mt-2 text-sm font-medium text-on-surface">{bidangLabels[highlighted.entry.bidang as keyof typeof bidangLabels]}</p>
+            </div>
+            <div class="section-subcard">
+              <p class="section-kicker">Jadwal rutin</p>
+              <p class="mt-2 text-sm font-medium text-on-surface">{highlighted.entry.jadwalRutin || 'Menyesuaikan kebutuhan dan agenda warga'}</p>
+            </div>
+            <div class="section-subcard">
+              <p class="section-kicker">Lokasi kegiatan</p>
+              <p class="mt-2 text-sm font-medium text-on-surface">{highlighted.entry.lokasiKegiatan || 'Wilayah Padukuhan Salakan'}</p>
+            </div>
+            <div class="section-subcard">
+              <p class="section-kicker">Kontak koordinasi</p>
+              <p class="mt-2 text-sm font-medium text-on-surface">{highlighted.entry.kontak}</p>
+            </div>
+            <div class="pt-1">
+              <ActionLinkButton href="/kontak" label="Butuh jalur kontak umum" icon="arrow_forward" variant="outline" />
+            </div>
+          </div>
+        </article>
+      )}
+
+      <div class="section-card">
+        <div class="flex items-center gap-3">
+          <div class="grid h-11 w-11 place-items-center rounded-xl bg-primary-container/30 text-m3-primary">
+            <Icon name="groups" class="text-[22px]" />
+          </div>
+          <div>
+            <p class="section-kicker">Ringkasan Direktori</p>
+            <h2 class="mt-1 text-xl font-bold tracking-tight text-on-surface">Pilih lembaga yang paling relevan</h2>
           </div>
         </div>
+        <div class="mt-4 space-y-3">
+          {Object.entries(grouped).map(([key, groupItems]) => (
+            <div class="rounded-2xl border border-outline-variant/50 bg-surface-container-low px-4 py-4">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="grid h-9 w-9 place-items-center rounded-full bg-white text-m3-primary">
+                    <Icon name={bidangIcons[key as keyof typeof bidangIcons]} class="text-[18px]" />
+                  </div>
+                  <div>
+                    <p class="text-sm font-bold text-on-surface">{bidangLabels[key as keyof typeof bidangLabels]}</p>
+                    <p class="text-[12px] text-on-surface-variant">{groupItems.length} lembaga aktif</p>
+                  </div>
+                </div>
+                <a class="text-[12px] font-semibold text-m3-primary hover:underline" href={`/data/lembaga?bidang=${key}`}>Lihat</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-premium pb-10 pt-2 sm:pb-14">
+    <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <p class="section-kicker">Daftar Lembaga</p>
+        <h2 class="mt-1 text-2xl font-bold tracking-tight text-on-surface">Direktori organisasi warga</h2>
+      </div>
+      <p class="max-w-xl text-sm leading-relaxed text-on-surface-variant">
+        {activeBidang === 'semua'
+          ? 'Semua lembaga ditampilkan agar warga lebih mudah mengenali peran, ritme kegiatan, dan jalur koordinasinya.'
+          : `Menampilkan lembaga pada bidang ${bidangLabels[activeBidang as keyof typeof bidangLabels].toLowerCase()}.`}
+      </p>
+    </div>
+
+    <div class="grid gap-4 lg:grid-cols-2">
+      {filteredItems.map(({ slug, entry }) => (
+        <article class="section-card section-card-hover" id={slug}>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="rounded-full bg-primary-container px-3 py-1 text-[12px] font-semibold text-on-primary-container">
+              {bidangLabels[entry.bidang as keyof typeof bidangLabels]}
+            </span>
+            {entry.fokusKegiatan.length > 0 && (
+              <span class="rounded-full border border-outline-variant bg-white px-3 py-1 text-[12px] font-semibold text-on-surface-variant">
+                {entry.fokusKegiatan.length} fokus
+              </span>
+            )}
+          </div>
+          <h3 class="mt-4 text-xl font-bold tracking-tight text-on-surface">{entry.jabatan}</h3>
+          <p class="mt-1 text-sm font-semibold text-on-surface-variant">Pengampu: {entry.namaPejabat}</p>
+          <p class="mt-3 text-sm leading-relaxed text-on-surface-variant">
+            {entry.ringkasan || entry.deskripsiTugas}
+          </p>
+
+          {entry.fokusKegiatan.length > 0 && (
+            <BadgeList
+              class="mt-4 flex flex-wrap gap-2"
+              items={entry.fokusKegiatan.map((item) => ({
+                label: item,
+                tone: 'surface' as const,
+              }))}
+            />
+          )}
+
+          <LabelValueList
+            class="mt-4"
+            items={[
+              { label: 'Jadwal rutin', value: entry.jadwalRutin },
+              { label: 'Lokasi kegiatan', value: entry.lokasiKegiatan },
+              { label: 'Kontak koordinasi', value: entry.kontak },
+            ]}
+          />
+
+          {entry.layananUtama.length > 0 && (
+            <div class="mt-4 border-t border-outline-variant/40 pt-4">
+              <p class="detail-label">Peran utama</p>
+              <ul class="mt-3 grid gap-2 text-sm leading-relaxed text-on-surface-variant">
+                {entry.layananUtama.map((item) => (
+                  <li class="rounded-xl border border-outline-variant/50 bg-surface-container-low px-4 py-3">{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </article>
       ))}
     </div>
   </section>

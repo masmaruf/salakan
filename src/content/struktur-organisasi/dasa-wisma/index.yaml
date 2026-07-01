@@ -1,10 +1,20 @@
 jabatan: Dasa Wisma
 kontenUtama:
   namaPejabat: Pengurus Dasa Wisma
+  ringkasan: Jaringan keluarga kecil untuk pendataan lingkungan dan komunikasi sosial yang lebih dekat.
   deskripsiTugas: >-
     Menguatkan komunikasi antar keluarga, pendataan lingkungan, serta
     koordinasi kegiatan sosial skala kecil di tingkat kelompok warga.
   kontak: Melalui pengurus Dasa Wisma
+  jadwalRutin: Pertemuan kelompok menyesuaikan kebutuhan keluarga dan lingkungan
+  lokasiKegiatan: Rumah warga dan titik pertemuan kelompok
+  fokusKegiatan:
+    - Komunikasi antar keluarga
+    - Pendataan lingkungan
+    - Kegiatan sosial skala kecil
+  layananUtama:
+    - Penghubung informasi kelompok keluarga
+    - Dukungan koordinasi sosial warga
 pengaturanTampil:
   bidang: kegiatan
   statusPublikasi: publish

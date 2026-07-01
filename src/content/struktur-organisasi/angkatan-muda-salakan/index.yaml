@@ -1,10 +1,20 @@
 jabatan: Angkatan Muda Salakan
 kontenUtama:
   namaPejabat: Pengurus Angkatan Muda Salakan
+  ringkasan: Wadah kolaborasi pemuda untuk kegiatan sosial, kreativitas, dan dukungan acara kampung.
   deskripsiTugas: >-
     Menjadi ruang kolaborasi pemuda dalam kegiatan sosial, kreativitas warga,
     dukungan acara padukuhan, dan gerakan kebersamaan lintas RT.
   kontak: Melalui pengurus pemuda padukuhan
+  jadwalRutin: Menyesuaikan agenda kepemudaan, kegiatan sosial, dan dukungan acara warga
+  lokasiKegiatan: Balai padukuhan, lapangan, dan titik kegiatan pemuda
+  fokusKegiatan:
+    - Kolaborasi pemuda
+    - Dukungan acara kampung
+    - Kegiatan sosial dan kreativitas
+  layananUtama:
+    - Koordinasi relawan pemuda
+    - Dukungan kegiatan warga dan kepanitiaan
 pengaturanTampil:
   bidang: wilayah
   statusPublikasi: publish

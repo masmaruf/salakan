@@ -1,10 +1,20 @@
 jabatan: Balares
 kontenUtama:
   namaPejabat: Relawan Balares
+  ringkasan: Relawan lapangan untuk gotong royong, kesiapsiagaan sosial, dan dukungan situasi darurat lokal.
   deskripsiTugas: >-
     Mendukung kesiapsiagaan sosial, gotong royong lapangan, dan respons cepat
     warga saat dibutuhkan pada kegiatan lingkungan atau situasi darurat lokal.
   kontak: Melalui relawan Balares wilayah
+  jadwalRutin: Siaga menyesuaikan kebutuhan lapangan dan kegiatan lingkungan
+  lokasiKegiatan: Titik kegiatan lingkungan dan wilayah padukuhan
+  fokusKegiatan:
+    - Kesiapsiagaan sosial
+    - Gotong royong lapangan
+    - Dukungan situasi darurat lokal
+  layananUtama:
+    - Koordinasi relawan lapangan
+    - Dukungan cepat kegiatan lingkungan
 pengaturanTampil:
   bidang: wilayah
   statusPublikasi: publish

@@ -1,10 +1,20 @@
 jabatan: Pokgiat LPMK
 kontenUtama:
   namaPejabat: Pengurus Pokgiat LPMK
+  ringkasan: Mitra padukuhan untuk perencanaan pembangunan dan penguatan swadaya warga.
   deskripsiTugas: >-
     Menjadi mitra padukuhan dalam perencanaan pembangunan, penguatan swadaya
     warga, dan pengawalan kegiatan kemasyarakatan.
   kontak: Hubungi sekretariat padukuhan
+  jadwalRutin: Koordinasi menyesuaikan agenda pembangunan dan musyawarah warga
+  lokasiKegiatan: Balai Padukuhan Salakan dan titik kegiatan lingkungan
+  fokusKegiatan:
+    - Perencanaan pembangunan lingkungan
+    - Penguatan swadaya warga
+    - Koordinasi kegiatan kemasyarakatan
+  layananUtama:
+    - Menampung usulan prioritas pembangunan warga
+    - Mendukung koordinasi program padukuhan
 pengaturanTampil:
   bidang: pimpinan
   statusPublikasi: publish

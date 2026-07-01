@@ -1,10 +1,20 @@
 jabatan: Jaga Warga
 kontenUtama:
   namaPejabat: Koordinator Jaga Warga
+  ringkasan: Koordinasi ketertiban dan kesiapsiagaan warga pada level lingkungan.
   deskripsiTugas: >-
     Mendukung ketertiban lingkungan, kesiapsiagaan warga, dan koordinasi cepat
     ketika ada kebutuhan keamanan wilayah.
   kontak: Koordinator jaga warga setempat
+  jadwalRutin: Koordinasi situasional dan pemantauan lingkungan berkala
+  lokasiKegiatan: Wilayah padukuhan dan titik ronda lingkungan
+  fokusKegiatan:
+    - Ketertiban lingkungan
+    - Kesiapsiagaan warga
+    - Koordinasi keamanan wilayah
+  layananUtama:
+    - Informasi awal situasi keamanan lingkungan
+    - Koordinasi cepat saat ada kebutuhan warga
 pengaturanTampil:
   bidang: wilayah
   statusPublikasi: publish

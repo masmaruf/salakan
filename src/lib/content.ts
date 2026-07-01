@@ -286,8 +286,13 @@ export async function getStrukturOrganisasi() {
     entry: {
       jabatan: data.jabatan,
       namaPejabat: data.kontenUtama?.namaPejabat,
+      ringkasan: data.kontenUtama?.ringkasan,
       deskripsiTugas: data.kontenUtama?.deskripsiTugas,
       kontak: data.kontenUtama?.kontak,
+      jadwalRutin: data.kontenUtama?.jadwalRutin,
+      lokasiKegiatan: data.kontenUtama?.lokasiKegiatan,
+      fokusKegiatan: data.kontenUtama?.fokusKegiatan,
+      layananUtama: data.kontenUtama?.layananUtama,
       bidang: data.pengaturanTampil?.bidang,
       statusPublikasi: data.pengaturanTampil?.statusPublikasi,
       urutanTampil: data.pengaturanTampil?.urutanTampil,

@@ -1,10 +1,20 @@
 jabatan: PKK Padukuhan
 kontenUtama:
   namaPejabat: Pengurus PKK Padukuhan
+  ringkasan: Penggerak pemberdayaan keluarga, perempuan, dan kesehatan rumah tangga di padukuhan.
   deskripsiTugas: >-
     Menggerakkan kegiatan keluarga, pemberdayaan perempuan, kesehatan rumah
     tangga, dan pendampingan aktivitas sosial warga.
   kontak: Hubungi sekretariat PKK padukuhan
+  jadwalRutin: Pertemuan rutin bulanan dan dukungan kegiatan keluarga warga
+  lokasiKegiatan: Sekretariat PKK dan rumah kegiatan warga
+  fokusKegiatan:
+    - Pemberdayaan keluarga
+    - Kesehatan rumah tangga
+    - Kegiatan sosial perempuan
+  layananUtama:
+    - Koordinasi kegiatan PKK padukuhan
+    - Pendampingan program keluarga sehat
 pengaturanTampil:
   bidang: pimpinan
   statusPublikasi: publish

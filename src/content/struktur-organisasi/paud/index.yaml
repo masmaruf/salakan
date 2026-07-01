@@ -1,10 +1,20 @@
 jabatan: PAUD
 kontenUtama:
   namaPejabat: Pengelola PAUD
+  ringkasan: Pendampingan pendidikan anak usia dini yang dekat dengan keluarga dan lingkungan warga.
   deskripsiTugas: >-
     Mendampingi pendidikan anak usia dini melalui kegiatan belajar, bermain,
     pembiasaan sosial, dan komunikasi aktif dengan orang tua.
   kontak: Hubungi pengelola PAUD padukuhan
+  jadwalRutin: Menyesuaikan kalender belajar dan kegiatan pendampingan anak
+  lokasiKegiatan: Ruang belajar PAUD dan lokasi kegiatan anak
+  fokusKegiatan:
+    - Pendidikan anak usia dini
+    - Pendampingan orang tua
+    - Kegiatan belajar dan bermain
+  layananUtama:
+    - Informasi kegiatan belajar PAUD
+    - Koordinasi kebutuhan anak usia dini
 pengaturanTampil:
   bidang: kegiatan
   statusPublikasi: publish

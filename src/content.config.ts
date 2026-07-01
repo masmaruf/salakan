@@ -252,8 +252,13 @@ const strukturOrganisasi = defineCollection({
     jabatan: z.string().min(1),
     kontenUtama: z.object({
       namaPejabat: z.string().min(1),
+      ringkasan: z.string().default(''),
       deskripsiTugas: z.string().min(1),
       kontak: z.string().min(1),
+      jadwalRutin: z.string().default(''),
+      lokasiKegiatan: z.string().default(''),
+      fokusKegiatan: z.array(z.string().min(1)).default([]),
+      layananUtama: z.array(z.string().min(1)).default([]),
     }),
     pengaturanTampil: z.object({
       bidang: z.enum(['pimpinan', 'kegiatan', 'wilayah']),
