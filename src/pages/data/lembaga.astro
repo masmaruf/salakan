@@ -38,6 +38,8 @@ const bidangIcons = {
 
 const bidangParam = Astro.url.searchParams.get('bidang') ?? 'semua';
 const activeBidang = ['semua', 'pimpinan', 'kegiatan', 'wilayah'].includes(bidangParam) ? bidangParam : 'semua';
+const query = Astro.url.searchParams.get('q')?.trim() ?? '';
+const normalizedQuery = query.toLowerCase();
 
 const grouped = {
   pimpinan: items.filter(({ entry }) => entry.bidang === 'pimpinan'),
@@ -45,13 +47,37 @@ const grouped = {
   wilayah: items.filter(({ entry }) => entry.bidang === 'wilayah'),
 } as const;
 
-const filteredItems = activeBidang === 'semua'
+function matchesSearch(value: typeof items[number]) {
+  if (!normalizedQuery) return true;
+
+  const haystack = [
+    value.entry.jabatan,
+    value.entry.namaPejabat,
+    value.entry.ringkasan,
+    value.entry.deskripsiTugas,
+    value.entry.kontak,
+    value.entry.jadwalRutin,
+    value.entry.lokasiKegiatan,
+    ...value.entry.fokusKegiatan,
+    ...value.entry.layananUtama,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  return haystack.includes(normalizedQuery);
+}
+
+const filteredByBidang = activeBidang === 'semua'
   ? items
   : items.filter(({ entry }) => entry.bidang === activeBidang);
+
+const filteredItems = filteredByBidang.filter(matchesSearch);
 
 const highlighted = filteredItems[0] ?? items[0] ?? null;
 const rutinCount = items.filter(({ entry }) => entry.jadwalRutin).length;
 const layananCount = items.reduce((sum, item) => sum + item.entry.layananUtama.length, 0);
+const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLabels[activeBidang as keyof typeof bidangLabels];
 ---
 
 <MainLayout
@@ -70,13 +96,51 @@ const layananCount = items.reduce((sum, item) => sum + item.entry.layananUtama.l
   >
     <PillFilterBar
       items={[
-        { href: '/data/lembaga', label: 'Semua bidang', active: activeBidang === 'semua' },
-        { href: '/data/lembaga?bidang=pimpinan', label: bidangLabels.pimpinan, active: activeBidang === 'pimpinan' },
-        { href: '/data/lembaga?bidang=kegiatan', label: bidangLabels.kegiatan, active: activeBidang === 'kegiatan' },
-        { href: '/data/lembaga?bidang=wilayah', label: bidangLabels.wilayah, active: activeBidang === 'wilayah' },
+        { href: query ? `/data/lembaga?q=${encodeURIComponent(query)}` : '/data/lembaga', label: 'Semua bidang', active: activeBidang === 'semua' },
+        { href: `/data/lembaga?bidang=pimpinan${query ? `&q=${encodeURIComponent(query)}` : ''}`, label: bidangLabels.pimpinan, active: activeBidang === 'pimpinan' },
+        { href: `/data/lembaga?bidang=kegiatan${query ? `&q=${encodeURIComponent(query)}` : ''}`, label: bidangLabels.kegiatan, active: activeBidang === 'kegiatan' },
+        { href: `/data/lembaga?bidang=wilayah${query ? `&q=${encodeURIComponent(query)}` : ''}`, label: bidangLabels.wilayah, active: activeBidang === 'wilayah' },
       ]}
     />
   </PageIntro>
+
+  <section class="container-premium py-3 sm:py-4">
+    <form action="/data/lembaga" method="get" class="section-card grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+      <div class="grid gap-2">
+        <label for="search-lembaga" class="detail-label">Cari lembaga, pengampu, fokus, atau layanan</label>
+        <div class="flex items-center gap-3 rounded-2xl border border-outline-variant bg-surface-container-lowest px-4 py-3">
+          <Icon name="search" class="text-[20px] text-outline" />
+          <input
+            id="search-lembaga"
+            name="q"
+            type="search"
+            value={query}
+            placeholder="Contoh: posyandu, keamanan, pembangunan"
+            class="w-full border-0 bg-transparent p-0 text-sm text-on-surface outline-none placeholder:text-on-surface-variant"
+          />
+        </div>
+        <input type="hidden" name="bidang" value={activeBidang} />
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <button
+          type="submit"
+          class="inline-flex items-center gap-2 rounded-full bg-m3-primary px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-m3-primary/90"
+        >
+          <Icon name="search" class="text-[18px]" />
+          Cari
+        </button>
+        {(query || activeBidang !== 'semua') && (
+          <a
+            href="/data/lembaga"
+            class="inline-flex items-center gap-2 rounded-full border border-outline-variant bg-surface-container-low px-5 py-3 text-sm font-semibold text-on-surface-variant transition-colors hover:bg-primary-container hover:text-on-primary-container"
+          >
+            <Icon name="restart_alt" class="text-[18px]" />
+            Reset filter
+          </a>
+        )}
+      </div>
+    </form>
+  </section>
 
   <section class="container-premium py-4 sm:py-6">
     <div class="grid gap-4 md:grid-cols-3">
@@ -174,7 +238,7 @@ const layananCount = items.reduce((sum, item) => sum + item.entry.layananUtama.l
                     <p class="text-[12px] text-on-surface-variant">{groupItems.length} lembaga aktif</p>
                   </div>
                 </div>
-                <a class="text-[12px] font-semibold text-m3-primary hover:underline" href={`/data/lembaga?bidang=${key}`}>Lihat</a>
+                <a class="text-[12px] font-semibold text-m3-primary hover:underline" href={`/data/lembaga?bidang=${key}${query ? `&q=${encodeURIComponent(query)}` : ''}`}>Lihat</a>
               </div>
             </div>
           ))}
@@ -190,62 +254,98 @@ const layananCount = items.reduce((sum, item) => sum + item.entry.layananUtama.l
         <h2 class="mt-1 text-2xl font-bold tracking-tight text-on-surface">Direktori organisasi warga</h2>
       </div>
       <p class="max-w-xl text-sm leading-relaxed text-on-surface-variant">
-        {activeBidang === 'semua'
-          ? 'Semua lembaga ditampilkan agar warga lebih mudah mengenali peran, ritme kegiatan, dan jalur koordinasinya.'
-          : `Menampilkan lembaga pada bidang ${bidangLabels[activeBidang as keyof typeof bidangLabels].toLowerCase()}.`}
+        {query
+          ? `Menampilkan ${filteredItems.length} hasil untuk pencarian "${query}" pada ${activeBidangLabel.toLowerCase()}.`
+          : activeBidang === 'semua'
+            ? 'Semua lembaga ditampilkan agar warga lebih mudah mengenali peran, ritme kegiatan, dan jalur koordinasinya.'
+            : `Menampilkan lembaga pada bidang ${bidangLabels[activeBidang as keyof typeof bidangLabels].toLowerCase()}.`}
       </p>
     </div>
 
-    <div class="grid gap-4 lg:grid-cols-2">
-      {filteredItems.map(({ slug, entry }) => (
-        <article class="section-card section-card-hover" id={slug}>
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="rounded-full bg-primary-container px-3 py-1 text-[12px] font-semibold text-on-primary-container">
-              {bidangLabels[entry.bidang as keyof typeof bidangLabels]}
-            </span>
-            {entry.fokusKegiatan.length > 0 && (
-              <span class="rounded-full border border-outline-variant bg-white px-3 py-1 text-[12px] font-semibold text-on-surface-variant">
-                {entry.fokusKegiatan.length} fokus
-              </span>
-            )}
-          </div>
-          <h3 class="mt-4 text-xl font-bold tracking-tight text-on-surface">{entry.jabatan}</h3>
-          <p class="mt-1 text-sm font-semibold text-on-surface-variant">Pengampu: {entry.namaPejabat}</p>
-          <p class="mt-3 text-sm leading-relaxed text-on-surface-variant">
-            {entry.ringkasan || entry.deskripsiTugas}
-          </p>
+    {filteredItems.length > 0 ? (
+      <div class="space-y-4">
+        {filteredItems.map(({ slug, entry }, index) => (
+          <details class="group section-card transition-all open:shadow-md" id={slug} open={index === 0 && !query}>
+            <summary class="flex cursor-pointer list-none items-start gap-4">
+              <div class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary-container text-on-primary-container">
+                <Icon name={bidangIcons[entry.bidang as keyof typeof bidangIcons]} class="text-[20px]" />
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="rounded-full bg-primary-container px-3 py-1 text-[12px] font-semibold text-on-primary-container">
+                    {bidangLabels[entry.bidang as keyof typeof bidangLabels]}
+                  </span>
+                  {entry.fokusKegiatan.length > 0 && (
+                    <span class="rounded-full border border-outline-variant bg-white px-3 py-1 text-[12px] font-semibold text-on-surface-variant">
+                      {entry.fokusKegiatan.length} fokus
+                    </span>
+                  )}
+                </div>
+                <h3 class="mt-3 text-xl font-bold tracking-tight text-on-surface transition-colors group-hover:text-m3-primary">{entry.jabatan}</h3>
+                <p class="mt-1 text-sm font-semibold text-on-surface-variant">Pengampu: {entry.namaPejabat}</p>
+                <p class="mt-3 max-w-3xl text-sm leading-relaxed text-on-surface-variant">
+                  {entry.ringkasan || entry.deskripsiTugas}
+                </p>
+              </div>
+              <Icon name="expand_more" class="mt-1 shrink-0 text-[22px] text-outline transition-transform group-open:rotate-180" />
+            </summary>
 
-          {entry.fokusKegiatan.length > 0 && (
-            <BadgeList
-              class="mt-4 flex flex-wrap gap-2"
-              items={entry.fokusKegiatan.map((item) => ({
-                label: item,
-                tone: 'surface' as const,
-              }))}
-            />
-          )}
+            <div class="mt-5 border-t border-outline-variant/40 pt-5">
+              {entry.fokusKegiatan.length > 0 && (
+                <BadgeList
+                  class="flex flex-wrap gap-2"
+                  items={entry.fokusKegiatan.map((item) => ({
+                    label: item,
+                    tone: 'surface' as const,
+                  }))}
+                />
+              )}
 
-          <LabelValueList
-            class="mt-4"
-            items={[
-              { label: 'Jadwal rutin', value: entry.jadwalRutin },
-              { label: 'Lokasi kegiatan', value: entry.lokasiKegiatan },
-              { label: 'Kontak koordinasi', value: entry.kontak },
-            ]}
-          />
+              <div class="mt-4 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
+                <div class="section-subcard">
+                  <p class="detail-label">Deskripsi tugas</p>
+                  <p class="mt-3 text-sm leading-relaxed text-on-surface-variant">{entry.deskripsiTugas}</p>
+                  <LabelValueList
+                    class="mt-4"
+                    items={[
+                      { label: 'Jadwal rutin', value: entry.jadwalRutin },
+                      { label: 'Lokasi kegiatan', value: entry.lokasiKegiatan },
+                      { label: 'Kontak koordinasi', value: entry.kontak },
+                    ]}
+                  />
+                </div>
 
-          {entry.layananUtama.length > 0 && (
-            <div class="mt-4 border-t border-outline-variant/40 pt-4">
-              <p class="detail-label">Peran utama</p>
-              <ul class="mt-3 grid gap-2 text-sm leading-relaxed text-on-surface-variant">
-                {entry.layananUtama.map((item) => (
-                  <li class="rounded-xl border border-outline-variant/50 bg-surface-container-low px-4 py-3">{item}</li>
-                ))}
-              </ul>
+                <div class="section-subcard">
+                  <p class="detail-label">Peran utama</p>
+                  {entry.layananUtama.length > 0 ? (
+                    <ul class="mt-3 grid gap-2 text-sm leading-relaxed text-on-surface-variant">
+                      {entry.layananUtama.map((item) => (
+                        <li class="rounded-xl border border-outline-variant/50 bg-surface-container-low px-4 py-3">{item}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p class="mt-3 text-sm leading-relaxed text-on-surface-variant">Peran utama lembaga ini mengikuti kebutuhan koordinasi dan pelayanan warga.</p>
+                  )}
+                </div>
+              </div>
             </div>
-          )}
-        </article>
-      ))}
-    </div>
+          </details>
+        ))}
+      </div>
+    ) : (
+      <div class="section-card text-center">
+        <div class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-primary-container/30 text-m3-primary">
+          <Icon name="search_off" class="text-[28px]" />
+        </div>
+        <h3 class="mt-4 text-xl font-bold tracking-tight text-on-surface">Belum ada lembaga yang cocok</h3>
+        <p class="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-on-surface-variant">
+          Coba gunakan kata kunci yang lebih umum, atau reset filter agar semua organisasi warga di Padukuhan Salakan ditampilkan kembali.
+        </p>
+        <div class="mt-5 flex flex-wrap justify-center gap-2">
+          <ActionLinkButton href="/data/lembaga" label="Tampilkan semua lembaga" icon="restart_alt" variant="outline" />
+          <ActionLinkButton href="/kontak" label="Hubungi padukuhan" icon="call" variant="outline" />
+        </div>
+      </div>
+    )}
   </section>
 </MainLayout>
