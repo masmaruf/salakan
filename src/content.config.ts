@@ -454,11 +454,8 @@ const beranda = defineCollection({
         })
       ).default([]),
       stats: z.object({
-        agendaValue: z.number().int().nonnegative().optional(),
         agendaLabel: z.string().min(1),
-        kegiatanValue: z.number().int().nonnegative().optional(),
         kegiatanLabel: z.string().min(1),
-        galeriValue: z.number().int().nonnegative().optional(),
         galeriLabel: z.string().min(1),
       }),
     }),

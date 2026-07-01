@@ -58,9 +58,9 @@ const layananPrioritas = layananItems
   }));
 
 const statsData = [
-  { value: hero?.stats?.agendaValue ?? agendaPublished.length, label: hero?.stats?.agendaLabel ?? 'Agenda aktif', icon: 'event' },
-  { value: hero?.stats?.kegiatanValue ?? kegiatanItems.filter((i) => i.entry?.statusPublikasi === 'publish').length, label: hero?.stats?.kegiatanLabel ?? 'Berita terdokumentasi', icon: 'newspaper' },
-  { value: hero?.stats?.galeriValue ?? galeriItems.length, label: hero?.stats?.galeriLabel ?? 'Galeri tersedia', icon: 'photo_library' },
+  { value: agendaPublished.length, label: hero?.stats?.agendaLabel ?? 'Agenda aktif', icon: 'event' },
+  { value: kegiatanItems.filter((i) => i.entry?.statusPublikasi === 'publish').length, label: hero?.stats?.kegiatanLabel ?? 'Berita terdokumentasi', icon: 'newspaper' },
+  { value: galeriItems.length, label: hero?.stats?.galeriLabel ?? 'Galeri tersedia', icon: 'photo_library' },
 ];
 
 const panelLinks = hero?.panelLinks?.filter((link) => link.status === 'tampil') ?? [];

@@ -36,11 +36,8 @@ hero:
       icon: timeline
       status: tampil
   stats:
-    agendaValue: 6
     agendaLabel: Agenda aktif
-    kegiatanValue: 8
     kegiatanLabel: Berita terdokumentasi
-    galeriValue: 3
     galeriLabel: Galeri tersedia
 agenda:
   title: Agenda prioritas

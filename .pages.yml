@@ -1305,21 +1305,12 @@ content:
             label: Statistik hero
             type: object
             fields:
-              - name: agendaValue
-                label: Angka statistik agenda
-                type: number
               - name: agendaLabel
                 label: Label statistik agenda
                 type: string
-              - name: kegiatanValue
-                label: Angka statistik berita
-                type: number
               - name: kegiatanLabel
                 label: Label statistik berita
                 type: string
-              - name: galeriValue
-                label: Angka statistik galeri
-                type: number
               - name: galeriLabel
                 label: Label statistik galeri
                 type: string
