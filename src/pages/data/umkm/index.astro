@@ -5,7 +5,8 @@ import CmsIcon from '../../../components/CmsIcon.astro';
 import Badge from '../../../components/ui/Badge.astro';
 import PageSection from '../../../components/PageSection.astro';
 import InlineAction from '../../../components/ui/InlineAction.astro';
-import { getHalamanCopy, getUmkm, getPengaturan, kategoriLabelsUmkm, normalizeWhatsapp } from '../../../lib/content';
+import { getHalamanCopy, getUmkm, getPengaturan, normalizeWhatsapp } from '../../../lib/content';
+import { kategoriLabelsUmkm } from '../../../lib/content-taxonomy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
 const [umkmItems, pengaturan] = await Promise.all([getUmkm(), getPengaturan()]);

@@ -4,7 +4,8 @@ import PageIntro from '../../components/ui/PageIntro.astro';
 import Badge from '../../components/ui/Badge.astro';
 import PageSection from '../../components/PageSection.astro';
 import InlineAction from '../../components/ui/InlineAction.astro';
-import { formatTanggal, getDokumen, getHalamanCopy, getPengaturan, kategoriLabelsDokumen } from '../../lib/content';
+import { formatTanggal, getDokumen, getHalamanCopy, getPengaturan } from '../../lib/content';
+import { kategoriLabelsDokumen } from '../../lib/content-taxonomy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const [dokumenItems, pengaturan] = await Promise.all([getDokumen(), getPengaturan()]);

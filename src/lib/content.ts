@@ -373,56 +373,6 @@ export function excerpt(text: string, maxLength = 140) {
   return `${text.slice(0, maxLength).trim()}...`;
 }
 
-export const kategoriLabelsDokumen = {
-  layanan: 'Layanan Warga',
-  arsip: 'Arsip Publik',
-  kegiatan: 'Dokumen Kegiatan',
-  regulasi: 'Regulasi',
-} as const;
-
-export const kategoriLabelsProgram = {
-  infrastruktur: 'Infrastruktur',
-  pelayanan: 'Pelayanan',
-  pemberdayaan: 'Pemberdayaan',
-  lingkungan: 'Lingkungan',
-} as const;
-
-export const statusProgramLabels = {
-  rencana: 'Rencana',
-  berjalan: 'Berjalan',
-  selesai: 'Selesai',
-} as const;
-
-export const kategoriLabelsKasRt = {
-  kasRt: 'Transparansi Kas RT',
-} as const;
-
-export const kategoriLabelsInventaris = {
-  acara: 'Perlengkapan Acara',
-  kebersihan: 'Peralatan Kebersihan',
-  dokumentasi: 'Dokumentasi',
-  logistik: 'Logistik',
-} as const;
-
-export const kondisiInventarisLabels = {
-  baik: 'Baik',
-  'perlu-perawatan': 'Perlu Perawatan',
-  terbatas: 'Terbatas',
-} as const;
-
-export const statusPinjamInventarisLabels = {
-  tersedia: 'Tersedia',
-  dipinjam: 'Dipinjam',
-  perawatan: 'Perawatan',
-} as const;
-
-export const kategoriLabelsUmkm = {
-  kuliner: 'Kuliner',
-  kerajinan: 'Kerajinan',
-  jasa: 'Jasa',
-  perdagangan: 'Perdagangan',
-} as const;
-
 export function normalizeWhatsapp(value: string): string {
   return value.replace(/\D/g, '');
 }

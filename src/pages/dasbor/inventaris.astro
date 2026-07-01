@@ -2,7 +2,8 @@
 import DashboardLayout from '../../layouts/DashboardLayout.astro';
 import DashboardPanel from '../../components/ui/DashboardPanel.astro';
 import DashboardStatCard from '../../components/ui/DashboardStatCard.astro';
-import { kondisiInventarisLabels, getDashboardContent, getInventarisWarga, kategoriLabelsInventaris, statusPinjamInventarisLabels } from '../../lib/content';
+import { getDashboardContent, getInventarisWarga } from '../../lib/content';
+import { kondisiInventarisLabels, kategoriLabelsInventaris, statusPinjamInventarisLabels } from '../../lib/content-taxonomy';
 import Icon from '../../components/ui/Icon.tsx';
 
 const [dashboardContent, inventoryRaw] = await Promise.all([getDashboardContent(), getInventarisWarga()]);

@@ -1,5 +1,17 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import {
+  KATEGORI_DOKUMEN,
+  KATEGORI_INVENTARIS,
+  KATEGORI_LOG_KEGIATAN,
+  KATEGORI_PROGRAM,
+  KATEGORI_UMKM,
+  KONDISI_INVENTARIS,
+  STATUS_PINJAM_INVENTARIS,
+  STATUS_PROGRAM,
+  STATUS_PUBLIKASI_LOG,
+  STATUS_PUBLIKASI_OPTIONS,
+} from './lib/content-taxonomy';
 import { pageCopyDefaults } from './lib/page-copy';
 
 const tanggalSchema = z
@@ -29,8 +41,8 @@ const dokumen = defineCollection({
       ogImage: '',
     }),
     pengaturanTampil: z.object({
-      kategori: z.enum(['layanan', 'arsip', 'kegiatan', 'regulasi']),
-      statusPublikasi: z.enum(['draft', 'publish']).default('publish'),
+      kategori: z.enum(KATEGORI_DOKUMEN),
+      statusPublikasi: z.enum(STATUS_PUBLIKASI_OPTIONS).default('publish'),
       unggulan: z.boolean().default(false),
       urutanTampil: z.number().int(),
     }),
@@ -42,7 +54,7 @@ const kegiatan = defineCollection({
   schema: z.object({
     judul: z.string().min(1),
     tanggal: tanggalSchema,
-    statusPublikasi: z.enum(['draft', 'publish']).default('publish'),
+    statusPublikasi: z.enum(STATUS_PUBLIKASI_OPTIONS).default('publish'),
     editorArtikel: z.object({
       kontenUtama: z.object({
         ringkasan: z.string().min(1),
@@ -74,7 +86,7 @@ const agenda = defineCollection({
   schema: z.object({
     judul: z.string().min(1),
     tanggal: tanggalSchema,
-    statusPublikasi: z.enum(['draft', 'publish']).default('publish'),
+    statusPublikasi: z.enum(STATUS_PUBLIKASI_OPTIONS).default('publish'),
     kontenUtama: z.object({
       waktuMulai: z.string().default(''),
       waktuSelesai: z.string().default(''),
@@ -100,8 +112,8 @@ const logKegiatan = defineCollection({
   schema: z.object({
     judul: z.string().min(1),
     tanggal: tanggalSchema,
-    kategori: z.enum(['pelayanan', 'administrasi', 'rapat', 'undangan', 'lainnya']),
-    statusPublikasi: z.enum(['draft', 'publish']).default('publish'),
+    kategori: z.enum(KATEGORI_LOG_KEGIATAN),
+    statusPublikasi: z.enum(STATUS_PUBLIKASI_LOG).default('publish'),
     kontenUtama: z.object({
       waktuMulai: z.string().default(''),
       waktuSelesai: z.string().default(''),
@@ -124,7 +136,7 @@ const program = defineCollection({
   schema: z.object({
     judul: z.string().min(1),
     tanggalUpdate: tanggalSchema,
-    statusPublikasi: z.enum(['draft', 'publish']).default('publish'),
+    statusPublikasi: z.enum(STATUS_PUBLIKASI_OPTIONS).default('publish'),
     kontenUtama: z.object({
       ringkasan: z.string().min(1),
       deskripsi: z.string().min(1),
@@ -136,8 +148,8 @@ const program = defineCollection({
       manfaat: z.array(z.string().min(1)).default([]),
     }),
     pengaturanTampil: z.object({
-      kategori: z.enum(['infrastruktur', 'pelayanan', 'pemberdayaan', 'lingkungan']),
-      statusProgram: z.enum(['rencana', 'berjalan', 'selesai']).default('rencana'),
+      kategori: z.enum(KATEGORI_PROGRAM),
+      statusProgram: z.enum(STATUS_PROGRAM).default('rencana'),
       unggulan: z.boolean().default(false),
       urutanTampil: z.number().int().default(0),
     }),
@@ -155,7 +167,7 @@ const kasRt = defineCollection({
     saldoAkhir: z.number().nonnegative(),
     sumberDana: z.array(z.string().min(1)).default([]),
     catatan: z.string().default(''),
-    statusPublikasi: z.enum(['draft', 'publish']).default('publish'),
+    statusPublikasi: z.enum(STATUS_PUBLIKASI_OPTIONS).default('publish'),
     unggulan: z.boolean().default(false),
   }),
 });
@@ -164,14 +176,14 @@ const inventarisWarga = defineCollection({
   loader: glob({ pattern: '**/*.yaml', base: './src/content/inventaris-warga' }),
   schema: z.object({
     namaItem: z.string().min(1),
-    kategori: z.enum(['acara', 'kebersihan', 'dokumentasi', 'logistik']),
-    kondisi: z.enum(['baik', 'perlu-perawatan', 'terbatas']).default('baik'),
-    statusPinjam: z.enum(['tersedia', 'dipinjam', 'perawatan']).default('tersedia'),
+    kategori: z.enum(KATEGORI_INVENTARIS),
+    kondisi: z.enum(KONDISI_INVENTARIS).default('baik'),
+    statusPinjam: z.enum(STATUS_PINJAM_INVENTARIS).default('tersedia'),
     lokasiSimpan: z.string().min(1),
     penanggungJawab: z.string().min(1),
     ringkasan: z.string().min(1),
     catatan: z.string().default(''),
-    statusPublikasi: z.enum(['draft', 'publish']).default('publish'),
+    statusPublikasi: z.enum(STATUS_PUBLIKASI_OPTIONS).default('publish'),
     unggulan: z.boolean().default(false),
     urutanTampil: z.number().int().default(0),
   }),
@@ -203,8 +215,8 @@ const umkm = defineCollection({
       ogImage: '',
     }),
     pengaturanTampil: z.object({
-      kategori: z.enum(['kuliner', 'kerajinan', 'jasa', 'perdagangan']),
-      statusPublikasi: z.enum(['draft', 'publish']).default('publish'),
+      kategori: z.enum(KATEGORI_UMKM),
+      statusPublikasi: z.enum(STATUS_PUBLIKASI_OPTIONS).default('publish'),
       unggulan: z.boolean().default(false),
       urutanTampil: z.number().int(),
     }),
@@ -245,7 +257,7 @@ const strukturOrganisasi = defineCollection({
     }),
     pengaturanTampil: z.object({
       bidang: z.enum(['pimpinan', 'kegiatan', 'wilayah']),
-      statusPublikasi: z.enum(['draft', 'publish']).default('publish'),
+      statusPublikasi: z.enum(STATUS_PUBLIKASI_OPTIONS).default('publish'),
       urutanTampil: z.number().int(),
     }),
   }),

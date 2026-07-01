@@ -4,7 +4,8 @@ import MainLayout from '../../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import InfoCard from '../../../components/ui/InfoCard.astro';
 import ActionLinkButton from '../../../components/ui/ActionLinkButton.astro';
-import { getUmkm, kategoriLabelsUmkm, normalizeWhatsapp } from '../../../lib/content';
+import { getUmkm, normalizeWhatsapp } from '../../../lib/content';
+import { kategoriLabelsUmkm } from '../../../lib/content-taxonomy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
 const { slug } = Astro.params;

@@ -4,7 +4,8 @@ import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import ContentMeta from '../../../components/ui/ContentMeta.astro';
 import InfoCard from '../../../components/ui/InfoCard.astro';
 import ActionLinkButton from '../../../components/ui/ActionLinkButton.astro';
-import { formatTanggal, getDokumen, kategoriLabelsDokumen } from '../../../lib/content';
+import { formatTanggal, getDokumen } from '../../../lib/content';
+import { kategoriLabelsDokumen } from '../../../lib/content-taxonomy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
 const { slug } = Astro.params;

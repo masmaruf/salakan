@@ -5,7 +5,8 @@ import Badge from '../../components/ui/Badge.astro';
 import StatCard from '../../components/ui/StatCard.astro';
 import PageSection from '../../components/PageSection.astro';
 import LabelValueList from '../../components/ui/LabelValueList.astro';
-import { kondisiInventarisLabels, getHalamanCopy, getInventarisWarga, getPengaturan, kategoriLabelsInventaris, statusPinjamInventarisLabels } from '../../lib/content';
+import { getHalamanCopy, getInventarisWarga, getPengaturan } from '../../lib/content';
+import { kondisiInventarisLabels, kategoriLabelsInventaris, statusPinjamInventarisLabels } from '../../lib/content-taxonomy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const [items, pengaturan] = await Promise.all([getInventarisWarga(), getPengaturan()]);

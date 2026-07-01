@@ -1,12 +1,16 @@
-export const KATEGORI_LOG_KEGIATAN = [
-  'pelayanan',
-  'administrasi',
-  'rapat',
-  'undangan',
-  'lainnya',
-] as const;
+import {
+  KATEGORI_LOG_KEGIATAN,
+  STATUS_PUBLIKASI_LOG,
+  kategoriLogLabels,
+  statusPublikasiLogLabels,
+} from './content-taxonomy';
 
-export const STATUS_PUBLIKASI_LOG = ['draft', 'publish'] as const;
+export {
+  KATEGORI_LOG_KEGIATAN,
+  STATUS_PUBLIKASI_LOG,
+  kategoriLogLabels,
+  statusPublikasiLogLabels,
+};
 
 export type KategoriLogKegiatan = (typeof KATEGORI_LOG_KEGIATAN)[number];
 export type StatusPublikasiLog = (typeof STATUS_PUBLIKASI_LOG)[number];
@@ -29,19 +33,6 @@ export interface LogKegiatanDukuhRecord {
   created_at: Date | string;
   updated_at: Date | string;
 }
-
-export const kategoriLogLabels: Record<KategoriLogKegiatan, string> = {
-  pelayanan: 'Pelayanan',
-  administrasi: 'Administrasi',
-  rapat: 'Rapat',
-  undangan: 'Undangan',
-  lainnya: 'Lainnya',
-};
-
-export const statusPublikasiLogLabels: Record<StatusPublikasiLog, string> = {
-  draft: 'Draft',
-  publish: 'Publish',
-};
 
 export function formatTanggalLog(dateValue: string | Date) {
   return new Intl.DateTimeFormat('id-ID', {

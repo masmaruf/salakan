@@ -10,9 +10,8 @@ import {
   formatTanggal,
   getPengaturan,
   getProgram,
-  kategoriLabelsProgram,
-  statusProgramLabels,
 } from '../../lib/content';
+import { kategoriLabelsProgram, statusProgramLabels } from '../../lib/content-taxonomy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const [pengaturan, items] = await Promise.all([getPengaturan(), getProgram()]);
