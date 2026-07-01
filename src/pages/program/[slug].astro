@@ -66,25 +66,25 @@ const statusToneMap = {
     </header>
 
     <div class="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
-      <InfoCard title="Ringkasan Pelaksanaan" class="rounded-xl border border-outline-variant bg-surface-container-low p-5">
+      <InfoCard title="Ringkasan Pelaksanaan" class="soft-panel">
         <p class="whitespace-pre-line text-base leading-relaxed text-on-surface-variant">{entry.deskripsi}</p>
       </InfoCard>
 
       <div class="grid gap-4">
-        <InfoCard title="Periode" class="rounded-xl border border-outline-variant bg-surface-container-low p-5">
+        <InfoCard title="Periode" class="soft-panel">
           <p class="text-sm font-medium text-on-surface">{entry.periode}</p>
         </InfoCard>
-        <InfoCard title="Sumber Dana" class="rounded-xl border border-outline-variant bg-surface-container-low p-5">
+        <InfoCard title="Sumber Dana" class="soft-panel">
           <p class="text-sm font-medium text-on-surface">{entry.sumberDana || '-'}</p>
         </InfoCard>
-        <InfoCard title="Anggaran" class="rounded-xl border border-outline-variant bg-surface-container-low p-5">
+        <InfoCard title="Anggaran" class="soft-panel">
           <p class="text-sm font-medium text-on-surface">{entry.anggaran || 'Belum dicantumkan'}</p>
         </InfoCard>
       </div>
     </div>
 
     {entry.manfaat.length > 0 && (
-      <InfoCard title="Manfaat untuk Warga" class="mt-5 rounded-xl border border-outline-variant bg-surface-container-low p-5">
+      <InfoCard title="Manfaat untuk Warga" class="soft-panel mt-5">
         <ul class="grid gap-3 text-sm leading-relaxed text-on-surface-variant sm:grid-cols-2">
           {entry.manfaat.map((point) => (
             <li class="rounded-xl border border-outline-variant/60 bg-white px-4 py-3">{point}</li>

@@ -1,0 +1,22 @@
+---
+interface Item {
+  label: string;
+  value?: string | number | null;
+}
+
+interface Props {
+  items: Item[];
+  class?: string;
+}
+
+const { items, class: className = '' } = Astro.props;
+const visibleItems = items.filter((item) => item.value !== undefined && item.value !== null && item.value !== '');
+---
+
+{visibleItems.length > 0 && (
+  <div class:list={['space-y-2 border-t border-outline-variant/40 pt-4 text-sm text-on-surface-variant', className]}>
+    {visibleItems.map((item) => (
+      <p><span class="font-semibold text-on-surface">{item.label}:</span> {item.value}</p>
+    ))}
+  </div>
+)}

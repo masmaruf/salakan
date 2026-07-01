@@ -9,7 +9,6 @@ const pengaturan = await getPengaturan();
 const nomorWhatsapp = pengaturan?.kontakWhatsApp ? normalizeWhatsapp(pengaturan.kontakWhatsApp) : '';
 const whatsappLink = nomorWhatsapp ? `https://wa.me/${nomorWhatsapp}` : null;
 
-import Icon from '../components/ui/Icon.tsx';
 ---
 
 <MainLayout title="Kontak | Padukuhan Salakan" description="Alamat dan kontak informasi Padukuhan Salakan.">

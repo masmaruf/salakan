@@ -4,6 +4,7 @@ import PageIntro from '../../components/ui/PageIntro.astro';
 import Badge from '../../components/ui/Badge.astro';
 import StatCard from '../../components/ui/StatCard.astro';
 import PageSection from '../../components/PageSection.astro';
+import LabelValueList from '../../components/ui/LabelValueList.astro';
 import { kondisiInventarisLabels, getInventarisWarga, getPengaturan, kategoriLabelsInventaris, statusPinjamInventarisLabels } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
@@ -37,7 +38,15 @@ const statusToneMap = { tersedia: 'success', dipinjam: 'warning', perawatan: 'er
           <div class="mb-3 flex flex-wrap items-center gap-2"><Badge label={kategoriLabelsInventaris[entry.kategori]} tone="surface" class="px-2 py-1" /><Badge label={statusPinjamInventarisLabels[entry.statusPinjam]} tone={statusToneMap[entry.statusPinjam]} class="px-2 py-1" />{entry.unggulan && <Badge label="Prioritas" tone="info" class="px-2 py-1" />}</div>
           <h2 class="text-base font-bold leading-tight text-on-surface sm:text-lg">{entry.namaItem}</h2>
           <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">{entry.ringkasan}</p>
-          <div class="mt-4 space-y-2 border-t border-outline-variant/40 pt-4 text-sm text-on-surface-variant"><p><span class="font-semibold text-on-surface">Kondisi:</span> {kondisiInventarisLabels[entry.kondisi]}</p><p><span class="font-semibold text-on-surface">Lokasi:</span> {entry.lokasiSimpan}</p><p><span class="font-semibold text-on-surface">Penanggung jawab:</span> {entry.penanggungJawab}</p>{entry.catatan && <p><span class="font-semibold text-on-surface">Catatan:</span> {entry.catatan}</p>}</div>
+          <LabelValueList
+            class="mt-4"
+            items={[
+              { label: 'Kondisi', value: kondisiInventarisLabels[entry.kondisi] },
+              { label: 'Lokasi', value: entry.lokasiSimpan },
+              { label: 'Penanggung jawab', value: entry.penanggungJawab },
+              { label: 'Catatan', value: entry.catatan },
+            ]}
+          />
         </article>
       ))}
     </div>

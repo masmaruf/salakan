@@ -545,6 +545,10 @@ input, button, textarea, select {
   @apply rounded-xl border border-outline-variant/40 bg-surface-container-low/50 p-4;
 }
 
+.callout-panel {
+  @apply rounded-xl border-l-4 border-m3-primary bg-surface-container-low/60 p-5 sm:p-6;
+}
+
 .section-kicker {
   @apply text-xs font-bold uppercase tracking-[0.14em] text-m3-primary;
 }
@@ -561,8 +565,28 @@ input, button, textarea, select {
   @apply rounded-full bg-surface-container px-3 py-1 text-xs font-bold uppercase tracking-wider text-on-surface-variant;
 }
 
+.tag-chip {
+  @apply inline-flex items-center rounded-md bg-surface-container px-2 py-1 text-[12px] font-semibold text-on-surface-variant;
+}
+
+.meta-time {
+  @apply text-[12px] font-medium text-outline;
+}
+
 .action-link-inline {
   @apply inline-flex items-center gap-2 text-sm font-bold text-m3-primary transition-colors hover:text-blue-700;
+}
+
+.inline-action {
+  @apply inline-flex items-center gap-1 text-[12px] font-semibold text-m3-primary hover:underline;
+}
+
+.inline-action-success {
+  @apply text-emerald-700;
+}
+
+.inline-action-muted {
+  @apply inline-flex items-center gap-1 text-[12px] font-medium text-outline;
 }
 
 .action-pill-dark {
@@ -595,6 +619,10 @@ input, button, textarea, select {
 
 .cta-outline-neutral {
   @apply inline-flex min-h-[44px] items-center gap-2 rounded-full border border-outline-variant bg-white px-5 py-3 text-sm font-bold text-on-surface transition hover:bg-surface-container-low;
+}
+
+.media-frame {
+  @apply overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest shadow-[0_10px_30px_rgba(15,23,42,0.08)];
 }
 
 .orb-blue {

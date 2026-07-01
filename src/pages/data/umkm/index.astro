@@ -4,6 +4,7 @@ import PageIntro from '../../../components/ui/PageIntro.astro';
 import CmsIcon from '../../../components/CmsIcon.astro';
 import Badge from '../../../components/ui/Badge.astro';
 import PageSection from '../../../components/PageSection.astro';
+import InlineAction from '../../../components/ui/InlineAction.astro';
 import { getUmkm, getPengaturan, kategoriLabelsUmkm, normalizeWhatsapp } from '../../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
@@ -38,7 +39,7 @@ import Icon from '../../../components/ui/Icon.tsx';
   <PageSection sectionClass="pb-10 pt-4 sm:pb-14">
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {items.map(({ slug, entry }) => (
-        <article class="group flex flex-col overflow-hidden rounded-2xl border border-outline-variant bg-surface-container-lowest transition-all hover:-translate-y-0.5 hover:shadow-md" id={slug}>
+        <article class="section-card section-card-hover group flex flex-col overflow-hidden p-0" id={slug}>
           <div class="aspect-[16/10] bg-surface-container-low">
             {entry.gambar ? (
               <img class="h-full w-full object-cover" src={entry.gambar} alt={entry.altGambar || entry.namaUsaha} loading="lazy" />
@@ -49,7 +50,7 @@ import Icon from '../../../components/ui/Icon.tsx';
             )}
           </div>
 
-          <div class="flex flex-1 flex-col p-5">
+          <div class="flex flex-1 flex-col p-5 sm:p-6">
             <div class="mb-3 flex items-center gap-2">
               <Badge label={kategoriLabelsUmkm[entry.kategori]} tone="primary" class="px-2 py-1" />
               {entry.unggulan && <Badge label="Unggulan" tone="warning" icon="star" class="px-2 py-1" />}
@@ -60,18 +61,14 @@ import Icon from '../../../components/ui/Icon.tsx';
             </h2>
             <p class="mt-2 flex-1 line-clamp-2 text-sm text-on-surface-variant">{entry.ringkasan}</p>
 
-            <div class="mt-3 text-[12px] font-medium text-outline">
+            <div class="meta-time mt-3">
               <Icon name="location_on" class="mr-0.5 align-middle text-[14px]" />
               {entry.lokasi}
             </div>
 
             <div class="mt-4 flex flex-wrap gap-2 border-t border-outline-variant/40 pt-3">
-              <a class="inline-flex items-center gap-1 text-[12px] font-semibold text-m3-primary hover:underline" href={`/data/umkm/${slug}`}>
-                <Icon name="visibility" class="text-[14px]" /> Detail
-              </a>
-              <a class="inline-flex items-center gap-1 text-[12px] font-semibold text-emerald-700 hover:underline" href={`https://wa.me/${normalizeWhatsapp(entry.whatsapp)}?text=${encodeURIComponent(`Halo, saya ingin mengetahui informasi UMKM ${entry.namaUsaha}.`)}`} target="_blank" rel="noreferrer">
-                <Icon name="chat" class="text-[14px]" /> WhatsApp
-              </a>
+              <InlineAction href={`/data/umkm/${slug}`} label="Detail" icon="visibility" />
+              <InlineAction href={`https://wa.me/${normalizeWhatsapp(entry.whatsapp)}?text=${encodeURIComponent(`Halo, saya ingin mengetahui informasi UMKM ${entry.namaUsaha}.`)}`} label="WhatsApp" icon="chat" tone="success" target="_blank" rel="noreferrer" />
             </div>
           </div>
         </article>

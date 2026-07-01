@@ -1,0 +1,35 @@
+---
+const {
+  href,
+  label,
+  icon,
+  tone = 'primary',
+  target,
+  rel,
+  class: className = '',
+  as = href ? 'a' : 'span',
+} = Astro.props;
+
+import Icon from './Icon.tsx';
+
+const toneClass =
+  tone === 'success'
+    ? 'inline-action inline-action-success'
+    : tone === 'muted'
+      ? 'inline-action-muted'
+      : 'inline-action';
+
+const classes = [toneClass, className].filter(Boolean).join(' ');
+---
+
+{as === 'a' ? (
+  <a href={href} target={target} rel={rel} class={classes}>
+    {icon && <Icon name={icon} class="text-[14px]" />}
+    {label}
+  </a>
+) : (
+  <span class={classes}>
+    {icon && <Icon name={icon} class="text-[14px]" />}
+    {label}
+  </span>
+)}

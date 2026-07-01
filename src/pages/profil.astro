@@ -43,7 +43,7 @@ import Icon from '../components/ui/Icon.tsx';
       {profil?.sejarahSingkat}
     </div>
 
-    <div class="mt-8 rounded-xl border-l-4 border-m3-primary bg-surface-container-low/60 p-5 sm:p-6">
+    <div class="callout-panel mt-8">
       <div class="mb-2 flex items-center gap-2">
         <Icon name="visibility" class="text-[20px] text-m3-primary" />
         <h3 class="text-base font-bold text-on-surface">Visi</h3>
@@ -111,7 +111,7 @@ import Icon from '../components/ui/Icon.tsx';
             <div class="min-w-0">
               <div class="mb-1 flex items-center gap-1.5">
                 <Icon name="location_on" class="text-[16px] text-m3-primary" />
-                <span class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">Alamat</span>
+                <span class="section-kicker-muted">Alamat</span>
               </div>
               <p class="text-sm leading-relaxed text-on-surface">{lokasi?.alamat}</p>
             </div>
@@ -121,7 +121,7 @@ import Icon from '../components/ui/Icon.tsx';
           </div>
         )}
 
-        <div class="overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest shadow-[0_10px_30px_rgba(15,23,42,0.08)]">
+        <div class="media-frame">
           {mapEmbedSrc ? (
             <iframe
               title="Peta Padukuhan Salakan"

@@ -3,6 +3,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import PageIntro from '../../components/ui/PageIntro.astro';
 import Badge from '../../components/ui/Badge.astro';
 import PageSection from '../../components/PageSection.astro';
+import InlineAction from '../../components/ui/InlineAction.astro';
 import { formatTanggal, getDokumen, getPengaturan, kategoriLabelsDokumen } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
@@ -15,8 +16,6 @@ const dokumen = dokumenItems
     if (a.entry.urutanTampil !== b.entry.urutanTampil) return a.entry.urutanTampil - b.entry.urutanTampil;
     return new Date(b.entry.tanggalUpdate).getTime() - new Date(a.entry.tanggalUpdate).getTime();
   });
-
-import Icon from '../../components/ui/Icon.tsx';
 ---
 
 <MainLayout
@@ -41,7 +40,7 @@ import Icon from '../../components/ui/Icon.tsx';
         <article class="section-card section-card-hover group flex flex-col" id={slug}>
           <div class="mb-3 flex items-center justify-between gap-2">
             <Badge label={kategoriLabelsDokumen[entry.kategori]} tone="primary" class="px-2 py-1" />
-            <time class="text-[12px] font-medium text-outline" datetime={entry.tanggalUpdate}>
+            <time class="meta-time" datetime={entry.tanggalUpdate}>
               {formatTanggal(entry.tanggalUpdate)}
             </time>
           </div>
@@ -52,17 +51,11 @@ import Icon from '../../components/ui/Icon.tsx';
           <p class="mt-2 flex-1 line-clamp-2 text-sm text-on-surface-variant">{entry.ringkasan}</p>
 
           <div class="mt-4 flex flex-wrap gap-2 border-t border-outline-variant/40 pt-3">
-            <a class="inline-flex items-center gap-1 text-[12px] font-semibold text-m3-primary hover:underline" href={`/data/dokumen/${slug}`}>
-              <Icon name="visibility" class="text-[14px]" /> Detail
-            </a>
+            <InlineAction href={`/data/dokumen/${slug}`} label="Detail" icon="visibility" />
             {entry.fileDokumen ? (
-              <a class="inline-flex items-center gap-1 text-[12px] font-semibold text-m3-primary hover:underline" href={entry.fileDokumen} target="_blank" rel="noreferrer">
-                <Icon name="download" class="text-[14px]" /> Unduh
-              </a>
+              <InlineAction href={entry.fileDokumen} label="Unduh" icon="download" target="_blank" rel="noreferrer" />
             ) : (
-              <span class="inline-flex items-center gap-1 text-[12px] font-medium text-outline">
-                <Icon name="lock" class="text-[14px]" /> Belum tersedia
-              </span>
+              <InlineAction as="span" label="Belum tersedia" icon="lock" tone="muted" />
             )}
           </div>
         </article>
