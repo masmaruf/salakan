@@ -79,18 +79,18 @@ import Icon from '../../components/ui/Icon.tsx';
 
   <section class="container-premium py-8 pb-5">
     <div class="grid gap-4 md:grid-cols-3">
-      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
-        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Ringkasan</p>
+      <div class="section-card rounded-2xl p-5 sm:p-5">
+        <p class="section-kicker">Ringkasan</p>
         <p class="mt-2 text-3xl font-black tracking-tight text-on-surface">{timeline.length}</p>
         <p class="mt-1 text-sm text-on-surface-variant">Semua agenda aktif siap dibagikan ke warga.</p>
       </div>
-      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
-        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Minggu ini</p>
+      <div class="section-card rounded-2xl p-5 sm:p-5">
+        <p class="section-kicker">Minggu ini</p>
         <p class="mt-2 text-3xl font-black tracking-tight text-on-surface">{agendaMingguIni}</p>
         <p class="mt-1 text-sm text-on-surface-variant">Kegiatan yang sedang atau akan berlangsung dalam 7 hari ke depan.</p>
       </div>
-      <div class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
-        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Distribusi</p>
+      <div class="section-card rounded-2xl p-5 sm:p-5">
+        <p class="section-kicker">Distribusi</p>
         <p class="mt-2 text-base font-bold text-on-surface">Siap dibagikan ke grup RT</p>
         <p class="mt-1 text-sm text-on-surface-variant">Gunakan label seperti pengumuman, informasi, atau pengajian agar warga cepat menangkap konteksnya.</p>
       </div>
@@ -109,7 +109,7 @@ import Icon from '../../components/ui/Icon.tsx';
             >
               <div class="absolute -left-[11px] top-2 h-4 w-4 rounded-full bg-m3-primary ring-4 ring-white"></div>
 
-              <div class="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-[0_4px_12px_rgba(15,23,42,0.05)] transition-all group-hover:-translate-y-0.5 group-hover:shadow-md active:scale-[0.98]">
+              <div class="section-card rounded-xl p-5 shadow-[0_4px_12px_rgba(15,23,42,0.05)] group-hover:-translate-y-0.5 group-hover:shadow-md active:scale-[0.98]">
                 <div class="mb-2 flex flex-wrap items-start justify-between gap-2">
                   <div class="flex flex-wrap items-center gap-2">
                     <Badge label={item.label} tone={getLabelTone(item.label)} class="px-2 py-1" />

@@ -43,7 +43,7 @@ function whatsappHref(rt: (typeof rtItems)[number]) {
   />
 
   <section class="container-premium py-8 sm:py-10">
-    <div class="mb-6 rounded-[1.75rem] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm sm:p-6">
+    <div class="section-card mb-6">
       <Badge label="Langkah 1 dari 2 · Pilih RT" tone="primary" class="px-3 py-1" />
       <h2 class="mt-4 text-2xl font-bold tracking-tight text-on-surface">Untuk urusan apa?</h2>
       <p class="mt-3 max-w-3xl text-base leading-relaxed text-on-surface-variant">
@@ -59,10 +59,10 @@ function whatsappHref(rt: (typeof rtItems)[number]) {
         const hasContact = Boolean(href);
 
         return (
-          <article class="flex h-full flex-col rounded-[1.5rem] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
+          <article class="section-card flex h-full flex-col rounded-[1.5rem] p-5 sm:p-5">
             <div class="flex items-start justify-between gap-3">
               <div>
-                <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Wilayah</p>
+                <p class="section-kicker">Wilayah</p>
                 <h3 class="mt-1 text-3xl font-black tracking-tight text-on-surface">RT {rt.data.nomor_rt}</h3>
               </div>
               <div class="grid h-11 w-11 place-items-center rounded-2xl bg-primary-container/40 text-m3-primary">
@@ -80,7 +80,7 @@ function whatsappHref(rt: (typeof rtItems)[number]) {
 
             {hasContact ? (
               <a
-                class="mt-5 inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-emerald-600 px-5 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-emerald-700"
+                class="action-pill-success mt-5"
                 href={href}
                 target="_blank"
                 rel="noreferrer"

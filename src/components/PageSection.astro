@@ -1,4 +1,6 @@
 ---
+import Icon from './ui/Icon.tsx';
+
 interface Props {
   title?: string;
   eyebrow?: string;
@@ -34,7 +36,10 @@ const {
           {title && <h2 class="text-[24px] font-bold leading-[32px] text-on-surface sm:text-[28px] sm:leading-[36px]">{title}</h2>}
         </div>
         {actionHref && actionLabel && (
-          <a class="shrink-0 text-sm font-semibold text-m3-primary hover:underline" href={actionHref}>{actionLabel}</a>
+          <a class="action-link-inline shrink-0" href={actionHref}>
+            {actionLabel}
+            <Icon name="arrow_forward" class="text-[16px]" />
+          </a>
         )}
       </div>
     )}

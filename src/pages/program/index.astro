@@ -70,7 +70,7 @@ const stats = {
 
   {featuredProgram && (
     <PageSection sectionClass="py-8 sm:py-10" title="Sorotan Utama" eyebrow="Program Prioritas">
-      <article class="grid gap-5 rounded-[1.75rem] border border-outline-variant bg-surface-container-lowest p-6 shadow-sm lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+      <article class="section-card grid gap-5 p-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
         <div>
           <div class="flex flex-wrap items-center gap-2">
             <Badge label={kategoriLabelsProgram[featuredProgram.entry.kategori as keyof typeof kategoriLabelsProgram]} tone="surface" />
@@ -85,16 +85,16 @@ const stats = {
         </div>
 
         <div class="grid gap-3">
-          <div class="rounded-2xl border border-outline-variant bg-white p-4">
-            <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Lokasi</p>
+          <div class="section-subcard">
+            <p class="section-kicker">Lokasi</p>
             <p class="mt-2 text-sm font-medium text-on-surface">{featuredProgram.entry.lokasi}</p>
           </div>
-          <div class="rounded-2xl border border-outline-variant bg-white p-4">
-            <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Periode</p>
+          <div class="section-subcard">
+            <p class="section-kicker">Periode</p>
             <p class="mt-2 text-sm font-medium text-on-surface">{featuredProgram.entry.periode}</p>
           </div>
-          <div class="rounded-2xl border border-outline-variant bg-white p-4">
-            <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Pembaruan Terakhir</p>
+          <div class="section-subcard">
+            <p class="section-kicker">Pembaruan Terakhir</p>
             <p class="mt-2 text-sm font-medium text-on-surface">{formatTanggal(featuredProgram.entry.tanggalUpdate)}</p>
           </div>
           <div class="pt-1">
@@ -111,7 +111,7 @@ const stats = {
         {programs.map((item) => (
           <a
             href={`/program/${item.slug}`}
-            class="group rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+            class="group section-card section-card-hover rounded-2xl p-5 sm:p-5"
           >
             <div class="flex flex-wrap items-center gap-2">
               <Badge label={kategoriLabelsProgram[item.entry.kategori as keyof typeof kategoriLabelsProgram]} tone="surface" />

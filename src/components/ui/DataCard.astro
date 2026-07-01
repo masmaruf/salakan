@@ -15,7 +15,7 @@ import Icon from './Icon.tsx';
 
 <a
   href={href}
-  class="group flex h-full flex-col gap-4 rounded-xl border border-outline-variant bg-surface-container-lowest p-5 transition-all hover:-translate-y-0.5 hover:shadow-md"
+  class="group section-card section-card-hover flex h-full flex-col gap-4"
 >
   <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary-container/30 text-m3-primary transition-colors group-hover:bg-m3-primary group-hover:text-on-primary">
     <CmsIcon name={icon} class="size-6" />
@@ -24,7 +24,7 @@ import Icon from './Icon.tsx';
     <h3 class="text-base font-bold text-on-surface group-hover:text-m3-primary transition-colors sm:text-lg">{label}</h3>
     <p class="text-sm text-on-surface-variant line-clamp-2">{description}</p>
   </div>
-  <span class="mt-auto inline-flex items-center gap-1 text-[12px] font-semibold text-m3-primary transition-all sm:opacity-0 sm:-translate-x-2 sm:group-hover:translate-x-0 sm:group-hover:opacity-100">
+  <span class="action-link-inline mt-auto text-[12px] transition-all sm:opacity-0 sm:-translate-x-2 sm:group-hover:translate-x-0 sm:group-hover:opacity-100">
     Akses Data <Icon name="arrow_forward" class="text-[14px]" />
   </span>
 </a>

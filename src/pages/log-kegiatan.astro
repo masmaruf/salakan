@@ -65,7 +65,7 @@ const logs = allLogs.filter((item) => {
   <PageSection sectionClass="py-8 sm:py-10" title="Filter Arsip" eyebrow="Tampilan Publik">
     <form class="grid gap-4 border-b border-outline-variant/70 pb-6 md:grid-cols-[1fr_1fr_auto] md:items-end">
       <label class="grid gap-2">
-        <span class="text-xs font-bold uppercase tracking-[0.14em] text-outline">Kategori</span>
+        <span class="section-kicker-muted text-outline">Kategori</span>
         <select name="kategori" class="rounded-2xl border border-outline-variant bg-white px-4 py-3 text-sm text-on-surface outline-none">
           <option value="semua" selected={activeKategori === 'semua'}>Semua kategori</option>
           {KATEGORI_LOG_KEGIATAN.map((item) => (
@@ -75,7 +75,7 @@ const logs = allLogs.filter((item) => {
       </label>
 
       <label class="grid gap-2">
-        <span class="text-xs font-bold uppercase tracking-[0.14em] text-outline">Periode</span>
+        <span class="section-kicker-muted text-outline">Periode</span>
         <select name="periode" class="rounded-2xl border border-outline-variant bg-white px-4 py-3 text-sm text-on-surface outline-none">
           <option value="semua" selected={activePeriode === 'semua'}>Semua waktu</option>
           <option value="bulan-ini" selected={activePeriode === 'bulan-ini'}>Bulan ini</option>
@@ -86,7 +86,7 @@ const logs = allLogs.filter((item) => {
       <div class="md:self-end">
         <button
           type="submit"
-          class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-m3-primary md:w-auto"
+          class="action-pill-dark w-full md:w-auto"
         >
           <Icon name="search" class="text-[16px]" />
           Terapkan filter
@@ -101,7 +101,7 @@ const logs = allLogs.filter((item) => {
         {logs.map((item) => {
           const waktuLabel = formatWaktuLog(item.waktu_mulai, item.waktu_selesai);
           return (
-            <article class="rounded-[1.75rem] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+            <article class="section-card section-card-hover rounded-[1.75rem] p-5 sm:p-5">
               {item.foto_dokumentasi && (
                 <img
                   src={item.foto_dokumentasi}
