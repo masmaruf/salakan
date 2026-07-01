@@ -5,7 +5,6 @@ import PageSection from '../components/PageSection.astro';
 import EmptyStateCard from '../components/ui/EmptyStateCard.astro';
 import Badge from '../components/ui/Badge.astro';
 import Icon from '../components/ui/Icon.tsx';
-import { getPublicLogKegiatan } from '../lib/log-kegiatan-store';
 import {
   KATEGORI_LOG_KEGIATAN,
   kategoriLogLabels,
@@ -16,11 +15,28 @@ import {
   isValidPeriodeLog,
   matchesPeriodeLog,
 } from '../lib/log-kegiatan';
+import { getLogKegiatan } from '../lib/content';
 import { withSiteTitle } from '../lib/site';
 
-export const prerender = false;
-
-const allLogs = await getPublicLogKegiatan();
+const allLogs = (await getLogKegiatan())
+  .filter((item) => item.entry.statusPublikasi === 'publish')
+  .sort((a, b) => {
+    const orderDiff = (b.entry.urutanTampil ?? 0) - (a.entry.urutanTampil ?? 0);
+    if (orderDiff !== 0) return orderDiff;
+    return new Date(b.entry.tanggal).getTime() - new Date(a.entry.tanggal).getTime();
+  })
+  .map((item) => ({
+    judul: item.entry.judul,
+    tanggal: item.entry.tanggal,
+    kategori: item.entry.kategori,
+    waktu_mulai: item.entry.waktuMulai,
+    waktu_selesai: item.entry.waktuSelesai,
+    lokasi: item.entry.lokasi,
+    ringkasan: item.entry.ringkasan,
+    hasil_tindak_lanjut: item.entry.hasilTindakLanjut,
+    pihak_terlibat: item.entry.pihakTerlibat,
+    foto_dokumentasi: item.entry.fotoDokumentasi,
+  }));
 
 const kategoriParam = Astro.url.searchParams.get('kategori') ?? 'semua';
 const periodeParam = Astro.url.searchParams.get('periode') ?? 'semua';

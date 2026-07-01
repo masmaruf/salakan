@@ -269,6 +269,93 @@ content:
             type: boolean
             default: false
 
+  - name: logKegiatan
+    label: Log Kegiatan
+    type: collection
+    path: src/content/log-kegiatan
+    filename: "{slug}/index.yaml"
+    format: yaml
+    view:
+      fields: [judul, tanggal, kategori, statusPublikasi]
+      primary: judul
+      default:
+        sort: tanggal
+        order: desc
+    fields:
+      - name: judul
+        label: Judul kegiatan
+        type: string
+        required: true
+      - name: tanggal
+        label: Tanggal
+        type: date
+        required: true
+      - name: kategori
+        label: Kategori
+        type: select
+        options:
+          values:
+            - value: pelayanan
+              label: Pelayanan
+            - value: administrasi
+              label: Administrasi
+            - value: rapat
+              label: Rapat
+            - value: undangan
+              label: Undangan
+            - value: lainnya
+              label: Lainnya
+        default: pelayanan
+      - name: statusPublikasi
+        label: Status tayang
+        type: select
+        options:
+          values:
+            - value: publish
+              label: Publish / Tayang
+            - value: draft
+              label: Draft / Belum tayang
+        default: publish
+      - name: kontenUtama
+        label: Konten Utama
+        type: object
+        fields:
+          - name: waktuMulai
+            label: Waktu mulai
+            type: string
+          - name: waktuSelesai
+            label: Waktu selesai
+            type: string
+          - name: lokasi
+            label: Lokasi
+            type: string
+          - name: ringkasan
+            label: Ringkasan kegiatan
+            type: text
+          - name: hasilTindakLanjut
+            label: Hasil / tindak lanjut
+            type: text
+          - name: pihakTerlibat
+            label: Pihak terlibat
+            type: text
+      - name: media
+        label: Media
+        type: object
+        fields:
+          - name: fotoDokumentasi
+            label: Foto dokumentasi
+            type: image
+            options:
+              input: public/images/log-kegiatan
+              output: /images/log-kegiatan
+      - name: pengaturanTampil
+        label: Pengaturan Tampil
+        type: object
+        fields:
+          - name: urutanTampil
+            label: Urutan tampil
+            type: number
+
   - name: program
     label: Program Warga
     type: collection

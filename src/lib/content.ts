@@ -132,6 +132,28 @@ export async function getAgenda() {
   }));
 }
 
+export async function getLogKegiatan() {
+  const items = await getCollection('logKegiatan');
+
+  return items.map(({ id, data }) => ({
+    slug: normalizeEntryId(id),
+    entry: {
+      judul: data.judul,
+      tanggal: data.tanggal,
+      kategori: data.kategori,
+      statusPublikasi: data.statusPublikasi,
+      waktuMulai: data.kontenUtama?.waktuMulai,
+      waktuSelesai: data.kontenUtama?.waktuSelesai,
+      lokasi: data.kontenUtama?.lokasi,
+      ringkasan: data.kontenUtama?.ringkasan,
+      hasilTindakLanjut: data.kontenUtama?.hasilTindakLanjut,
+      pihakTerlibat: data.kontenUtama?.pihakTerlibat,
+      fotoDokumentasi: data.media?.fotoDokumentasi,
+      urutanTampil: data.pengaturanTampil?.urutanTampil ?? 0,
+    },
+  }));
+}
+
 export async function getProgram() {
   const items = await getCollection('program');
 

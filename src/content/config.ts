@@ -17,6 +17,7 @@ const rt = defineCollection({
 const dokumen = defineCollection({ type: 'data', schema: z.any() });
 const kegiatan = defineCollection({ type: 'content', schema: z.any() });
 const agenda = defineCollection({ type: 'data', schema: z.any() });
+const logKegiatan = defineCollection({ type: 'data', schema: z.any() });
 const program = defineCollection({ type: 'data', schema: z.any() });
 const kasRt = defineCollection({ type: 'data', schema: z.any() });
 const inventarisWarga = defineCollection({ type: 'data', schema: z.any() });
@@ -39,6 +40,7 @@ export const collections = {
   dokumen,
   kegiatan,
   agenda,
+  logKegiatan,
   program,
   kasRt,
   inventarisWarga,

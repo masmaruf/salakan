@@ -94,6 +94,30 @@ const agenda = defineCollection({
   }),
 });
 
+const logKegiatan = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/log-kegiatan' }),
+  schema: z.object({
+    judul: z.string().min(1),
+    tanggal: tanggalSchema,
+    kategori: z.enum(['pelayanan', 'administrasi', 'rapat', 'undangan', 'lainnya']),
+    statusPublikasi: z.enum(['draft', 'publish']).default('publish'),
+    kontenUtama: z.object({
+      waktuMulai: z.string().default(''),
+      waktuSelesai: z.string().default(''),
+      lokasi: z.string().default(''),
+      ringkasan: z.string().min(1),
+      hasilTindakLanjut: z.string().default(''),
+      pihakTerlibat: z.string().default(''),
+    }),
+    media: z.object({
+      fotoDokumentasi: z.string().optional(),
+    }).default({}),
+    pengaturanTampil: z.object({
+      urutanTampil: z.number().int().default(0),
+    }).default({ urutanTampil: 0 }),
+  }),
+});
+
 const program = defineCollection({
   loader: glob({ pattern: '**/*.yaml', base: './src/content/program' }),
   schema: z.object({
@@ -533,6 +557,7 @@ export const collections = {
   dokumen,
   kegiatan,
   agenda,
+  logKegiatan,
   program,
   kasRt,
   inventarisWarga,

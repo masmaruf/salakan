@@ -1,0 +1,14 @@
+judul: Pelayanan administrasi warga awal bulan
+tanggal: 2026-07-01
+kategori: pelayanan
+statusPublikasi: publish
+kontenUtama:
+  waktuMulai: "08:00"
+  waktuSelesai: "10:30"
+  lokasi: Balai Padukuhan Salakan
+  ringkasan: Pelayanan administrasi dasar untuk verifikasi surat pengantar dan konsultasi kebutuhan dokumen warga.
+  hasilTindakLanjut: Berkas lengkap diteruskan untuk proses lanjutan sesuai kebutuhan masing-masing warga.
+  pihakTerlibat: Dukuh Salakan, pengurus wilayah, warga pemohon
+media: {}
+pengaturanTampil:
+  urutanTampil: 1
