@@ -1,16 +1,14 @@
-judul: Jadwal Posyandu Balita dan Lansia April 2026
-tanggal: 2026-04-16
+judul: Jadwal Posyandu Balita Juli 2026
+tanggal: 2026-07-02
 statusPublikasi: publish
 kontenUtama:
   waktuMulai: 07.00 WIB
-  waktuSelesai: ''
+  waktuSelesai: 11.30 WIB
   lokasi: Rumah Bpk Dukuh Ma''ruf Cahyadi
-  ringkasan: >-
-    Kegiatan posyandu dilaksanakan pada Sabtu, 16 April 2026 pukul 07.00 WIB di
-    Rumah Bpk Dukuh Ma''ruf Cahyadi.
+  ringkasan: Kegiatan posyandu dilaksanakan pada Kamis, 2 Juli 2026 pukul 07.00
+    WIB di Rumah Bpk Dukuh Ma''ruf Cahyadi.
   deskripsi: >-
-    Warga yang memiliki balita maupun anggota keluarga lansia diharapkan hadir
-    tepat waktu.
+    Warga yang memiliki balita diharapkan hadir tepat waktu.
 
     Mohon membawa buku KIA atau kartu pemeriksaan yang biasa digunakan agar
     pendataan berjalan lancar.
@@ -18,8 +16,4 @@ kontenUtama:
 media:
   altGambarUtama: Informasi jadwal posyandu warga.
 pengaturanTampil:
-  label: Informasi
-  tag:
-    - posyandu
-    - layanan warga
   unggulan: true
