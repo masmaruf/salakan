@@ -5,12 +5,17 @@ import PageSection from '../components/PageSection.astro';
 import InfoCard from '../components/ui/InfoCard.astro';
 import ActionLinkButton from '../components/ui/ActionLinkButton.astro';
 import { getPengaturan, getProfil } from '../lib/content';
+import { resolveMapEmbedSrc } from '../lib/maps';
 
 const profil = await getProfil();
 const pengaturan = await getPengaturan();
 const heroImg = profil?.hero?.gambar;
 const lokasi = profil?.lokasi;
 const potensi = profil?.potensiDesa ?? [];
+const mapEmbedSrc = resolveMapEmbedSrc({
+  embedHtml: pengaturan?.embedPetaHtml,
+  fallbackUrl: pengaturan?.linkPeta,
+});
 
 import Icon from '../components/ui/Icon.tsx';
 ---
@@ -98,7 +103,7 @@ import Icon from '../components/ui/Icon.tsx';
     </PageSection>
   )}
 
-  {(pengaturan?.linkPeta || lokasi?.alamat || lokasi?.linkPeta) && (
+  {(mapEmbedSrc || lokasi?.alamat || lokasi?.linkPeta) && (
     <PageSection eyebrow="Lokasi" title="Temukan Kami" sectionClass="bg-surface-container-low/40 py-10 sm:py-14">
       <div class="space-y-5">
         {(lokasi?.alamat || lokasi?.linkPeta) && (
@@ -117,10 +122,10 @@ import Icon from '../components/ui/Icon.tsx';
         )}
 
         <div class="overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest shadow-[0_10px_30px_rgba(15,23,42,0.08)]">
-          {pengaturan?.linkPeta ? (
+          {mapEmbedSrc ? (
             <iframe
               title="Peta Padukuhan Salakan"
-              src={pengaturan.linkPeta}
+              src={mapEmbedSrc}
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
               class="h-full w-full min-h-[360px] border-none md:min-h-[460px]"
@@ -130,7 +135,7 @@ import Icon from '../components/ui/Icon.tsx';
               <Icon name="wrong_location" class="mb-4 text-[48px] text-outline" />
               <p class="text-base font-bold text-on-surface">Peta Belum Tersedia</p>
               <p class="mt-2 max-w-xs text-sm text-on-surface-variant">
-                Sematkan tautan peta embed melalui CMS admin agar titik lokasi muncul di sini.
+                Isi link embed atau tempel kode iframe Google Maps melalui Pages CMS agar peta tampil di sini.
               </p>
             </div>
           )}

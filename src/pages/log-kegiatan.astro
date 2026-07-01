@@ -49,12 +49,6 @@ const logs = allLogs.filter((item) => {
   if (!matchesPeriodeLog(item.tanggal, activePeriode)) return false;
   return true;
 });
-
-const stats = {
-  total: allLogs.length,
-  bulanIni: allLogs.filter((item) => matchesPeriodeLog(item.tanggal, 'bulan-ini')).length,
-  tahunIni: allLogs.filter((item) => matchesPeriodeLog(item.tanggal, 'tahun-ini')).length,
-};
 ---
 
 <MainLayout
@@ -68,28 +62,8 @@ const stats = {
     description="Halaman ini merangkum kegiatan operasional dukuh secara ringkas agar warga dapat melihat layanan, administrasi, rapat, dan kehadiran kegiatan yang sudah dipublikasikan."
   />
 
-  <section class="container-premium py-6 sm:py-8">
-    <div class="grid gap-4 md:grid-cols-3">
-      <div class="rounded-[1.5rem] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
-        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Total Publish</p>
-        <p class="mt-3 text-3xl font-black tracking-tight text-on-surface">{stats.total}</p>
-        <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">Jumlah log kegiatan yang sudah tayang ke publik.</p>
-      </div>
-      <div class="rounded-[1.5rem] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
-        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Bulan Ini</p>
-        <p class="mt-3 text-3xl font-black tracking-tight text-on-surface">{stats.bulanIni}</p>
-        <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">Kegiatan yang tercatat pada bulan berjalan.</p>
-      </div>
-      <div class="rounded-[1.5rem] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
-        <p class="text-xs font-bold uppercase tracking-[0.14em] text-m3-primary">Tahun Ini</p>
-        <p class="mt-3 text-3xl font-black tracking-tight text-on-surface">{stats.tahunIni}</p>
-        <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">Ringkasan arsip kegiatan dalam tahun berjalan.</p>
-      </div>
-    </div>
-  </section>
-
   <PageSection sectionClass="py-8 sm:py-10" title="Filter Arsip" eyebrow="Tampilan Publik">
-    <form class="grid gap-4 rounded-[1.75rem] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm md:grid-cols-2">
+    <form class="grid gap-4 border-b border-outline-variant/70 pb-6 md:grid-cols-[1fr_1fr_auto] md:items-end">
       <label class="grid gap-2">
         <span class="text-xs font-bold uppercase tracking-[0.14em] text-outline">Kategori</span>
         <select name="kategori" class="rounded-2xl border border-outline-variant bg-white px-4 py-3 text-sm text-on-surface outline-none">
@@ -109,10 +83,10 @@ const stats = {
         </select>
       </label>
 
-      <div class="md:col-span-2">
+      <div class="md:self-end">
         <button
           type="submit"
-          class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-m3-primary"
+          class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-m3-primary md:w-auto"
         >
           <Icon name="search" class="text-[16px]" />
           Terapkan filter

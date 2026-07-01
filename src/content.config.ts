@@ -318,6 +318,7 @@ const pengaturan = defineCollection({
     email: z.string().email(),
     jamLayanan: z.string().min(1),
     linkPeta: z.string().default(''),
+    embedPetaHtml: z.string().default(''),
     sambutanBeranda: z.string().min(1),
     seoHalamanData: (() => {
       const seoPageSchema = z.object({ seoTitle: z.string().default(''), seoDescription: z.string().default(''), ogImage: z.string().default('') });

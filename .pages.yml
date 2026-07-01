@@ -2,6 +2,60 @@ media:
   input: public/images
   output: /images
 
+components:
+  seoMeta:
+    type: object
+    label: SEO
+    fields:
+      - name: seoTitle
+        label: SEO title
+        type: string
+        description: Judul meta opsional untuk halaman ini.
+      - name: seoDescription
+        label: SEO description
+        type: text
+        description: Deskripsi singkat yang dipakai untuk meta description.
+      - name: ogImage
+        label: OG image path
+        type: string
+        description: Isi path gambar publik bila ingin override preview media sosial.
+
+  statusPublikasi:
+    type: select
+    label: Status tayang
+    options:
+      values:
+        - value: publish
+          label: Publish / Tayang
+        - value: draft
+          label: Draft / Belum tayang
+    default: publish
+
+  unggulanToggle:
+    type: boolean
+    label: Tampilkan sebagai unggulan
+    default: false
+
+  urutanTampil:
+    type: number
+    label: Urutan tampil
+    description: Angka lebih besar diprioritaskan lebih dulu pada halaman yang memakai urutan manual.
+
+  kontakWhatsapp:
+    type: string
+    label: Nomor WhatsApp
+    description: Gunakan format internasional tanpa spasi, misalnya 6281234567890.
+    pattern:
+      regex: "^(\\+?62|0)\\d{8,13}$"
+      message: "Gunakan nomor Indonesia yang valid, misalnya 6281234567890."
+
+  mapEmbedHtml:
+    type: code
+    label: Embed peta HTML
+    description: Tempel kode iframe dari Google Maps. Sistem hanya membaca URL src dari iframe.
+    options:
+      format: html
+
 content:
   # ─── COLLECTIONS ────────────────────────────────────────────────
 
@@ -46,18 +100,7 @@ content:
               input: public/files/dokumen
               output: /files/dokumen
       - name: seo
-        label: SEO
-        type: object
-        fields:
-          - name: seoTitle
-            label: SEO title
-            type: string
-          - name: seoDescription
-            label: SEO description
-            type: text
-          - name: ogImage
-            label: OG image path
-            type: string
+        component: seoMeta
       - name: pengaturanTampil
         label: Pengaturan Tampil
         type: object
@@ -77,22 +120,12 @@ content:
                   label: Regulasi
             default: layanan
           - name: statusPublikasi
-            label: Status tayang
-            type: select
-            options:
-              values:
-                - value: publish
-                  label: Publish / Tayang
-                - value: draft
-                  label: Draft / Belum tayang
-            default: publish
+            component: statusPublikasi
           - name: unggulan
+            component: unggulanToggle
             label: Dokumen unggulan
-            type: boolean
-            default: false
           - name: urutanTampil
-            label: Urutan tampil
-            type: number
+            component: urutanTampil
 
   - name: kegiatan
     label: Berita & Kegiatan
@@ -116,15 +149,8 @@ content:
         type: date
         required: true
       - name: statusPublikasi
+        component: statusPublikasi
         label: Status artikel
-        type: select
-        options:
-          values:
-            - value: publish
-              label: Publish / Tayang
-            - value: draft
-              label: Draft / Belum tayang
-        default: publish
         required: true
       - name: body
         label: Isi artikel
@@ -181,18 +207,7 @@ content:
                 type: string
                 list: true
           - name: seo
-            label: SEO
-            type: object
-            fields:
-              - name: seoTitle
-                label: SEO title
-                type: string
-              - name: seoDescription
-                label: SEO description
-                type: text
-              - name: ogImage
-                label: OG image path
-                type: string
+            component: seoMeta
 
   - name: agenda
     label: Agenda
@@ -215,15 +230,8 @@ content:
         label: Tanggal agenda
         type: date
       - name: statusPublikasi
+        component: statusPublikasi
         label: Status agenda
-        type: select
-        options:
-          values:
-            - value: publish
-              label: Publish / Tayang
-            - value: draft
-              label: Draft / Belum tayang
-        default: publish
         required: true
       - name: kontenUtama
         label: Konten Utama
@@ -265,9 +273,8 @@ content:
         type: object
         fields:
           - name: unggulan
+            component: unggulanToggle
             label: Agenda unggulan
-            type: boolean
-            default: false
 
   - name: logKegiatan
     label: Log Kegiatan
@@ -307,15 +314,7 @@ content:
               label: Lainnya
         default: pelayanan
       - name: statusPublikasi
-        label: Status tayang
-        type: select
-        options:
-          values:
-            - value: publish
-              label: Publish / Tayang
-            - value: draft
-              label: Draft / Belum tayang
-        default: publish
+        component: statusPublikasi
       - name: kontenUtama
         label: Konten Utama
         type: object
@@ -353,8 +352,7 @@ content:
         type: object
         fields:
           - name: urutanTampil
-            label: Urutan tampil
-            type: number
+            component: urutanTampil
 
   - name: program
     label: Program Warga
@@ -377,15 +375,7 @@ content:
         label: Tanggal pembaruan
         type: date
       - name: statusPublikasi
-        label: Status tayang
-        type: select
-        options:
-          values:
-            - value: publish
-              label: Publish / Tayang
-            - value: draft
-              label: Draft / Belum tayang
-        default: publish
+        component: statusPublikasi
         required: true
       - name: kontenUtama
         label: Konten Utama
@@ -447,12 +437,9 @@ content:
                   label: Selesai
             default: rencana
           - name: unggulan
-            label: Tampilkan sebagai unggulan
-            type: boolean
-            default: false
+            component: unggulanToggle
           - name: urutanTampil
-            label: Urutan tampil
-            type: number
+            component: urutanTampil
 
   - name: kasRt
     label: Transparansi Kas RT
@@ -615,8 +602,7 @@ content:
             label: Deskripsi lengkap
             type: text
           - name: whatsapp
-            label: Nomor WhatsApp
-            type: string
+            component: kontakWhatsapp
           - name: lokasi
             label: Lokasi usaha
             type: string
@@ -638,18 +624,7 @@ content:
             label: Alt text foto produk
             type: string
       - name: seo
-        label: SEO
-        type: object
-        fields:
-          - name: seoTitle
-            label: SEO title
-            type: string
-          - name: seoDescription
-            label: SEO description
-            type: text
-          - name: ogImage
-            label: OG image path
-            type: string
+        component: seoMeta
       - name: pengaturanTampil
         label: Pengaturan Tampil
         type: object
@@ -669,22 +644,12 @@ content:
                   label: Perdagangan
             default: kuliner
           - name: statusPublikasi
-            label: Status tayang
-            type: select
-            options:
-              values:
-                - value: publish
-                  label: Publish / Tayang
-                - value: draft
-                  label: Draft / Belum tayang
-            default: publish
+            component: statusPublikasi
           - name: unggulan
+            component: unggulanToggle
             label: UMKM unggulan
-            type: boolean
-            default: false
           - name: urutanTampil
-            label: Urutan tampil
-            type: number
+            component: urutanTampil
 
   - name: galeri
     label: Galeri
@@ -949,7 +914,10 @@ content:
       - name: potensiDesa
         label: Potensi Desa
         type: object
-        list: true
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{judul}"
         fields:
           - name: ikon
             label: Nama ikon Material
@@ -979,7 +947,10 @@ content:
       - name: dataWilayah
         label: Data wilayah
         type: object
-        list: true
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{label}: {value}"
         fields:
           - name: label
             label: Label data
@@ -997,8 +968,7 @@ content:
         label: Alamat
         type: text
       - name: kontakWhatsApp
-        label: Nomor WhatsApp
-        type: string
+        component: kontakWhatsapp
       - name: email
         label: Email
         type: string
@@ -1008,6 +978,9 @@ content:
       - name: linkPeta
         label: Link embed peta
         type: string
+        description: Boleh diisi URL embed langsung bila tidak memakai iframe penuh.
+      - name: embedPetaHtml
+        component: mapEmbedHtml
       - name: sambutanBeranda
         label: Sambutan beranda
         type: text
@@ -1016,161 +989,41 @@ content:
         type: object
         fields:
           - name: dataUtama
+            component: seoMeta
             label: SEO Halaman Data Utama
-            type: object
-            fields:
-              - name: seoTitle
-                label: SEO title halaman Data
-                type: string
-              - name: seoDescription
-                label: SEO description halaman Data
-                type: text
-              - name: ogImage
-                label: OG image halaman Data
-                type: string
           - name: pengumuman
+            component: seoMeta
             label: SEO Halaman Pengumuman
-            type: object
-            fields:
-              - name: seoTitle
-                label: SEO title halaman Pengumuman
-                type: string
-              - name: seoDescription
-                label: SEO description halaman Pengumuman
-                type: text
-              - name: ogImage
-                label: OG image halaman Pengumuman
-                type: string
           - name: dokumen
+            component: seoMeta
             label: SEO Halaman Dokumen
-            type: object
-            fields:
-              - name: seoTitle
-                label: SEO title halaman Dokumen
-                type: string
-              - name: seoDescription
-                label: SEO description halaman Dokumen
-                type: text
-              - name: ogImage
-                label: OG image halaman Dokumen
-                type: string
           - name: umkm
+            component: seoMeta
             label: SEO Halaman UMKM
-            type: object
-            fields:
-              - name: seoTitle
-                label: SEO title halaman UMKM
-                type: string
-              - name: seoDescription
-                label: SEO description halaman UMKM
-                type: text
-              - name: ogImage
-                label: OG image halaman UMKM
-                type: string
           - name: strukturOrganisasi
+            component: seoMeta
             label: SEO Halaman Struktur Organisasi
-            type: object
-            fields:
-              - name: seoTitle
-                label: SEO title halaman Struktur Organisasi
-                type: string
-              - name: seoDescription
-                label: SEO description halaman Struktur Organisasi
-                type: text
-              - name: ogImage
-                label: OG image halaman Struktur Organisasi
-                type: string
           - name: agenda
+            component: seoMeta
             label: SEO Halaman Agenda
-            type: object
-            fields:
-              - name: seoTitle
-                label: SEO title halaman Agenda
-                type: string
-              - name: seoDescription
-                label: SEO description halaman Agenda
-                type: text
-              - name: ogImage
-                label: OG image halaman Agenda
-                type: string
           - name: program
+            component: seoMeta
             label: SEO Halaman Program
-            type: object
-            fields:
-              - name: seoTitle
-                label: SEO title halaman Program
-                type: string
-              - name: seoDescription
-                label: SEO description halaman Program
-                type: text
-              - name: ogImage
-                label: OG image halaman Program
-                type: string
           - name: kasRt
+            component: seoMeta
             label: SEO Halaman Kas RT
-            type: object
-            fields:
-              - name: seoTitle
-                label: SEO title halaman Kas RT
-                type: string
-              - name: seoDescription
-                label: SEO description halaman Kas RT
-                type: text
-              - name: ogImage
-                label: OG image halaman Kas RT
-                type: string
           - name: inventaris
+            component: seoMeta
             label: SEO Halaman Inventaris
-            type: object
-            fields:
-              - name: seoTitle
-                label: SEO title halaman Inventaris
-                type: string
-              - name: seoDescription
-                label: SEO description halaman Inventaris
-                type: text
-              - name: ogImage
-                label: OG image halaman Inventaris
-                type: string
           - name: layananWarga
+            component: seoMeta
             label: SEO Halaman Layanan Warga
-            type: object
-            fields:
-              - name: seoTitle
-                label: SEO title halaman Layanan Warga
-                type: string
-              - name: seoDescription
-                label: SEO description halaman Layanan Warga
-                type: text
-              - name: ogImage
-                label: OG image halaman Layanan Warga
-                type: string
           - name: faq
+            component: seoMeta
             label: SEO Halaman FAQ
-            type: object
-            fields:
-              - name: seoTitle
-                label: SEO title halaman FAQ
-                type: string
-              - name: seoDescription
-                label: SEO description halaman FAQ
-                type: text
-              - name: ogImage
-                label: OG image halaman FAQ
-                type: string
           - name: monografi
+            component: seoMeta
             label: SEO Halaman Monografi
-            type: object
-            fields:
-              - name: seoTitle
-                label: SEO title halaman Monografi
-                type: string
-              - name: seoDescription
-                label: SEO description halaman Monografi
-                type: text
-              - name: ogImage
-                label: OG image halaman Monografi
-                type: string
       - name: menuData
         label: Menu Data
         type: object
@@ -1184,7 +1037,10 @@ content:
           - name: items
             label: Sub menu Data
             type: object
-            list: true
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{label} -> {href}"
             fields:
               - name: label
                 label: Nama menu
@@ -1324,7 +1180,10 @@ content:
           - name: channels
             label: Kanal notifikasi
             type: object
-            list: true
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title} ({status})"
             fields:
               - name: title
                 label: Judul kanal
@@ -1415,7 +1274,10 @@ content:
           - name: panelLinks
             label: Tautan panel hero
             type: object
-            list: true
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{title}"
             fields:
               - name: title
                 label: Judul tautan
