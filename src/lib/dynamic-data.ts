@@ -104,18 +104,8 @@ function normalizeTimeValue(value: unknown) {
 }
 
 async function getAstroDbContext() {
-  const astroDbModuleId = 'astro' + ':db';
-  const astroDb = await import(/* @vite-ignore */ astroDbModuleId);
-
-  return {
-    db: astroDb.db,
-    eq: astroDb.eq,
-    and: astroDb.and,
-    desc: astroDb.desc,
-    Pengajuan: (astroDb as typeof astroDb & { Pengajuan: any }).Pengajuan,
-    NomorUrut: (astroDb as typeof astroDb & { NomorUrut: any }).NomorUrut,
-    LogKegiatanDukuh: (astroDb as typeof astroDb & { LogKegiatanDukuh: any }).LogKegiatanDukuh,
-  };
+  const mod = await import('./astro-db-fallback');
+  return mod.getAstroDbContext();
 }
 
 function serializePengajuan(item: any): PengajuanRecord {
