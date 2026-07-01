@@ -5,51 +5,6 @@ media:
 content:
   # ─── COLLECTIONS ────────────────────────────────────────────────
 
-  - name: pengumuman
-    label: Pengumuman
-    type: collection
-    path: src/content/pengumuman
-    filename: "{slug}/index.yaml"
-    format: yaml
-    view:
-      fields: [judul, tanggal]
-      primary: judul
-      default:
-        sort: tanggal
-        order: desc
-    fields:
-      - name: judul
-        label: Judul
-        type: string
-        required: true
-      - name: tanggal
-        label: Tanggal
-        type: date
-      - name: ringkasan
-        label: Ringkasan
-        type: text
-      - name: isi
-        label: Isi pengumuman
-        type: text
-      - name: pengaturanTampil
-        label: Pengaturan Tampil
-        type: object
-        fields:
-          - name: statusPublikasi
-            label: Status tayang
-            type: select
-            options:
-              values:
-                - value: publish
-                  label: Publish / Tayang
-                - value: draft
-                  label: Draft / Belum tayang
-            default: publish
-          - name: unggulan
-            label: Tandai sebagai pengumuman unggulan
-            type: boolean
-            default: false
-
   - name: dokumen
     label: Dokumen
     type: collection
