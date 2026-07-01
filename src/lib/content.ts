@@ -1,4 +1,5 @@
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import { pageCopyDefaults } from './page-copy';
 
 type EntryWithSlug<T> = {
   slug: string;
@@ -332,6 +333,10 @@ export async function getProfil() {
 
 export async function getPengaturan() {
   return (await getEntry('pengaturan', 'index'))?.data ?? null;
+}
+
+export async function getHalamanCopy() {
+  return (await getEntry('halaman', 'index'))?.data ?? pageCopyDefaults;
 }
 
 export async function getMonografi() {

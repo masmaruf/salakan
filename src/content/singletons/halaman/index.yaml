@@ -1,0 +1,103 @@
+profil:
+  layoutTitle: Profil | Padukuhan Salakan
+  layoutDescription: Profil, visi misi, potensi desa, dan data wilayah Padukuhan Salakan.
+  storyEyebrow: Kisah Kami
+  storyTitle: Sejarah & Filosofi
+  visionTitle: Visi
+  missionTitle: Misi
+  potentialEyebrow: Keunggulan Lokal
+  potentialTitle: Potensi Desa
+  statsEyebrow: Statistik
+  statsTitle: Data Wilayah
+  locationEyebrow: Lokasi
+  locationTitle: Temukan Kami
+  addressLabel: Alamat
+  openMapLabel: Buka Peta
+  mapEmptyTitle: Peta Belum Tersedia
+  mapEmptyDescription: Isi link embed atau tempel kode iframe Google Maps melalui Pages CMS agar peta tampil di sini.
+kontak:
+  layoutTitle: Kontak | Padukuhan Salakan
+  layoutDescription: Alamat dan kontak informasi Padukuhan Salakan.
+  heroEyebrow: Hubungi Kami
+  heroTitle: Kontak & Layanan
+  heroDescription: Akses jalur komunikasi resmi, alamat sekretariat, dan informasi layanan Padukuhan Salakan dengan lebih cepat.
+  addressTitle: Alamat
+  addressFallback: Sekretariat Padukuhan Salakan
+  whatsappTitle: WhatsApp
+  whatsappActionLabel: Hubungi Pengurus
+  whatsappPendingLabel: Dalam pendaftaran
+  emailTitle: Surel
+  workingHoursTitle: Jam Kerja
+layananWarga:
+  pageTitle: Pusat Layanan Warga
+  pageDescription: Informasi prosedur administrasi, persyaratan dokumen, estimasi alur, dan akses cepat untuk mengajukan atau melacak layanan warga Padukuhan Salakan.
+  primaryCtaLabel: Ajukan surat sekarang
+  secondaryCtaLabel: Lacak status pengajuan
+  quickAccessLabel: Akses cepat
+  features:
+    - title: Panduan jelas
+      icon: checklist
+      description: Setiap layanan menampilkan syarat, alur, kontak, dan jam layanan resmi agar warga tidak perlu bertanya ulang.
+    - title: Ajukan mandiri
+      icon: description
+      description: Untuk layanan surat, warga dapat mengirim pengajuan dari dasbor tanpa menunggu jam tatap muka di balai.
+    - title: Lacak tiket
+      icon: travel_explore
+      description: Nomor tiket pengajuan dapat dipakai kembali untuk memeriksa progres layanan secara mandiri.
+  listTitle: Daftar layanan aktif
+  listDescription: Bagikan tautan layanan spesifik langsung ke warga melalui grup RT atau kanal informasi padukuhan.
+  listCountSuffix: layanan
+agendaIndex:
+  layoutTitle: Agenda Warga | Padukuhan Salakan
+  layoutDescription: Informasi kegiatan dan agenda terbaru untuk warga.
+  heroEyebrow: Jadwal & Info
+  heroTitle: Agenda Warga
+  heroDescription: Timeline kegiatan warga, informasi penting, dan agenda yang sedang berjalan di Padukuhan Salakan.
+  stats:
+    totalLabel: Ringkasan
+    totalDescription: Semua agenda aktif siap dibagikan ke warga.
+    weeklyLabel: Minggu ini
+    weeklyDescription: Kegiatan yang sedang atau akan berlangsung dalam 7 hari ke depan.
+    distributionLabel: Distribusi
+    distributionTitle: Siap dibagikan ke grup RT
+    distributionDescription: Gunakan label seperti pengumuman, informasi, atau pengajian agar warga cepat menangkap konteksnya.
+  emptyMessage: Belum ada agenda.
+inventaris:
+  title: Inventaris Warga
+  description: Warga bisa mengecek kategori barang bersama, status ketersediaan, lokasi simpan, dan penanggung jawab sebelum menghubungi pengurus.
+  stats:
+    total: Total Item
+    available: Siap Dipakai
+    maintenance: Perlu Perawatan
+  sectionTitle: Daftar Inventaris
+  sectionEyebrow: Status Ketersediaan
+  labels:
+    condition: Kondisi
+    location: Lokasi
+    owner: Penanggung jawab
+    note: Catatan
+    priority: Prioritas
+dokumen:
+  title: Arsip Dokumen
+  descriptionSuffix: dokumen tersedia di arsip publik Padukuhan Salakan.
+  detailLabel: Detail
+  downloadLabel: Unduh
+  unavailableLabel: Belum tersedia
+umkm:
+  title: Katalog UMKM
+  descriptionSuffix: usaha warga terdaftar di Padukuhan Salakan.
+  featuredLabel: Unggulan
+  detailLabel: Detail
+  whatsappLabel: WhatsApp
+  whatsappMessagePrefix: Halo, saya ingin mengetahui informasi UMKM
+programDetail:
+  priorityLabel: Prioritas Warga
+  summaryTitle: Ringkasan Pelaksanaan
+  periodTitle: Periode
+  fundingTitle: Sumber Dana
+  budgetTitle: Anggaran
+  budgetFallback: Belum dicantumkan
+  benefitsTitle: Manfaat untuk Warga
+  backToProgramsLabel: Kembali ke daftar program
+  openDataCenterLabel: Buka pusat data
+  updatedPrefix: Diperbarui

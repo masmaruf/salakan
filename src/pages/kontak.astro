@@ -3,22 +3,22 @@ import MainLayout from '../layouts/MainLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import InfoCard from '../components/ui/InfoCard.astro';
 import ActionLinkButton from '../components/ui/ActionLinkButton.astro';
-import { getPengaturan, normalizeWhatsapp } from '../lib/content';
-import { pageCopy } from '../lib/page-copy';
+import { getHalamanCopy, getPengaturan, normalizeWhatsapp } from '../lib/content';
 
 const pengaturan = await getPengaturan();
+const halaman = await getHalamanCopy();
 const nomorWhatsapp = pengaturan?.kontakWhatsApp ? normalizeWhatsapp(pengaturan.kontakWhatsApp) : '';
 const whatsappLink = nomorWhatsapp ? `https://wa.me/${nomorWhatsapp}` : null;
 
 ---
 
-<MainLayout title={pageCopy.kontak.layoutTitle} description={pageCopy.kontak.layoutDescription}>
+<MainLayout title={halaman.kontak.layoutTitle} description={halaman.kontak.layoutDescription}>
 
   <PageHero
-    eyebrow={pageCopy.kontak.heroEyebrow}
+    eyebrow={halaman.kontak.heroEyebrow}
     icon="support_agent"
-    title={pageCopy.kontak.heroTitle}
-    description={pageCopy.kontak.heroDescription}
+    title={halaman.kontak.heroTitle}
+    description={halaman.kontak.heroDescription}
     orbs={[
       { class: 'absolute -top-16 left-[14%] h-[250px] w-[250px] rounded-full bg-blue-400/20 blur-3xl sm:h-[320px] sm:w-[320px]' },
       { class: 'absolute bottom-[-2rem] right-[10%] h-[220px] w-[220px] rounded-full bg-emerald-400/10 blur-3xl sm:h-[280px] sm:w-[280px]' },
@@ -27,23 +27,23 @@ const whatsappLink = nomorWhatsapp ? `https://wa.me/${nomorWhatsapp}` : null;
 
   <section class="container-premium py-10 sm:py-14">
     <div class="space-y-4">
-      <InfoCard title={pageCopy.kontak.addressTitle} icon="location_on">
-        <p class="whitespace-pre-line text-sm font-bold text-on-surface">{pengaturan?.alamat ?? pageCopy.kontak.addressFallback}</p>
+      <InfoCard title={halaman.kontak.addressTitle} icon="location_on">
+        <p class="whitespace-pre-line text-sm font-bold text-on-surface">{pengaturan?.alamat ?? halaman.kontak.addressFallback}</p>
       </InfoCard>
 
-      <InfoCard title={pageCopy.kontak.whatsappTitle} icon="chat">
+      <InfoCard title={halaman.kontak.whatsappTitle} icon="chat">
         {whatsappLink ? (
-          <ActionLinkButton href={whatsappLink} label={pageCopy.kontak.whatsappActionLabel} icon="open_in_new" variant="success" target="_blank" rel="noreferrer" class="mt-1 w-full justify-center sm:w-auto sm:justify-start" />
+          <ActionLinkButton href={whatsappLink} label={halaman.kontak.whatsappActionLabel} icon="open_in_new" variant="success" target="_blank" rel="noreferrer" class="mt-1 w-full justify-center sm:w-auto sm:justify-start" />
         ) : (
-          <p class="mt-1 text-sm font-bold text-on-surface">{pageCopy.kontak.whatsappPendingLabel}</p>
+          <p class="mt-1 text-sm font-bold text-on-surface">{halaman.kontak.whatsappPendingLabel}</p>
         )}
       </InfoCard>
 
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <InfoCard title={pageCopy.kontak.emailTitle} icon="mail">
+        <InfoCard title={halaman.kontak.emailTitle} icon="mail">
           <p class="break-words text-sm font-bold text-on-surface">{pengaturan?.email ?? '-'}</p>
         </InfoCard>
-        <InfoCard title={pageCopy.kontak.workingHoursTitle} icon="schedule">
+        <InfoCard title={halaman.kontak.workingHoursTitle} icon="schedule">
           <p class="text-sm font-bold text-on-surface">{pengaturan?.jamLayanan ?? '-'}</p>
         </InfoCard>
       </div>

@@ -5,11 +5,11 @@ import Badge from '../../components/ui/Badge.astro';
 import StatCard from '../../components/ui/StatCard.astro';
 import PageSection from '../../components/PageSection.astro';
 import LabelValueList from '../../components/ui/LabelValueList.astro';
-import { kondisiInventarisLabels, getInventarisWarga, getPengaturan, kategoriLabelsInventaris, statusPinjamInventarisLabels } from '../../lib/content';
-import { pageCopy } from '../../lib/page-copy';
+import { kondisiInventarisLabels, getHalamanCopy, getInventarisWarga, getPengaturan, kategoriLabelsInventaris, statusPinjamInventarisLabels } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const [items, pengaturan] = await Promise.all([getInventarisWarga(), getPengaturan()]);
+const halaman = await getHalamanCopy();
 const seo = pengaturan?.seoHalamanData?.inventaris;
 const inventory = items.filter(({ entry }) => entry.statusPublikasi === 'publish').sort((a, b) => (a.entry.unggulan !== b.entry.unggulan ? Number(b.entry.unggulan) - Number(a.entry.unggulan) : (a.entry.urutanTampil ?? 0) - (b.entry.urutanTampil ?? 0)));
 const availableCount = inventory.filter((item) => item.entry.statusPinjam === 'tersedia').length;
@@ -20,32 +20,32 @@ const statusToneMap = { tersedia: 'success', dipinjam: 'warning', perawatan: 'er
 <MainLayout title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'Inventaris Warga'))} description={resolveSeoText(seo?.seoDescription, 'Daftar inventaris bersama dan status ketersediaannya untuk warga Padukuhan Salakan.')} image={resolveSeoImage(seo?.ogImage)}>
   <PageIntro
     title="Inventaris Warga"
-    description={pageCopy.inventaris.description}
+    description={halaman.inventaris.description}
     breadcrumbs={[{ label: 'Beranda', href: '/' }, { label: 'Pusat Data', href: '/data' }, { label: 'Inventaris Warga', active: true }]}
   />
 
   <section class="container-premium py-4 sm:py-6">
     <div class="grid gap-4 md:grid-cols-3">
-      <StatCard label={pageCopy.inventaris.stats.total} value={inventory.length} icon="inventory_2" variant="blue" />
-      <StatCard label={pageCopy.inventaris.stats.available} value={availableCount} icon="task_alt" variant="emerald" />
-      <StatCard label={pageCopy.inventaris.stats.maintenance} value={maintenanceCount} icon="construction" variant="amber" />
+      <StatCard label={halaman.inventaris.stats.total} value={inventory.length} icon="inventory_2" variant="blue" />
+      <StatCard label={halaman.inventaris.stats.available} value={availableCount} icon="task_alt" variant="emerald" />
+      <StatCard label={halaman.inventaris.stats.maintenance} value={maintenanceCount} icon="construction" variant="amber" />
     </div>
   </section>
 
-  <PageSection sectionClass="pb-10 pt-4 sm:pb-14" title={pageCopy.inventaris.sectionTitle} eyebrow={pageCopy.inventaris.sectionEyebrow}>
+  <PageSection sectionClass="pb-10 pt-4 sm:pb-14" title={halaman.inventaris.sectionTitle} eyebrow={halaman.inventaris.sectionEyebrow}>
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {inventory.map(({ slug, entry }) => (
         <article class="section-card" id={slug}>
-          <div class="mb-3 flex flex-wrap items-center gap-2"><Badge label={kategoriLabelsInventaris[entry.kategori]} tone="surface" class="px-2 py-1" /><Badge label={statusPinjamInventarisLabels[entry.statusPinjam]} tone={statusToneMap[entry.statusPinjam]} class="px-2 py-1" />{entry.unggulan && <Badge label={pageCopy.inventaris.labels.priority} tone="info" class="px-2 py-1" />}</div>
+          <div class="mb-3 flex flex-wrap items-center gap-2"><Badge label={kategoriLabelsInventaris[entry.kategori]} tone="surface" class="px-2 py-1" /><Badge label={statusPinjamInventarisLabels[entry.statusPinjam]} tone={statusToneMap[entry.statusPinjam]} class="px-2 py-1" />{entry.unggulan && <Badge label={halaman.inventaris.labels.priority} tone="info" class="px-2 py-1" />}</div>
           <h2 class="text-base font-bold leading-tight text-on-surface sm:text-lg">{entry.namaItem}</h2>
           <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">{entry.ringkasan}</p>
           <LabelValueList
             class="mt-4"
             items={[
-              { label: pageCopy.inventaris.labels.condition, value: kondisiInventarisLabels[entry.kondisi] },
-              { label: pageCopy.inventaris.labels.location, value: entry.lokasiSimpan },
-              { label: pageCopy.inventaris.labels.owner, value: entry.penanggungJawab },
-              { label: pageCopy.inventaris.labels.note, value: entry.catatan },
+              { label: halaman.inventaris.labels.condition, value: kondisiInventarisLabels[entry.kondisi] },
+              { label: halaman.inventaris.labels.location, value: entry.lokasiSimpan },
+              { label: halaman.inventaris.labels.owner, value: entry.penanggungJawab },
+              { label: halaman.inventaris.labels.note, value: entry.catatan },
             ]}
           />
         </article>

@@ -1,4 +1,4 @@
-export const pageCopy = {
+export const pageCopyDefaults = {
   profil: {
     layoutTitle: 'Profil | Padukuhan Salakan',
     layoutDescription: 'Profil, visi misi, potensi desa, dan data wilayah Padukuhan Salakan.',
@@ -95,18 +95,18 @@ export const pageCopy = {
   },
   dokumen: {
     title: 'Arsip Dokumen',
-    description: (count: number) => `${count} dokumen tersedia di arsip publik Padukuhan Salakan.`,
+    descriptionSuffix: 'dokumen tersedia di arsip publik Padukuhan Salakan.',
     detailLabel: 'Detail',
     downloadLabel: 'Unduh',
     unavailableLabel: 'Belum tersedia',
   },
   umkm: {
     title: 'Katalog UMKM',
-    description: (count: number) => `${count} usaha warga terdaftar di Padukuhan Salakan.`,
+    descriptionSuffix: 'usaha warga terdaftar di Padukuhan Salakan.',
     featuredLabel: 'Unggulan',
     detailLabel: 'Detail',
     whatsappLabel: 'WhatsApp',
-    whatsappMessage: (namaUsaha: string) => `Halo, saya ingin mengetahui informasi UMKM ${namaUsaha}.`,
+    whatsappMessagePrefix: 'Halo, saya ingin mengetahui informasi UMKM',
   },
   programDetail: {
     priorityLabel: 'Prioritas Warga',
@@ -121,3 +121,5 @@ export const pageCopy = {
     updatedPrefix: 'Diperbarui',
   },
 } as const;
+
+export const pageCopy = pageCopyDefaults;

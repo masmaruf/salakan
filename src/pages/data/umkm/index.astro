@@ -5,11 +5,11 @@ import CmsIcon from '../../../components/CmsIcon.astro';
 import Badge from '../../../components/ui/Badge.astro';
 import PageSection from '../../../components/PageSection.astro';
 import InlineAction from '../../../components/ui/InlineAction.astro';
-import { getUmkm, getPengaturan, kategoriLabelsUmkm, normalizeWhatsapp } from '../../../lib/content';
-import { pageCopy } from '../../../lib/page-copy';
+import { getHalamanCopy, getUmkm, getPengaturan, kategoriLabelsUmkm, normalizeWhatsapp } from '../../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
 const [umkmItems, pengaturan] = await Promise.all([getUmkm(), getPengaturan()]);
+const halaman = await getHalamanCopy();
 const seo = pengaturan?.seoHalamanData?.umkm;
 const items = umkmItems
   .filter(({ entry }) => entry.statusPublikasi === 'publish')
@@ -28,8 +28,8 @@ import Icon from '../../../components/ui/Icon.tsx';
 >
 
   <PageIntro
-    title={pageCopy.umkm.title}
-    description={pageCopy.umkm.description(items.length)}
+    title={halaman.umkm.title}
+    description={`${items.length} ${halaman.umkm.descriptionSuffix}`}
     breadcrumbs={[
       { label: 'Beranda', href: '/' },
       { label: 'Pusat Data', href: '/data' },
@@ -54,7 +54,7 @@ import Icon from '../../../components/ui/Icon.tsx';
           <div class="flex flex-1 flex-col p-5 sm:p-6">
             <div class="mb-3 flex items-center gap-2">
               <Badge label={kategoriLabelsUmkm[entry.kategori]} tone="primary" class="px-2 py-1" />
-              {entry.unggulan && <Badge label={pageCopy.umkm.featuredLabel} tone="warning" icon="star" class="px-2 py-1" />}
+              {entry.unggulan && <Badge label={halaman.umkm.featuredLabel} tone="warning" icon="star" class="px-2 py-1" />}
             </div>
 
             <h2 class="text-base font-bold leading-tight text-on-surface transition-colors group-hover:text-m3-primary sm:text-lg">
@@ -68,8 +68,8 @@ import Icon from '../../../components/ui/Icon.tsx';
             </div>
 
             <div class="mt-4 flex flex-wrap gap-2 border-t border-outline-variant/40 pt-3">
-              <InlineAction href={`/data/umkm/${slug}`} label={pageCopy.umkm.detailLabel} icon="visibility" />
-              <InlineAction href={`https://wa.me/${normalizeWhatsapp(entry.whatsapp)}?text=${encodeURIComponent(pageCopy.umkm.whatsappMessage(entry.namaUsaha))}`} label={pageCopy.umkm.whatsappLabel} icon="chat" tone="success" target="_blank" rel="noreferrer" />
+              <InlineAction href={`/data/umkm/${slug}`} label={halaman.umkm.detailLabel} icon="visibility" />
+              <InlineAction href={`https://wa.me/${normalizeWhatsapp(entry.whatsapp)}?text=${encodeURIComponent(`${halaman.umkm.whatsappMessagePrefix} ${entry.namaUsaha}.`)}`} label={halaman.umkm.whatsappLabel} icon="chat" tone="success" target="_blank" rel="noreferrer" />
             </div>
           </div>
         </article>

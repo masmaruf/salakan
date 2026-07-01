@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { pageCopyDefaults } from './lib/page-copy';
 
 const tanggalSchema = z
   .union([z.string(), z.date()])
@@ -365,6 +366,124 @@ const pengaturan = defineCollection({
   }),
 });
 
+const halaman = defineCollection({
+  loader: glob({ pattern: 'index.yaml', base: './src/content/singletons/halaman' }),
+  schema: z.object({
+    profil: z.object({
+      layoutTitle: z.string().default(pageCopyDefaults.profil.layoutTitle),
+      layoutDescription: z.string().default(pageCopyDefaults.profil.layoutDescription),
+      storyEyebrow: z.string().default(pageCopyDefaults.profil.storyEyebrow),
+      storyTitle: z.string().default(pageCopyDefaults.profil.storyTitle),
+      visionTitle: z.string().default(pageCopyDefaults.profil.visionTitle),
+      missionTitle: z.string().default(pageCopyDefaults.profil.missionTitle),
+      potentialEyebrow: z.string().default(pageCopyDefaults.profil.potentialEyebrow),
+      potentialTitle: z.string().default(pageCopyDefaults.profil.potentialTitle),
+      statsEyebrow: z.string().default(pageCopyDefaults.profil.statsEyebrow),
+      statsTitle: z.string().default(pageCopyDefaults.profil.statsTitle),
+      locationEyebrow: z.string().default(pageCopyDefaults.profil.locationEyebrow),
+      locationTitle: z.string().default(pageCopyDefaults.profil.locationTitle),
+      addressLabel: z.string().default(pageCopyDefaults.profil.addressLabel),
+      openMapLabel: z.string().default(pageCopyDefaults.profil.openMapLabel),
+      mapEmptyTitle: z.string().default(pageCopyDefaults.profil.mapEmptyTitle),
+      mapEmptyDescription: z.string().default(pageCopyDefaults.profil.mapEmptyDescription),
+    }).default(pageCopyDefaults.profil),
+    kontak: z.object({
+      layoutTitle: z.string().default(pageCopyDefaults.kontak.layoutTitle),
+      layoutDescription: z.string().default(pageCopyDefaults.kontak.layoutDescription),
+      heroEyebrow: z.string().default(pageCopyDefaults.kontak.heroEyebrow),
+      heroTitle: z.string().default(pageCopyDefaults.kontak.heroTitle),
+      heroDescription: z.string().default(pageCopyDefaults.kontak.heroDescription),
+      addressTitle: z.string().default(pageCopyDefaults.kontak.addressTitle),
+      addressFallback: z.string().default(pageCopyDefaults.kontak.addressFallback),
+      whatsappTitle: z.string().default(pageCopyDefaults.kontak.whatsappTitle),
+      whatsappActionLabel: z.string().default(pageCopyDefaults.kontak.whatsappActionLabel),
+      whatsappPendingLabel: z.string().default(pageCopyDefaults.kontak.whatsappPendingLabel),
+      emailTitle: z.string().default(pageCopyDefaults.kontak.emailTitle),
+      workingHoursTitle: z.string().default(pageCopyDefaults.kontak.workingHoursTitle),
+    }).default(pageCopyDefaults.kontak),
+    layananWarga: z.object({
+      pageTitle: z.string().default(pageCopyDefaults.layananWarga.pageTitle),
+      pageDescription: z.string().default(pageCopyDefaults.layananWarga.pageDescription),
+      primaryCtaLabel: z.string().default(pageCopyDefaults.layananWarga.primaryCtaLabel),
+      secondaryCtaLabel: z.string().default(pageCopyDefaults.layananWarga.secondaryCtaLabel),
+      quickAccessLabel: z.string().default(pageCopyDefaults.layananWarga.quickAccessLabel),
+      features: z.array(z.object({
+        title: z.string().min(1),
+        icon: z.string().min(1),
+        description: z.string().min(1),
+      })).default(() => pageCopyDefaults.layananWarga.features.map((feature) => ({ ...feature }))),
+      listTitle: z.string().default(pageCopyDefaults.layananWarga.listTitle),
+      listDescription: z.string().default(pageCopyDefaults.layananWarga.listDescription),
+      listCountSuffix: z.string().default(pageCopyDefaults.layananWarga.listCountSuffix),
+    }).default(() => ({
+      ...pageCopyDefaults.layananWarga,
+      features: pageCopyDefaults.layananWarga.features.map((feature) => ({ ...feature })),
+    })),
+    agendaIndex: z.object({
+      layoutTitle: z.string().default(pageCopyDefaults.agendaIndex.layoutTitle),
+      layoutDescription: z.string().default(pageCopyDefaults.agendaIndex.layoutDescription),
+      heroEyebrow: z.string().default(pageCopyDefaults.agendaIndex.heroEyebrow),
+      heroTitle: z.string().default(pageCopyDefaults.agendaIndex.heroTitle),
+      heroDescription: z.string().default(pageCopyDefaults.agendaIndex.heroDescription),
+      stats: z.object({
+        totalLabel: z.string().default(pageCopyDefaults.agendaIndex.stats.totalLabel),
+        totalDescription: z.string().default(pageCopyDefaults.agendaIndex.stats.totalDescription),
+        weeklyLabel: z.string().default(pageCopyDefaults.agendaIndex.stats.weeklyLabel),
+        weeklyDescription: z.string().default(pageCopyDefaults.agendaIndex.stats.weeklyDescription),
+        distributionLabel: z.string().default(pageCopyDefaults.agendaIndex.stats.distributionLabel),
+        distributionTitle: z.string().default(pageCopyDefaults.agendaIndex.stats.distributionTitle),
+        distributionDescription: z.string().default(pageCopyDefaults.agendaIndex.stats.distributionDescription),
+      }).default(pageCopyDefaults.agendaIndex.stats),
+      emptyMessage: z.string().default(pageCopyDefaults.agendaIndex.emptyMessage),
+    }).default(pageCopyDefaults.agendaIndex),
+    inventaris: z.object({
+      title: z.string().default(pageCopyDefaults.inventaris.title),
+      description: z.string().default(pageCopyDefaults.inventaris.description),
+      stats: z.object({
+        total: z.string().default(pageCopyDefaults.inventaris.stats.total),
+        available: z.string().default(pageCopyDefaults.inventaris.stats.available),
+        maintenance: z.string().default(pageCopyDefaults.inventaris.stats.maintenance),
+      }).default(pageCopyDefaults.inventaris.stats),
+      sectionTitle: z.string().default(pageCopyDefaults.inventaris.sectionTitle),
+      sectionEyebrow: z.string().default(pageCopyDefaults.inventaris.sectionEyebrow),
+      labels: z.object({
+        condition: z.string().default(pageCopyDefaults.inventaris.labels.condition),
+        location: z.string().default(pageCopyDefaults.inventaris.labels.location),
+        owner: z.string().default(pageCopyDefaults.inventaris.labels.owner),
+        note: z.string().default(pageCopyDefaults.inventaris.labels.note),
+        priority: z.string().default(pageCopyDefaults.inventaris.labels.priority),
+      }).default(pageCopyDefaults.inventaris.labels),
+    }).default(pageCopyDefaults.inventaris),
+    dokumen: z.object({
+      title: z.string().default(pageCopyDefaults.dokumen.title),
+      descriptionSuffix: z.string().default(pageCopyDefaults.dokumen.descriptionSuffix),
+      detailLabel: z.string().default(pageCopyDefaults.dokumen.detailLabel),
+      downloadLabel: z.string().default(pageCopyDefaults.dokumen.downloadLabel),
+      unavailableLabel: z.string().default(pageCopyDefaults.dokumen.unavailableLabel),
+    }).default(pageCopyDefaults.dokumen),
+    umkm: z.object({
+      title: z.string().default(pageCopyDefaults.umkm.title),
+      descriptionSuffix: z.string().default(pageCopyDefaults.umkm.descriptionSuffix),
+      featuredLabel: z.string().default(pageCopyDefaults.umkm.featuredLabel),
+      detailLabel: z.string().default(pageCopyDefaults.umkm.detailLabel),
+      whatsappLabel: z.string().default(pageCopyDefaults.umkm.whatsappLabel),
+      whatsappMessagePrefix: z.string().default(pageCopyDefaults.umkm.whatsappMessagePrefix),
+    }).default(pageCopyDefaults.umkm),
+    programDetail: z.object({
+      priorityLabel: z.string().default(pageCopyDefaults.programDetail.priorityLabel),
+      summaryTitle: z.string().default(pageCopyDefaults.programDetail.summaryTitle),
+      periodTitle: z.string().default(pageCopyDefaults.programDetail.periodTitle),
+      fundingTitle: z.string().default(pageCopyDefaults.programDetail.fundingTitle),
+      budgetTitle: z.string().default(pageCopyDefaults.programDetail.budgetTitle),
+      budgetFallback: z.string().default(pageCopyDefaults.programDetail.budgetFallback),
+      benefitsTitle: z.string().default(pageCopyDefaults.programDetail.benefitsTitle),
+      backToProgramsLabel: z.string().default(pageCopyDefaults.programDetail.backToProgramsLabel),
+      openDataCenterLabel: z.string().default(pageCopyDefaults.programDetail.openDataCenterLabel),
+      updatedPrefix: z.string().default(pageCopyDefaults.programDetail.updatedPrefix),
+    }).default(pageCopyDefaults.programDetail),
+  }),
+});
+
 const dashboard = defineCollection({
   loader: glob({ pattern: 'index.yaml', base: './src/content/singletons/dashboard' }),
   schema: z.object({
@@ -554,6 +673,7 @@ export const collections = {
   faq,
   profil,
   pengaturan,
+  halaman,
   dashboard,
   beranda,
   monografi,

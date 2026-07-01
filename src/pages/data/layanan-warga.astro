@@ -3,11 +3,11 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import LayananCard from '../../components/ui/LayananCard.astro';
 import InfoCard from '../../components/ui/InfoCard.astro';
-import { getLayananWarga, getPengaturan } from '../../lib/content';
-import { pageCopy } from '../../lib/page-copy';
+import { getHalamanCopy, getLayananWarga, getPengaturan } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const [layananItems, pengaturan] = await Promise.all([getLayananWarga(), getPengaturan()]);
+const halaman = await getHalamanCopy();
 const seo = pengaturan?.seoHalamanData?.layananWarga;
 const items = layananItems
   .filter(({ entry }) => entry.statusTampil === 'tampil')
@@ -33,22 +33,22 @@ const highlightedServices = items.slice(0, 3).map(({ slug, entry }) => ({
     ]} />
     <div class="mt-4 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
       <div>
-        <h1 class="text-[28px] font-bold leading-[36px] text-on-surface sm:text-[34px] sm:leading-[42px]">{pageCopy.layananWarga.pageTitle}</h1>
+        <h1 class="text-[28px] font-bold leading-[36px] text-on-surface sm:text-[34px] sm:leading-[42px]">{halaman.layananWarga.pageTitle}</h1>
         <p class="mt-2 max-w-2xl text-base text-on-surface-variant">
-          {pageCopy.layananWarga.pageDescription}
+          {halaman.layananWarga.pageDescription}
         </p>
         <div class="mt-5 flex flex-wrap gap-3">
           <a class="cta-soft-primary" href="/dasbor/buat-surat">
-            {pageCopy.layananWarga.primaryCtaLabel}
+            {halaman.layananWarga.primaryCtaLabel}
           </a>
           <a class="cta-outline-neutral" href="/dasbor/lacak-surat">
-            {pageCopy.layananWarga.secondaryCtaLabel}
+            {halaman.layananWarga.secondaryCtaLabel}
           </a>
         </div>
       </div>
 
       <div class="section-card rounded-3xl p-5 sm:p-5">
-        <p class="section-kicker-muted">{pageCopy.layananWarga.quickAccessLabel}</p>
+        <p class="section-kicker-muted">{halaman.layananWarga.quickAccessLabel}</p>
         <div class="mt-4 grid gap-3">
           {highlightedServices.map((service) => (
             <a class="section-subcard section-subcard-hover" href={`#${service.slug}`}>
@@ -63,7 +63,7 @@ const highlightedServices = items.slice(0, 3).map(({ slug, entry }) => ({
 
   <section class="container-premium pb-6">
     <div class="grid gap-4 md:grid-cols-3">
-      {pageCopy.layananWarga.features.map((feature) => (
+      {halaman.layananWarga.features.map((feature) => (
         <InfoCard title={feature.title} icon={feature.icon}>
           <p class="text-sm leading-relaxed text-on-surface-variant">{feature.description}</p>
         </InfoCard>
@@ -74,10 +74,10 @@ const highlightedServices = items.slice(0, 3).map(({ slug, entry }) => ({
   <section class="container-premium py-8">
     <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
       <div>
-        <h2 class="text-2xl font-bold text-on-surface">{pageCopy.layananWarga.listTitle}</h2>
-        <p class="mt-1 text-sm text-on-surface-variant">{pageCopy.layananWarga.listDescription}</p>
+        <h2 class="text-2xl font-bold text-on-surface">{halaman.layananWarga.listTitle}</h2>
+        <p class="mt-1 text-sm text-on-surface-variant">{halaman.layananWarga.listDescription}</p>
       </div>
-      <span class="count-pill">{items.length} {pageCopy.layananWarga.listCountSuffix}</span>
+      <span class="count-pill">{items.length} {halaman.layananWarga.listCountSuffix}</span>
     </div>
 
     <div class="grid gap-4 lg:grid-cols-2">

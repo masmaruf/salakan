@@ -9,7 +9,7 @@ import {
   sortByDateDesc,
   excerpt,
 } from '../../lib/content';
-import { pageCopy } from '../../lib/page-copy';
+import { getHalamanCopy } from '../../lib/content';
 
 const agendaItems = sortByDateDesc(
   (await getAgenda())
@@ -48,6 +48,7 @@ const agendaMingguIni = agendaItems.filter((item) => {
   const diffDays = Math.floor((new Date(item.entry.tanggal).getTime() - now) / (1000 * 60 * 60 * 24));
   return diffDays >= 0 && diffDays <= 7;
 }).length;
+const halaman = await getHalamanCopy();
 
 function getSignal(item: TimelineItem) {
   const diffDays = Math.floor((new Date(item.tanggal).getTime() - now) / (1000 * 60 * 60 * 24));
@@ -68,32 +69,32 @@ import Icon from '../../components/ui/Icon.tsx';
 ---
 
 <MainLayout
-  title={pageCopy.agendaIndex.layoutTitle}
-  description={pageCopy.agendaIndex.layoutDescription}
+  title={halaman.agendaIndex.layoutTitle}
+  description={halaman.agendaIndex.layoutDescription}
 >
   <PageHero
-    eyebrow={pageCopy.agendaIndex.heroEyebrow}
+    eyebrow={halaman.agendaIndex.heroEyebrow}
     icon="calendar_month"
-    title={pageCopy.agendaIndex.heroTitle}
-    description={pageCopy.agendaIndex.heroDescription}
+    title={halaman.agendaIndex.heroTitle}
+    description={halaman.agendaIndex.heroDescription}
   />
 
   <section class="container-premium py-8 pb-5">
     <div class="grid gap-4 md:grid-cols-3">
       <div class="section-card rounded-2xl p-5 sm:p-5">
-        <p class="section-kicker">{pageCopy.agendaIndex.stats.totalLabel}</p>
+        <p class="section-kicker">{halaman.agendaIndex.stats.totalLabel}</p>
         <p class="mt-2 text-3xl font-black tracking-tight text-on-surface">{timeline.length}</p>
-        <p class="mt-1 text-sm text-on-surface-variant">{pageCopy.agendaIndex.stats.totalDescription}</p>
+        <p class="mt-1 text-sm text-on-surface-variant">{halaman.agendaIndex.stats.totalDescription}</p>
       </div>
       <div class="section-card rounded-2xl p-5 sm:p-5">
-        <p class="section-kicker">{pageCopy.agendaIndex.stats.weeklyLabel}</p>
+        <p class="section-kicker">{halaman.agendaIndex.stats.weeklyLabel}</p>
         <p class="mt-2 text-3xl font-black tracking-tight text-on-surface">{agendaMingguIni}</p>
-        <p class="mt-1 text-sm text-on-surface-variant">{pageCopy.agendaIndex.stats.weeklyDescription}</p>
+        <p class="mt-1 text-sm text-on-surface-variant">{halaman.agendaIndex.stats.weeklyDescription}</p>
       </div>
       <div class="section-card rounded-2xl p-5 sm:p-5">
-        <p class="section-kicker">{pageCopy.agendaIndex.stats.distributionLabel}</p>
-        <p class="mt-2 text-base font-bold text-on-surface">{pageCopy.agendaIndex.stats.distributionTitle}</p>
-        <p class="mt-1 text-sm text-on-surface-variant">{pageCopy.agendaIndex.stats.distributionDescription}</p>
+        <p class="section-kicker">{halaman.agendaIndex.stats.distributionLabel}</p>
+        <p class="mt-2 text-base font-bold text-on-surface">{halaman.agendaIndex.stats.distributionTitle}</p>
+        <p class="mt-1 text-sm text-on-surface-variant">{halaman.agendaIndex.stats.distributionDescription}</p>
       </div>
     </div>
   </section>
@@ -154,7 +155,7 @@ import Icon from '../../components/ui/Icon.tsx';
         })}
       </div>
     ) : (
-      <EmptyStateCard message={pageCopy.agendaIndex.emptyMessage} />
+      <EmptyStateCard message={halaman.agendaIndex.emptyMessage} />
     )}
   </section>
 </MainLayout>

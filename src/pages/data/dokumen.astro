@@ -4,11 +4,11 @@ import PageIntro from '../../components/ui/PageIntro.astro';
 import Badge from '../../components/ui/Badge.astro';
 import PageSection from '../../components/PageSection.astro';
 import InlineAction from '../../components/ui/InlineAction.astro';
-import { formatTanggal, getDokumen, getPengaturan, kategoriLabelsDokumen } from '../../lib/content';
-import { pageCopy } from '../../lib/page-copy';
+import { formatTanggal, getDokumen, getHalamanCopy, getPengaturan, kategoriLabelsDokumen } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const [dokumenItems, pengaturan] = await Promise.all([getDokumen(), getPengaturan()]);
+const halaman = await getHalamanCopy();
 const seo = pengaturan?.seoHalamanData?.dokumen;
 const dokumen = dokumenItems
   .filter(({ entry }) => entry.statusPublikasi === 'publish')
@@ -26,8 +26,8 @@ const dokumen = dokumenItems
 >
 
   <PageIntro
-    title={pageCopy.dokumen.title}
-    description={pageCopy.dokumen.description(dokumen.length)}
+    title={halaman.dokumen.title}
+    description={`${dokumen.length} ${halaman.dokumen.descriptionSuffix}`}
     breadcrumbs={[
       { label: 'Beranda', href: '/' },
       { label: 'Pusat Data', href: '/data' },
@@ -52,11 +52,11 @@ const dokumen = dokumenItems
           <p class="mt-2 flex-1 line-clamp-2 text-sm text-on-surface-variant">{entry.ringkasan}</p>
 
           <div class="mt-4 flex flex-wrap gap-2 border-t border-outline-variant/40 pt-3">
-            <InlineAction href={`/data/dokumen/${slug}`} label={pageCopy.dokumen.detailLabel} icon="visibility" />
+            <InlineAction href={`/data/dokumen/${slug}`} label={halaman.dokumen.detailLabel} icon="visibility" />
             {entry.fileDokumen ? (
-              <InlineAction href={entry.fileDokumen} label={pageCopy.dokumen.downloadLabel} icon="download" target="_blank" rel="noreferrer" />
+              <InlineAction href={entry.fileDokumen} label={halaman.dokumen.downloadLabel} icon="download" target="_blank" rel="noreferrer" />
             ) : (
-              <InlineAction as="span" label={pageCopy.dokumen.unavailableLabel} icon="lock" tone="muted" />
+              <InlineAction as="span" label={halaman.dokumen.unavailableLabel} icon="lock" tone="muted" />
             )}
           </div>
         </article>
