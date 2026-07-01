@@ -541,12 +541,20 @@ input, button, textarea, select {
   @apply transition hover:-translate-y-0.5 hover:shadow-sm;
 }
 
+.soft-panel {
+  @apply rounded-xl border border-outline-variant/40 bg-surface-container-low/50 p-4;
+}
+
 .section-kicker {
   @apply text-xs font-bold uppercase tracking-[0.14em] text-m3-primary;
 }
 
 .section-kicker-muted {
   @apply text-xs font-bold uppercase tracking-[0.14em] text-on-surface-variant;
+}
+
+.detail-label {
+  @apply text-[11px] font-bold uppercase tracking-[0.12em] text-outline;
 }
 
 .count-pill {

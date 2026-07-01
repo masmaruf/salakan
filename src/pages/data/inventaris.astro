@@ -33,7 +33,7 @@ const statusToneMap = { tersedia: 'success', dipinjam: 'warning', perawatan: 'er
   <PageSection sectionClass="pb-10 pt-4 sm:pb-14" title="Daftar Inventaris" eyebrow="Status Ketersediaan">
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {inventory.map(({ slug, entry }) => (
-        <article class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5" id={slug}>
+        <article class="section-card" id={slug}>
           <div class="mb-3 flex flex-wrap items-center gap-2"><Badge label={kategoriLabelsInventaris[entry.kategori]} tone="surface" class="px-2 py-1" /><Badge label={statusPinjamInventarisLabels[entry.statusPinjam]} tone={statusToneMap[entry.statusPinjam]} class="px-2 py-1" />{entry.unggulan && <Badge label="Prioritas" tone="info" class="px-2 py-1" />}</div>
           <h2 class="text-base font-bold leading-tight text-on-surface sm:text-lg">{entry.namaItem}</h2>
           <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">{entry.ringkasan}</p>

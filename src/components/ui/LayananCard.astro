@@ -14,7 +14,7 @@ const { id, namaLayanan, ringkasan, syarat, langkah, kontak, jamLayanan } = Astr
 import Icon from './Icon.tsx';
 ---
 
-<article id={id} class="group scroll-mt-28 bg-surface-container-lowest border border-outline-variant rounded-xl p-5 sm:p-6 transition-all hover:-translate-y-0.5 hover:shadow-md flex flex-col gap-4">
+<article id={id} class="section-card section-card-hover group scroll-mt-28 flex flex-col gap-4">
   <div class="flex items-start gap-4">
     <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary-container/30 text-m3-primary">
       <Icon name="description" class="text-[22px]" />
@@ -27,7 +27,7 @@ import Icon from './Icon.tsx';
 
   <div class="grid gap-4 sm:grid-cols-2">
     {syarat.length > 0 && (
-      <div class="rounded-xl bg-surface-container-low/50 border border-outline-variant/40 p-4">
+      <div class="soft-panel">
         <p class="flex items-center gap-1.5 text-[12px] font-semibold text-on-surface uppercase tracking-wider mb-3">
           <Icon name="checklist" class="text-[14px] text-m3-primary" /> Syarat
         </p>
@@ -43,7 +43,7 @@ import Icon from './Icon.tsx';
     )}
 
     {langkah.length > 0 && (
-      <div class="rounded-xl bg-surface-container-low/50 border border-outline-variant/40 p-4">
+      <div class="soft-panel">
         <p class="flex items-center gap-1.5 text-[12px] font-semibold text-on-surface uppercase tracking-wider mb-3">
           <Icon name="format_list_numbered" class="text-[14px] text-m3-primary" /> Alur Proses
         </p>

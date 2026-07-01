@@ -50,13 +50,13 @@ import Icon from '../../components/ui/Icon.tsx';
               {String(idx + 1).padStart(2, '0')}
             </span>
             <div class="flex-1 min-w-0">
-              <span class="text-[12px] font-semibold text-outline uppercase tracking-wider">{entry.kategori}</span>
+              <span class="section-kicker-muted">{entry.kategori}</span>
               <h2 class="text-base font-bold text-on-surface leading-tight mt-1 group-hover:text-m3-primary transition-colors">{entry.pertanyaan}</h2>
             </div>
             <Icon name="expand_more" class="text-[20px] text-outline shrink-0 mt-1 transition-transform group-open:rotate-180" />
           </summary>
           <div class="px-5 pb-5 pl-17">
-            <div class="rounded-xl bg-surface-container-low/50 border border-outline-variant/40 p-4 text-sm text-on-surface-variant leading-relaxed ml-12">
+            <div class="soft-panel ml-12 text-sm leading-relaxed text-on-surface-variant">
               {entry.jawaban}
             </div>
           </div>

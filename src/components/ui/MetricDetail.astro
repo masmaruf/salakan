@@ -1,0 +1,20 @@
+---
+interface Props {
+  label: string;
+  value: string | number;
+  class?: string;
+  valueClass?: string;
+}
+
+const {
+  label,
+  value,
+  class: className = '',
+  valueClass = '',
+} = Astro.props;
+---
+
+<div class:list={['section-subcard', className]}>
+  <p class="detail-label">{label}</p>
+  <p class:list={['mt-1 text-sm font-bold text-on-surface', valueClass]}>{value}</p>
+</div>

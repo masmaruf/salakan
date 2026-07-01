@@ -38,7 +38,7 @@ import Icon from '../../components/ui/Icon.tsx';
   <PageSection sectionClass="pb-10 pt-4 sm:pb-14">
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {dokumen.map(({ slug, entry }) => (
-        <article class="group flex flex-col rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 transition-all hover:-translate-y-0.5 hover:shadow-md" id={slug}>
+        <article class="section-card section-card-hover group flex flex-col" id={slug}>
           <div class="mb-3 flex items-center justify-between gap-2">
             <Badge label={kategoriLabelsDokumen[entry.kategori]} tone="primary" class="px-2 py-1" />
             <time class="text-[12px] font-medium text-outline" datetime={entry.tanggalUpdate}>

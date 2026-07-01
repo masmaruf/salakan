@@ -4,6 +4,7 @@ import PageIntro from '../../components/ui/PageIntro.astro';
 import Badge from '../../components/ui/Badge.astro';
 import StatCard from '../../components/ui/StatCard.astro';
 import PageSection from '../../components/PageSection.astro';
+import MetricDetail from '../../components/ui/MetricDetail.astro';
 import { formatTanggal, getKasRt, getPengaturan } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
@@ -32,15 +33,15 @@ function formatRupiah(value: number) { return new Intl.NumberFormat('id-ID', { s
   <PageSection sectionClass="pb-10 pt-4 sm:pb-14" title="Laporan Kas" eyebrow="Ringkasan Periode">
     <div class="grid gap-4 lg:grid-cols-2">
       {reports.map(({ slug, entry }) => (
-        <article class="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5" id={slug}>
+        <article class="section-card" id={slug}>
           <div class="mb-3 flex flex-wrap items-center gap-2"><Badge label={entry.periode} tone="primary" />{entry.unggulan && <Badge label="Sorotan" tone="warning" />}<time class="text-[12px] font-medium text-outline" datetime={entry.tanggalUpdate}>{formatTanggal(entry.tanggalUpdate)}</time></div>
           <p class="text-sm leading-relaxed text-on-surface-variant">{entry.ringkasan}</p>
           <div class="mt-4 grid gap-3 sm:grid-cols-3">
-            <div class="rounded-xl border border-outline-variant/50 bg-white px-4 py-3"><p class="text-[11px] font-bold uppercase tracking-[0.12em] text-outline">Masuk</p><p class="mt-1 text-sm font-bold text-on-surface">{formatRupiah(entry.pemasukan)}</p></div>
-            <div class="rounded-xl border border-outline-variant/50 bg-white px-4 py-3"><p class="text-[11px] font-bold uppercase tracking-[0.12em] text-outline">Keluar</p><p class="mt-1 text-sm font-bold text-on-surface">{formatRupiah(entry.pengeluaran)}</p></div>
-            <div class="rounded-xl border border-outline-variant/50 bg-white px-4 py-3"><p class="text-[11px] font-bold uppercase tracking-[0.12em] text-outline">Saldo</p><p class="mt-1 text-sm font-bold text-on-surface">{formatRupiah(entry.saldoAkhir)}</p></div>
+            <MetricDetail label="Masuk" value={formatRupiah(entry.pemasukan)} class="border-outline-variant/50 px-4 py-3" />
+            <MetricDetail label="Keluar" value={formatRupiah(entry.pengeluaran)} class="border-outline-variant/50 px-4 py-3" />
+            <MetricDetail label="Saldo" value={formatRupiah(entry.saldoAkhir)} class="border-outline-variant/50 px-4 py-3" />
           </div>
-          <div class="mt-4 border-t border-outline-variant/40 pt-4"><p class="text-[11px] font-bold uppercase tracking-[0.12em] text-outline">Sumber Dana</p><div class="mt-2 flex flex-wrap gap-2">{entry.sumberDana.map((source) => <Badge label={source} tone="surface" class="px-2 py-1" />)}</div>{entry.catatan && <p class="mt-3 text-sm leading-relaxed text-on-surface-variant">{entry.catatan}</p>}</div>
+          <div class="mt-4 border-t border-outline-variant/40 pt-4"><p class="detail-label">Sumber Dana</p><div class="mt-2 flex flex-wrap gap-2">{entry.sumberDana.map((source) => <Badge label={source} tone="surface" class="px-2 py-1" />)}</div>{entry.catatan && <p class="mt-3 text-sm leading-relaxed text-on-surface-variant">{entry.catatan}</p>}</div>
         </article>
       ))}
     </div>
