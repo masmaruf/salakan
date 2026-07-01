@@ -206,7 +206,7 @@ import Icon from '../components/ui/Icon.tsx';
 
         <div class="mt-5 grid gap-3 sm:grid-cols-2">
           {pusatInformasi.map((item) => (
-            <a class="rounded-2xl border border-outline-variant bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-sm" href={item.href}>
+            <a class="section-subcard section-subcard-hover" href={item.href}>
               <div class="flex flex-wrap items-center gap-2">
                 <Badge label={item.label} tone={getLabelTone(item.label)} class="px-2.5 py-1" />
                 <Badge label={item.signal.label} tone={item.signal.tone} class="px-2.5 py-1" />
@@ -224,7 +224,7 @@ import Icon from '../components/ui/Icon.tsx';
         <h2 class="mt-1 text-2xl font-bold tracking-tight text-on-surface">Akses cepat yang sering dibutuhkan warga</h2>
         <div class="mt-5 space-y-3">
           {layananPrioritas.map((item) => (
-            <a class="block rounded-2xl border border-outline-variant bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-sm" href={`/data/layanan-warga#${item.slug}`}>
+            <a class="section-subcard section-subcard-hover block" href={`/data/layanan-warga#${item.slug}`}>
               <h3 class="text-sm font-bold text-on-surface sm:text-base">{item.title}</h3>
               <p class="mt-1 text-sm text-on-surface-variant line-clamp-2">{item.description}</p>
             </a>

@@ -537,12 +537,20 @@ input, button, textarea, select {
   @apply rounded-2xl border border-outline-variant bg-white p-4;
 }
 
+.section-subcard-hover {
+  @apply transition hover:-translate-y-0.5 hover:shadow-sm;
+}
+
 .section-kicker {
   @apply text-xs font-bold uppercase tracking-[0.14em] text-m3-primary;
 }
 
 .section-kicker-muted {
   @apply text-xs font-bold uppercase tracking-[0.14em] text-on-surface-variant;
+}
+
+.count-pill {
+  @apply rounded-full bg-surface-container px-3 py-1 text-xs font-bold uppercase tracking-wider text-on-surface-variant;
 }
 
 .action-link-inline {
@@ -571,6 +579,14 @@ input, button, textarea, select {
 
 .hero-cta-secondary {
   @apply inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-lg shadow-slate-950/10 transition-all hover:-translate-y-0.5 hover:border-white hover:bg-blue-50;
+}
+
+.cta-soft-primary {
+  @apply inline-flex min-h-[44px] items-center gap-2 rounded-full bg-primary-container px-5 py-3 text-sm font-bold text-on-primary-container transition hover:-translate-y-0.5;
+}
+
+.cta-outline-neutral {
+  @apply inline-flex min-h-[44px] items-center gap-2 rounded-full border border-outline-variant bg-white px-5 py-3 text-sm font-bold text-on-surface transition hover:bg-surface-container-low;
 }
 
 .orb-blue {

@@ -37,20 +37,20 @@ const highlightedServices = items.slice(0, 3).map(({ slug, entry }) => ({
           Informasi prosedur administrasi, persyaratan dokumen, estimasi alur, dan akses cepat untuk mengajukan atau melacak layanan warga Padukuhan Salakan.
         </p>
         <div class="mt-5 flex flex-wrap gap-3">
-          <a class="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-primary-container px-5 py-3 text-sm font-bold text-on-primary-container transition hover:-translate-y-0.5" href="/dasbor/buat-surat">
+          <a class="cta-soft-primary" href="/dasbor/buat-surat">
             Ajukan surat sekarang
           </a>
-          <a class="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-outline-variant bg-white px-5 py-3 text-sm font-bold text-on-surface transition hover:bg-surface-container-low" href="/dasbor/lacak-surat">
+          <a class="cta-outline-neutral" href="/dasbor/lacak-surat">
             Lacak status pengajuan
           </a>
         </div>
       </div>
 
-      <div class="rounded-3xl border border-outline-variant bg-surface-container-lowest p-5 shadow-sm">
-        <p class="text-xs font-bold uppercase tracking-[0.14em] text-on-surface-variant">Akses cepat</p>
+      <div class="section-card rounded-3xl p-5 sm:p-5">
+        <p class="section-kicker-muted">Akses cepat</p>
         <div class="mt-4 grid gap-3">
           {highlightedServices.map((service) => (
-            <a class="rounded-2xl border border-outline-variant bg-white px-4 py-4 transition hover:-translate-y-0.5 hover:shadow-sm" href={`#${service.slug}`}>
+            <a class="section-subcard section-subcard-hover" href={`#${service.slug}`}>
               <h2 class="text-sm font-bold text-on-surface">{service.title}</h2>
               <p class="mt-1 text-sm text-on-surface-variant line-clamp-2">{service.description}</p>
             </a>
@@ -80,7 +80,7 @@ const highlightedServices = items.slice(0, 3).map(({ slug, entry }) => ({
         <h2 class="text-2xl font-bold text-on-surface">Daftar layanan aktif</h2>
         <p class="mt-1 text-sm text-on-surface-variant">Bagikan tautan layanan spesifik langsung ke warga melalui grup RT atau kanal informasi padukuhan.</p>
       </div>
-      <span class="rounded-full bg-surface-container px-3 py-1 text-xs font-bold uppercase tracking-wider text-on-surface-variant">{items.length} layanan</span>
+      <span class="count-pill">{items.length} layanan</span>
     </div>
 
     <div class="grid gap-4 lg:grid-cols-2">
