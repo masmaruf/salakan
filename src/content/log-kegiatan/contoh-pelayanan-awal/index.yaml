@@ -1,14 +1,15 @@
-judul: Pelayanan administrasi warga awal bulan
-tanggal: 2026-07-01
+judul: Pelayanan SPPT P2
+tanggal: 2026-06-30
 kategori: pelayanan
 statusPublikasi: publish
 kontenUtama:
-  waktuMulai: "08:00"
-  waktuSelesai: "10:30"
-  lokasi: Balai Padukuhan Salakan
-  ringkasan: Pelayanan administrasi dasar untuk verifikasi surat pengantar dan konsultasi kebutuhan dokumen warga.
-  hasilTindakLanjut: Berkas lengkap diteruskan untuk proses lanjutan sesuai kebutuhan masing-masing warga.
-  pihakTerlibat: Dukuh Salakan, pengurus wilayah, warga pemohon
-media: {}
+  waktuMulai: 08:00
+  waktuSelesai: 10:30
+  lokasi: BPKPAD Kab. Bantul
+  ringkasan: Melayani Pembetulan Nama Mutasi Objek/ Subjek Pajak. Mutasi Penuh An.
+    An** Roh** N
+  hasilTindakLanjut: Berkas lengkap diteruskan untuk proses penerbitan di tahun
+    2027 dengan nama yang Benar
+  pihakTerlibat: Dukuh Salakan, warga pemohon, BPKPAD, Kalurahan
 pengaturanTampil:
   urutanTampil: 1
