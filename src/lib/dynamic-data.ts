@@ -67,7 +67,17 @@ interface UpdateLogKegiatanInput extends CreateLogKegiatanInput {
 }
 
 function getEnvValue(name: string) {
-  return typeof process !== 'undefined' ? process.env[name] : undefined;
+  const processValue = typeof process !== 'undefined' ? process.env[name] : undefined;
+  if (processValue) return processValue;
+
+  const metaEnv =
+    typeof import.meta !== 'undefined' &&
+    typeof import.meta.env === 'object' &&
+    import.meta.env !== null
+      ? (import.meta.env as Record<string, string | undefined>)
+      : undefined;
+
+  return metaEnv?.[name];
 }
 
 function getSupabaseConfig() {
