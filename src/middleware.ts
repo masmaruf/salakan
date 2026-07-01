@@ -23,6 +23,8 @@ function withAdminHeaders(response: Response) {
 }
 
 function syncRuntimeEnvToProcess(context: any) {
+  if (typeof process === 'undefined' || !process.env) return;
+
   const runtimeEnv = context?.locals?.runtime?.env;
   if (!runtimeEnv || typeof runtimeEnv !== 'object') return;
 
@@ -48,11 +50,11 @@ function syncRuntimeEnvToProcess(context: any) {
 }
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  syncRuntimeEnvToProcess(context);
-
   if (!isAdminPath(context.url.pathname)) {
     return next();
   }
+
+  syncRuntimeEnvToProcess(context);
 
   if (
     context.url.pathname === ADMIN_LOGIN_PATH ||
