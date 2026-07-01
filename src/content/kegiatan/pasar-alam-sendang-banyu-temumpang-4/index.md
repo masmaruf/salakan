@@ -1,25 +1,26 @@
 ---
-judul: "Pasar Alam Sendang Banyu Temumpang #4"
+judul: Pasar Alam Sendang Banyu Temumpang #4
 tanggal: 2026-07-01
 statusPublikasi: publish
 editorArtikel:
   kontenUtama:
     ringkasan: >-
-      🌿✨ PASAR ALAM BANYU TEMUMPANG KEMBALI HADIR! ✨🌿  
-
-      Halo warga Banyu Temumpang, Salakan, Bangunjiwo dan sekitarnya 👋Pasar
-      Alam kembali hadir sebagai ruang bertemu, bergerak, dan mendukung produk
-      lokal warga.
+      Pasar Alam kembali hadir sebagai ruang bertemu, bergerak, dan mendukung
+      produk lokal warga di kawasan Sendang Banyu Temumpang.
   sidebar:
     jenisKonten: berita
-    kategori: Pasar Alam
+    kategori: pasar-alam
     penulis: Pak Dukuh
     unggulan: false
     gambarUtama: /images/Pasar Alam Sendang.jpeg
-    altGambarUtama: "Pasar Alam Sendang Banyu Temumpang #4"
+    altGambarUtama: Pasar Alam Sendang Banyu Temumpang #4
     tag:
-      - Pasar Alam
+      - pasar alam
+      - umkm
+      - banyu temumpang
   seo:
+    seoTitle: ''
+    seoDescription: ''
     ogImage: /images/Pasar%20Alam%20Sendang.jpeg
 ---
 🌿✨ PASAR ALAM BANYU TEMUMPANG KEMBALI HADIR! ✨🌿  
