@@ -58,9 +58,9 @@ const layananPrioritas = layananItems
   }));
 
 const statsData = [
-  { value: agendaPublished.length, label: hero?.stats?.agendaLabel ?? 'Agenda aktif', icon: 'event' },
-  { value: kegiatanItems.filter((i) => i.entry?.statusPublikasi === 'publish').length, label: hero?.stats?.kegiatanLabel ?? 'Berita terdokumentasi', icon: 'newspaper' },
-  { value: galeriItems.length, label: hero?.stats?.galeriLabel ?? 'Galeri tersedia', icon: 'photo_library' },
+  { value: hero?.stats?.agendaValue ?? agendaPublished.length, label: hero?.stats?.agendaLabel ?? 'Agenda aktif', icon: 'event' },
+  { value: hero?.stats?.kegiatanValue ?? kegiatanItems.filter((i) => i.entry?.statusPublikasi === 'publish').length, label: hero?.stats?.kegiatanLabel ?? 'Berita terdokumentasi', icon: 'newspaper' },
+  { value: hero?.stats?.galeriValue ?? galeriItems.length, label: hero?.stats?.galeriLabel ?? 'Galeri tersedia', icon: 'photo_library' },
 ];
 
 const panelLinks = hero?.panelLinks?.filter((link) => link.status === 'tampil') ?? [];
@@ -127,20 +127,22 @@ import Icon from '../components/ui/Icon.tsx';
         {hero?.primaryCtaLabel ?? 'Lihat agenda warga'}
       </a>
       <a
-        class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white/20"
+        class="inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-lg shadow-slate-950/10 transition-all hover:-translate-y-0.5 hover:border-white hover:bg-blue-50"
         href={hero?.secondaryCtaHref ?? '/profil'}
       >
         {hero?.secondaryCtaLabel ?? 'Baca profil padukuhan'}
-        <Icon name="arrow_forward" class="text-[16px]" />
+        <Icon name="arrow_forward" class="text-[18px] text-blue-700" />
       </a>
     </div>
 
     <div class="mx-auto mt-14 grid max-w-xl grid-cols-3 gap-3 sm:gap-4">
       {statsData.map((s) => (
-        <div class="flex flex-col items-center gap-1.5 rounded-2xl border border-white/10 bg-white/5 px-3 py-5 backdrop-blur-sm">
-          <Icon name={s.icon} class="mb-1 text-[22px] text-blue-300" />
+        <div class="flex flex-col items-center gap-2 rounded-2xl border border-white/12 bg-white/8 px-3 py-5 backdrop-blur-sm">
+          <div class="grid h-14 w-14 place-items-center rounded-2xl bg-white text-slate-900 shadow-lg shadow-slate-950/15">
+            <Icon name={s.icon} class="text-[30px] text-blue-700" />
+          </div>
           <strong class="text-2xl font-bold text-white sm:text-3xl">{s.value}</strong>
-          <span class="text-center text-[0.6rem] font-bold uppercase leading-tight tracking-[0.12em] text-blue-200/60">{s.label}</span>
+          <span class="text-center text-[0.62rem] font-bold uppercase leading-tight tracking-[0.12em] text-blue-100/85">{s.label}</span>
         </div>
       ))}
     </div>
