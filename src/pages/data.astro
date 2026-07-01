@@ -1,14 +1,104 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import DataCard from '../components/ui/DataCard.astro';
+import PageIntro from '../components/ui/PageIntro.astro';
+import PillFilterBar from '../components/ui/PillFilterBar.astro';
+import StatCard from '../components/ui/StatCard.astro';
+import InfoCard from '../components/ui/InfoCard.astro';
+import ActionLinkButton from '../components/ui/ActionLinkButton.astro';
 import Icon from '../components/ui/Icon.tsx';
-import { getPengaturan } from '../lib/content';
+import {
+  getAgenda,
+  getDokumen,
+  getFaq,
+  getInventarisWarga,
+  getKasRt,
+  getLayananWarga,
+  getLogKegiatan,
+  getMonografi,
+  getPengaturan,
+  getProgram,
+  getStrukturOrganisasi,
+  getUmkm,
+} from '../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../lib/site';
 
-const pengaturan = await getPengaturan();
+const [
+  pengaturan,
+  dokumenItems,
+  umkmItems,
+  lembagaItems,
+  agendaItems,
+  kasItems,
+  inventarisItems,
+  layananItems,
+  programItems,
+  faqItems,
+  monografi,
+  logItems,
+] = await Promise.all([
+  getPengaturan(),
+  getDokumen(),
+  getUmkm(),
+  getStrukturOrganisasi(),
+  getAgenda(),
+  getKasRt(),
+  getInventarisWarga(),
+  getLayananWarga(),
+  getProgram(),
+  getFaq(),
+  getMonografi(),
+  getLogKegiatan(),
+]);
 const menuData = pengaturan?.menuData;
 const dataItems = menuData?.items?.filter((item) => item.status === 'tampil') ?? [];
 const dataSeo = pengaturan?.seoHalamanData?.dataUtama;
+
+const counts = {
+  dokumen: dokumenItems.filter((item) => item.entry.statusPublikasi === 'publish').length,
+  umkm: umkmItems.filter((item) => item.entry.statusPublikasi === 'publish').length,
+  lembaga: lembagaItems.filter((item) => item.entry.statusPublikasi === 'publish').length,
+  agenda: agendaItems.filter((item) => item.entry.statusPublikasi === 'publish').length,
+  kasRt: kasItems.filter((item) => item.entry.statusPublikasi === 'publish').length,
+  inventaris: inventarisItems.filter((item) => item.entry.statusPublikasi === 'publish').length,
+  layanan: layananItems.filter((item) => item.entry.statusTampil === 'tampil').length,
+  program: programItems.filter((item) => item.entry.statusPublikasi === 'publish').length,
+  faq: faqItems.filter((item) => item.entry.statusTampil === 'tampil').length,
+  monografi: monografi ? 1 : 0,
+  log: logItems.filter((item) => item.entry.statusPublikasi === 'publish').length,
+};
+
+const itemMeta = {
+  '/data/dokumen': { group: 'arsip', eyebrow: 'Arsip & referensi', countLabel: `${counts.dokumen} dokumen`, meta: 'Format surat, arsip layanan, dan dokumen publik' },
+  '/data/umkm': { group: 'potensi', eyebrow: 'Ekonomi warga', countLabel: `${counts.umkm} usaha`, meta: 'Potensi usaha dan produk lokal warga' },
+  '/data/lembaga': { group: 'wilayah', eyebrow: 'Jejaring organisasi', countLabel: `${counts.lembaga} lembaga`, meta: 'Organisasi dan pengampu kegiatan padukuhan' },
+  '/agenda': { group: 'layanan', eyebrow: 'Informasi berjalan', countLabel: `${counts.agenda} agenda`, meta: 'Jadwal kegiatan dan pengumuman warga' },
+  '/data/kas-rt': { group: 'transparansi', eyebrow: 'Laporan warga', countLabel: `${counts.kasRt} periode`, meta: 'Ringkasan pemasukan, pengeluaran, dan saldo' },
+  '/data/inventaris': { group: 'transparansi', eyebrow: 'Aset bersama', countLabel: `${counts.inventaris} item`, meta: 'Ketersediaan barang dan penanggung jawab' },
+  '/data/layanan-warga': { group: 'layanan', eyebrow: 'Panduan warga', countLabel: `${counts.layanan} layanan`, meta: 'Syarat, langkah, dan kontak pelayanan' },
+  '/program': { group: 'transparansi', eyebrow: 'Arah pembangunan', countLabel: `${counts.program} program`, meta: 'Pantau status program dan manfaatnya' },
+  '/data/faq': { group: 'layanan', eyebrow: 'Tanya jawab cepat', countLabel: `${counts.faq} jawaban`, meta: 'Jawaban singkat untuk kebutuhan umum warga' },
+  '/data/monografi': { group: 'wilayah', eyebrow: 'Profil wilayah', countLabel: counts.monografi ? '1 profil' : 'Belum ada', meta: 'Data resmi demografi dan fasilitas wilayah' },
+} as const;
+
+const groupOptions = [
+  { key: 'semua', label: 'Semua kanal' },
+  { key: 'layanan', label: 'Layanan' },
+  { key: 'transparansi', label: 'Transparansi' },
+  { key: 'potensi', label: 'Potensi' },
+  { key: 'wilayah', label: 'Wilayah' },
+  { key: 'arsip', label: 'Arsip' },
+] as const;
+
+const kelompokParam = Astro.url.searchParams.get('kelompok') ?? 'semua';
+const activeGroup = groupOptions.some((item) => item.key === kelompokParam) ? kelompokParam : 'semua';
+
+const enrichedItems = dataItems
+  .map((item) => ({
+    ...item,
+    ...(itemMeta[item.href as keyof typeof itemMeta] ?? { group: 'semua', eyebrow: '', countLabel: '', meta: '' }),
+  }))
+  .filter((item) => activeGroup === 'semua' || item.group === activeGroup);
 ---
 
 <MainLayout
@@ -16,40 +106,80 @@ const dataSeo = pengaturan?.seoHalamanData?.dataUtama;
   description={resolveSeoText(dataSeo?.seoDescription, menuData?.description ?? 'Pusat akses data, dokumen, dan informasi kampung Padukuhan Salakan.')}
   image={resolveSeoImage(dataSeo?.ogImage)}
 >
+  <PageIntro
+    title={menuData?.title ?? 'Data & Informasi'}
+    description={menuData?.description ?? 'Pusat akses data kependudukan, arsip dokumen, direktori UMKM, dan struktur kepengurusan desa.'}
+    breadcrumbs={[{ label: 'Beranda', href: '/' }, { label: 'Pusat Data', active: true }]}
+  >
+    <PillFilterBar
+      items={groupOptions.map((item) => ({
+        href: item.key === 'semua' ? '/data' : `/data?kelompok=${item.key}`,
+        label: item.label,
+        active: activeGroup === item.key,
+      }))}
+      class="mt-5 flex items-center gap-2 overflow-x-auto pb-2 hide-scrollbar"
+    />
+  </PageIntro>
 
-  <div class="container-premium pt-8 pb-4">
-    <h1 class="text-[28px] font-bold leading-[36px] text-on-surface">{menuData?.title ?? 'Data & Informasi'}</h1>
-    <p class="text-base text-on-surface-variant mt-1 max-w-2xl">
-      {menuData?.description ?? 'Pusat akses data kependudukan, arsip dokumen, direktori UMKM, dan struktur kepengurusan desa.'}
-    </p>
-  </div>
+  <section class="container-premium py-4 sm:py-6">
+    <div class="grid gap-4 md:grid-cols-3">
+      <StatCard label="Kanal Aktif" value={dataItems.length} icon="dashboard_customize" variant="blue" description="Jalur informasi yang saat ini ditampilkan untuk warga." />
+      <StatCard label="Arsip & Direktori" value={counts.dokumen + counts.umkm + counts.lembaga + counts.program + counts.log} icon="inventory" variant="emerald" description="Data publik yang bisa langsung ditelusuri dari katalog kampung." />
+      <StatCard label="Layanan Cepat" value={counts.layanan + counts.faq} icon="support_agent" variant="amber" description="Panduan layanan dan jawaban umum yang membantu warga lebih cepat." />
+    </div>
+  </section>
 
   <section class="container-premium py-4">
-    <a href="/ketua-rt" class="group section-card section-card-hover grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center">
-      <div class="flex gap-4">
-        <div class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-primary-container/40 text-m3-primary transition group-hover:bg-m3-primary group-hover:text-on-primary">
-          <Icon name="contact_phone" class="text-[24px]" />
+    <div class="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+      <a href="/ketua-rt" class="group section-card section-card-hover grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center">
+        <div class="flex gap-4">
+          <div class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-primary-container/40 text-m3-primary transition group-hover:bg-m3-primary group-hover:text-on-primary">
+            <Icon name="contact_phone" class="text-[24px]" />
+          </div>
+          <div>
+            <p class="section-kicker">Layanan cepat warga</p>
+            <h2 class="mt-1 text-xl font-bold tracking-tight text-on-surface">Hubungi Ketua RT</h2>
+            <p class="mt-2 max-w-2xl text-sm leading-relaxed text-on-surface-variant">Pilih RT sesuai tempat tinggal Anda untuk konsultasi pelayanan warga, koordinasi lingkungan, atau hal yang perlu ditindaklanjuti di tingkat RT.</p>
+          </div>
         </div>
-        <div>
-          <p class="section-kicker">Layanan cepat warga</p>
-          <h2 class="mt-1 text-xl font-bold tracking-tight text-on-surface">Hubungi Ketua RT</h2>
-          <p class="mt-2 max-w-2xl text-sm leading-relaxed text-on-surface-variant">Pilih RT sesuai tempat tinggal Anda untuk konsultasi pelayanan warga, koordinasi lingkungan, atau hal yang perlu ditindaklanjuti di tingkat RT.</p>
+        <span class="action-pill-dark w-fit">
+          Pilih RT <Icon name="arrow_forward" class="text-[16px]" />
+        </span>
+      </a>
+
+      <InfoCard title="Arsip Operasional" icon="pending_actions" class="section-card">
+        <p class="text-sm leading-relaxed text-on-surface-variant">Butuh melihat catatan layanan, administrasi, rapat, atau undangan yang sudah dipublikasikan? Arsip log kegiatan dukuh sekarang tersedia dalam satu halaman.</p>
+        <div class="mt-4 flex items-center justify-between gap-3">
+          <span class="rounded-full border border-outline-variant bg-white px-3 py-1 text-[11px] font-semibold text-on-surface-variant">{counts.log} log tayang</span>
+          <ActionLinkButton href="/log-kegiatan" label="Buka log" icon="arrow_forward" variant="outline" class="px-4 py-2.5 text-[13px]" />
         </div>
-      </div>
-      <span class="action-pill-dark w-fit">
-        Pilih RT <Icon name="arrow_forward" class="text-[16px]" />
-      </span>
-    </a>
+      </InfoCard>
+    </div>
   </section>
 
   <section class="container-premium py-8">
+    <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <p class="section-kicker">Katalog Data</p>
+        <h2 class="mt-1 text-2xl font-bold tracking-tight text-on-surface">Pilih jalur informasi sesuai kebutuhan</h2>
+      </div>
+      <p class="max-w-xl text-sm leading-relaxed text-on-surface-variant">
+        {activeGroup === 'semua'
+          ? 'Semua kanal informasi ditampilkan agar warga bisa langsung menuju data, layanan, arsip, dan transparansi kampung.'
+          : `Menampilkan kanal untuk kelompok ${groupOptions.find((item) => item.key === activeGroup)?.label.toLowerCase()}.`}
+      </p>
+    </div>
+
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {dataItems.map((item) => (
+      {enrichedItems.map((item) => (
         <DataCard
           label={item.label}
           href={item.href}
           description={item.description}
           icon={item.icon}
+          eyebrow={item.eyebrow}
+          countLabel={item.countLabel}
+          meta={item.meta}
         />
       ))}
     </div>
