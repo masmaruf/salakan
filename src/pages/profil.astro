@@ -6,6 +6,7 @@ import InfoCard from '../components/ui/InfoCard.astro';
 import ActionLinkButton from '../components/ui/ActionLinkButton.astro';
 import { getPengaturan, getProfil } from '../lib/content';
 import { resolveMapEmbedSrc } from '../lib/maps';
+import { pageCopy } from '../lib/page-copy';
 
 const profil = await getProfil();
 const pengaturan = await getPengaturan();
@@ -20,7 +21,7 @@ const mapEmbedSrc = resolveMapEmbedSrc({
 import Icon from '../components/ui/Icon.tsx';
 ---
 
-<MainLayout title="Profil | Padukuhan Salakan" description="Profil, visi misi, potensi desa, dan data wilayah Padukuhan Salakan.">
+<MainLayout title={pageCopy.profil.layoutTitle} description={pageCopy.profil.layoutDescription}>
 
   <PageHero
     eyebrow={profil?.hero?.badge}
@@ -38,7 +39,7 @@ import Icon from '../components/ui/Icon.tsx';
     orbs={[]}
   />
 
-  <PageSection eyebrow={profil?.sejarahLabel || 'Kisah Kami'} title={profil?.sejarahJudul || 'Sejarah & Filosofi'} sectionClass="relative overflow-hidden py-10 sm:py-14">
+  <PageSection eyebrow={profil?.sejarahLabel || pageCopy.profil.storyEyebrow} title={profil?.sejarahJudul || pageCopy.profil.storyTitle} sectionClass="relative overflow-hidden py-10 sm:py-14">
     <div class="prose-profil max-w-none whitespace-pre-line text-[15px] leading-[1.8] text-on-surface-variant lg:max-w-3xl">
       {profil?.sejarahSingkat}
     </div>
@@ -46,7 +47,7 @@ import Icon from '../components/ui/Icon.tsx';
     <div class="callout-panel mt-8">
       <div class="mb-2 flex items-center gap-2">
         <Icon name="visibility" class="text-[20px] text-m3-primary" />
-        <h3 class="text-base font-bold text-on-surface">Visi</h3>
+        <h3 class="text-base font-bold text-on-surface">{pageCopy.profil.visionTitle}</h3>
       </div>
       <p class="text-[15px] italic leading-relaxed text-on-surface-variant">
         "{profil?.visi}"
@@ -54,7 +55,7 @@ import Icon from '../components/ui/Icon.tsx';
     </div>
 
     <div class="mt-6">
-      <h3 class="mb-4 text-base font-bold text-on-surface">Misi</h3>
+      <h3 class="mb-4 text-base font-bold text-on-surface">{pageCopy.profil.missionTitle}</h3>
       <ul class="space-y-3">
         {profil?.misi?.map((item) => (
           <li class="flex items-start gap-3">
@@ -67,7 +68,7 @@ import Icon from '../components/ui/Icon.tsx';
   </PageSection>
 
   {potensi.length > 0 && (
-    <PageSection eyebrow="Keunggulan Lokal" title="Potensi Desa" sectionClass="bg-surface-container-low/40 py-10 sm:py-14">
+    <PageSection eyebrow={pageCopy.profil.potentialEyebrow} title={pageCopy.profil.potentialTitle} sectionClass="bg-surface-container-low/40 py-10 sm:py-14">
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {potensi.map((item, i) => (
           <div class:list={[
@@ -91,7 +92,7 @@ import Icon from '../components/ui/Icon.tsx';
   )}
 
   {profil?.dataWilayah && profil.dataWilayah.length > 0 && (
-    <PageSection eyebrow="Statistik" title="Data Wilayah">
+    <PageSection eyebrow={pageCopy.profil.statsEyebrow} title={pageCopy.profil.statsTitle}>
       <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
         {profil.dataWilayah.map((item) => (
           <InfoCard>
@@ -104,19 +105,19 @@ import Icon from '../components/ui/Icon.tsx';
   )}
 
   {(mapEmbedSrc || lokasi?.alamat || lokasi?.linkPeta) && (
-    <PageSection eyebrow="Lokasi" title="Temukan Kami" sectionClass="bg-surface-container-low/40 py-10 sm:py-14">
+    <PageSection eyebrow={pageCopy.profil.locationEyebrow} title={pageCopy.profil.locationTitle} sectionClass="bg-surface-container-low/40 py-10 sm:py-14">
       <div class="space-y-5">
         {(lokasi?.alamat || lokasi?.linkPeta) && (
           <div class="section-card flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div class="min-w-0">
               <div class="mb-1 flex items-center gap-1.5">
                 <Icon name="location_on" class="text-[16px] text-m3-primary" />
-                <span class="section-kicker-muted">Alamat</span>
+                <span class="section-kicker-muted">{pageCopy.profil.addressLabel}</span>
               </div>
               <p class="text-sm leading-relaxed text-on-surface">{lokasi?.alamat}</p>
             </div>
             {lokasi?.linkPeta && (
-              <ActionLinkButton href={lokasi.linkPeta} label="Buka Peta" icon="open_in_new" target="_blank" rel="noopener noreferrer" class="w-full justify-center sm:w-auto sm:justify-start" />
+              <ActionLinkButton href={lokasi.linkPeta} label={pageCopy.profil.openMapLabel} icon="open_in_new" target="_blank" rel="noopener noreferrer" class="w-full justify-center sm:w-auto sm:justify-start" />
             )}
           </div>
         )}
@@ -133,9 +134,9 @@ import Icon from '../components/ui/Icon.tsx';
           ) : (
             <div class="flex min-h-[360px] flex-col items-center justify-center p-8 text-center">
               <Icon name="wrong_location" class="mb-4 text-[48px] text-outline" />
-              <p class="text-base font-bold text-on-surface">Peta Belum Tersedia</p>
+              <p class="text-base font-bold text-on-surface">{pageCopy.profil.mapEmptyTitle}</p>
               <p class="mt-2 max-w-xs text-sm text-on-surface-variant">
-                Isi link embed atau tempel kode iframe Google Maps melalui Pages CMS agar peta tampil di sini.
+                {pageCopy.profil.mapEmptyDescription}
               </p>
             </div>
           )}

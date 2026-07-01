@@ -11,6 +11,7 @@ import {
   kategoriLabelsProgram,
   statusProgramLabels,
 } from '../../lib/content';
+import { pageCopy } from '../../lib/page-copy';
 import { resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const { slug } = Astro.params;
@@ -46,7 +47,7 @@ const statusToneMap = {
       <div class="mb-3 flex flex-wrap items-center gap-2">
         <Badge label={kategoriLabelsProgram[entry.kategori as keyof typeof kategoriLabelsProgram]} tone="surface" />
         <Badge label={statusProgramLabels[entry.statusProgram as keyof typeof statusProgramLabels]} tone={statusToneMap[entry.statusProgram as keyof typeof statusToneMap]} />
-        {entry.unggulan && <Badge label="Prioritas Warga" tone="info" />}
+        {entry.unggulan && <Badge label={pageCopy.programDetail.priorityLabel} tone="info" />}
       </div>
 
       <h1 class="text-2xl font-bold leading-tight tracking-tight text-on-surface sm:text-3xl">
@@ -57,7 +58,7 @@ const statusToneMap = {
       <ContentMeta
         class="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-outline-variant/40 pt-4"
         items={[
-          { icon: 'calendar_today', text: `Diperbarui ${formatTanggal(entry.tanggalUpdate)}`, datetime: entry.tanggalUpdate, accentClass: 'text-on-surface-variant' },
+          { icon: 'calendar_today', text: `${pageCopy.programDetail.updatedPrefix} ${formatTanggal(entry.tanggalUpdate)}`, datetime: entry.tanggalUpdate, accentClass: 'text-on-surface-variant' },
           { icon: 'location_on', text: entry.lokasi, accentClass: 'text-on-surface-variant' },
           { icon: 'person', text: entry.penanggungJawab, accentClass: 'text-on-surface-variant' },
         ]}
@@ -66,25 +67,25 @@ const statusToneMap = {
     </header>
 
     <div class="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
-      <InfoCard title="Ringkasan Pelaksanaan" class="soft-panel">
+      <InfoCard title={pageCopy.programDetail.summaryTitle} class="soft-panel">
         <p class="whitespace-pre-line text-base leading-relaxed text-on-surface-variant">{entry.deskripsi}</p>
       </InfoCard>
 
       <div class="grid gap-4">
-        <InfoCard title="Periode" class="soft-panel">
+        <InfoCard title={pageCopy.programDetail.periodTitle} class="soft-panel">
           <p class="text-sm font-medium text-on-surface">{entry.periode}</p>
         </InfoCard>
-        <InfoCard title="Sumber Dana" class="soft-panel">
+        <InfoCard title={pageCopy.programDetail.fundingTitle} class="soft-panel">
           <p class="text-sm font-medium text-on-surface">{entry.sumberDana || '-'}</p>
         </InfoCard>
-        <InfoCard title="Anggaran" class="soft-panel">
-          <p class="text-sm font-medium text-on-surface">{entry.anggaran || 'Belum dicantumkan'}</p>
+        <InfoCard title={pageCopy.programDetail.budgetTitle} class="soft-panel">
+          <p class="text-sm font-medium text-on-surface">{entry.anggaran || pageCopy.programDetail.budgetFallback}</p>
         </InfoCard>
       </div>
     </div>
 
     {entry.manfaat.length > 0 && (
-      <InfoCard title="Manfaat untuk Warga" class="soft-panel mt-5">
+      <InfoCard title={pageCopy.programDetail.benefitsTitle} class="soft-panel mt-5">
         <ul class="grid gap-3 text-sm leading-relaxed text-on-surface-variant sm:grid-cols-2">
           {entry.manfaat.map((point) => (
             <li class="rounded-xl border border-outline-variant/60 bg-white px-4 py-3">{point}</li>
@@ -94,8 +95,8 @@ const statusToneMap = {
     )}
 
     <div class="mt-8 flex flex-wrap gap-3 border-t border-outline-variant/40 pt-5">
-      <ActionLinkButton href="/program" label="Kembali ke daftar program" icon="arrow_back" />
-      <ActionLinkButton href="/data" label="Buka pusat data" icon="grid_view" />
+      <ActionLinkButton href="/program" label={pageCopy.programDetail.backToProgramsLabel} icon="arrow_back" />
+      <ActionLinkButton href="/data" label={pageCopy.programDetail.openDataCenterLabel} icon="grid_view" />
     </div>
   </article>
 </MainLayout>

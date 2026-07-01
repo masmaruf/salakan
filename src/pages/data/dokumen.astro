@@ -5,6 +5,7 @@ import Badge from '../../components/ui/Badge.astro';
 import PageSection from '../../components/PageSection.astro';
 import InlineAction from '../../components/ui/InlineAction.astro';
 import { formatTanggal, getDokumen, getPengaturan, kategoriLabelsDokumen } from '../../lib/content';
+import { pageCopy } from '../../lib/page-copy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const [dokumenItems, pengaturan] = await Promise.all([getDokumen(), getPengaturan()]);
@@ -25,8 +26,8 @@ const dokumen = dokumenItems
 >
 
   <PageIntro
-    title="Arsip Dokumen"
-    description={`${dokumen.length} dokumen tersedia di arsip publik Padukuhan Salakan.`}
+    title={pageCopy.dokumen.title}
+    description={pageCopy.dokumen.description(dokumen.length)}
     breadcrumbs={[
       { label: 'Beranda', href: '/' },
       { label: 'Pusat Data', href: '/data' },
@@ -51,11 +52,11 @@ const dokumen = dokumenItems
           <p class="mt-2 flex-1 line-clamp-2 text-sm text-on-surface-variant">{entry.ringkasan}</p>
 
           <div class="mt-4 flex flex-wrap gap-2 border-t border-outline-variant/40 pt-3">
-            <InlineAction href={`/data/dokumen/${slug}`} label="Detail" icon="visibility" />
+            <InlineAction href={`/data/dokumen/${slug}`} label={pageCopy.dokumen.detailLabel} icon="visibility" />
             {entry.fileDokumen ? (
-              <InlineAction href={entry.fileDokumen} label="Unduh" icon="download" target="_blank" rel="noreferrer" />
+              <InlineAction href={entry.fileDokumen} label={pageCopy.dokumen.downloadLabel} icon="download" target="_blank" rel="noreferrer" />
             ) : (
-              <InlineAction as="span" label="Belum tersedia" icon="lock" tone="muted" />
+              <InlineAction as="span" label={pageCopy.dokumen.unavailableLabel} icon="lock" tone="muted" />
             )}
           </div>
         </article>

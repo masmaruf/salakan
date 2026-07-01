@@ -9,6 +9,7 @@ import {
   sortByDateDesc,
   excerpt,
 } from '../../lib/content';
+import { pageCopy } from '../../lib/page-copy';
 
 const agendaItems = sortByDateDesc(
   (await getAgenda())
@@ -67,32 +68,32 @@ import Icon from '../../components/ui/Icon.tsx';
 ---
 
 <MainLayout
-  title="Agenda Warga | Padukuhan Salakan"
-  description="Informasi kegiatan dan agenda terbaru untuk warga."
+  title={pageCopy.agendaIndex.layoutTitle}
+  description={pageCopy.agendaIndex.layoutDescription}
 >
   <PageHero
-    eyebrow="Jadwal & Info"
+    eyebrow={pageCopy.agendaIndex.heroEyebrow}
     icon="calendar_month"
-    title="Agenda Warga"
-    description="Timeline kegiatan warga, informasi penting, dan agenda yang sedang berjalan di Padukuhan Salakan."
+    title={pageCopy.agendaIndex.heroTitle}
+    description={pageCopy.agendaIndex.heroDescription}
   />
 
   <section class="container-premium py-8 pb-5">
     <div class="grid gap-4 md:grid-cols-3">
       <div class="section-card rounded-2xl p-5 sm:p-5">
-        <p class="section-kicker">Ringkasan</p>
+        <p class="section-kicker">{pageCopy.agendaIndex.stats.totalLabel}</p>
         <p class="mt-2 text-3xl font-black tracking-tight text-on-surface">{timeline.length}</p>
-        <p class="mt-1 text-sm text-on-surface-variant">Semua agenda aktif siap dibagikan ke warga.</p>
+        <p class="mt-1 text-sm text-on-surface-variant">{pageCopy.agendaIndex.stats.totalDescription}</p>
       </div>
       <div class="section-card rounded-2xl p-5 sm:p-5">
-        <p class="section-kicker">Minggu ini</p>
+        <p class="section-kicker">{pageCopy.agendaIndex.stats.weeklyLabel}</p>
         <p class="mt-2 text-3xl font-black tracking-tight text-on-surface">{agendaMingguIni}</p>
-        <p class="mt-1 text-sm text-on-surface-variant">Kegiatan yang sedang atau akan berlangsung dalam 7 hari ke depan.</p>
+        <p class="mt-1 text-sm text-on-surface-variant">{pageCopy.agendaIndex.stats.weeklyDescription}</p>
       </div>
       <div class="section-card rounded-2xl p-5 sm:p-5">
-        <p class="section-kicker">Distribusi</p>
-        <p class="mt-2 text-base font-bold text-on-surface">Siap dibagikan ke grup RT</p>
-        <p class="mt-1 text-sm text-on-surface-variant">Gunakan label seperti pengumuman, informasi, atau pengajian agar warga cepat menangkap konteksnya.</p>
+        <p class="section-kicker">{pageCopy.agendaIndex.stats.distributionLabel}</p>
+        <p class="mt-2 text-base font-bold text-on-surface">{pageCopy.agendaIndex.stats.distributionTitle}</p>
+        <p class="mt-1 text-sm text-on-surface-variant">{pageCopy.agendaIndex.stats.distributionDescription}</p>
       </div>
     </div>
   </section>
@@ -153,7 +154,7 @@ import Icon from '../../components/ui/Icon.tsx';
         })}
       </div>
     ) : (
-      <EmptyStateCard message="Belum ada agenda." />
+      <EmptyStateCard message={pageCopy.agendaIndex.emptyMessage} />
     )}
   </section>
 </MainLayout>

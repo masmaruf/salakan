@@ -6,6 +6,7 @@ import StatCard from '../../components/ui/StatCard.astro';
 import PageSection from '../../components/PageSection.astro';
 import LabelValueList from '../../components/ui/LabelValueList.astro';
 import { kondisiInventarisLabels, getInventarisWarga, getPengaturan, kategoriLabelsInventaris, statusPinjamInventarisLabels } from '../../lib/content';
+import { pageCopy } from '../../lib/page-copy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const [items, pengaturan] = await Promise.all([getInventarisWarga(), getPengaturan()]);
@@ -19,32 +20,32 @@ const statusToneMap = { tersedia: 'success', dipinjam: 'warning', perawatan: 'er
 <MainLayout title={withSiteTitle(resolveSeoText(seo?.seoTitle, 'Inventaris Warga'))} description={resolveSeoText(seo?.seoDescription, 'Daftar inventaris bersama dan status ketersediaannya untuk warga Padukuhan Salakan.')} image={resolveSeoImage(seo?.ogImage)}>
   <PageIntro
     title="Inventaris Warga"
-    description="Warga bisa mengecek kategori barang bersama, status ketersediaan, lokasi simpan, dan penanggung jawab sebelum menghubungi pengurus."
+    description={pageCopy.inventaris.description}
     breadcrumbs={[{ label: 'Beranda', href: '/' }, { label: 'Pusat Data', href: '/data' }, { label: 'Inventaris Warga', active: true }]}
   />
 
   <section class="container-premium py-4 sm:py-6">
     <div class="grid gap-4 md:grid-cols-3">
-      <StatCard label="Total Item" value={inventory.length} icon="inventory_2" variant="blue" />
-      <StatCard label="Siap Dipakai" value={availableCount} icon="task_alt" variant="emerald" />
-      <StatCard label="Perlu Perawatan" value={maintenanceCount} icon="construction" variant="amber" />
+      <StatCard label={pageCopy.inventaris.stats.total} value={inventory.length} icon="inventory_2" variant="blue" />
+      <StatCard label={pageCopy.inventaris.stats.available} value={availableCount} icon="task_alt" variant="emerald" />
+      <StatCard label={pageCopy.inventaris.stats.maintenance} value={maintenanceCount} icon="construction" variant="amber" />
     </div>
   </section>
 
-  <PageSection sectionClass="pb-10 pt-4 sm:pb-14" title="Daftar Inventaris" eyebrow="Status Ketersediaan">
+  <PageSection sectionClass="pb-10 pt-4 sm:pb-14" title={pageCopy.inventaris.sectionTitle} eyebrow={pageCopy.inventaris.sectionEyebrow}>
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {inventory.map(({ slug, entry }) => (
         <article class="section-card" id={slug}>
-          <div class="mb-3 flex flex-wrap items-center gap-2"><Badge label={kategoriLabelsInventaris[entry.kategori]} tone="surface" class="px-2 py-1" /><Badge label={statusPinjamInventarisLabels[entry.statusPinjam]} tone={statusToneMap[entry.statusPinjam]} class="px-2 py-1" />{entry.unggulan && <Badge label="Prioritas" tone="info" class="px-2 py-1" />}</div>
+          <div class="mb-3 flex flex-wrap items-center gap-2"><Badge label={kategoriLabelsInventaris[entry.kategori]} tone="surface" class="px-2 py-1" /><Badge label={statusPinjamInventarisLabels[entry.statusPinjam]} tone={statusToneMap[entry.statusPinjam]} class="px-2 py-1" />{entry.unggulan && <Badge label={pageCopy.inventaris.labels.priority} tone="info" class="px-2 py-1" />}</div>
           <h2 class="text-base font-bold leading-tight text-on-surface sm:text-lg">{entry.namaItem}</h2>
           <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">{entry.ringkasan}</p>
           <LabelValueList
             class="mt-4"
             items={[
-              { label: 'Kondisi', value: kondisiInventarisLabels[entry.kondisi] },
-              { label: 'Lokasi', value: entry.lokasiSimpan },
-              { label: 'Penanggung jawab', value: entry.penanggungJawab },
-              { label: 'Catatan', value: entry.catatan },
+              { label: pageCopy.inventaris.labels.condition, value: kondisiInventarisLabels[entry.kondisi] },
+              { label: pageCopy.inventaris.labels.location, value: entry.lokasiSimpan },
+              { label: pageCopy.inventaris.labels.owner, value: entry.penanggungJawab },
+              { label: pageCopy.inventaris.labels.note, value: entry.catatan },
             ]}
           />
         </article>
