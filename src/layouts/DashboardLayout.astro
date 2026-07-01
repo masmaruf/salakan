@@ -29,20 +29,6 @@ const sidebarMenus = [
   }
 ];
 
-// Deteksi Admin
-import { getAdminSession, getSessionCookieName } from '../lib/admin-auth';
-const isAdmin = !!getAdminSession(Astro.cookies.get(getSessionCookieName())?.value);
-if (isAdmin) {
-  sidebarMenus.push({
-    group: "Admin Padukuhan",
-    menus: [
-      { id: 'admin-surat', label: 'Kelola Pengajuan', icon: 'admin_panel_settings', href: '/admin/surat' },
-      { id: 'admin-log-kegiatan', label: 'Log Kegiatan Dukuh', icon: 'pending_actions', href: '/admin/log-kegiatan' },
-      { id: 'admin-users', label: 'Manajemen User', icon: 'group_add', href: '/admin/users' },
-    ]
-  });
-}
-
 import Icon from '../components/ui/Icon.tsx';
 ---
 
@@ -109,9 +95,6 @@ import Icon from '../components/ui/Icon.tsx';
                <p class="text-[0.68rem] font-bold text-slate-400 truncate mt-0.5">Penduduk Salakan</p>
             </div>
          </div>
-         <a href="/admin/logout" class="mt-4 flex items-center justify-center gap-2 text-xs font-bold text-red-500 bg-red-50/50 hover:bg-red-100/50 border border-red-100/30 rounded-2xl py-3.5 transition-all hover:shadow-sm">
-            <Icon name="logout" class="text-[18px]" /> Keluar Sesi
-         </a>
       </div>
     </aside>
 

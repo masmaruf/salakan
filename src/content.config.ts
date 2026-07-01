@@ -364,22 +364,6 @@ const pengaturan = defineCollection({
   }),
 });
 
-const akunAdmin = defineCollection({
-  loader: glob({ pattern: 'index.yaml', base: './src/content/singletons/akun-admin' }),
-  schema: z.object({
-    gunakanPengaturanCms: z.boolean().default(false),
-    catatan: z.string().default(''),
-    users: z.array(
-      z.object({
-        username: z.string().min(1),
-        password: z.string().min(1),
-        role: z.enum(['superadmin', 'admin', 'editor']).default('editor'),
-        status: z.enum(['aktif', 'nonaktif']).default('aktif'),
-      })
-    ).default([]),
-  }),
-});
-
 const dashboard = defineCollection({
   loader: glob({ pattern: 'index.yaml', base: './src/content/singletons/dashboard' }),
   schema: z.object({
@@ -569,7 +553,6 @@ export const collections = {
   faq,
   profil,
   pengaturan,
-  akunAdmin,
   dashboard,
   beranda,
   monografi,
