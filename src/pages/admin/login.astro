@@ -13,7 +13,7 @@ import { siteMeta } from '../../lib/site';
 export const prerender = false;
 
 const url = new URL(Astro.request.url);
-const requestedNextPath = url.searchParams.get('next') || '/admin/users';
+const requestedNextPath = url.searchParams.get('next') || '/admin/surat';
 const configured = isAdminConfigured();
 const existingSession = getAdminSession(Astro.cookies.get(getSessionCookieName())?.value);
 
@@ -21,9 +21,9 @@ let errorMessage = '';
 let loginResult: AdminSession | null = null;
 
 function getSafeNextPath(value: string) {
-  if (!value.startsWith('/')) return '/admin/users';
-  if (value.startsWith('//')) return '/admin/users';
-  if (value.startsWith('/admin/login')) return '/admin/users';
+  if (!value.startsWith('/')) return '/admin/surat';
+  if (value.startsWith('//')) return '/admin/surat';
+  if (value.startsWith('/admin/login')) return '/admin/surat';
   return value;
 }
 
@@ -74,7 +74,7 @@ if (Astro.request.method === 'POST') {
     const formData = await Astro.request.formData();
     const username = String(formData.get('username') || '');
     const password = String(formData.get('password') || '');
-    const nextTarget = getSafeNextPath(String(formData.get('next') || '/admin/users'));
+    const nextTarget = getSafeNextPath(String(formData.get('next') || '/admin/surat'));
 
     if (!configured) {
       errorMessage = 'Akun admin belum dikonfigurasi di file environment.';
@@ -247,7 +247,7 @@ import Icon from '../../components/ui/Icon.tsx';
         </form>
 
         <p class="mt-6 text-sm font-medium leading-relaxed text-slate-400 text-center">
-          Setelah berhasil login, Anda akan diarahkan ke panel <span class="font-bold text-slate-600">/admin/users</span>.
+          Setelah berhasil login, Anda akan diarahkan ke panel <span class="font-bold text-slate-600">/admin/surat</span>.
         </p>
       </div>
     </div>
