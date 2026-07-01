@@ -2,6 +2,9 @@
 import DashboardLayout from '../../layouts/DashboardLayout.astro';
 import DashboardPanel from '../../components/ui/DashboardPanel.astro';
 import DashboardStatCard from '../../components/ui/DashboardStatCard.astro';
+import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
+import BadgeList from '../../components/ui/BadgeList.astro';
+import MetricGrid from '../../components/ui/MetricGrid.astro';
 import { formatTanggal, getDashboardContent, getKasRt } from '../../lib/content';
 import Icon from '../../components/ui/Icon.tsx';
 
@@ -34,15 +37,37 @@ function formatRupiah(value: number) { return new Intl.NumberFormat('id-ID', { s
         <div class="mt-4 space-y-4">
           <div class="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4"><p class="text-xs font-black uppercase tracking-[0.12em] text-blue-500">Periode</p><p class="mt-2 text-lg font-black text-slate-900">{latest.entry.periode}</p><p class="mt-1 text-sm text-slate-500">Diperbarui {formatTanggal(latest.entry.tanggalUpdate)}</p></div>
           <p class="text-sm leading-relaxed text-slate-600">{latest.entry.ringkasan}</p>
-          <div class="grid gap-3 sm:grid-cols-3"><div class="rounded-2xl bg-white px-4 py-4 shadow-sm"><p class="text-[11px] font-black uppercase tracking-[0.12em] text-slate-400">Masuk</p><p class="mt-2 text-sm font-black text-slate-900">{formatRupiah(latest.entry.pemasukan)}</p></div><div class="rounded-2xl bg-white px-4 py-4 shadow-sm"><p class="text-[11px] font-black uppercase tracking-[0.12em] text-slate-400">Keluar</p><p class="mt-2 text-sm font-black text-slate-900">{formatRupiah(latest.entry.pengeluaran)}</p></div><div class="rounded-2xl bg-white px-4 py-4 shadow-sm"><p class="text-[11px] font-black uppercase tracking-[0.12em] text-slate-400">Saldo</p><p class="mt-2 text-sm font-black text-slate-900">{formatRupiah(latest.entry.saldoAkhir)}</p></div></div>
+          <MetricGrid
+            items={[
+              { label: 'Masuk', value: formatRupiah(latest.entry.pemasukan), class: 'bg-white px-4 py-4 shadow-sm' },
+              { label: 'Keluar', value: formatRupiah(latest.entry.pengeluaran), class: 'bg-white px-4 py-4 shadow-sm' },
+              { label: 'Saldo', value: formatRupiah(latest.entry.saldoAkhir), class: 'bg-white px-4 py-4 shadow-sm' },
+            ]}
+          />
           {latest.entry.catatan && <p class="text-sm leading-relaxed text-slate-500">{latest.entry.catatan}</p>}
         </div>
       ) : <p class="mt-4 text-sm text-slate-500">{content?.emptyMessage ?? 'Belum ada laporan kas yang dipublikasikan.'}</p>}
     </DashboardPanel>
 
     <DashboardPanel title={content?.historyTitle ?? 'Riwayat Periode'} icon="timeline">
-      <div class="mt-4 space-y-3">{reports.map((item) => <div class="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4"><div class="flex flex-wrap items-center justify-between gap-3"><div><p class="text-sm font-black text-slate-900">{item.entry.periode}</p><p class="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-400">{formatTanggal(item.entry.tanggalUpdate)}</p></div><span class="rounded-full bg-white px-3 py-1 text-xs font-black text-emerald-700 shadow-sm">{formatRupiah(item.entry.saldoAkhir)}</span></div></div>)}</div>
-      <a href="/data/kas-rt" class="mt-5 inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-600">{content?.publicCtaLabel ?? 'Buka halaman publik'} <Icon name="arrow_forward" class="text-[16px]" /></a>
+      <div class="mt-4 space-y-3">
+        {reports.map((item) => (
+          <div class="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p class="text-sm font-black text-slate-900">{item.entry.periode}</p>
+                <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-400">{formatTanggal(item.entry.tanggalUpdate)}</p>
+              </div>
+              <BadgeList
+                items={[
+                  { label: formatRupiah(item.entry.saldoAkhir), tone: 'success', class: 'shadow-sm' },
+                ]}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+      <ActionLinkButton href="/data/kas-rt" label={content?.publicCtaLabel ?? 'Buka halaman publik'} icon="arrow_forward" variant="dark" class="mt-5" />
     </DashboardPanel>
   </div>
 </DashboardLayout>

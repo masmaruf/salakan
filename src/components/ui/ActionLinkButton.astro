@@ -3,7 +3,7 @@ interface Props {
   href: string;
   label: string;
   icon?: string;
-  variant?: 'primary' | 'secondary' | 'outline' | 'success';
+  variant?: 'primary' | 'secondary' | 'outline' | 'success' | 'dark';
   target?: string;
   rel?: string;
   class?: string;
@@ -24,6 +24,7 @@ const variantClasses = {
   secondary: 'bg-surface-container-low text-on-surface-variant border border-outline-variant',
   outline: 'bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-colors',
   success: 'action-pill-success',
+  dark: 'bg-slate-900 text-white hover:bg-blue-600 transition-colors',
 };
 
 import Icon from './Icon.tsx';

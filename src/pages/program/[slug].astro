@@ -3,7 +3,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import ContentMeta from '../../components/ui/ContentMeta.astro';
 import InfoCard from '../../components/ui/InfoCard.astro';
-import Badge from '../../components/ui/Badge.astro';
+import BadgeList from '../../components/ui/BadgeList.astro';
 import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
 import {
   formatTanggal,
@@ -44,11 +44,14 @@ const statusToneMap = {
     />
 
     <header class="mb-6">
-      <div class="mb-3 flex flex-wrap items-center gap-2">
-        <Badge label={kategoriLabelsProgram[entry.kategori as keyof typeof kategoriLabelsProgram]} tone="surface" />
-        <Badge label={statusProgramLabels[entry.statusProgram as keyof typeof statusProgramLabels]} tone={statusToneMap[entry.statusProgram as keyof typeof statusToneMap]} />
-        {entry.unggulan && <Badge label={halaman.programDetail.priorityLabel} tone="info" />}
-      </div>
+      <BadgeList
+        class="mb-3 flex flex-wrap items-center gap-2"
+        items={[
+          { label: kategoriLabelsProgram[entry.kategori as keyof typeof kategoriLabelsProgram], tone: 'surface' },
+          { label: statusProgramLabels[entry.statusProgram as keyof typeof statusProgramLabels], tone: statusToneMap[entry.statusProgram as keyof typeof statusToneMap] },
+          { label: halaman.programDetail.priorityLabel, tone: 'info', visible: entry.unggulan },
+        ]}
+      />
 
       <h1 class="text-2xl font-bold leading-tight tracking-tight text-on-surface sm:text-3xl">
         {entry.judul}

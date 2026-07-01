@@ -2,10 +2,11 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import PageSection from '../../components/PageSection.astro';
-import Badge from '../../components/ui/Badge.astro';
+import BadgeList from '../../components/ui/BadgeList.astro';
 import StatCard from '../../components/ui/StatCard.astro';
 import EmptyStateCard from '../../components/ui/EmptyStateCard.astro';
 import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
+import MetricGrid from '../../components/ui/MetricGrid.astro';
 import {
   formatTanggal,
   getPengaturan,
@@ -71,31 +72,26 @@ const stats = {
     <PageSection sectionClass="py-8 sm:py-10" title="Sorotan Utama" eyebrow="Program Prioritas">
       <article class="section-card grid gap-5 p-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
         <div>
-          <div class="flex flex-wrap items-center gap-2">
-            <Badge label={kategoriLabelsProgram[featuredProgram.entry.kategori as keyof typeof kategoriLabelsProgram]} tone="surface" />
-            <Badge
-              label={statusProgramLabels[featuredProgram.entry.statusProgram as keyof typeof statusProgramLabels]}
-              tone={statusToneMap[featuredProgram.entry.statusProgram as keyof typeof statusToneMap]}
-            />
-          </div>
+          <BadgeList
+            items={[
+              { label: kategoriLabelsProgram[featuredProgram.entry.kategori as keyof typeof kategoriLabelsProgram], tone: 'surface' },
+              { label: statusProgramLabels[featuredProgram.entry.statusProgram as keyof typeof statusProgramLabels], tone: statusToneMap[featuredProgram.entry.statusProgram as keyof typeof statusToneMap] },
+            ]}
+          />
           <h2 class="mt-4 text-2xl font-bold tracking-tight text-on-surface sm:text-3xl">{featuredProgram.entry.judul}</h2>
           <p class="mt-3 text-base leading-relaxed text-on-surface-variant">{featuredProgram.entry.ringkasan}</p>
           <p class="mt-4 whitespace-pre-line text-sm leading-relaxed text-on-surface-variant">{featuredProgram.entry.deskripsi}</p>
         </div>
 
         <div class="grid gap-3">
-          <div class="section-subcard">
-            <p class="section-kicker">Lokasi</p>
-            <p class="mt-2 text-sm font-medium text-on-surface">{featuredProgram.entry.lokasi}</p>
-          </div>
-          <div class="section-subcard">
-            <p class="section-kicker">Periode</p>
-            <p class="mt-2 text-sm font-medium text-on-surface">{featuredProgram.entry.periode}</p>
-          </div>
-          <div class="section-subcard">
-            <p class="section-kicker">Pembaruan Terakhir</p>
-            <p class="mt-2 text-sm font-medium text-on-surface">{formatTanggal(featuredProgram.entry.tanggalUpdate)}</p>
-          </div>
+          <MetricGrid
+            class="grid gap-3"
+            items={[
+              { label: 'Lokasi', value: featuredProgram.entry.lokasi },
+              { label: 'Periode', value: featuredProgram.entry.periode },
+              { label: 'Pembaruan Terakhir', value: formatTanggal(featuredProgram.entry.tanggalUpdate) },
+            ]}
+          />
           <div class="pt-1">
             <ActionLinkButton href={`/program/${featuredProgram.slug}`} label="Lihat detail program" icon="arrow_forward" variant="primary" />
           </div>
@@ -112,11 +108,13 @@ const stats = {
             href={`/program/${item.slug}`}
             class="group section-card section-card-hover rounded-2xl p-5 sm:p-5"
           >
-            <div class="flex flex-wrap items-center gap-2">
-              <Badge label={kategoriLabelsProgram[item.entry.kategori as keyof typeof kategoriLabelsProgram]} tone="surface" />
-              <Badge label={statusProgramLabels[item.entry.statusProgram as keyof typeof statusProgramLabels]} tone={statusToneMap[item.entry.statusProgram as keyof typeof statusToneMap]} />
-              {item.entry.unggulan && <Badge label="Prioritas" tone="info" />}
-            </div>
+            <BadgeList
+              items={[
+                { label: kategoriLabelsProgram[item.entry.kategori as keyof typeof kategoriLabelsProgram], tone: 'surface' },
+                { label: statusProgramLabels[item.entry.statusProgram as keyof typeof statusProgramLabels], tone: statusToneMap[item.entry.statusProgram as keyof typeof statusToneMap] },
+                { label: 'Prioritas', tone: 'info', visible: item.entry.unggulan },
+              ]}
+            />
             <h3 class="mt-4 text-lg font-bold leading-tight text-on-surface transition-colors group-hover:text-m3-primary">
               {item.entry.judul}
             </h3>

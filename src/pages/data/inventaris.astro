@@ -1,7 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import PageIntro from '../../components/ui/PageIntro.astro';
-import Badge from '../../components/ui/Badge.astro';
+import BadgeList from '../../components/ui/BadgeList.astro';
 import StatCard from '../../components/ui/StatCard.astro';
 import PageSection from '../../components/PageSection.astro';
 import LabelValueList from '../../components/ui/LabelValueList.astro';
@@ -37,7 +37,14 @@ const statusToneMap = { tersedia: 'success', dipinjam: 'warning', perawatan: 'er
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {inventory.map(({ slug, entry }) => (
         <article class="section-card" id={slug}>
-          <div class="mb-3 flex flex-wrap items-center gap-2"><Badge label={kategoriLabelsInventaris[entry.kategori]} tone="surface" class="px-2 py-1" /><Badge label={statusPinjamInventarisLabels[entry.statusPinjam]} tone={statusToneMap[entry.statusPinjam]} class="px-2 py-1" />{entry.unggulan && <Badge label={halaman.inventaris.labels.priority} tone="info" class="px-2 py-1" />}</div>
+          <BadgeList
+            class="mb-3 flex flex-wrap items-center gap-2"
+            items={[
+              { label: kategoriLabelsInventaris[entry.kategori], tone: 'surface', class: 'px-2 py-1' },
+              { label: statusPinjamInventarisLabels[entry.statusPinjam], tone: statusToneMap[entry.statusPinjam], class: 'px-2 py-1' },
+              { label: halaman.inventaris.labels.priority, tone: 'info', class: 'px-2 py-1', visible: entry.unggulan },
+            ]}
+          />
           <h2 class="text-base font-bold leading-tight text-on-surface sm:text-lg">{entry.namaItem}</h2>
           <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">{entry.ringkasan}</p>
           <LabelValueList

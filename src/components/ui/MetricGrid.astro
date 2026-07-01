@@ -1,0 +1,28 @@
+---
+import MetricDetail from './MetricDetail.astro';
+
+interface Item {
+  label: string;
+  value: string | number;
+  class?: string;
+  valueClass?: string;
+}
+
+interface Props {
+  items: Item[];
+  class?: string;
+}
+
+const { items, class: className = 'grid gap-3 sm:grid-cols-3' } = Astro.props;
+---
+
+<div class={className}>
+  {items.map((item) => (
+    <MetricDetail
+      label={item.label}
+      value={item.value}
+      class={item.class}
+      valueClass={item.valueClass}
+    />
+  ))}
+</div>

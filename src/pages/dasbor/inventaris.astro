@@ -2,6 +2,9 @@
 import DashboardLayout from '../../layouts/DashboardLayout.astro';
 import DashboardPanel from '../../components/ui/DashboardPanel.astro';
 import DashboardStatCard from '../../components/ui/DashboardStatCard.astro';
+import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
+import BadgeList from '../../components/ui/BadgeList.astro';
+import MetricGrid from '../../components/ui/MetricGrid.astro';
 import { getDashboardContent, getInventarisWarga } from '../../lib/content';
 import { kondisiInventarisLabels, kategoriLabelsInventaris, statusPinjamInventarisLabels } from '../../lib/content-taxonomy';
 import Icon from '../../components/ui/Icon.tsx';
@@ -13,7 +16,7 @@ const tersedia = inventory.filter((item) => item.entry.statusPinjam === 'tersedi
 const dipinjam = inventory.filter((item) => item.entry.statusPinjam === 'dipinjam').length;
 const perawatan = inventory.filter((item) => item.entry.statusPinjam === 'perawatan').length;
 const highlight = inventory.find((item) => item.entry.unggulan) ?? inventory[0] ?? null;
-const statusToneMap = { tersedia: 'bg-emerald-100 text-emerald-700', dipinjam: 'bg-amber-100 text-amber-700', perawatan: 'bg-red-100 text-red-700' } as const;
+const statusToneMap = { tersedia: 'success', dipinjam: 'warning', perawatan: 'error' } as const;
 ---
 
 <DashboardLayout title="Peminjaman Inventaris" activeMenu="inventaris" description="Inventaris warga berbasis data lokal agar status barang lebih jelas dan mudah dipantau.">
@@ -32,13 +35,48 @@ const statusToneMap = { tersedia: 'bg-emerald-100 text-emerald-700', dipinjam: '
   <div class="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
     <DashboardPanel title={content?.highlightTitle ?? 'Sorotan Inventaris'} icon="inventory_2">
       {highlight ? (
-        <div class="mt-4 space-y-4"><div class="flex flex-wrap gap-2"><span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">{kategoriLabelsInventaris[highlight.entry.kategori]}</span><span class:list={['rounded-full px-3 py-1 text-xs font-black', statusToneMap[highlight.entry.statusPinjam]]}>{statusPinjamInventarisLabels[highlight.entry.statusPinjam]}</span></div><div><p class="text-lg font-black text-slate-900">{highlight.entry.namaItem}</p><p class="mt-2 text-sm leading-relaxed text-slate-600">{highlight.entry.ringkasan}</p></div><div class="grid gap-3 sm:grid-cols-2"><div class="rounded-2xl bg-slate-50 px-4 py-4"><p class="text-[11px] font-black uppercase tracking-[0.12em] text-slate-400">Kondisi</p><p class="mt-2 text-sm font-black text-slate-900">{kondisiInventarisLabels[highlight.entry.kondisi]}</p></div><div class="rounded-2xl bg-slate-50 px-4 py-4"><p class="text-[11px] font-black uppercase tracking-[0.12em] text-slate-400">Lokasi</p><p class="mt-2 text-sm font-black text-slate-900">{highlight.entry.lokasiSimpan}</p></div></div></div>
+        <div class="mt-4 space-y-4">
+          <BadgeList
+            items={[
+              { label: kategoriLabelsInventaris[highlight.entry.kategori], tone: 'info' },
+              { label: statusPinjamInventarisLabels[highlight.entry.statusPinjam], tone: statusToneMap[highlight.entry.statusPinjam] },
+            ]}
+          />
+          <div>
+            <p class="text-lg font-black text-slate-900">{highlight.entry.namaItem}</p>
+            <p class="mt-2 text-sm leading-relaxed text-slate-600">{highlight.entry.ringkasan}</p>
+          </div>
+          <MetricGrid
+            class="grid gap-3 sm:grid-cols-2"
+            items={[
+              { label: 'Kondisi', value: kondisiInventarisLabels[highlight.entry.kondisi], class: 'bg-slate-50 px-4 py-4' },
+              { label: 'Lokasi', value: highlight.entry.lokasiSimpan, class: 'bg-slate-50 px-4 py-4' },
+            ]}
+          />
+        </div>
       ) : <p class="mt-4 text-sm text-slate-500">{content?.emptyMessage ?? 'Belum ada data inventaris yang dipublikasikan.'}</p>}
     </DashboardPanel>
 
     <DashboardPanel title={content?.quickListTitle ?? 'Daftar Cepat'} icon="view_list">
-      <div class="mt-4 space-y-3">{inventory.map((item) => <div class="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4"><div class="flex flex-wrap items-start justify-between gap-3"><div><p class="text-sm font-black text-slate-900">{item.entry.namaItem}</p><p class="mt-1 text-sm text-slate-500">{item.entry.penanggungJawab}</p></div><span class:list={['rounded-full px-3 py-1 text-xs font-black', statusToneMap[item.entry.statusPinjam]]}>{statusPinjamInventarisLabels[item.entry.statusPinjam]}</span></div></div>)}</div>
-      <a href="/data/inventaris" class="mt-5 inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-600">{content?.publicCtaLabel ?? 'Buka halaman publik'} <Icon name="arrow_forward" class="text-[16px]" /></a>
+      <div class="mt-4 space-y-3">
+        {inventory.map((item) => (
+          <div class="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4">
+            <div class="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p class="text-sm font-black text-slate-900">{item.entry.namaItem}</p>
+                <p class="mt-1 text-sm text-slate-500">{item.entry.penanggungJawab}</p>
+              </div>
+              <BadgeList
+                class="flex flex-wrap items-center gap-2"
+                items={[
+                  { label: statusPinjamInventarisLabels[item.entry.statusPinjam], tone: statusToneMap[item.entry.statusPinjam] },
+                ]}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+      <ActionLinkButton href="/data/inventaris" label={content?.publicCtaLabel ?? 'Buka halaman publik'} icon="arrow_forward" variant="dark" class="mt-5" />
     </DashboardPanel>
   </div>
 </DashboardLayout>

@@ -4,6 +4,7 @@ import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import ContentMeta from '../../../components/ui/ContentMeta.astro';
 import InfoCard from '../../../components/ui/InfoCard.astro';
 import ActionLinkButton from '../../../components/ui/ActionLinkButton.astro';
+import BadgeList from '../../../components/ui/BadgeList.astro';
 import { formatTanggal, getDokumen } from '../../../lib/content';
 import { kategoriLabelsDokumen } from '../../../lib/content-taxonomy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
@@ -21,8 +22,6 @@ const { entry } = item;
 const seoTitle = withSiteTitle(resolveSeoText(entry.seoTitle, entry.judul));
 const seoDescription = resolveSeoText(entry.seoDescription, entry.ringkasan);
 const seoImage = resolveSeoImage(entry.ogImage);
-
-import Icon from '../../../components/ui/Icon.tsx';
 ---
 
 <MainLayout title={seoTitle} description={seoDescription} image={seoImage}>
@@ -36,16 +35,13 @@ import Icon from '../../../components/ui/Icon.tsx';
     ]} />
 
     <header class="mb-6">
-      <div class="mb-3 flex flex-wrap items-center gap-2">
-        <span class="rounded-md bg-primary-container px-2.5 py-1 text-[12px] font-semibold text-on-primary-container">
-          {kategoriLabelsDokumen[entry.kategori]}
-        </span>
-        {entry.unggulan && (
-          <span class="flex items-center gap-1 rounded-md bg-amber-100 px-2.5 py-1 text-[12px] font-semibold text-amber-800">
-            <Icon name="star" class="text-[12px]" /> Unggulan
-          </span>
-        )}
-      </div>
+      <BadgeList
+        class="mb-3 flex flex-wrap items-center gap-2"
+        items={[
+          { label: kategoriLabelsDokumen[entry.kategori], tone: 'primary' },
+          { label: 'Unggulan', tone: 'warning', icon: 'star', visible: entry.unggulan },
+        ]}
+      />
       <h1 class="text-2xl font-bold leading-tight tracking-tight text-on-surface sm:text-3xl">{entry.judul}</h1>
       <p class="mt-3 text-base leading-relaxed text-on-surface-variant">{entry.ringkasan}</p>
       <ContentMeta
