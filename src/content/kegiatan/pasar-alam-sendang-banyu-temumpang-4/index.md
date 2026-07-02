@@ -15,9 +15,9 @@ editorArtikel:
     gambarUtama: /images/Pasar Alam Sendang.jpeg
     altGambarUtama: Pasar Alam Sendang Banyu Temumpang #4
     tag:
-      - pasar alam
+      - pasar-alam
       - umkm
-      - banyu temumpang
+      - warga
   seo:
     seoTitle: ''
     seoDescription: ''

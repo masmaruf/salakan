@@ -2,6 +2,8 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 import {
   BIDANG_LEMBAGA,
+  FOKUS_LEMBAGA,
+  JENIS_KONTEN_KEGIATAN,
   KATEGORI_BERITA,
   KATEGORI_DOKUMEN,
   KATEGORI_INVENTARIS,
@@ -16,6 +18,7 @@ import {
   STATUS_PROGRAM,
   STATUS_PUBLIKASI_LOG,
   STATUS_PUBLIKASI_OPTIONS,
+  TAG_UMUM_KONTEN,
   TAHAP_PROGRAM,
 } from './lib/content-taxonomy';
 import { pageCopyDefaults } from './lib/page-copy';
@@ -75,11 +78,11 @@ const kegiatan = defineCollection({
       }),
       sidebar: z.object({
         kategori: z.enum(KATEGORI_BERITA),
-        jenisKonten: z.enum(['berita', 'artikel']).default('berita'),
+        jenisKonten: z.enum(JENIS_KONTEN_KEGIATAN).default('berita'),
         penulis: z.string().default('Admin Padukuhan'),
         gambarUtama: z.string().optional(),
         altGambarUtama: z.string().default('Dokumentasi kegiatan Padukuhan Salakan'),
-        tag: z.array(z.string().min(1)).default([]),
+        tag: z.array(z.enum(TAG_UMUM_KONTEN)).default([]),
         unggulan: z.boolean().default(false),
         kontenTerkait: kontenTerkaitSchema,
       }),
@@ -116,7 +119,7 @@ const agenda = defineCollection({
     }),
     pengaturanTampil: z.object({
       label: z.enum(LABEL_AGENDA).default('Agenda'),
-      tag: z.array(z.string().min(1)).default([]),
+      tag: z.array(z.enum(TAG_UMUM_KONTEN)).default([]),
       unggulan: z.boolean().default(false),
       kontenTerkait: kontenTerkaitSchema,
     }),
@@ -142,7 +145,7 @@ const logKegiatan = defineCollection({
       fotoDokumentasi: z.string().optional(),
     }).default({}),
     pengaturanTampil: z.object({
-      tag: z.array(z.string().min(1)).default([]),
+      tag: z.array(z.enum(TAG_UMUM_KONTEN)).default([]),
       urutanTampil: z.number().int().default(0),
       kontenTerkait: kontenTerkaitSchema,
     }).default({ tag: [], urutanTampil: 0, kontenTerkait: [] }),
@@ -170,7 +173,7 @@ const program = defineCollection({
       kategori: z.enum(KATEGORI_PROGRAM),
       statusProgram: z.enum(STATUS_PROGRAM).default('rencana'),
       tahapProgram: z.enum(TAHAP_PROGRAM).default('pelaksanaan'),
-      tag: z.array(z.string().min(1)).default([]),
+      tag: z.array(z.enum(TAG_UMUM_KONTEN)).default([]),
       unggulan: z.boolean().default(false),
       urutanTampil: z.number().int().default(0),
       kontenTerkait: kontenTerkaitSchema,
@@ -280,7 +283,7 @@ const strukturOrganisasi = defineCollection({
       kontak: z.string().min(1),
       jadwalRutin: z.string().default(''),
       lokasiKegiatan: z.string().default(''),
-      fokusKegiatan: z.array(z.string().min(1)).default([]),
+      fokusKegiatan: z.array(z.enum(FOKUS_LEMBAGA)).default([]),
       layananUtama: z.array(z.string().min(1)).default([]),
       dokumentasiTerkait: z.array(z.object({
         label: z.string().min(1),

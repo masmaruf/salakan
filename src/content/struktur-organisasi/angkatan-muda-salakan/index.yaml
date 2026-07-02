@@ -9,9 +9,9 @@ kontenUtama:
   jadwalRutin: Menyesuaikan agenda kepemudaan, kegiatan sosial, dan dukungan acara warga
   lokasiKegiatan: Balai padukuhan, lapangan, dan titik kegiatan pemuda
   fokusKegiatan:
-    - Kolaborasi pemuda
-    - Dukungan acara kampung
-    - Kegiatan sosial dan kreativitas
+    - kolaborasi-pemuda
+    - dukungan-acara-kampung
+    - kegiatan-sosial
   layananUtama:
     - Koordinasi relawan pemuda
     - Dukungan kegiatan warga dan kepanitiaan

@@ -15,8 +15,9 @@ editorArtikel:
     gambarUtama: >-
       /images/kegiatan/rt-03-adakan-pertemuan-rutin/editorArtikel/sidebar/gambarUtama.jpeg
     tag:
-      - Musyawarah
-      - Banyu Tumumpang
+      - musyawarah
+      - rt-03
+      - pembangunan
   seo: {}
 ---
 # Pertemuan Rutin Warga RT 03 Salakan: Bahas Proposal Talud Jalan dan Program Pembangunan 2026-2027

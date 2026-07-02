@@ -14,5 +14,6 @@ pengaturanTampil:
   label: Pengajian
   tag:
     - syawalan
+    - pengajian
     - warga
   unggulan: false

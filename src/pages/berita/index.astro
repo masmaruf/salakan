@@ -7,7 +7,7 @@ import PillFilterBar from '../../components/ui/PillFilterBar.astro';
 import Badge from '../../components/ui/Badge.astro';
 import FilterToolbar from '../../components/ui/FilterToolbar.astro';
 import { getKegiatan, getKategoriBeritaMap, sortByDateDesc } from '../../lib/content';
-import { getBeritaCategoryTone } from '../../lib/content-taxonomy';
+import { getBeritaCategoryTone, getTagUmumLabel } from '../../lib/content-taxonomy';
 import Icon from '../../components/ui/Icon.tsx';
 
 const selectedCategory = Astro.url.searchParams.get('kategori');
@@ -27,12 +27,14 @@ const allKegiatan = sortByDateDesc(
 
 const kegiatan = allKegiatan.filter(({ entry }) => {
   const matchesCategory = selectedCategory ? entry.kategori === selectedCategory : true;
-  const matchesTag = selectedTag ? entry.tag?.includes(selectedTag) : true;
+  const entryTags = (entry.tag ?? []) as string[];
+  const matchesTag = selectedTag ? entryTags.includes(selectedTag) : true;
   const haystack = [
     entry.judul,
     entry.ringkasan,
     entry.kategori,
     ...(entry.tag ?? []),
+    ...((entry.tag ?? []).map((tag) => getTagUmumLabel(tag))),
   ]
     .filter(Boolean)
     .join(' ')
@@ -44,7 +46,7 @@ const kegiatan = allKegiatan.filter(({ entry }) => {
 const pageDescription = selectedCategory
   ? `Arsip berita dan artikel untuk kategori ${categoryLabels[selectedCategory] ?? selectedCategory}.`
   : selectedTag
-    ? `Arsip berita dan artikel untuk tag ${selectedTag}.`
+    ? `Arsip berita dan artikel untuk tag ${getTagUmumLabel(selectedTag)}.`
     : 'Arsip berita, artikel, dan dokumentasi warga Padukuhan Salakan.';
 
 const allCategories = allKegiatan.map(({ entry }) => entry.kategori).filter(Boolean);
@@ -76,7 +78,7 @@ const displayItems = shouldShowFeatured ? kegiatan.slice(1) : kegiatan;
       eyebrow="Filter Arsip"
       title="Cari berita dan artikel warga"
       description="Pola arsip berita disamakan dengan agenda dan log kegiatan agar warga lebih cepat memahami cara memfilter dan membaca hasilnya."
-      resultText={selectedCategory || selectedTag || query ? `Menampilkan ${kegiatan.length} hasil${query ? ` untuk "${query}"` : ''}${selectedCategory ? ` pada kategori ${categoryLabels[selectedCategory] ?? selectedCategory}` : ''}${selectedTag ? ` dengan tag ${selectedTag}` : ''}.` : 'Semua berita dan artikel publik ditampilkan dari yang terbaru.'}
+      resultText={selectedCategory || selectedTag || query ? `Menampilkan ${kegiatan.length} hasil${query ? ` untuk "${query}"` : ''}${selectedCategory ? ` pada kategori ${categoryLabels[selectedCategory] ?? selectedCategory}` : ''}${selectedTag ? ` dengan tag ${getTagUmumLabel(selectedTag)}` : ''}.` : 'Semua berita dan artikel publik ditampilkan dari yang terbaru.'}
     >
       <div slot="active" class="flex flex-wrap items-center gap-2">
         {(selectedCategory || selectedTag || query) && (
@@ -119,7 +121,7 @@ const displayItems = shouldShowFeatured ? kegiatan.slice(1) : kegiatan;
               <Badge label={categoryLabels[selectedCategory] ?? selectedCategory} tone="primary" class="px-3 py-1" />
             )}
             {selectedTag && (
-              <Badge label={`Tag: ${selectedTag}`} tone="surface" class="px-3 py-1" />
+              <Badge label={`Tag: ${getTagUmumLabel(selectedTag)}`} tone="surface" class="px-3 py-1" />
             )}
           </div>
         )}

@@ -9,9 +9,8 @@ kontenUtama:
   jadwalRutin: Siaga menyesuaikan kebutuhan lapangan dan kegiatan lingkungan
   lokasiKegiatan: Titik kegiatan lingkungan dan wilayah padukuhan
   fokusKegiatan:
-    - Kesiapsiagaan sosial
-    - Gotong royong lapangan
-    - Dukungan situasi darurat lokal
+    - respons-darurat-lokal
+    - gotong-royong-lapangan
   layananUtama:
     - Koordinasi relawan lapangan
     - Dukungan cepat kegiatan lingkungan

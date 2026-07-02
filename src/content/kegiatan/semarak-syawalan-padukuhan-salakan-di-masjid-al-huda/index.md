@@ -16,9 +16,9 @@ editorArtikel:
     gambarUtama: >-
       /images/kegiatan/semarak-syawalan-padukuhan-salakan-di-masjid-al-huda/editorArtikel/sidebar/gambarUtama.jpeg
     tag:
-      - Syawalan Salakan
-      - Masjid Al Huda Banyu Temumpang
-      - Pengajian Syawalan
+      - syawalan
+      - pengajian
+      - warga
   seo: {}
 ---
 **Banyu Temumpang** – Suasana khidmat dan penuh kekeluargaan menyelimuti halaman Masjid Al Huda Banyu Temumpang pada Sabtu (28/03/2026). Warga berkumpul untuk melangsungkan acara Syawalan Padukuhan Salakan Banyu Temumpang yang diprakarsai oleh organisasi kepemudaan setempat, Angkatan Muda Salakan (AMS).

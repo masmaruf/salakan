@@ -9,9 +9,9 @@ kontenUtama:
   jadwalRutin: Pertemuan rutin bulanan dan dukungan kegiatan keluarga warga
   lokasiKegiatan: Sekretariat PKK dan rumah kegiatan warga
   fokusKegiatan:
-    - Pemberdayaan keluarga
-    - Kesehatan rumah tangga
-    - Kegiatan sosial perempuan
+    - pemberdayaan-keluarga
+    - kesehatan-keluarga
+    - kegiatan-sosial
   layananUtama:
     - Koordinasi kegiatan PKK padukuhan
     - Pendampingan program keluarga sehat

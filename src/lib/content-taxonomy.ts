@@ -22,6 +22,7 @@ export const TAG_UMUM_KONTEN = [
   'administrasi',
   'agenda-warga',
   'anak',
+  'balita',
   'balares',
   'budaya',
   'digital',
@@ -39,10 +40,15 @@ export const TAG_UMUM_KONTEN = [
   'lingkungan',
   'lpmk',
   'musyawarah',
+  'pasar-alam',
   'paud',
+  'pajak',
+  'pbb',
   'pembangunan',
   'pemberdayaan',
   'pendidikan',
+  'pelatihan',
+  'pelayanan',
   'pengajian',
   'pkk',
   'posyandu',
@@ -50,6 +56,8 @@ export const TAG_UMUM_KONTEN = [
   'rt-01',
   'rt-02',
   'rt-03',
+  'stunting',
+  'syawalan',
   'umkm',
   'undangan',
   'warga',
@@ -59,6 +67,7 @@ export const tagUmumLabels = {
   administrasi: 'Administrasi',
   'agenda-warga': 'Agenda Warga',
   anak: 'Anak',
+  balita: 'Balita',
   balares: 'Balares',
   budaya: 'Budaya',
   digital: 'Digital',
@@ -76,10 +85,15 @@ export const tagUmumLabels = {
   lingkungan: 'Lingkungan',
   lpmk: 'LPMK',
   musyawarah: 'Musyawarah',
+  'pasar-alam': 'Pasar Alam',
   paud: 'PAUD',
+  pajak: 'Pajak',
+  pbb: 'PBB',
   pembangunan: 'Pembangunan',
   pemberdayaan: 'Pemberdayaan',
   pendidikan: 'Pendidikan',
+  pelatihan: 'Pelatihan',
+  pelayanan: 'Pelayanan',
   pengajian: 'Pengajian',
   pkk: 'PKK',
   posyandu: 'Posyandu',
@@ -87,15 +101,15 @@ export const tagUmumLabels = {
   'rt-01': 'RT 01',
   'rt-02': 'RT 02',
   'rt-03': 'RT 03',
+  stunting: 'Stunting',
+  syawalan: 'Syawalan',
   umkm: 'UMKM',
   undangan: 'Undangan',
   warga: 'Warga',
 } as const satisfies Record<(typeof TAG_UMUM_KONTEN)[number], string>;
 
 export const FOKUS_LEMBAGA = [
-  'administrasi-warga',
   'dukungan-acara-kampung',
-  'gotong-royong-lapangan',
   'kesehatan-keluarga',
   'kegiatan-sosial',
   'keamanan-lingkungan',
@@ -107,10 +121,10 @@ export const FOKUS_LEMBAGA = [
   'pemberdayaan-keluarga',
   'respons-darurat-lokal',
   'ruang-belajar-anak',
+  'gotong-royong-lapangan',
 ] as const;
 
 export const fokusLembagaLabels = {
-  'administrasi-warga': 'Administrasi Warga',
   'dukungan-acara-kampung': 'Dukungan Acara Kampung',
   'gotong-royong-lapangan': 'Gotong Royong Lapangan',
   'kesehatan-keluarga': 'Kesehatan Keluarga',
@@ -145,6 +159,12 @@ export const kategoriLabelsBerita = {
   'pasar-alam': 'Pasar Alam',
   paud: 'PAUD',
 } as const satisfies Record<(typeof KATEGORI_BERITA)[number], string>;
+
+export const JENIS_KONTEN_KEGIATAN = ['berita', 'artikel'] as const;
+export const jenisKontenKegiatanLabels = {
+  berita: 'Berita',
+  artikel: 'Artikel',
+} as const satisfies Record<(typeof JENIS_KONTEN_KEGIATAN)[number], string>;
 
 export const LABEL_AGENDA = ['Agenda', 'Pengumuman', 'Informasi', 'Musyawarah', 'Pengajian'] as const;
 
@@ -257,6 +277,14 @@ export const statusPublikasiLogLabels = {
   draft: 'Draft',
   publish: 'Publish',
 } as const satisfies Record<(typeof STATUS_PUBLIKASI_LOG)[number], string>;
+
+export function getTagUmumLabel(tag: string) {
+  return tagUmumLabels[tag as keyof typeof tagUmumLabels] ?? tag;
+}
+
+export function getFokusLembagaLabel(tag: string) {
+  return fokusLembagaLabels[tag as keyof typeof fokusLembagaLabels] ?? tag;
+}
 
 export function getBeritaCategoryTone(kategori: string): 'primary' | 'error' | 'info' | 'warning' | 'success' | 'surface' {
   const key = kategori.trim().toLowerCase();

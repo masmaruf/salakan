@@ -114,6 +114,192 @@ components:
         label: Label bantu opsional
         type: string
 
+  kategoriBeritaSelect:
+    type: select
+    label: Kategori berita
+    options:
+      values:
+        - value: kegiatan-warga
+          label: Kegiatan Warga
+        - value: pelayanan
+          label: Pelayanan
+        - value: gotong-royong
+          label: Gotong Royong
+        - value: potensi
+          label: Potensi Warga
+        - value: posyandu
+          label: Posyandu
+        - value: pasar-alam
+          label: Pasar Alam
+        - value: paud
+          label: PAUD
+    default: kegiatan-warga
+
+  jenisKontenKegiatanSelect:
+    type: select
+    label: Jenis konten
+    options:
+      values:
+        - value: berita
+          label: Berita
+        - value: artikel
+          label: Artikel
+    default: berita
+
+  labelAgendaSelect:
+    type: select
+    label: Label agenda
+    options:
+      values:
+        - value: Agenda
+          label: Agenda
+        - value: Pengumuman
+          label: Pengumuman
+        - value: Informasi
+          label: Informasi
+        - value: Musyawarah
+          label: Musyawarah
+        - value: Pengajian
+          label: Pengajian
+    default: Agenda
+
+  kategoriLogSelect:
+    type: select
+    label: Kategori log
+    options:
+      values:
+        - value: pelayanan
+          label: Pelayanan
+        - value: administrasi
+          label: Administrasi
+        - value: rapat
+          label: Rapat
+        - value: undangan
+          label: Undangan
+        - value: lainnya
+          label: Lainnya
+    default: pelayanan
+
+  tagUmumSelect:
+    type: select
+    label: Tag umum
+    options:
+      values:
+        - value: administrasi
+          label: Administrasi
+        - value: agenda-warga
+          label: Agenda Warga
+        - value: anak
+          label: Anak
+        - value: balita
+          label: Balita
+        - value: balares
+          label: Balares
+        - value: budaya
+          label: Budaya
+        - value: digital
+          label: Digital
+        - value: dokumentasi
+          label: Dokumentasi
+        - value: drainase
+          label: Drainase
+        - value: gotong-royong
+          label: Gotong Royong
+        - value: ibadah
+          label: Ibadah
+        - value: infrastruktur
+          label: Infrastruktur
+        - value: karang-taruna
+          label: Karang Taruna
+        - value: kebersihan
+          label: Kebersihan
+        - value: kesehatan
+          label: Kesehatan
+        - value: kerja-bakti
+          label: Kerja Bakti
+        - value: layanan-surat
+          label: Layanan Surat
+        - value: lingkungan
+          label: Lingkungan
+        - value: lpmk
+          label: LPMK
+        - value: musyawarah
+          label: Musyawarah
+        - value: pasar-alam
+          label: Pasar Alam
+        - value: paud
+          label: PAUD
+        - value: pajak
+          label: Pajak
+        - value: pbb
+          label: PBB
+        - value: pembangunan
+          label: Pembangunan
+        - value: pemberdayaan
+          label: Pemberdayaan
+        - value: pendidikan
+          label: Pendidikan
+        - value: pelatihan
+          label: Pelatihan
+        - value: pelayanan
+          label: Pelayanan
+        - value: pengajian
+          label: Pengajian
+        - value: pkk
+          label: PKK
+        - value: posyandu
+          label: Posyandu
+        - value: rapat-warga
+          label: Rapat Warga
+        - value: rt-01
+          label: RT 01
+        - value: rt-02
+          label: RT 02
+        - value: rt-03
+          label: RT 03
+        - value: stunting
+          label: Stunting
+        - value: syawalan
+          label: Syawalan
+        - value: umkm
+          label: UMKM
+        - value: undangan
+          label: Undangan
+        - value: warga
+          label: Warga
+
+  fokusLembagaSelect:
+    type: select
+    label: Fokus lembaga
+    options:
+      values:
+        - value: dukungan-acara-kampung
+          label: Dukungan Acara Kampung
+        - value: kesehatan-keluarga
+          label: Kesehatan Keluarga
+        - value: kegiatan-sosial
+          label: Kegiatan Sosial
+        - value: keamanan-lingkungan
+          label: Keamanan Lingkungan
+        - value: kolaborasi-pemuda
+          label: Kolaborasi Pemuda
+        - value: komunikasi-keluarga
+          label: Komunikasi Keluarga
+        - value: koordinasi-pembangunan
+          label: Koordinasi Pembangunan
+        - value: layanan-pendidikan-anak
+          label: Layanan Pendidikan Anak
+        - value: pendataan-lingkungan
+          label: Pendataan Lingkungan
+        - value: pemberdayaan-keluarga
+          label: Pemberdayaan Keluarga
+        - value: respons-darurat-lokal
+          label: Respons Darurat Lokal
+        - value: ruang-belajar-anak
+          label: Ruang Belajar Anak
+        - value: gotong-royong-lapangan
+          label: Gotong Royong Lapangan
+
 content:
   # ─── COLLECTIONS ────────────────────────────────────────────────
 
@@ -229,21 +415,9 @@ content:
             type: object
             fields:
               - name: jenisKonten
-                label: Jenis konten
-                type: select
-                options:
-                  values:
-                    - value: berita
-                      label: Berita
-                    - value: artikel
-                      label: Artikel
-                default: berita
+                component: jenisKontenKegiatanSelect
               - name: kategori
-                label: Kategori berita
-                type: relation
-                collection: kategoriBerita
-                value: slug
-                label_field: labelTampil
+                component: kategoriBeritaSelect
               - name: penulis
                 label: Penulis
                 type: string
@@ -261,78 +435,7 @@ content:
                 label: Alt text gambar utama
                 type: string
               - name: tag
-                label: Tag artikel
-                type: select
-                options:
-                  values:
-                    - value: administrasi
-                      label: Administrasi
-                    - value: agenda-warga
-                      label: Agenda Warga
-                    - value: anak
-                      label: Anak
-                    - value: balares
-                      label: Balares
-                    - value: budaya
-                      label: Budaya
-                    - value: digital
-                      label: Digital
-                    - value: dokumentasi
-                      label: Dokumentasi
-                    - value: drainase
-                      label: Drainase
-                    - value: gotong-royong
-                      label: Gotong Royong
-                    - value: ibadah
-                      label: Ibadah
-                    - value: infrastruktur
-                      label: Infrastruktur
-                    - value: karang-taruna
-                      label: Karang Taruna
-                    - value: kebersihan
-                      label: Kebersihan
-                    - value: keamanan
-                      label: Keamanan
-                    - value: kesehatan
-                      label: Kesehatan
-                    - value: kerja-bakti
-                      label: Kerja Bakti
-                    - value: layanan-surat
-                      label: Layanan Surat
-                    - value: lingkungan
-                      label: Lingkungan
-                    - value: lpmk
-                      label: LPMK
-                    - value: musyawarah
-                      label: Musyawarah
-                    - value: paud
-                      label: PAUD
-                    - value: pembangunan
-                      label: Pembangunan
-                    - value: pemberdayaan
-                      label: Pemberdayaan
-                    - value: pendidikan
-                      label: Pendidikan
-                    - value: pengajian
-                      label: Pengajian
-                    - value: pkk
-                      label: PKK
-                    - value: posyandu
-                      label: Posyandu
-                    - value: rapat-warga
-                      label: Rapat Warga
-                    - value: rt-01
-                      label: RT 01
-                    - value: rt-02
-                      label: RT 02
-                    - value: rt-03
-                      label: RT 03
-                    - value: umkm
-                      label: UMKM
-                    - value: undangan
-                      label: Undangan
-                    - value: warga
-                      label: Warga
+                component: tagUmumSelect
                 list: true
               - name: kontenTerkait
                 label: Relasi lintas konten
@@ -409,94 +512,9 @@ content:
         type: object
         fields:
           - name: label
-            label: Label agenda
-            type: select
-            options:
-              values:
-                - value: Agenda
-                  label: Agenda
-                - value: Pengumuman
-                  label: Pengumuman
-                - value: Informasi
-                  label: Informasi
-                - value: Musyawarah
-                  label: Musyawarah
-                - value: Pengajian
-                  label: Pengajian
-            default: Agenda
+            component: labelAgendaSelect
           - name: tag
-            label: Tag agenda
-            type: select
-            options:
-              values:
-                - value: administrasi
-                  label: Administrasi
-                - value: agenda-warga
-                  label: Agenda Warga
-                - value: anak
-                  label: Anak
-                - value: balares
-                  label: Balares
-                - value: budaya
-                  label: Budaya
-                - value: digital
-                  label: Digital
-                - value: dokumentasi
-                  label: Dokumentasi
-                - value: drainase
-                  label: Drainase
-                - value: gotong-royong
-                  label: Gotong Royong
-                - value: ibadah
-                  label: Ibadah
-                - value: infrastruktur
-                  label: Infrastruktur
-                - value: karang-taruna
-                  label: Karang Taruna
-                - value: kebersihan
-                  label: Kebersihan
-                - value: keamanan
-                  label: Keamanan
-                - value: kesehatan
-                  label: Kesehatan
-                - value: kerja-bakti
-                  label: Kerja Bakti
-                - value: layanan-surat
-                  label: Layanan Surat
-                - value: lingkungan
-                  label: Lingkungan
-                - value: lpmk
-                  label: LPMK
-                - value: musyawarah
-                  label: Musyawarah
-                - value: paud
-                  label: PAUD
-                - value: pembangunan
-                  label: Pembangunan
-                - value: pemberdayaan
-                  label: Pemberdayaan
-                - value: pendidikan
-                  label: Pendidikan
-                - value: pengajian
-                  label: Pengajian
-                - value: pkk
-                  label: PKK
-                - value: posyandu
-                  label: Posyandu
-                - value: rapat-warga
-                  label: Rapat Warga
-                - value: rt-01
-                  label: RT 01
-                - value: rt-02
-                  label: RT 02
-                - value: rt-03
-                  label: RT 03
-                - value: umkm
-                  label: UMKM
-                - value: undangan
-                  label: Undangan
-                - value: warga
-                  label: Warga
+            component: tagUmumSelect
             list: true
           - name: unggulan
             component: unggulanToggle
@@ -532,21 +550,7 @@ content:
         type: date
         required: true
       - name: kategori
-        label: Kategori
-        type: select
-        options:
-          values:
-            - value: pelayanan
-              label: Pelayanan
-            - value: administrasi
-              label: Administrasi
-            - value: rapat
-              label: Rapat
-            - value: undangan
-              label: Undangan
-            - value: lainnya
-              label: Lainnya
-        default: pelayanan
+        component: kategoriLogSelect
       - name: statusPublikasi
         component: statusPublikasi
       - name: kontenUtama
@@ -586,78 +590,7 @@ content:
         type: object
         fields:
           - name: tag
-            label: Tag log kegiatan
-            type: select
-            options:
-              values:
-                - value: administrasi
-                  label: Administrasi
-                - value: agenda-warga
-                  label: Agenda Warga
-                - value: anak
-                  label: Anak
-                - value: balares
-                  label: Balares
-                - value: budaya
-                  label: Budaya
-                - value: digital
-                  label: Digital
-                - value: dokumentasi
-                  label: Dokumentasi
-                - value: drainase
-                  label: Drainase
-                - value: gotong-royong
-                  label: Gotong Royong
-                - value: ibadah
-                  label: Ibadah
-                - value: infrastruktur
-                  label: Infrastruktur
-                - value: karang-taruna
-                  label: Karang Taruna
-                - value: kebersihan
-                  label: Kebersihan
-                - value: keamanan
-                  label: Keamanan
-                - value: kesehatan
-                  label: Kesehatan
-                - value: kerja-bakti
-                  label: Kerja Bakti
-                - value: layanan-surat
-                  label: Layanan Surat
-                - value: lingkungan
-                  label: Lingkungan
-                - value: lpmk
-                  label: LPMK
-                - value: musyawarah
-                  label: Musyawarah
-                - value: paud
-                  label: PAUD
-                - value: pembangunan
-                  label: Pembangunan
-                - value: pemberdayaan
-                  label: Pemberdayaan
-                - value: pendidikan
-                  label: Pendidikan
-                - value: pengajian
-                  label: Pengajian
-                - value: pkk
-                  label: PKK
-                - value: posyandu
-                  label: Posyandu
-                - value: rapat-warga
-                  label: Rapat Warga
-                - value: rt-01
-                  label: RT 01
-                - value: rt-02
-                  label: RT 02
-                - value: rt-03
-                  label: RT 03
-                - value: umkm
-                  label: UMKM
-                - value: undangan
-                  label: Undangan
-                - value: warga
-                  label: Warga
+            component: tagUmumSelect
             list: true
           - name: urutanTampil
             component: urutanTampil
@@ -772,78 +705,7 @@ content:
                   label: Tuntas
             default: pelaksanaan
           - name: tag
-            label: Tag program
-            type: select
-            options:
-              values:
-                - value: administrasi
-                  label: Administrasi
-                - value: agenda-warga
-                  label: Agenda Warga
-                - value: anak
-                  label: Anak
-                - value: balares
-                  label: Balares
-                - value: budaya
-                  label: Budaya
-                - value: digital
-                  label: Digital
-                - value: dokumentasi
-                  label: Dokumentasi
-                - value: drainase
-                  label: Drainase
-                - value: gotong-royong
-                  label: Gotong Royong
-                - value: ibadah
-                  label: Ibadah
-                - value: infrastruktur
-                  label: Infrastruktur
-                - value: karang-taruna
-                  label: Karang Taruna
-                - value: kebersihan
-                  label: Kebersihan
-                - value: keamanan
-                  label: Keamanan
-                - value: kesehatan
-                  label: Kesehatan
-                - value: kerja-bakti
-                  label: Kerja Bakti
-                - value: layanan-surat
-                  label: Layanan Surat
-                - value: lingkungan
-                  label: Lingkungan
-                - value: lpmk
-                  label: LPMK
-                - value: musyawarah
-                  label: Musyawarah
-                - value: paud
-                  label: PAUD
-                - value: pembangunan
-                  label: Pembangunan
-                - value: pemberdayaan
-                  label: Pemberdayaan
-                - value: pendidikan
-                  label: Pendidikan
-                - value: pengajian
-                  label: Pengajian
-                - value: pkk
-                  label: PKK
-                - value: posyandu
-                  label: Posyandu
-                - value: rapat-warga
-                  label: Rapat Warga
-                - value: rt-01
-                  label: RT 01
-                - value: rt-02
-                  label: RT 02
-                - value: rt-03
-                  label: RT 03
-                - value: umkm
-                  label: UMKM
-                - value: undangan
-                  label: Undangan
-                - value: warga
-                  label: Warga
+            component: tagUmumSelect
             list: true
           - name: unggulan
             component: unggulanToggle
@@ -1177,38 +1039,7 @@ content:
             label: Lokasi kegiatan
             type: string
           - name: fokusKegiatan
-            label: Fokus kegiatan
-            type: select
-            options:
-              values:
-                - value: administrasi-warga
-                  label: Administrasi Warga
-                - value: dukungan-acara-kampung
-                  label: Dukungan Acara Kampung
-                - value: gotong-royong-lapangan
-                  label: Gotong Royong Lapangan
-                - value: kesehatan-keluarga
-                  label: Kesehatan Keluarga
-                - value: kegiatan-sosial
-                  label: Kegiatan Sosial
-                - value: keamanan-lingkungan
-                  label: Keamanan Lingkungan
-                - value: kolaborasi-pemuda
-                  label: Kolaborasi Pemuda
-                - value: komunikasi-keluarga
-                  label: Komunikasi Keluarga
-                - value: koordinasi-pembangunan
-                  label: Koordinasi Pembangunan
-                - value: layanan-pendidikan-anak
-                  label: Layanan Pendidikan Anak
-                - value: pendataan-lingkungan
-                  label: Pendataan Lingkungan
-                - value: pemberdayaan-keluarga
-                  label: Pemberdayaan Keluarga
-                - value: respons-darurat-lokal
-                  label: Respons Darurat Lokal
-                - value: ruang-belajar-anak
-                  label: Ruang Belajar Anak
+            component: fokusLembagaSelect
             list: true
           - name: layananUtama
             label: Layanan utama

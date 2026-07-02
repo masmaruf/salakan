@@ -17,7 +17,7 @@ editorArtikel:
     tag:
       - digital
       - pelatihan
-      - website
+      - administrasi
     kontenTerkait:
       - type: program
         slug: digitalisasi-layanan-surat

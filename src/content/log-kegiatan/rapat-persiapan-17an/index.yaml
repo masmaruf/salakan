@@ -12,10 +12,9 @@ kontenUtama:
   pihakTerlibat: Karang Taruna, PKK, LPMK, RT, Tokoh Masyarakat.
 pengaturanTampil:
   tag:
-    - 17-agustus
     - rapat-warga
     - karang-taruna
-    - kegiatan-padukuhan
+    - warga
   urutanTampil: 2
   kontenTerkait:
     - type: agenda

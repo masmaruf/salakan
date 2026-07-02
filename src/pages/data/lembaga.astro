@@ -21,7 +21,7 @@ import {
   getProgram,
   getStrukturOrganisasi,
 } from '../../lib/content';
-import { BIDANG_LEMBAGA, bidangLembagaIcons, bidangLembagaLabels, fokusLembagaLabels } from '../../lib/content-taxonomy';
+import { BIDANG_LEMBAGA, bidangLembagaIcons, bidangLembagaLabels, getFokusLembagaLabel } from '../../lib/content-taxonomy';
 import {
   createAgendaRelationItem,
   createBeritaRelationItem,
@@ -92,7 +92,7 @@ function matchesSearch(value: typeof items[number]) {
 }
 
 function formatFokusLabel(value: string) {
-  return fokusLembagaLabels[value as keyof typeof fokusLembagaLabels] ?? value;
+  return getFokusLembagaLabel(value);
 }
 
 const filteredByBidang = activeBidang === 'semua'

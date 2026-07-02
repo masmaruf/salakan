@@ -9,9 +9,9 @@ kontenUtama:
   jadwalRutin: Pertemuan kelompok menyesuaikan kebutuhan keluarga dan lingkungan
   lokasiKegiatan: Rumah warga dan titik pertemuan kelompok
   fokusKegiatan:
-    - Komunikasi antar keluarga
-    - Pendataan lingkungan
-    - Kegiatan sosial skala kecil
+    - komunikasi-keluarga
+    - pendataan-lingkungan
+    - kegiatan-sosial
   layananUtama:
     - Penghubung informasi kelompok keluarga
     - Dukungan koordinasi sosial warga

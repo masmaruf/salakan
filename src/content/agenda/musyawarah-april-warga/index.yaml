@@ -20,7 +20,8 @@ pengaturanTampil:
   label: Musyawarah
   tag:
     - warga
-    - koordinasi
+    - musyawarah
+    - pembangunan
   unggulan: true
   kontenTerkait:
     - type: berita

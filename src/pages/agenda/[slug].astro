@@ -6,7 +6,7 @@ import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
 import Badge from '../../components/ui/Badge.astro';
 import RelatedContentSection from '../../components/ui/RelatedContentSection.astro';
 import { formatTanggal, getAgenda, getGaleri, getKegiatan, getLogKegiatan, getProgram, getStrukturOrganisasi, getKategoriBeritaMap } from '../../lib/content';
-import { getAgendaLabelTone } from '../../lib/content-taxonomy';
+import { getAgendaLabelTone, getTagUmumLabel } from '../../lib/content-taxonomy';
 import {
   createAgendaRelationItem,
   createBeritaRelationItem,
@@ -88,7 +88,7 @@ const relatedItems = findRelatedContent(
       </time>
       {(entry.tag || []).slice(0, 3).map((tag) => (
         <span class="tag-chip py-0.5">
-          #{tag}
+          #{getTagUmumLabel(tag)}
         </span>
       ))}
     </div>

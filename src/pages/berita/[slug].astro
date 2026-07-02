@@ -6,7 +6,7 @@ import ContentMeta from '../../components/ui/ContentMeta.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import { resolveSeoImage, resolveSeoText, toAbsoluteUrl, withSiteTitle } from '../../lib/site';
 import { formatTanggal, getAgenda, getGaleri, getKegiatan, getKategoriBeritaMap, getLogKegiatan, getProgram, getStrukturOrganisasi } from '../../lib/content';
-import { getBeritaCategoryTone } from '../../lib/content-taxonomy';
+import { getBeritaCategoryTone, getTagUmumLabel, jenisKontenKegiatanLabels } from '../../lib/content-taxonomy';
 import RelatedContentSection from '../../components/ui/RelatedContentSection.astro';
 import {
   createAgendaRelationItem,
@@ -107,7 +107,7 @@ import Icon from '../../components/ui/Icon.tsx';
         </a>
         {entry.jenisKonten && (
           <span class="rounded-md border border-outline-variant bg-surface-variant px-2.5 py-1 text-[12px] font-semibold capitalize text-on-surface-variant">
-            {entry.jenisKonten}
+            {jenisKontenKegiatanLabels[entry.jenisKonten] ?? entry.jenisKonten}
           </span>
         )}
         {entry.unggulan && (
@@ -167,7 +167,7 @@ import Icon from '../../components/ui/Icon.tsx';
             href={`/berita?tag=${encodeURIComponent(tag)}`}
             class="rounded-full border border-outline-variant bg-surface-container-low px-3 py-1.5 text-[12px] font-semibold text-on-surface-variant transition-colors hover:bg-primary-container hover:text-on-primary-container"
           >
-            #{tag}
+            #{getTagUmumLabel(tag)}
           </a>
         ))}
       </div>

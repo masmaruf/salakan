@@ -20,6 +20,6 @@ media:
 pengaturanTampil:
   label: Informasi
   tag:
-    - pelayanan
     - administrasi
+    - layanan-surat
   unggulan: true

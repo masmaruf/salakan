@@ -12,7 +12,7 @@ import {
   excerpt,
 } from '../../lib/content';
 import { getHalamanCopy } from '../../lib/content';
-import { getAgendaLabelTone } from '../../lib/content-taxonomy';
+import { getAgendaLabelTone, getTagUmumLabel } from '../../lib/content-taxonomy';
 import Icon from '../../components/ui/Icon.tsx';
 
 const agendaItems = sortByDateDesc(
@@ -70,6 +70,7 @@ const filteredTimeline = timeline.filter((item) => {
     item.lokasi,
     item.label,
     ...item.tags,
+    ...item.tags.map((tag) => getTagUmumLabel(tag)),
   ]
     .filter(Boolean)
     .join(' ')
@@ -192,7 +193,7 @@ function getSignal(item: TimelineItem) {
               {item.tags.length > 0 && (
                 <div class="flex flex-wrap gap-2">
                   {item.tags.slice(0, 3).map((tag) => (
-                    <span class="tag-chip">#{tag}</span>
+                    <span class="tag-chip">#{getTagUmumLabel(tag)}</span>
                   ))}
                 </div>
               )}

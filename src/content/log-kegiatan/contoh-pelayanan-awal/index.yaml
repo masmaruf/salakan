@@ -13,9 +13,9 @@ kontenUtama:
   pihakTerlibat: Dukuh Salakan, warga pemohon, BPKPAD, Kalurahan
 pengaturanTampil:
   tag:
-    - sppt
+    - pbb
     - pajak
-    - pelayanan-surat
+    - layanan-surat
     - administrasi
   urutanTampil: 1
   kontenTerkait:

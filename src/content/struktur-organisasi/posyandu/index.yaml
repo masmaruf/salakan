@@ -9,9 +9,7 @@ kontenUtama:
   jadwalRutin: Menyesuaikan jadwal posyandu balita dan pelayanan kesehatan warga
   lokasiKegiatan: Rumah kegiatan posyandu atau lokasi layanan yang diumumkan
   fokusKegiatan:
-    - Kesehatan ibu dan anak
-    - Pemantauan tumbuh kembang
-    - Edukasi kesehatan keluarga
+    - kesehatan-keluarga
   layananUtama:
     - Penimbangan dan pengukuran balita
     - Informasi jadwal pelayanan posyandu

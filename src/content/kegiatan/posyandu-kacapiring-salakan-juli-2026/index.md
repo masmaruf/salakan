@@ -20,7 +20,6 @@ editorArtikel:
       - balita
       - kesehatan
       - stunting
-      - kacapiring
     kontenTerkait:
       - type: agenda
         slug: jadwal-posyandu

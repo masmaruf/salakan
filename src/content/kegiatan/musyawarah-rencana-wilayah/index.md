@@ -16,8 +16,8 @@ editorArtikel:
     altGambarUtama: Suasana musyawarah warga dalam menyusun arah pengembangan wilayah padukuhan.
     tag:
       - musyawarah
-      - perencanaan
       - pembangunan
+      - lingkungan
     kontenTerkait:
       - type: agenda
         slug: musyawarah-april-warga

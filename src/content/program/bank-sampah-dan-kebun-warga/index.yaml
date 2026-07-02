@@ -24,10 +24,10 @@ pengaturanTampil:
   tahapProgram: tuntas
   unggulan: false
   tag:
-    - bank-sampah
-    - kebun-warga
-    - pkk
     - lingkungan
+    - kebersihan
+    - pkk
+    - pemberdayaan
   urutanTampil: 3
   kontenTerkait:
     - type: lembaga

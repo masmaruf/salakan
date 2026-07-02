@@ -15,7 +15,9 @@ editorArtikel:
     gambarUtama: >-
       /images/kegiatan/warga-rt-03-padukuhan-salakan-gelar-gotong-royong-bersih-makam/editorArtikel/sidebar/gambarUtama.jpeg
     tag:
-      - Gotong Royong
+      - gotong-royong
+      - kerja-bakti
+      - rt-03
   seo: {}
 ---
 # Warga RT 03 Padukuhan Salakan Gelar Gotong Royong Bersih Makam

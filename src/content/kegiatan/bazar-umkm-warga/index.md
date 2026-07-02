@@ -16,8 +16,8 @@ editorArtikel:
     altGambarUtama: Stan bazar UMKM warga dengan produk kuliner dan kerajinan lokal.
     tag:
       - umkm
-      - bazar
-      - produk lokal
+      - pemberdayaan
+      - warga
   seo:
     seoTitle: ''
     seoDescription: ''

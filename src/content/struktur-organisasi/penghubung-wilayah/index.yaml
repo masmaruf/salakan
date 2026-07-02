@@ -9,9 +9,8 @@ kontenUtama:
   jadwalRutin: Koordinasi situasional dan pemantauan lingkungan berkala
   lokasiKegiatan: Wilayah padukuhan dan titik ronda lingkungan
   fokusKegiatan:
-    - Ketertiban lingkungan
-    - Kesiapsiagaan warga
-    - Koordinasi keamanan wilayah
+    - keamanan-lingkungan
+    - respons-darurat-lokal
   layananUtama:
     - Informasi awal situasi keamanan lingkungan
     - Koordinasi cepat saat ada kebutuhan warga

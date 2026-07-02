@@ -15,9 +15,9 @@ editorArtikel:
     gambarUtama: /images/kegiatan/gotong-royong-jalan-kampung/gambar-utama.svg
     altGambarUtama: Dokumentasi warga memperbaiki dan membersihkan jalan kampung bersama-sama.
     tag:
-      - gotong royong
+      - gotong-royong
       - infrastruktur
-      - kerja bakti
+      - kerja-bakti
     kontenTerkait:
       - type: agenda
         slug: kerja-bakti-lingkungan
