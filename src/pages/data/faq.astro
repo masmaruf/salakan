@@ -2,6 +2,7 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import PageIntro from '../../components/ui/PageIntro.astro';
 import { getFaq, getPengaturan } from '../../lib/content';
+import { renderMarkdown } from '../../lib/rich-text';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const [faqItems, pengaturan] = await Promise.all([getFaq(), getPengaturan()]);
@@ -56,9 +57,7 @@ import Icon from '../../components/ui/Icon.tsx';
             <Icon name="expand_more" class="text-[20px] text-outline shrink-0 mt-1 transition-transform group-open:rotate-180" />
           </summary>
           <div class="px-5 pb-5 pl-17">
-            <div class="soft-panel ml-12 text-sm leading-relaxed text-on-surface-variant">
-              {entry.jawaban}
-            </div>
+            <div class="article-rich soft-panel ml-12 text-sm leading-relaxed text-on-surface-variant" set:html={renderMarkdown(entry.jawaban)} />
           </div>
         </details>
       ))}

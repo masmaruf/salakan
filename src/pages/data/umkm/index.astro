@@ -10,6 +10,7 @@ import PillFilterBar from '../../../components/ui/PillFilterBar.astro';
 import EmptyStateCard from '../../../components/ui/EmptyStateCard.astro';
 import { getHalamanCopy, getUmkm, getPengaturan, isPlaceholderWhatsapp, normalizeWhatsapp } from '../../../lib/content';
 import { KATEGORI_UMKM, kategoriLabelsUmkm, statusLayananUmkmLabels } from '../../../lib/content-taxonomy';
+import { markdownToText } from '../../../lib/rich-text';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
 const [umkmItems, pengaturan] = await Promise.all([getUmkm(), getPengaturan()]);
@@ -35,7 +36,7 @@ const items = semuaItems.filter(({ entry }) => {
     entry.namaUsaha,
     entry.pemilik,
     entry.ringkasan,
-    entry.deskripsi,
+    markdownToText(entry.deskripsi),
     entry.lokasi,
     kategoriLabelsUmkm[entry.kategori],
     statusLayananUmkmLabels[entry.statusLayanan],

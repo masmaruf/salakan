@@ -9,6 +9,7 @@ import PillFilterBar from '../../components/ui/PillFilterBar.astro';
 import EmptyStateCard from '../../components/ui/EmptyStateCard.astro';
 import { formatTanggal, getDokumen, getHalamanCopy, getPengaturan } from '../../lib/content';
 import { KATEGORI_DOKUMEN, kategoriLabelsDokumen } from '../../lib/content-taxonomy';
+import { markdownToText } from '../../lib/rich-text';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 import Icon from '../../components/ui/Icon.tsx';
 
@@ -33,7 +34,7 @@ const dokumen = dokumenSemua.filter(({ entry }) => {
 
   if (!normalizedQuery) return true;
 
-  const haystack = [entry.judul, entry.ringkasan, entry.deskripsi, kategoriLabelsDokumen[entry.kategori]]
+  const haystack = [entry.judul, entry.ringkasan, markdownToText(entry.deskripsi), kategoriLabelsDokumen[entry.kategori]]
     .filter(Boolean)
     .join(' ')
     .toLowerCase();

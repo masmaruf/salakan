@@ -17,6 +17,7 @@ import {
 } from '../../lib/content';
 import { kategoriLabelsProgram, kategoriLogLabels, statusProgramLabels, tahapProgramLabels } from '../../lib/content-taxonomy';
 import { findRelatedContent } from '../../lib/related-content';
+import { markdownToText, renderMarkdown } from '../../lib/rich-text';
 import { resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const { slug } = Astro.params;
@@ -50,7 +51,7 @@ const relatedItems = findRelatedContent(
     category: entry.kategori,
     tags: entry.tag ?? [],
     summary: entry.ringkasan,
-    extraText: [entry.deskripsi, entry.lokasi, entry.penanggungJawab, ...(entry.manfaat ?? [])],
+    extraText: [markdownToText(entry.deskripsi), entry.lokasi, entry.penanggungJawab, ...(entry.manfaat ?? [])],
     date: entry.tanggalUpdate,
     href: `/program/${item.slug}`,
     typeLabel: kategoriLabelsProgram[entry.kategori as keyof typeof kategoriLabelsProgram],
@@ -65,7 +66,7 @@ const relatedItems = findRelatedContent(
         category: candidate.entry.label,
         tags: candidate.entry.tag ?? [],
         summary: candidate.entry.ringkasan,
-        extraText: [candidate.entry.deskripsi, candidate.entry.lokasi ?? '', candidate.entry.kontakPic ?? ''],
+        extraText: [markdownToText(candidate.entry.deskripsi), candidate.entry.lokasi ?? '', candidate.entry.kontakPic ?? ''],
         date: candidate.entry.tanggal,
         href: `/agenda/${candidate.slug}`,
         typeLabel: candidate.entry.label || 'Agenda',
@@ -133,7 +134,7 @@ const relatedItems = findRelatedContent(
 
     <div class="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
       <InfoCard title={halaman.programDetail.summaryTitle} class="soft-panel">
-        <p class="whitespace-pre-line text-base leading-relaxed text-on-surface-variant">{entry.deskripsi}</p>
+        <div class="article-rich text-base leading-relaxed text-on-surface-variant" set:html={renderMarkdown(entry.deskripsi)} />
       </InfoCard>
 
       <div class="grid gap-4">

@@ -8,7 +8,6 @@ import Icon from '../components/ui/Icon.tsx';
 import {
   KATEGORI_LOG_KEGIATAN,
   kategoriLogLabels,
-  excerptLog,
   formatTanggalLog,
   formatWaktuLog,
   isValidKategoriLog,
@@ -16,6 +15,7 @@ import {
   matchesPeriodeLog,
 } from '../lib/log-kegiatan';
 import { getLogKegiatan } from '../lib/content';
+import { excerptMarkdown, markdownToText } from '../lib/rich-text';
 import { withSiteTitle } from '../lib/site';
 
 const allLogs = (await getLogKegiatan())
@@ -53,10 +53,10 @@ const logs = allLogs.filter((item) => {
   if (normalizedQuery) {
     const haystack = [
       item.judul,
-      item.ringkasan,
+      markdownToText(item.ringkasan),
       item.lokasi,
       item.pihak_terlibat,
-      item.hasil_tindak_lanjut,
+      markdownToText(item.hasil_tindak_lanjut),
       kategoriLogLabels[item.kategori],
     ]
       .filter(Boolean)
@@ -150,7 +150,7 @@ const logs = allLogs.filter((item) => {
           return (
             <ArchiveCard
               title={item.judul}
-              summary={excerptLog(item.ringkasan, 220)}
+              summary={excerptMarkdown(item.ringkasan, 220)}
               image={item.foto_dokumentasi}
               imageAlt={`Dokumentasi ${item.judul}`}
               badges={[
@@ -167,7 +167,7 @@ const logs = allLogs.filter((item) => {
               {item.hasil_tindak_lanjut && (
                 <div class="rounded-2xl border border-emerald-100 bg-emerald-50/70 p-3">
                   <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-emerald-700">Tindak lanjut</p>
-                  <p class="mt-2 text-sm leading-relaxed text-emerald-950">{excerptLog(item.hasil_tindak_lanjut, 180)}</p>
+                  <p class="mt-2 text-sm leading-relaxed text-emerald-950">{excerptMarkdown(item.hasil_tindak_lanjut, 180)}</p>
                 </div>
               )}
             </ArchiveCard>

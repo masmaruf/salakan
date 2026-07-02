@@ -9,6 +9,7 @@ import ArchiveCard from '../../components/ui/ArchiveCard.astro';
 import { excerpt, formatTanggal, getAgenda, getKegiatan, getLogKegiatan, getProgram } from '../../lib/content';
 import { getAgendaLabelTone, kategoriLogLabels, kategoriLabelsProgram } from '../../lib/content-taxonomy';
 import { findRelatedContent } from '../../lib/related-content';
+import { markdownToText, renderMarkdown } from '../../lib/rich-text';
 import { resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const { slug } = Astro.params;
@@ -44,7 +45,7 @@ const relatedItems = findRelatedContent(
     category: entry.label,
     tags: entry.tag ?? [],
     summary: entry.ringkasan,
-    extraText: [entry.deskripsi, entry.lokasi ?? '', entry.kontakPic ?? ''],
+    extraText: [markdownToText(entry.deskripsi), entry.lokasi ?? '', entry.kontakPic ?? ''],
     date: entry.tanggal,
     href: `/agenda/${item.slug}`,
     typeLabel: entry.label || 'Agenda',
@@ -73,7 +74,7 @@ const relatedItems = findRelatedContent(
         category: candidate.entry.kategori,
         tags: candidate.entry.tag ?? [],
         summary: candidate.entry.ringkasan,
-        extraText: [candidate.entry.deskripsi, candidate.entry.lokasi, candidate.entry.penanggungJawab],
+        extraText: [markdownToText(candidate.entry.deskripsi), candidate.entry.lokasi, candidate.entry.penanggungJawab],
         date: candidate.entry.tanggalUpdate,
         href: `/program/${candidate.slug}`,
         typeLabel: kategoriLabelsProgram[candidate.entry.kategori as keyof typeof kategoriLabelsProgram],
@@ -150,7 +151,7 @@ const relatedItems = findRelatedContent(
     )}
 
     <div class="mt-6 border-t border-outline-variant/40 pt-5">
-      <p class="whitespace-pre-line text-base leading-relaxed text-on-surface-variant">{entry.deskripsi}</p>
+      <div class="article-rich text-base leading-relaxed text-on-surface-variant" set:html={renderMarkdown(entry.deskripsi)} />
     </div>
 
     <div class="mt-8 border-t border-outline-variant/40 pt-5">

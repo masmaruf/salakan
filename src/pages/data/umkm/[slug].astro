@@ -7,6 +7,7 @@ import ActionLinkButton from '../../../components/ui/ActionLinkButton.astro';
 import BadgeList from '../../../components/ui/BadgeList.astro';
 import { getUmkm, isPlaceholderWhatsapp, normalizeWhatsapp } from '../../../lib/content';
 import { kategoriLabelsUmkm, statusLayananUmkmLabels } from '../../../lib/content-taxonomy';
+import { renderMarkdown } from '../../../lib/rich-text';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
 const { slug } = Astro.params;
@@ -90,7 +91,7 @@ import Icon from '../../../components/ui/Icon.tsx';
         )}
 
         <InfoCard class="mt-4 rounded-xl border border-outline-variant bg-surface-container-low p-4">
-          <p class="text-sm leading-relaxed text-on-surface-variant">{entry.deskripsi}</p>
+          <div class="article-rich text-sm leading-relaxed text-on-surface-variant" set:html={renderMarkdown(entry.deskripsi)} />
         </InfoCard>
 
         <div class="mt-5 flex flex-wrap gap-3">

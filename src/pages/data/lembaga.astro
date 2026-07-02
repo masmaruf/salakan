@@ -10,6 +10,7 @@ import InlineAction from '../../components/ui/InlineAction.astro';
 import Icon from '../../components/ui/Icon.tsx';
 import { getStrukturOrganisasi, getPengaturan } from '../../lib/content';
 import { BIDANG_LEMBAGA, bidangLembagaIcons, bidangLembagaLabels } from '../../lib/content-taxonomy';
+import { markdownToText, renderMarkdown } from '../../lib/rich-text';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const [lembagaItems, pengaturan] = await Promise.all([getStrukturOrganisasi(), getPengaturan()]);
@@ -45,7 +46,7 @@ function matchesSearch(value: typeof items[number]) {
     value.entry.jabatan,
     value.entry.namaPejabat,
     value.entry.ringkasan,
-    value.entry.deskripsiTugas,
+    markdownToText(value.entry.deskripsiTugas),
     value.entry.kontak,
     value.entry.jadwalRutin,
     value.entry.lokasiKegiatan,
@@ -160,7 +161,7 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLemb
             <h2 class="mt-4 text-2xl font-bold tracking-tight text-on-surface">{highlighted.entry.jabatan}</h2>
             <p class="mt-1 text-sm font-semibold text-on-surface-variant">Pengampu: {highlighted.entry.namaPejabat}</p>
             <p class="mt-3 text-base leading-relaxed text-on-surface-variant">
-              {highlighted.entry.ringkasan || highlighted.entry.deskripsiTugas}
+              {highlighted.entry.ringkasan || markdownToText(highlighted.entry.deskripsiTugas)}
             </p>
             {highlighted.entry.fokusKegiatan.length > 0 && (
               <BadgeList
@@ -286,7 +287,7 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLemb
                 <h3 class="mt-3 text-xl font-bold tracking-tight text-on-surface transition-colors group-hover:text-m3-primary">{entry.jabatan}</h3>
                 <p class="mt-1 text-sm font-semibold text-on-surface-variant">Pengampu: {entry.namaPejabat}</p>
                 <p class="mt-3 max-w-3xl text-sm leading-relaxed text-on-surface-variant">
-                  {entry.ringkasan || entry.deskripsiTugas}
+                  {entry.ringkasan || markdownToText(entry.deskripsiTugas)}
                 </p>
               </div>
               <Icon name="expand_more" class="mt-1 shrink-0 text-[22px] text-outline transition-transform group-open:rotate-180" />
@@ -306,7 +307,7 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLemb
               <div class="mt-4 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
                 <div class="section-subcard">
                   <p class="detail-label">Deskripsi tugas</p>
-                  <p class="mt-3 text-sm leading-relaxed text-on-surface-variant">{entry.deskripsiTugas}</p>
+                  <div class="article-rich mt-3 text-sm leading-relaxed text-on-surface-variant" set:html={renderMarkdown(entry.deskripsiTugas)} />
                   <LabelValueList
                     class="mt-4"
                     items={[

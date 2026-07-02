@@ -88,7 +88,9 @@ content:
             type: text
           - name: deskripsi
             label: Deskripsi lengkap
-            type: text
+            type: rich-text
+            options:
+              format: markdown
       - name: media
         label: Media
         type: object
@@ -251,7 +253,9 @@ content:
             type: text
           - name: deskripsi
             label: Deskripsi lengkap
-            type: text
+            type: rich-text
+            options:
+              format: markdown
           - name: kontakPic
             label: Kontak / PIC
             type: string
@@ -333,7 +337,9 @@ content:
             type: text
           - name: hasilTindakLanjut
             label: Hasil / tindak lanjut
-            type: text
+            type: rich-text
+            options:
+              format: markdown
           - name: pihakTerlibat
             label: Pihak terlibat
             type: text
@@ -386,6 +392,11 @@ content:
             type: text
           - name: deskripsi
             label: Deskripsi lengkap
+            type: rich-text
+            options:
+              format: markdown
+          - name: targetHasilSingkat
+            label: Target hasil singkat
             type: text
           - name: lokasi
             label: Lokasi / wilayah
@@ -436,6 +447,26 @@ content:
                 - value: selesai
                   label: Selesai
             default: rencana
+          - name: tahapProgram
+            label: Tahap program
+            type: select
+            options:
+              values:
+                - value: inisiasi
+                  label: Inisiasi
+                - value: persiapan
+                  label: Persiapan
+                - value: pelaksanaan
+                  label: Pelaksanaan
+                - value: pemantauan
+                  label: Pemantauan
+                - value: tuntas
+                  label: Tuntas
+            default: pelaksanaan
+          - name: tag
+            label: Tag program
+            type: string
+            list: true
           - name: unggulan
             component: unggulanToggle
           - name: urutanTampil
@@ -600,7 +631,9 @@ content:
             type: text
           - name: deskripsi
             label: Deskripsi lengkap
-            type: text
+            type: rich-text
+            options:
+              format: markdown
           - name: whatsapp
             component: kontakWhatsapp
           - name: lokasi
@@ -643,6 +676,18 @@ content:
                 - value: perdagangan
                   label: Perdagangan
             default: kuliner
+          - name: statusLayanan
+            label: Status layanan
+            type: select
+            options:
+              values:
+                - value: aktif
+                  label: Aktif melayani
+                - value: terbatas
+                  label: Layanan terbatas
+                - value: pendaftaran
+                  label: Kontak menyusul
+            default: aktif
           - name: statusPublikasi
             component: statusPublikasi
           - name: unggulan
@@ -715,7 +760,7 @@ content:
             type: number
 
   - name: strukturOrganisasi
-    label: Struktur Organisasi
+    label: Lembaga
     type: collection
     path: src/content/struktur-organisasi
     filename: "{slug}/index.yaml"
@@ -732,12 +777,45 @@ content:
           - name: namaPejabat
             label: Nama pejabat / penanggung jawab
             type: string
+          - name: ringkasan
+            label: Ringkasan lembaga
+            type: text
           - name: deskripsiTugas
             label: Deskripsi tugas
-            type: text
+            type: rich-text
+            options:
+              format: markdown
           - name: kontak
             label: Kontak
             type: string
+          - name: jadwalRutin
+            label: Jadwal rutin
+            type: text
+          - name: lokasiKegiatan
+            label: Lokasi kegiatan
+            type: string
+          - name: fokusKegiatan
+            label: Fokus kegiatan
+            type: string
+            list: true
+          - name: layananUtama
+            label: Layanan utama
+            type: string
+            list: true
+          - name: dokumentasiTerkait
+            label: Dokumentasi terkait
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{label}"
+            fields:
+              - name: label
+                label: Label tautan
+                type: string
+              - name: href
+                label: Link tujuan
+                type: string
       - name: pengaturanTampil
         label: Pengaturan Tampil
         type: object
@@ -820,7 +898,9 @@ content:
         required: true
       - name: jawaban
         label: Jawaban
-        type: text
+        type: rich-text
+        options:
+          format: markdown
       - name: kategori
         label: Kategori
         type: string
@@ -903,10 +983,14 @@ content:
         type: string
       - name: sejarahSingkat
         label: Isi sejarah
-        type: text
+        type: rich-text
+        options:
+          format: markdown
       - name: visi
         label: Visi
-        type: text
+        type: rich-text
+        options:
+          format: markdown
       - name: misi
         label: Misi
         type: string
