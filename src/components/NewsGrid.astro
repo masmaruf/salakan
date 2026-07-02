@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Badge from './ui/Badge.astro';
 import { excerpt, formatTanggal, getKategoriBeritaMap } from '../lib/content';
+import { getBeritaCategoryTone } from '../lib/content-taxonomy';
 
 interface Item {
   slug: string;
@@ -23,17 +24,6 @@ interface Props {
 
 const { items, compact = false } = Astro.props;
 const categoryLabels = await getKategoriBeritaMap();
-
-function getCategoryTone(kategori: string): 'primary' | 'error' | 'info' | 'warning' | 'success' | 'surface' {
-  const key = kategori.toLowerCase();
-  if (key.includes('pengumuman')) return 'error';
-  if (key.includes('kegiatan') || key.includes('warga')) return 'info';
-  if (key.includes('gotong') || key.includes('lingkungan')) return 'info';
-  if (key.includes('pelayanan') || key.includes('layanan')) return 'warning';
-  if (key.includes('potensi') || key.includes('umkm')) return 'success';
-  if (key.includes('artikel')) return 'surface';
-  return 'primary';
-}
 
 import Icon from './ui/Icon.tsx';
 ---
@@ -62,7 +52,7 @@ import Icon from './ui/Icon.tsx';
 
       <div class="flex flex-1 flex-col gap-1.5 px-1 pt-3">
         <div class="flex flex-wrap items-center gap-2">
-          <Badge label={categoryLabels[entry.kategori] ?? entry.kategori} tone={getCategoryTone(entry.kategori)} />
+          <Badge label={categoryLabels[entry.kategori] ?? entry.kategori} tone={getBeritaCategoryTone(entry.kategori)} />
           <span class="flex items-center gap-1 text-[11px] font-medium text-outline sm:text-[12px]">
             <Icon name="schedule" class="text-[14px]" />
             {formatTanggal(entry.tanggal)}

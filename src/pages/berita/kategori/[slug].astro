@@ -2,6 +2,7 @@
 import MainLayout from '../../../layouts/MainLayout.astro';
 import PageIntro from '../../../components/ui/PageIntro.astro';
 import NewsGrid from '../../../components/NewsGrid.astro';
+import EmptyStateCard from '../../../components/ui/EmptyStateCard.astro';
 import { getKegiatan, getKategoriBerita, sortByDateDesc } from '../../../lib/content';
 
 const { slug } = Astro.params;
@@ -41,7 +42,11 @@ const description = category.entry.deskripsi || `Arsip berita kategori ${categor
   </PageIntro>
 
   <section class="container-premium py-8">
-    <NewsGrid items={kegiatan} />
+    {kegiatan.length > 0 ? (
+      <NewsGrid items={kegiatan} />
+    ) : (
+      <EmptyStateCard message="Belum ada berita yang tayang pada kategori ini." />
+    )}
   </section>
 
 </MainLayout>

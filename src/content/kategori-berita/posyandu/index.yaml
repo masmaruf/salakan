@@ -1,0 +1,6 @@
+namaKategori: posyandu
+labelTampil: Posyandu
+deskripsi: Kategori untuk layanan kesehatan ibu dan anak, jadwal posyandu, serta edukasi tumbuh kembang warga.
+pengaturanTampil:
+  status: tampil
+  urutanTampil: 4

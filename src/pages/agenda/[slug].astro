@@ -7,7 +7,7 @@ import Badge from '../../components/ui/Badge.astro';
 import PageSection from '../../components/PageSection.astro';
 import ArchiveCard from '../../components/ui/ArchiveCard.astro';
 import { excerpt, formatTanggal, getAgenda, getKegiatan, getLogKegiatan, getProgram } from '../../lib/content';
-import { kategoriLogLabels, kategoriLabelsProgram } from '../../lib/content-taxonomy';
+import { getAgendaLabelTone, kategoriLogLabels, kategoriLabelsProgram } from '../../lib/content-taxonomy';
 import { findRelatedContent } from '../../lib/related-content';
 import { resolveSeoText, withSiteTitle } from '../../lib/site';
 
@@ -37,13 +37,6 @@ const metaItems = [
   entry.kontakPic ? { icon: 'person', text: entry.kontakPic, accentClass: 'text-on-surface-variant' } : null,
 ].filter((meta): meta is MetaItem => meta !== null);
 
-function getLabelTone(label?: string) {
-  const normalized = label?.trim().toLowerCase() ?? '';
-  if (normalized === 'pengumuman') return 'error' as const;
-  if (normalized === 'informasi') return 'surface' as const;
-  return 'primary' as const;
-}
-
 const relatedItems = findRelatedContent(
   {
     slug: item.slug,
@@ -55,7 +48,7 @@ const relatedItems = findRelatedContent(
     date: entry.tanggal,
     href: `/agenda/${item.slug}`,
     typeLabel: entry.label || 'Agenda',
-    badgeTone: getLabelTone(entry.label),
+    badgeTone: getAgendaLabelTone(entry.label),
   },
   [
     ...beritaItems
@@ -118,7 +111,7 @@ const relatedItems = findRelatedContent(
     ]} />
 
     <div class="mb-3 flex flex-wrap items-center gap-2 sm:gap-3">
-      <Badge label={entry.label || 'Agenda'} tone={getLabelTone(entry.label)} class="px-2 py-0.5" />
+      <Badge label={entry.label || 'Agenda'} tone={getAgendaLabelTone(entry.label)} class="px-2 py-0.5" />
       <time class="meta-time" datetime={entry.tanggal}>
         {formatTanggal(entry.tanggal)}
       </time>

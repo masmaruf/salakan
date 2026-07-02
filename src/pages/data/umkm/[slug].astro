@@ -4,7 +4,7 @@ import MainLayout from '../../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import InfoCard from '../../../components/ui/InfoCard.astro';
 import ActionLinkButton from '../../../components/ui/ActionLinkButton.astro';
-import { getUmkm, normalizeWhatsapp } from '../../../lib/content';
+import { getUmkm, isPlaceholderWhatsapp, normalizeWhatsapp } from '../../../lib/content';
 import { kategoriLabelsUmkm } from '../../../lib/content-taxonomy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
@@ -18,7 +18,10 @@ if (!item) {
 
 const { entry } = item;
 
-const whatsappUrl = `https://wa.me/${normalizeWhatsapp(entry.whatsapp)}?text=${encodeURIComponent(`Halo, saya ingin mengetahui informasi UMKM ${entry.namaUsaha}.`)}`;
+const whatsappReady = !isPlaceholderWhatsapp(entry.whatsapp);
+const whatsappUrl = whatsappReady
+  ? `https://wa.me/${normalizeWhatsapp(entry.whatsapp)}?text=${encodeURIComponent(`Halo, saya ingin mengetahui informasi UMKM ${entry.namaUsaha}.`)}`
+  : null;
 const seoTitle = withSiteTitle(resolveSeoText(entry.seoTitle, entry.namaUsaha));
 const seoDescription = resolveSeoText(entry.seoDescription, entry.ringkasan);
 const seoImage = resolveSeoImage(entry.ogImage, entry.gambar);
@@ -89,7 +92,13 @@ import Icon from '../../../components/ui/Icon.tsx';
         </InfoCard>
 
         <div class="mt-5 flex flex-wrap gap-3">
-          <ActionLinkButton href={whatsappUrl} label="Hubungi via WhatsApp" icon="chat" variant="success" target="_blank" rel="noreferrer" />
+          {whatsappUrl ? (
+            <ActionLinkButton href={whatsappUrl} label="Hubungi via WhatsApp" icon="chat" variant="success" target="_blank" rel="noreferrer" />
+          ) : (
+            <span class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-outline-variant bg-surface-container-low px-5 py-3 text-sm font-bold text-on-surface-variant">
+              <Icon name="schedule" class="text-[18px]" /> Kontak WhatsApp menyusul
+            </span>
+          )}
           <ActionLinkButton href="/data/umkm" label="Kembali" icon="arrow_back" />
         </div>
       </div>

@@ -7,6 +7,7 @@ import ContentMeta from '../../components/ui/ContentMeta.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import { resolveSeoImage, resolveSeoText, toAbsoluteUrl, withSiteTitle } from '../../lib/site';
 import { formatTanggal, getKegiatan, getKategoriBeritaMap } from '../../lib/content';
+import { getBeritaCategoryTone } from '../../lib/content-taxonomy';
 import NewsGrid from '../../components/NewsGrid.astro';
 import PageSection from '../../components/PageSection.astro';
 
@@ -65,7 +66,15 @@ import Icon from '../../components/ui/Icon.tsx';
       <div class="mb-3 flex flex-wrap items-center gap-2">
         <a
           href={`/berita?kategori=${entry.kategori}`}
-          class="rounded-md bg-primary-container px-2.5 py-1 text-[12px] font-semibold text-on-primary-container transition-opacity hover:opacity-80"
+          class:list={[
+            'rounded-md px-2.5 py-1 text-[12px] font-semibold transition-opacity hover:opacity-80',
+            getBeritaCategoryTone(entry.kategori) === 'warning' && 'bg-amber-100 text-amber-800',
+            getBeritaCategoryTone(entry.kategori) === 'info' && 'bg-blue-100 text-blue-800',
+            getBeritaCategoryTone(entry.kategori) === 'success' && 'bg-emerald-100 text-emerald-800',
+            getBeritaCategoryTone(entry.kategori) === 'surface' && 'border border-outline-variant bg-surface-variant text-on-surface-variant',
+            getBeritaCategoryTone(entry.kategori) === 'primary' && 'bg-primary-container text-on-primary-container',
+            getBeritaCategoryTone(entry.kategori) === 'error' && 'bg-error-container text-on-error-container',
+          ]}
         >
           {categoryLabels[entry.kategori] ?? entry.kategori}
         </a>

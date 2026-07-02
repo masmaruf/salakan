@@ -4,20 +4,42 @@ import PageIntro from '../../components/ui/PageIntro.astro';
 import Badge from '../../components/ui/Badge.astro';
 import PageSection from '../../components/PageSection.astro';
 import InlineAction from '../../components/ui/InlineAction.astro';
+import FilterToolbar from '../../components/ui/FilterToolbar.astro';
+import PillFilterBar from '../../components/ui/PillFilterBar.astro';
+import EmptyStateCard from '../../components/ui/EmptyStateCard.astro';
 import { formatTanggal, getDokumen, getHalamanCopy, getPengaturan } from '../../lib/content';
-import { kategoriLabelsDokumen } from '../../lib/content-taxonomy';
+import { KATEGORI_DOKUMEN, kategoriLabelsDokumen } from '../../lib/content-taxonomy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
+import Icon from '../../components/ui/Icon.tsx';
 
 const [dokumenItems, pengaturan] = await Promise.all([getDokumen(), getPengaturan()]);
 const halaman = await getHalamanCopy();
 const seo = pengaturan?.seoHalamanData?.dokumen;
-const dokumen = dokumenItems
+const dokumenSemua = dokumenItems
   .filter(({ entry }) => entry.statusPublikasi === 'publish')
   .sort((a, b) => {
     if (a.entry.unggulan !== b.entry.unggulan) return Number(b.entry.unggulan) - Number(a.entry.unggulan);
     if (a.entry.urutanTampil !== b.entry.urutanTampil) return a.entry.urutanTampil - b.entry.urutanTampil;
     return new Date(b.entry.tanggalUpdate).getTime() - new Date(a.entry.tanggalUpdate).getTime();
   });
+
+const kategoriParam = Astro.url.searchParams.get('kategori') ?? 'semua';
+const query = Astro.url.searchParams.get('q')?.trim() ?? '';
+const normalizedQuery = query.toLowerCase();
+const activeKategori = ['semua', ...KATEGORI_DOKUMEN].includes(kategoriParam) ? kategoriParam : 'semua';
+
+const dokumen = dokumenSemua.filter(({ entry }) => {
+  if (activeKategori !== 'semua' && entry.kategori !== activeKategori) return false;
+
+  if (!normalizedQuery) return true;
+
+  const haystack = [entry.judul, entry.ringkasan, entry.deskripsi, kategoriLabelsDokumen[entry.kategori]]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  return haystack.includes(normalizedQuery);
+});
 ---
 
 <MainLayout
@@ -28,7 +50,7 @@ const dokumen = dokumenItems
 
   <PageIntro
     title={halaman.dokumen.title}
-    description={`${dokumen.length} ${halaman.dokumen.descriptionSuffix}`}
+    description={`${dokumenSemua.length} ${halaman.dokumen.descriptionSuffix}`}
     breadcrumbs={[
       { label: 'Beranda', href: '/' },
       { label: 'Pusat Data', href: '/data' },
@@ -36,33 +58,90 @@ const dokumen = dokumenItems
     ]}
   />
 
-  <PageSection sectionClass="pb-10 pt-4 sm:pb-14">
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {dokumen.map(({ slug, entry }) => (
-        <article class="section-card section-card-hover group flex flex-col" id={slug}>
-          <div class="mb-3 flex items-center justify-between gap-2">
-            <Badge label={kategoriLabelsDokumen[entry.kategori]} tone="primary" class="px-2 py-1" />
-            <time class="meta-time" datetime={entry.tanggalUpdate}>
-              {formatTanggal(entry.tanggalUpdate)}
-            </time>
-          </div>
+  <section class="container-premium pb-4 pt-4 sm:pt-5">
+    <FilterToolbar
+      eyebrow="Filter Arsip"
+      title="Telusuri dokumen publik"
+      description="Katalog dokumen dirapikan dengan pola filter yang seragam agar warga lebih cepat menemukan arsip layanan, kegiatan, maupun regulasi."
+      resultText={query || activeKategori !== 'semua' ? `Menampilkan ${dokumen.length} dokumen${query ? ` untuk "${query}"` : ''}${activeKategori !== 'semua' ? ` pada kategori ${kategoriLabelsDokumen[activeKategori as keyof typeof kategoriLabelsDokumen]}` : ''}.` : 'Semua dokumen publik ditampilkan dari pembaruan terbaru.'}
+    >
+      <div slot="active" class="flex flex-wrap items-center gap-2">
+        {(query || activeKategori !== 'semua') && (
+          <a class="inline-action" href="/data/dokumen">
+            <Icon name="restart_alt" class="text-[16px]" />
+            Reset filter
+          </a>
+        )}
+      </div>
 
-          <h2 class="text-base font-bold leading-tight text-on-surface transition-colors group-hover:text-m3-primary sm:text-lg">
-            <a href={`/data/dokumen/${slug}`}>{entry.judul}</a>
-          </h2>
-          <p class="mt-2 flex-1 line-clamp-2 text-sm text-on-surface-variant">{entry.ringkasan}</p>
+      <div slot="filters" class="grid gap-4">
+        <PillFilterBar
+          items={[
+            { href: query ? `/data/dokumen?q=${encodeURIComponent(query)}` : '/data/dokumen', label: 'Semua kategori', active: activeKategori === 'semua' },
+            ...KATEGORI_DOKUMEN.map((item) => ({
+              href: `/data/dokumen?kategori=${item}${query ? `&q=${encodeURIComponent(query)}` : ''}`,
+              label: kategoriLabelsDokumen[item],
+              active: activeKategori === item,
+            })),
+          ]}
+        />
 
-          <div class="mt-4 flex flex-wrap gap-2 border-t border-outline-variant/40 pt-3">
-            <InlineAction href={`/data/dokumen/${slug}`} label={halaman.dokumen.detailLabel} icon="visibility" />
-            {entry.fileDokumen ? (
-              <InlineAction href={entry.fileDokumen} label={halaman.dokumen.downloadLabel} icon="download" target="_blank" rel="noreferrer" />
-            ) : (
-              <InlineAction as="span" label={halaman.dokumen.unavailableLabel} icon="lock" tone="muted" />
-            )}
+        <form action="/data/dokumen" method="get" class="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+          <div class="grid gap-2">
+            <label for="dokumen-search" class="detail-label">Cari judul, ringkasan, atau kategori dokumen</label>
+            <div class="flex items-center gap-3 rounded-2xl border border-outline-variant bg-surface-container-lowest px-4 py-3">
+              <Icon name="search" class="text-[20px] text-outline" />
+              <input
+                id="dokumen-search"
+                name="q"
+                type="search"
+                value={query}
+                placeholder="Contoh: surat domisili, arsip rapat, pedoman"
+                class="w-full border-0 bg-transparent p-0 text-sm text-on-surface outline-none placeholder:text-on-surface-variant"
+              />
+            </div>
+            {activeKategori !== 'semua' && <input type="hidden" name="kategori" value={activeKategori} />}
           </div>
-        </article>
-      ))}
-    </div>
+          <button type="submit" class="action-pill-dark">
+            <Icon name="search" class="text-[16px]" />
+            Terapkan
+          </button>
+        </form>
+      </div>
+    </FilterToolbar>
+  </section>
+
+  <PageSection sectionClass="pb-10 pt-3 sm:pb-14">
+    {dokumen.length > 0 ? (
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {dokumen.map(({ slug, entry }) => (
+          <article class="section-card section-card-hover group flex flex-col" id={slug}>
+            <div class="mb-3 flex items-center justify-between gap-2">
+              <Badge label={kategoriLabelsDokumen[entry.kategori]} tone="primary" class="px-2 py-1" />
+              <time class="meta-time" datetime={entry.tanggalUpdate}>
+                {formatTanggal(entry.tanggalUpdate)}
+              </time>
+            </div>
+
+            <h2 class="text-base font-bold leading-tight text-on-surface transition-colors group-hover:text-m3-primary sm:text-lg">
+              <a href={`/data/dokumen/${slug}`}>{entry.judul}</a>
+            </h2>
+            <p class="mt-2 flex-1 line-clamp-2 text-sm text-on-surface-variant">{entry.ringkasan}</p>
+
+            <div class="mt-4 flex flex-wrap gap-2 border-t border-outline-variant/40 pt-3">
+              <InlineAction href={`/data/dokumen/${slug}`} label={halaman.dokumen.detailLabel} icon="visibility" />
+              {entry.fileDokumen ? (
+                <InlineAction href={entry.fileDokumen} label={halaman.dokumen.downloadLabel} icon="download" target="_blank" rel="noreferrer" />
+              ) : (
+                <InlineAction as="span" label={halaman.dokumen.unavailableLabel} icon="lock" tone="muted" />
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <EmptyStateCard message="Belum ada dokumen yang cocok dengan filter saat ini." />
+    )}
   </PageSection>
 
 </MainLayout>

@@ -5,19 +5,47 @@ import CmsIcon from '../../../components/CmsIcon.astro';
 import Badge from '../../../components/ui/Badge.astro';
 import PageSection from '../../../components/PageSection.astro';
 import InlineAction from '../../../components/ui/InlineAction.astro';
-import { getHalamanCopy, getUmkm, getPengaturan, normalizeWhatsapp } from '../../../lib/content';
-import { kategoriLabelsUmkm } from '../../../lib/content-taxonomy';
+import FilterToolbar from '../../../components/ui/FilterToolbar.astro';
+import PillFilterBar from '../../../components/ui/PillFilterBar.astro';
+import EmptyStateCard from '../../../components/ui/EmptyStateCard.astro';
+import { getHalamanCopy, getUmkm, getPengaturan, isPlaceholderWhatsapp, normalizeWhatsapp } from '../../../lib/content';
+import { KATEGORI_UMKM, kategoriLabelsUmkm } from '../../../lib/content-taxonomy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
 const [umkmItems, pengaturan] = await Promise.all([getUmkm(), getPengaturan()]);
 const halaman = await getHalamanCopy();
 const seo = pengaturan?.seoHalamanData?.umkm;
-const items = umkmItems
+const semuaItems = umkmItems
   .filter(({ entry }) => entry.statusPublikasi === 'publish')
   .sort((a, b) => {
     if (a.entry.unggulan !== b.entry.unggulan) return Number(b.entry.unggulan) - Number(a.entry.unggulan);
     return a.entry.urutanTampil - b.entry.urutanTampil;
   });
+
+const kategoriParam = Astro.url.searchParams.get('kategori') ?? 'semua';
+const query = Astro.url.searchParams.get('q')?.trim() ?? '';
+const normalizedQuery = query.toLowerCase();
+const activeKategori = ['semua', ...KATEGORI_UMKM].includes(kategoriParam) ? kategoriParam : 'semua';
+
+const items = semuaItems.filter(({ entry }) => {
+  if (activeKategori !== 'semua' && entry.kategori !== activeKategori) return false;
+  if (!normalizedQuery) return true;
+
+  const haystack = [
+    entry.namaUsaha,
+    entry.pemilik,
+    entry.ringkasan,
+    entry.deskripsi,
+    entry.lokasi,
+    kategoriLabelsUmkm[entry.kategori],
+    ...(entry.produkUnggulan ?? []),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  return haystack.includes(normalizedQuery);
+});
 
 import Icon from '../../../components/ui/Icon.tsx';
 ---
@@ -30,7 +58,7 @@ import Icon from '../../../components/ui/Icon.tsx';
 
   <PageIntro
     title={halaman.umkm.title}
-    description={`${items.length} ${halaman.umkm.descriptionSuffix}`}
+    description={`${semuaItems.length} ${halaman.umkm.descriptionSuffix}`}
     breadcrumbs={[
       { label: 'Beranda', href: '/' },
       { label: 'Pusat Data', href: '/data' },
@@ -38,44 +66,112 @@ import Icon from '../../../components/ui/Icon.tsx';
     ]}
   />
 
-  <PageSection sectionClass="pb-10 pt-4 sm:pb-14">
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {items.map(({ slug, entry }) => (
-        <article class="section-card section-card-hover group flex flex-col overflow-hidden p-0" id={slug}>
-          <div class="aspect-[16/10] bg-surface-container-low">
-            {entry.gambar ? (
-              <img class="h-full w-full object-cover" src={entry.gambar} alt={entry.altGambar || entry.namaUsaha} loading="lazy" />
-            ) : (
-              <div class="grid h-full place-items-center text-on-surface-variant">
-                <CmsIcon name="storefront" class="size-12" />
+  <section class="container-premium pb-4 pt-4 sm:pt-5">
+    <FilterToolbar
+      eyebrow="Filter Katalog"
+      title="Temukan UMKM warga dengan lebih cepat"
+      description="Pola katalog UMKM disamakan dengan arsip lain agar warga bisa memfilter kategori, mencari usaha, dan menuju kontak yang valid dengan lebih mudah."
+      resultText={query || activeKategori !== 'semua' ? `Menampilkan ${items.length} UMKM${query ? ` untuk "${query}"` : ''}${activeKategori !== 'semua' ? ` pada kategori ${kategoriLabelsUmkm[activeKategori as keyof typeof kategoriLabelsUmkm]}` : ''}.` : 'Semua UMKM publik ditampilkan dari yang unggulan terlebih dahulu.'}
+    >
+      <div slot="active" class="flex flex-wrap items-center gap-2">
+        {(query || activeKategori !== 'semua') && (
+          <a class="inline-action" href="/data/umkm">
+            <Icon name="restart_alt" class="text-[16px]" />
+            Reset filter
+          </a>
+        )}
+      </div>
+
+      <div slot="filters" class="grid gap-4">
+        <PillFilterBar
+          items={[
+            { href: query ? `/data/umkm?q=${encodeURIComponent(query)}` : '/data/umkm', label: 'Semua kategori', active: activeKategori === 'semua' },
+            ...KATEGORI_UMKM.map((item) => ({
+              href: `/data/umkm?kategori=${item}${query ? `&q=${encodeURIComponent(query)}` : ''}`,
+              label: kategoriLabelsUmkm[item],
+              active: activeKategori === item,
+            })),
+          ]}
+        />
+
+        <form action="/data/umkm" method="get" class="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+          <div class="grid gap-2">
+            <label for="umkm-search" class="detail-label">Cari nama usaha, pemilik, lokasi, atau produk unggulan</label>
+            <div class="flex items-center gap-3 rounded-2xl border border-outline-variant bg-surface-container-lowest px-4 py-3">
+              <Icon name="search" class="text-[20px] text-outline" />
+              <input
+                id="umkm-search"
+                name="q"
+                type="search"
+                value={query}
+                placeholder="Contoh: snack box, bambu, servis lingkungan"
+                class="w-full border-0 bg-transparent p-0 text-sm text-on-surface outline-none placeholder:text-on-surface-variant"
+              />
+            </div>
+            {activeKategori !== 'semua' && <input type="hidden" name="kategori" value={activeKategori} />}
+          </div>
+          <button type="submit" class="action-pill-dark">
+            <Icon name="search" class="text-[16px]" />
+            Terapkan
+          </button>
+        </form>
+      </div>
+    </FilterToolbar>
+  </section>
+
+  <PageSection sectionClass="pb-10 pt-3 sm:pb-14">
+    {items.length > 0 ? (
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {items.map(({ slug, entry }) => {
+          const whatsappReady = !isPlaceholderWhatsapp(entry.whatsapp);
+          const whatsappUrl = whatsappReady
+            ? `https://wa.me/${normalizeWhatsapp(entry.whatsapp)}?text=${encodeURIComponent(`${halaman.umkm.whatsappMessagePrefix} ${entry.namaUsaha}.`)}`
+            : null;
+
+          return (
+            <article class="section-card section-card-hover group flex flex-col overflow-hidden p-0" id={slug}>
+              <div class="aspect-[16/10] bg-surface-container-low">
+                {entry.gambar ? (
+                  <img class="h-full w-full object-cover" src={entry.gambar} alt={entry.altGambar || entry.namaUsaha} loading="lazy" />
+                ) : (
+                  <div class="grid h-full place-items-center text-on-surface-variant">
+                    <CmsIcon name="storefront" class="size-12" />
+                  </div>
+                )}
               </div>
-            )}
-          </div>
 
-          <div class="flex flex-1 flex-col p-5 sm:p-6">
-            <div class="mb-3 flex items-center gap-2">
-              <Badge label={kategoriLabelsUmkm[entry.kategori]} tone="primary" class="px-2 py-1" />
-              {entry.unggulan && <Badge label={halaman.umkm.featuredLabel} tone="warning" icon="star" class="px-2 py-1" />}
-            </div>
+              <div class="flex flex-1 flex-col p-5 sm:p-6">
+                <div class="mb-3 flex items-center gap-2">
+                  <Badge label={kategoriLabelsUmkm[entry.kategori]} tone="primary" class="px-2 py-1" />
+                  {entry.unggulan && <Badge label={halaman.umkm.featuredLabel} tone="warning" icon="star" class="px-2 py-1" />}
+                </div>
 
-            <h2 class="text-base font-bold leading-tight text-on-surface transition-colors group-hover:text-m3-primary sm:text-lg">
-              <a href={`/data/umkm/${slug}`}>{entry.namaUsaha}</a>
-            </h2>
-            <p class="mt-2 flex-1 line-clamp-2 text-sm text-on-surface-variant">{entry.ringkasan}</p>
+                <h2 class="text-base font-bold leading-tight text-on-surface transition-colors group-hover:text-m3-primary sm:text-lg">
+                  <a href={`/data/umkm/${slug}`}>{entry.namaUsaha}</a>
+                </h2>
+                <p class="mt-2 flex-1 line-clamp-2 text-sm text-on-surface-variant">{entry.ringkasan}</p>
 
-            <div class="meta-time mt-3">
-              <Icon name="location_on" class="mr-0.5 align-middle text-[14px]" />
-              {entry.lokasi}
-            </div>
+                <div class="meta-time mt-3">
+                  <Icon name="location_on" class="mr-0.5 align-middle text-[14px]" />
+                  {entry.lokasi}
+                </div>
 
-            <div class="mt-4 flex flex-wrap gap-2 border-t border-outline-variant/40 pt-3">
-              <InlineAction href={`/data/umkm/${slug}`} label={halaman.umkm.detailLabel} icon="visibility" />
-              <InlineAction href={`https://wa.me/${normalizeWhatsapp(entry.whatsapp)}?text=${encodeURIComponent(`${halaman.umkm.whatsappMessagePrefix} ${entry.namaUsaha}.`)}`} label={halaman.umkm.whatsappLabel} icon="chat" tone="success" target="_blank" rel="noreferrer" />
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
+                <div class="mt-4 flex flex-wrap gap-2 border-t border-outline-variant/40 pt-3">
+                  <InlineAction href={`/data/umkm/${slug}`} label={halaman.umkm.detailLabel} icon="visibility" />
+                  {whatsappUrl ? (
+                    <InlineAction href={whatsappUrl} label={halaman.umkm.whatsappLabel} icon="chat" tone="success" target="_blank" rel="noreferrer" />
+                  ) : (
+                    <InlineAction as="span" label="Kontak menyusul" icon="schedule" tone="muted" />
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    ) : (
+      <EmptyStateCard message="Belum ada UMKM yang cocok dengan filter saat ini." />
+    )}
   </PageSection>
 
 </MainLayout>

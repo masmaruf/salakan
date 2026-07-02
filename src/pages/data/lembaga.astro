@@ -8,6 +8,7 @@ import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
 import LabelValueList from '../../components/ui/LabelValueList.astro';
 import Icon from '../../components/ui/Icon.tsx';
 import { getStrukturOrganisasi, getPengaturan } from '../../lib/content';
+import { BIDANG_LEMBAGA, bidangLembagaIcons, bidangLembagaLabels } from '../../lib/content-taxonomy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const [lembagaItems, pengaturan] = await Promise.all([getStrukturOrganisasi(), getPengaturan()]);
@@ -24,20 +25,8 @@ const items = lembagaItems
     },
   }));
 
-const bidangLabels = {
-  pimpinan: 'Lembaga Inti Padukuhan',
-  kegiatan: 'Layanan Sosial & Pendidikan',
-  wilayah: 'Komunitas Warga',
-} as const;
-
-const bidangIcons = {
-  pimpinan: 'account_balance',
-  kegiatan: 'volunteer_activism',
-  wilayah: 'groups',
-} as const;
-
 const bidangParam = Astro.url.searchParams.get('bidang') ?? 'semua';
-const activeBidang = ['semua', 'pimpinan', 'kegiatan', 'wilayah'].includes(bidangParam) ? bidangParam : 'semua';
+const activeBidang = ['semua', ...BIDANG_LEMBAGA].includes(bidangParam) ? bidangParam : 'semua';
 const query = Astro.url.searchParams.get('q')?.trim() ?? '';
 const normalizedQuery = query.toLowerCase();
 
@@ -77,7 +66,7 @@ const filteredItems = filteredByBidang.filter(matchesSearch);
 const highlighted = filteredItems[0] ?? items[0] ?? null;
 const rutinCount = items.filter(({ entry }) => entry.jadwalRutin).length;
 const layananCount = items.reduce((sum, item) => sum + item.entry.layananUtama.length, 0);
-const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLabels[activeBidang as keyof typeof bidangLabels];
+const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLembagaLabels[activeBidang as keyof typeof bidangLembagaLabels];
 ---
 
 <MainLayout
@@ -97,9 +86,9 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLabe
     <PillFilterBar
       items={[
         { href: query ? `/data/lembaga?q=${encodeURIComponent(query)}` : '/data/lembaga', label: 'Semua bidang', active: activeBidang === 'semua' },
-        { href: `/data/lembaga?bidang=pimpinan${query ? `&q=${encodeURIComponent(query)}` : ''}`, label: bidangLabels.pimpinan, active: activeBidang === 'pimpinan' },
-        { href: `/data/lembaga?bidang=kegiatan${query ? `&q=${encodeURIComponent(query)}` : ''}`, label: bidangLabels.kegiatan, active: activeBidang === 'kegiatan' },
-        { href: `/data/lembaga?bidang=wilayah${query ? `&q=${encodeURIComponent(query)}` : ''}`, label: bidangLabels.wilayah, active: activeBidang === 'wilayah' },
+        { href: `/data/lembaga?bidang=pimpinan${query ? `&q=${encodeURIComponent(query)}` : ''}`, label: bidangLembagaLabels.pimpinan, active: activeBidang === 'pimpinan' },
+        { href: `/data/lembaga?bidang=kegiatan${query ? `&q=${encodeURIComponent(query)}` : ''}`, label: bidangLembagaLabels.kegiatan, active: activeBidang === 'kegiatan' },
+        { href: `/data/lembaga?bidang=wilayah${query ? `&q=${encodeURIComponent(query)}` : ''}`, label: bidangLembagaLabels.wilayah, active: activeBidang === 'wilayah' },
       ]}
     />
   </PageIntro>
@@ -157,7 +146,7 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLabe
           <div>
             <div class="flex flex-wrap items-center gap-2">
               <span class="rounded-full bg-primary-container px-3 py-1 text-[12px] font-semibold text-on-primary-container">
-                {bidangLabels[highlighted.entry.bidang as keyof typeof bidangLabels]}
+                {bidangLembagaLabels[highlighted.entry.bidang as keyof typeof bidangLembagaLabels]}
               </span>
               {highlighted.entry.fokusKegiatan.length > 0 && (
                 <span class="rounded-full border border-outline-variant bg-white px-3 py-1 text-[12px] font-semibold text-on-surface-variant">
@@ -194,7 +183,7 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLabe
           <div class="grid gap-3">
             <div class="section-subcard">
               <p class="section-kicker">Bidang</p>
-              <p class="mt-2 text-sm font-medium text-on-surface">{bidangLabels[highlighted.entry.bidang as keyof typeof bidangLabels]}</p>
+              <p class="mt-2 text-sm font-medium text-on-surface">{bidangLembagaLabels[highlighted.entry.bidang as keyof typeof bidangLembagaLabels]}</p>
             </div>
             <div class="section-subcard">
               <p class="section-kicker">Jadwal rutin</p>
@@ -231,10 +220,10 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLabe
               <div class="flex items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
                   <div class="grid h-9 w-9 place-items-center rounded-full bg-white text-m3-primary">
-                    <Icon name={bidangIcons[key as keyof typeof bidangIcons]} class="text-[18px]" />
+                    <Icon name={bidangLembagaIcons[key as keyof typeof bidangLembagaIcons]} class="text-[18px]" />
                   </div>
                   <div>
-                    <p class="text-sm font-bold text-on-surface">{bidangLabels[key as keyof typeof bidangLabels]}</p>
+                    <p class="text-sm font-bold text-on-surface">{bidangLembagaLabels[key as keyof typeof bidangLembagaLabels]}</p>
                     <p class="text-[12px] text-on-surface-variant">{groupItems.length} lembaga aktif</p>
                   </div>
                 </div>
@@ -258,7 +247,7 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLabe
           ? `Menampilkan ${filteredItems.length} hasil untuk pencarian "${query}" pada ${activeBidangLabel.toLowerCase()}.`
           : activeBidang === 'semua'
             ? 'Semua lembaga ditampilkan agar warga lebih mudah mengenali peran, ritme kegiatan, dan jalur koordinasinya.'
-            : `Menampilkan lembaga pada bidang ${bidangLabels[activeBidang as keyof typeof bidangLabels].toLowerCase()}.`}
+            : `Menampilkan lembaga pada bidang ${bidangLembagaLabels[activeBidang as keyof typeof bidangLembagaLabels].toLowerCase()}.`}
       </p>
     </div>
 
@@ -268,12 +257,12 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLabe
           <details class="group section-card transition-all open:shadow-md" id={slug} open={index === 0 && !query}>
             <summary class="flex cursor-pointer list-none items-start gap-4">
               <div class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary-container text-on-primary-container">
-                <Icon name={bidangIcons[entry.bidang as keyof typeof bidangIcons]} class="text-[20px]" />
+                <Icon name={bidangLembagaIcons[entry.bidang as keyof typeof bidangLembagaIcons]} class="text-[20px]" />
               </div>
               <div class="min-w-0 flex-1">
                 <div class="flex flex-wrap items-center gap-2">
                   <span class="rounded-full bg-primary-container px-3 py-1 text-[12px] font-semibold text-on-primary-container">
-                    {bidangLabels[entry.bidang as keyof typeof bidangLabels]}
+                    {bidangLembagaLabels[entry.bidang as keyof typeof bidangLembagaLabels]}
                   </span>
                   {entry.fokusKegiatan.length > 0 && (
                     <span class="rounded-full border border-outline-variant bg-white px-3 py-1 text-[12px] font-semibold text-on-surface-variant">

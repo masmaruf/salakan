@@ -3,9 +3,9 @@ tanggalUpdate: '2026-03-25'
 kontenUtama:
   ringkasan: Format dasar surat domisili warga yang dapat digunakan untuk pengajuan administrasi umum.
   deskripsi: >
-    Dokumen ini disiapkan sebagai contoh arsip layanan warga. Pengelola padukuhan
-    nantinya dapat mengganti file, ringkasan, dan deskripsi sesuai kebutuhan
-    layanan yang berlaku.
+    Dokumen ini menjadi rujukan format dasar surat domisili untuk kebutuhan
+    administrasi warga. Berkas dapat dipakai sebagai acuan awal sebelum
+    disesuaikan dengan persyaratan dan alur layanan yang berlaku di padukuhan.
 media: {}
 pengaturanTampil:
   kategori: layanan

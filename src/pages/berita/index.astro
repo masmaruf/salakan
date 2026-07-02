@@ -7,6 +7,7 @@ import PillFilterBar from '../../components/ui/PillFilterBar.astro';
 import Badge from '../../components/ui/Badge.astro';
 import FilterToolbar from '../../components/ui/FilterToolbar.astro';
 import { getKegiatan, getKategoriBeritaMap, sortByDateDesc } from '../../lib/content';
+import { getBeritaCategoryTone } from '../../lib/content-taxonomy';
 import Icon from '../../components/ui/Icon.tsx';
 
 const selectedCategory = Astro.url.searchParams.get('kategori');
@@ -142,7 +143,7 @@ const displayItems = shouldShowFeatured ? kegiatan.slice(1) : kegiatan;
         <div class="flex flex-col justify-center p-6 sm:p-7">
           <div class="flex flex-wrap items-center gap-2">
             <Badge label="Sorotan" tone="info" class="px-3 py-1" />
-            {featured.entry.kategori && <Badge label={categoryLabels[featured.entry.kategori] ?? featured.entry.kategori} tone="surface" class="px-3 py-1" />}
+            {featured.entry.kategori && <Badge label={categoryLabels[featured.entry.kategori] ?? featured.entry.kategori} tone={getBeritaCategoryTone(featured.entry.kategori)} class="px-3 py-1" />}
           </div>
           <h2 class="mt-4 text-2xl font-bold leading-tight tracking-tight text-on-surface transition-colors group-hover:text-m3-primary sm:text-3xl">{featured.entry.judul}</h2>
           <p class="mt-2 text-sm font-semibold uppercase tracking-wide text-on-surface-variant">{new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(featured.entry.tanggal))}</p>

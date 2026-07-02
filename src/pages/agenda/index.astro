@@ -12,6 +12,7 @@ import {
   excerpt,
 } from '../../lib/content';
 import { getHalamanCopy } from '../../lib/content';
+import { getAgendaLabelTone } from '../../lib/content-taxonomy';
 import Icon from '../../components/ui/Icon.tsx';
 
 const agendaItems = sortByDateDesc(
@@ -92,12 +93,6 @@ function getSignal(item: TimelineItem) {
   return { label: 'Arsip', tone: 'surface' as const };
 }
 
-function getLabelTone(label: string) {
-  const normalized = label.trim().toLowerCase();
-  if (normalized === 'pengumuman') return 'error' as const;
-  if (normalized === 'informasi') return 'surface' as const;
-  return 'primary' as const;
-}
 ---
 
 <MainLayout
@@ -185,7 +180,7 @@ function getLabelTone(label: string) {
               title={item.judul}
               summary={excerpt(item.ringkasan, 150)}
               badges={[
-                { label: item.label, tone: getLabelTone(item.label) },
+                { label: item.label, tone: getAgendaLabelTone(item.label) },
                 { label: signal.label, tone: signal.tone },
               ]}
               meta={[

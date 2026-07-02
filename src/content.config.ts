@@ -1,11 +1,14 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 import {
+  BIDANG_LEMBAGA,
+  KATEGORI_BERITA,
   KATEGORI_DOKUMEN,
   KATEGORI_INVENTARIS,
   KATEGORI_LOG_KEGIATAN,
   KATEGORI_PROGRAM,
   KATEGORI_UMKM,
+  LABEL_AGENDA,
   KONDISI_INVENTARIS,
   STATUS_PINJAM_INVENTARIS,
   STATUS_PROGRAM,
@@ -60,7 +63,7 @@ const kegiatan = defineCollection({
         ringkasan: z.string().min(1),
       }),
       sidebar: z.object({
-        kategori: z.string().min(1),
+        kategori: z.enum(KATEGORI_BERITA),
         jenisKonten: z.enum(['berita', 'artikel']).default('berita'),
         penulis: z.string().default('Admin Padukuhan'),
         gambarUtama: z.string().optional(),
@@ -100,7 +103,7 @@ const agenda = defineCollection({
       altGambarUtama: z.string().default('Poster agenda Padukuhan Salakan'),
     }),
     pengaturanTampil: z.object({
-      label: z.string().default('Agenda'),
+      label: z.enum(LABEL_AGENDA).default('Agenda'),
       tag: z.array(z.string().min(1)).default([]),
       unggulan: z.boolean().default(false),
     }),
@@ -263,7 +266,7 @@ const strukturOrganisasi = defineCollection({
       layananUtama: z.array(z.string().min(1)).default([]),
     }),
     pengaturanTampil: z.object({
-      bidang: z.enum(['pimpinan', 'kegiatan', 'wilayah']),
+      bidang: z.enum(BIDANG_LEMBAGA),
       statusPublikasi: z.enum(STATUS_PUBLIKASI_OPTIONS).default('publish'),
       urutanTampil: z.number().int(),
     }),

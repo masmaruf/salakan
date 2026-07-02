@@ -10,7 +10,7 @@ editorArtikel:
       anak didik.
   sidebar:
     jenisKonten: berita
-    kategori: Paud, SPS Bunga Kaca Piring
+    kategori: paud
     penulis: Pak Dukuh
     unggulan: true
     gambarUtama: /images/1002185119.jpg

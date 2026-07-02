@@ -1,5 +1,40 @@
 export const STATUS_PUBLIKASI_OPTIONS = ['draft', 'publish'] as const;
 
+export const KATEGORI_BERITA = [
+  'kegiatan-warga',
+  'pelayanan',
+  'gotong-royong',
+  'potensi',
+  'posyandu',
+  'pasar-alam',
+  'paud',
+] as const;
+
+export const kategoriLabelsBerita = {
+  'kegiatan-warga': 'Kegiatan Warga',
+  pelayanan: 'Pelayanan',
+  'gotong-royong': 'Gotong Royong',
+  potensi: 'Potensi Warga',
+  posyandu: 'Posyandu',
+  'pasar-alam': 'Pasar Alam',
+  paud: 'PAUD',
+} as const satisfies Record<(typeof KATEGORI_BERITA)[number], string>;
+
+export const LABEL_AGENDA = ['Agenda', 'Pengumuman', 'Informasi', 'Musyawarah', 'Pengajian'] as const;
+
+export const BIDANG_LEMBAGA = ['pimpinan', 'kegiatan', 'wilayah'] as const;
+export const bidangLembagaLabels = {
+  pimpinan: 'Lembaga Inti Padukuhan',
+  kegiatan: 'Layanan Sosial & Pendidikan',
+  wilayah: 'Komunitas Warga',
+} as const satisfies Record<(typeof BIDANG_LEMBAGA)[number], string>;
+
+export const bidangLembagaIcons = {
+  pimpinan: 'account_balance',
+  kegiatan: 'volunteer_activism',
+  wilayah: 'groups',
+} as const satisfies Record<(typeof BIDANG_LEMBAGA)[number], string>;
+
 export const KATEGORI_DOKUMEN = ['layanan', 'arsip', 'kegiatan', 'regulasi'] as const;
 export const kategoriLabelsDokumen = {
   layanan: 'Layanan Warga',
@@ -80,3 +115,20 @@ export const statusPublikasiLogLabels = {
   draft: 'Draft',
   publish: 'Publish',
 } as const satisfies Record<(typeof STATUS_PUBLIKASI_LOG)[number], string>;
+
+export function getBeritaCategoryTone(kategori: string): 'primary' | 'error' | 'info' | 'warning' | 'success' | 'surface' {
+  const key = kategori.trim().toLowerCase();
+  if (key === 'pelayanan') return 'warning';
+  if (key === 'potensi' || key === 'pasar-alam') return 'success';
+  if (key === 'posyandu' || key === 'paud') return 'primary';
+  if (key === 'gotong-royong' || key === 'kegiatan-warga') return 'info';
+  return 'surface';
+}
+
+export function getAgendaLabelTone(label?: string): 'primary' | 'error' | 'info' | 'surface' {
+  const normalized = label?.trim().toLowerCase() ?? '';
+  if (normalized === 'pengumuman') return 'error';
+  if (normalized === 'informasi') return 'surface';
+  if (normalized === 'musyawarah') return 'info';
+  return 'primary';
+}

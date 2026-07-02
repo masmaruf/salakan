@@ -1,0 +1,6 @@
+namaKategori: paud
+labelTampil: PAUD
+deskripsi: Kategori untuk kegiatan pendidikan anak usia dini, pelepasan siswa, dan aktivitas sekolah warga.
+pengaturanTampil:
+  status: tampil
+  urutanTampil: 5

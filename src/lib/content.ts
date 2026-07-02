@@ -383,3 +383,21 @@ export function excerpt(text: string, maxLength = 140) {
 export function normalizeWhatsapp(value: string): string {
   return value.replace(/\D/g, '');
 }
+
+export function isPlaceholderWhatsapp(value?: string) {
+  if (!value) return true;
+
+  const normalized = normalizeWhatsapp(value);
+  if (!normalized || normalized.length < 10) return true;
+
+  const knownPlaceholders = new Set([
+    '6281234567890',
+    '081234567890',
+    '1234567890',
+  ]);
+
+  if (knownPlaceholders.has(normalized)) return true;
+  if (/^(\d)\1+$/.test(normalized)) return true;
+
+  return false;
+}
