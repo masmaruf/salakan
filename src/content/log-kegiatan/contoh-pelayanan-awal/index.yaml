@@ -18,3 +18,13 @@ pengaturanTampil:
     - pelayanan-surat
     - administrasi
   urutanTampil: 1
+  kontenTerkait:
+    - type: program
+      slug: digitalisasi-layanan-surat
+      label: Program layanan surat
+    - type: agenda
+      slug: pelayanan-administrasi
+      label: Agenda pelayanan administrasi
+    - type: lembaga
+      slug: dukuh-salakan
+      label: Pokgiat LPMK

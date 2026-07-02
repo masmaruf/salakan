@@ -18,3 +18,10 @@ pengaturanTampil:
     - pelayanan
     - undangan
   urutanTampil: 2
+  kontenTerkait:
+    - type: program
+      slug: digitalisasi-layanan-surat
+      label: Program layanan surat
+    - type: lembaga
+      slug: dukuh-salakan
+      label: Pokgiat LPMK

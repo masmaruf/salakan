@@ -29,3 +29,13 @@ pengaturanTampil:
     - pkk
     - lingkungan
   urutanTampil: 3
+  kontenTerkait:
+    - type: lembaga
+      slug: ketua-pkk-padukuhan
+      label: PKK Padukuhan
+    - type: lembaga
+      slug: dasa-wisma
+      label: Dasa Wisma
+    - type: berita
+      slug: bazar-umkm-warga
+      label: Bazar UMKM warga

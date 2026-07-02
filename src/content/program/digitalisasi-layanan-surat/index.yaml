@@ -29,3 +29,13 @@ pengaturanTampil:
     - digital
     - warga
   urutanTampil: 2
+  kontenTerkait:
+    - type: log-kegiatan
+      slug: contoh-pelayanan-awal
+      label: Log pelayanan SPPT
+    - type: berita
+      slug: pelatihan-admin-digital
+      label: Pelatihan admin digital
+    - type: agenda
+      slug: pelayanan-administrasi
+      label: Agenda pelayanan administrasi

@@ -22,3 +22,16 @@ pengaturanTampil:
     - warga
     - koordinasi
   unggulan: true
+  kontenTerkait:
+    - type: berita
+      slug: musyawarah-rencana-wilayah
+      label: Artikel musyawarah wilayah
+    - type: program
+      slug: penataan-drainase-rt-02
+      label: Program drainase RT 02
+    - type: lembaga
+      slug: dukuh-salakan
+      label: Pokgiat LPMK
+    - type: lembaga
+      slug: penghubung-wilayah
+      label: Jaga Warga

@@ -20,6 +20,16 @@ kontenUtama:
       href: /program/bank-sampah-dan-kebun-warga
     - label: Agenda kerja bakti lingkungan
       href: /agenda/kerja-bakti-lingkungan
+  kontenTerkait:
+    - type: program
+      slug: bank-sampah-dan-kebun-warga
+      label: Program bank sampah
+    - type: agenda
+      slug: kerja-bakti-lingkungan
+      label: Agenda kerja bakti
+    - type: log-kegiatan
+      slug: rapat-persiapan-17an
+      label: Log rapat warga
 pengaturanTampil:
   bidang: pimpinan
   statusPublikasi: publish

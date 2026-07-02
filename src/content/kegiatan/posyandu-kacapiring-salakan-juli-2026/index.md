@@ -21,6 +21,13 @@ editorArtikel:
       - kesehatan
       - stunting
       - kacapiring
+    kontenTerkait:
+      - type: agenda
+        slug: jadwal-posyandu
+        label: Agenda posyandu
+      - type: lembaga
+        slug: posyandu
+        label: Lembaga Posyandu
   seo:
     seoTitle: ''
     seoDescription: ''

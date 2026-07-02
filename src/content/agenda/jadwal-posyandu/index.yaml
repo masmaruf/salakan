@@ -16,4 +16,19 @@ kontenUtama:
 media:
   altGambarUtama: Informasi jadwal posyandu warga.
 pengaturanTampil:
+  label: Agenda
+  tag:
+    - posyandu
+    - kesehatan
+    - warga
   unggulan: true
+  kontenTerkait:
+    - type: berita
+      slug: posyandu-kacapiring-salakan-juli-2026
+      label: Berita posyandu
+    - type: lembaga
+      slug: posyandu
+      label: Lembaga Posyandu
+    - type: galeri
+      slug: suasana-balai-padukuhan
+      label: Dokumentasi suasana kegiatan

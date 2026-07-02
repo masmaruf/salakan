@@ -18,6 +18,13 @@ editorArtikel:
       - digital
       - pelatihan
       - website
+    kontenTerkait:
+      - type: program
+        slug: digitalisasi-layanan-surat
+        label: Program layanan surat
+      - type: log-kegiatan
+        slug: contoh-pelayanan-awal
+        label: Log pelayanan administrasi
   seo:
     seoTitle: ''
     seoDescription: ''

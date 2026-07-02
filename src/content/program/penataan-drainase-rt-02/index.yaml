@@ -29,3 +29,16 @@ pengaturanTampil:
     - lingkungan
     - gotong-royong
   urutanTampil: 1
+  kontenTerkait:
+    - type: agenda
+      slug: kerja-bakti-lingkungan
+      label: Agenda kerja bakti
+    - type: berita
+      slug: gotong-royong-jalan-kampung
+      label: Berita gotong royong
+    - type: berita
+      slug: musyawarah-rencana-wilayah
+      label: Musyawarah rencana wilayah
+    - type: lembaga
+      slug: dukuh-salakan
+      label: Pokgiat LPMK

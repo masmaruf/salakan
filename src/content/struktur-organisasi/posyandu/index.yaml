@@ -20,6 +20,16 @@ kontenUtama:
       href: /agenda/jadwal-posyandu
     - label: Berita posyandu Kacapiring
       href: /berita/posyandu-kacapiring-salakan-juli-2026
+  kontenTerkait:
+    - type: agenda
+      slug: jadwal-posyandu
+      label: Agenda posyandu
+    - type: berita
+      slug: posyandu-kacapiring-salakan-juli-2026
+      label: Berita posyandu
+    - type: galeri
+      slug: suasana-balai-padukuhan
+      label: Dokumentasi suasana kegiatan
 pengaturanTampil:
   bidang: kegiatan
   statusPublikasi: publish

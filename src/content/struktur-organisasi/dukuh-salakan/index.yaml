@@ -20,6 +20,16 @@ kontenUtama:
       href: /berita/musyawarah-rencana-wilayah
     - label: Program drainase RT 02
       href: /program/penataan-drainase-rt-02
+  kontenTerkait:
+    - type: berita
+      slug: musyawarah-rencana-wilayah
+      label: Musyawarah rencana wilayah
+    - type: program
+      slug: penataan-drainase-rt-02
+      label: Program drainase RT 02
+    - type: log-kegiatan
+      slug: contoh-pelayanan-awal
+      label: Log pelayanan SPPT
 pengaturanTampil:
   bidang: pimpinan
   statusPublikasi: publish

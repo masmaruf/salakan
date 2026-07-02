@@ -18,6 +18,16 @@ editorArtikel:
       - gotong royong
       - infrastruktur
       - kerja bakti
+    kontenTerkait:
+      - type: agenda
+        slug: kerja-bakti-lingkungan
+        label: Agenda kerja bakti
+      - type: program
+        slug: penataan-drainase-rt-02
+        label: Program drainase RT 02
+      - type: lembaga
+        slug: balares
+        label: Balares
   seo:
     seoTitle: ''
     seoDescription: ''

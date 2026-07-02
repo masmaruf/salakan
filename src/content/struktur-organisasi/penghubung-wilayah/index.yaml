@@ -20,6 +20,16 @@ kontenUtama:
       href: /log-kegiatan?kategori=rapat
     - label: Agenda musyawarah warga
       href: /agenda/musyawarah-april-warga
+  kontenTerkait:
+    - type: log-kegiatan
+      slug: rapat-persiapan-17an
+      label: Log rapat warga
+    - type: agenda
+      slug: musyawarah-april-warga
+      label: Agenda musyawarah warga
+    - type: berita
+      slug: gotong-royong-jalan-kampung
+      label: Berita gotong royong
 pengaturanTampil:
   bidang: wilayah
   statusPublikasi: publish

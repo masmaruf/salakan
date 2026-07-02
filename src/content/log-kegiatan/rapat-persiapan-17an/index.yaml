@@ -17,3 +17,13 @@ pengaturanTampil:
     - karang-taruna
     - kegiatan-padukuhan
   urutanTampil: 2
+  kontenTerkait:
+    - type: agenda
+      slug: musyawarah-april-warga
+      label: Agenda musyawarah warga
+    - type: lembaga
+      slug: angkatan-muda-salakan
+      label: Angkatan Muda Salakan
+    - type: lembaga
+      slug: ketua-pkk-padukuhan
+      label: PKK Padukuhan

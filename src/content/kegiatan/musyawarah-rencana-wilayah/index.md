@@ -18,6 +18,16 @@ editorArtikel:
       - musyawarah
       - perencanaan
       - pembangunan
+    kontenTerkait:
+      - type: agenda
+        slug: musyawarah-april-warga
+        label: Agenda musyawarah
+      - type: program
+        slug: penataan-drainase-rt-02
+        label: Program drainase RT 02
+      - type: lembaga
+        slug: dukuh-salakan
+        label: Pokgiat LPMK
   seo:
     seoTitle: ''
     seoDescription: ''
