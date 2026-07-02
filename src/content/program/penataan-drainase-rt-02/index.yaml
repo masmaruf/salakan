@@ -21,4 +21,9 @@ pengaturanTampil:
   kategori: infrastruktur
   statusProgram: berjalan
   unggulan: true
+  tag:
+    - drainase
+    - rt-02
+    - lingkungan
+    - gotong-royong
   urutanTampil: 1

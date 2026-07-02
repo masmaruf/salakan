@@ -5,12 +5,14 @@ import DashboardPanel from '../../components/ui/DashboardPanel.astro';
 import DashboardStatCard from '../../components/ui/DashboardStatCard.astro';
 import CopyButton from '../../components/ui/CopyButton.astro';
 import { getDashboardContent, getMonografi, getPengaturan } from '../../lib/content';
+import { getMonografiSummary } from '../../lib/monografi-summary';
 import Icon from '../../components/ui/Icon.tsx';
 
 const [dashboardContent, monografi, pengaturan, rtItems] = await Promise.all([getDashboardContent(), getMonografi(), getPengaturan(), getCollection('rt')]);
 const content = dashboardContent?.profil;
 const daftarRt = rtItems.filter((item) => item.data.aktif).sort((a, b) => a.data.nomor_rt.localeCompare(b.data.nomor_rt));
 const dokumenKeluarga = content?.checklistItems ?? ['Kartu Keluarga', 'KTP anggota keluarga'];
+const monografiSummary = getMonografiSummary(monografi);
 
 function normalizedPhone(value?: string) {
   if (!value) return '';
@@ -26,9 +28,9 @@ function normalizedPhone(value?: string) {
   </div>
 
   <div class="mb-8 grid gap-6 md:grid-cols-3">
-    <DashboardStatCard label="Total KK" value={monografi?.demografi.totalKK ?? 0} description={content?.stats?.totalKk ?? 'Kepala keluarga yang tercatat pada monografi saat ini.'} tone="blue" icon="family_restroom" />
-    <DashboardStatCard label="Total Jiwa" value={monografi?.demografi.totalJiwa ?? 0} description={content?.stats?.totalJiwa ?? 'Ringkasan populasi warga yang bisa dipakai sebagai konteks layanan.'} tone="emerald" icon="groups" />
-    <DashboardStatCard label="RT Aktif" value={daftarRt.length} description={content?.stats?.rtAktif ?? 'Penghubung wilayah yang bisa dihubungi bila ada penyesuaian data keluarga.'} tone="amber" icon="account_tree" />
+    <DashboardStatCard label="Total KK" value={monografiSummary.totalKK} description={content?.stats?.totalKk ?? 'Kepala keluarga yang tercatat pada monografi saat ini.'} tone="blue" icon="family_restroom" />
+    <DashboardStatCard label="Total Jiwa" value={monografiSummary.totalJiwa} description={content?.stats?.totalJiwa ?? 'Ringkasan populasi warga yang bisa dipakai sebagai konteks layanan.'} tone="emerald" icon="groups" />
+    <DashboardStatCard label="RT Aktif" value={monografiSummary.jumlahRT || daftarRt.length} description={content?.stats?.rtAktif ?? 'Penghubung wilayah yang bisa dihubungi bila ada penyesuaian data keluarga.'} tone="amber" icon="account_tree" />
   </div>
 
   <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">

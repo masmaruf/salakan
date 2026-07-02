@@ -21,4 +21,9 @@ pengaturanTampil:
   kategori: lingkungan
   statusProgram: selesai
   unggulan: false
+  tag:
+    - bank-sampah
+    - kebun-warga
+    - pkk
+    - lingkungan
   urutanTampil: 3

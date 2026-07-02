@@ -4,11 +4,20 @@ import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import ContentMeta from '../../components/ui/ContentMeta.astro';
 import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
 import Badge from '../../components/ui/Badge.astro';
-import { formatTanggal, getAgenda } from '../../lib/content';
+import PageSection from '../../components/PageSection.astro';
+import ArchiveCard from '../../components/ui/ArchiveCard.astro';
+import { excerpt, formatTanggal, getAgenda, getKegiatan, getLogKegiatan, getProgram } from '../../lib/content';
+import { kategoriLogLabels, kategoriLabelsProgram } from '../../lib/content-taxonomy';
+import { findRelatedContent } from '../../lib/related-content';
 import { resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const { slug } = Astro.params;
-const items = await getAgenda();
+const [items, beritaItems, logItems, programItems] = await Promise.all([
+  getAgenda(),
+  getKegiatan(),
+  getLogKegiatan(),
+  getProgram(),
+]);
 const item = items.find((i) => i.slug === slug && i.entry?.statusPublikasi === 'publish');
 
 if (!item) {
@@ -34,6 +43,66 @@ function getLabelTone(label?: string) {
   if (normalized === 'informasi') return 'surface' as const;
   return 'primary' as const;
 }
+
+const relatedItems = findRelatedContent(
+  {
+    slug: item.slug,
+    title: entry.judul,
+    category: entry.label,
+    tags: entry.tag ?? [],
+    summary: entry.ringkasan,
+    extraText: [entry.deskripsi, entry.lokasi ?? '', entry.kontakPic ?? ''],
+    date: entry.tanggal,
+    href: `/agenda/${item.slug}`,
+    typeLabel: entry.label || 'Agenda',
+    badgeTone: getLabelTone(entry.label),
+  },
+  [
+    ...beritaItems
+      .filter((candidate) => candidate.entry?.statusPublikasi === 'publish')
+      .map((candidate) => ({
+        slug: candidate.slug,
+        title: candidate.entry.judul,
+        category: candidate.entry.kategori,
+        tags: candidate.entry.tag ?? [],
+        summary: candidate.entry.ringkasan,
+        extraText: [candidate.entry.isi ?? ''],
+        date: candidate.entry.tanggal,
+        href: `/berita/${candidate.slug}`,
+        typeLabel: 'Berita',
+        badgeTone: 'info' as const,
+      })),
+    ...programItems
+      .filter((candidate) => candidate.entry?.statusPublikasi === 'publish')
+      .map((candidate) => ({
+        slug: candidate.slug,
+        title: candidate.entry.judul,
+        category: candidate.entry.kategori,
+        tags: candidate.entry.tag ?? [],
+        summary: candidate.entry.ringkasan,
+        extraText: [candidate.entry.deskripsi, candidate.entry.lokasi, candidate.entry.penanggungJawab],
+        date: candidate.entry.tanggalUpdate,
+        href: `/program/${candidate.slug}`,
+        typeLabel: kategoriLabelsProgram[candidate.entry.kategori as keyof typeof kategoriLabelsProgram],
+        badgeTone: 'surface' as const,
+      })),
+    ...logItems
+      .filter((candidate) => candidate.entry?.statusPublikasi === 'publish')
+      .map((candidate) => ({
+        slug: candidate.slug,
+        title: candidate.entry.judul,
+        category: candidate.entry.kategori,
+        tags: candidate.entry.tag ?? [],
+        summary: candidate.entry.ringkasan,
+        extraText: [candidate.entry.lokasi ?? '', candidate.entry.pihakTerlibat ?? '', candidate.entry.hasilTindakLanjut ?? ''],
+        date: candidate.entry.tanggal,
+        href: `/log-kegiatan?q=${encodeURIComponent(candidate.entry.judul)}`,
+        typeLabel: kategoriLogLabels[candidate.entry.kategori as keyof typeof kategoriLogLabels],
+        badgeTone: 'surface' as const,
+      })),
+  ],
+  4,
+);
 ---
 
 <MainLayout
@@ -95,5 +164,25 @@ function getLabelTone(label?: string) {
       <ActionLinkButton href="/agenda" label="Kembali ke Agenda" icon="arrow_back" />
     </div>
   </article>
+
+  {relatedItems.length > 0 && (
+    <PageSection sectionClass="bg-surface-container-low/40 py-10" title="Terkait Dengan Agenda Ini" actionHref="/data" actionLabel="Buka pusat data">
+      <div class="grid gap-4 lg:grid-cols-2">
+        {relatedItems.map((related) => (
+          <ArchiveCard
+            href={related.href}
+            title={related.title}
+            summary={excerpt(related.summary || '', 140)}
+            badges={[
+              { label: related.typeLabel, tone: related.badgeTone ?? 'surface' },
+            ]}
+            meta={[
+              ...(related.date ? [{ icon: 'calendar_today', text: formatTanggal(related.date), datetime: related.date }] : []),
+            ]}
+          />
+        ))}
+      </div>
+    </PageSection>
+  )}
 
 </MainLayout>

@@ -5,16 +5,22 @@ import ContentMeta from '../../components/ui/ContentMeta.astro';
 import InfoCard from '../../components/ui/InfoCard.astro';
 import BadgeList from '../../components/ui/BadgeList.astro';
 import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
+import PageSection from '../../components/PageSection.astro';
+import ArchiveCard from '../../components/ui/ArchiveCard.astro';
 import {
+  excerpt,
   formatTanggal,
+  getAgenda,
   getHalamanCopy,
+  getLogKegiatan,
   getProgram,
 } from '../../lib/content';
-import { kategoriLabelsProgram, statusProgramLabels } from '../../lib/content-taxonomy';
+import { kategoriLabelsProgram, kategoriLogLabels, statusProgramLabels } from '../../lib/content-taxonomy';
+import { findRelatedContent } from '../../lib/related-content';
 import { resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const { slug } = Astro.params;
-const items = await getProgram();
+const [items, agendaItems, logItems] = await Promise.all([getProgram(), getAgenda(), getLogKegiatan()]);
 const halaman = await getHalamanCopy();
 const item = items.find((entry) => entry.slug === slug && entry.entry.statusPublikasi === 'publish');
 
@@ -28,6 +34,52 @@ const statusToneMap = {
   berjalan: 'primary',
   selesai: 'success',
 } as const;
+
+const relatedItems = findRelatedContent(
+  {
+    slug: item.slug,
+    title: entry.judul,
+    category: entry.kategori,
+    tags: entry.tag ?? [],
+    summary: entry.ringkasan,
+    extraText: [entry.deskripsi, entry.lokasi, entry.penanggungJawab, ...(entry.manfaat ?? [])],
+    date: entry.tanggalUpdate,
+    href: `/program/${item.slug}`,
+    typeLabel: kategoriLabelsProgram[entry.kategori as keyof typeof kategoriLabelsProgram],
+    badgeTone: 'surface',
+  },
+  [
+    ...agendaItems
+      .filter((candidate) => candidate.entry?.statusPublikasi === 'publish')
+      .map((candidate) => ({
+        slug: candidate.slug,
+        title: candidate.entry.judul,
+        category: candidate.entry.label,
+        tags: candidate.entry.tag ?? [],
+        summary: candidate.entry.ringkasan,
+        extraText: [candidate.entry.deskripsi, candidate.entry.lokasi ?? '', candidate.entry.kontakPic ?? ''],
+        date: candidate.entry.tanggal,
+        href: `/agenda/${candidate.slug}`,
+        typeLabel: candidate.entry.label || 'Agenda',
+        badgeTone: 'primary' as const,
+      })),
+    ...logItems
+      .filter((candidate) => candidate.entry?.statusPublikasi === 'publish')
+      .map((candidate) => ({
+        slug: candidate.slug,
+        title: candidate.entry.judul,
+        category: candidate.entry.kategori,
+        tags: candidate.entry.tag ?? [],
+        summary: candidate.entry.ringkasan,
+        extraText: [candidate.entry.lokasi ?? '', candidate.entry.pihakTerlibat ?? '', candidate.entry.hasilTindakLanjut ?? ''],
+        date: candidate.entry.tanggal,
+        href: `/log-kegiatan?q=${encodeURIComponent(candidate.entry.judul)}`,
+        typeLabel: kategoriLogLabels[candidate.entry.kategori as keyof typeof kategoriLogLabels],
+        badgeTone: 'surface' as const,
+      })),
+  ],
+  4,
+);
 ---
 
 <MainLayout
@@ -102,4 +154,24 @@ const statusToneMap = {
       <ActionLinkButton href="/data" label={halaman.programDetail.openDataCenterLabel} icon="grid_view" />
     </div>
   </article>
+
+  {relatedItems.length > 0 && (
+    <PageSection sectionClass="bg-surface-container-low/40 py-10" title="Data Terkait Program Ini" actionHref="/data" actionLabel="Buka pusat data">
+      <div class="grid gap-4 lg:grid-cols-2">
+        {relatedItems.map((related) => (
+          <ArchiveCard
+            href={related.href}
+            title={related.title}
+            summary={excerpt(related.summary || '', 140)}
+            badges={[
+              { label: related.typeLabel, tone: related.badgeTone ?? 'surface' },
+            ]}
+            meta={[
+              ...(related.date ? [{ icon: 'calendar_today', text: formatTanggal(related.date), datetime: related.date }] : []),
+            ]}
+          />
+        ))}
+      </div>
+    </PageSection>
+  )}
 </MainLayout>

@@ -150,6 +150,7 @@ export async function getLogKegiatan() {
       hasilTindakLanjut: data.kontenUtama?.hasilTindakLanjut,
       pihakTerlibat: data.kontenUtama?.pihakTerlibat,
       fotoDokumentasi: data.media?.fotoDokumentasi,
+      tag: data.pengaturanTampil?.tag ?? [],
       urutanTampil: data.pengaturanTampil?.urutanTampil ?? 0,
     },
   }));
@@ -174,6 +175,7 @@ export async function getProgram() {
       manfaat: data.kontenUtama.manfaat,
       kategori: data.pengaturanTampil.kategori,
       statusProgram: data.pengaturanTampil.statusProgram,
+      tag: data.pengaturanTampil.tag ?? [],
       unggulan: data.pengaturanTampil.unggulan,
       urutanTampil: data.pengaturanTampil.urutanTampil,
     },

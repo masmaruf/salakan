@@ -21,4 +21,9 @@ pengaturanTampil:
   kategori: pelayanan
   statusProgram: berjalan
   unggulan: true
+  tag:
+    - layanan-surat
+    - administrasi
+    - digital
+    - warga
   urutanTampil: 2

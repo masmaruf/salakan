@@ -126,8 +126,9 @@ const logKegiatan = defineCollection({
       fotoDokumentasi: z.string().optional(),
     }).default({}),
     pengaturanTampil: z.object({
+      tag: z.array(z.string().min(1)).default([]),
       urutanTampil: z.number().int().default(0),
-    }).default({ urutanTampil: 0 }),
+    }).default({ tag: [], urutanTampil: 0 }),
   }),
 });
 
@@ -150,6 +151,7 @@ const program = defineCollection({
     pengaturanTampil: z.object({
       kategori: z.enum(KATEGORI_PROGRAM),
       statusProgram: z.enum(STATUS_PROGRAM).default('rencana'),
+      tag: z.array(z.string().min(1)).default([]),
       unggulan: z.boolean().default(false),
       urutanTampil: z.number().int().default(0),
     }),

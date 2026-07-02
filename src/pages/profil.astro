@@ -4,15 +4,25 @@ import PageHero from '../components/PageHero.astro';
 import PageSection from '../components/PageSection.astro';
 import InfoCard from '../components/ui/InfoCard.astro';
 import ActionLinkButton from '../components/ui/ActionLinkButton.astro';
-import { getHalamanCopy, getPengaturan, getProfil } from '../lib/content';
+import { getHalamanCopy, getMonografi, getPengaturan, getProfil } from '../lib/content';
+import { getMonografiSummary } from '../lib/monografi-summary';
 import { resolveMapEmbedSrc } from '../lib/maps';
 
 const profil = await getProfil();
 const pengaturan = await getPengaturan();
 const halaman = await getHalamanCopy();
+const monografi = await getMonografi();
 const heroImg = profil?.hero?.gambar;
 const lokasi = profil?.lokasi;
 const potensi = profil?.potensiDesa ?? [];
+const monografiSummary = getMonografiSummary(monografi);
+const dataWilayah = profil?.dataWilayah?.length
+  ? profil.dataWilayah
+  : [
+      { label: 'Total Jiwa', value: String(monografiSummary.totalJiwa) },
+      { label: 'Total KK', value: String(monografiSummary.totalKK) },
+      { label: 'Jumlah RT', value: String(monografiSummary.jumlahRT) },
+    ];
 const mapEmbedSrc = resolveMapEmbedSrc({
   embedHtml: pengaturan?.embedPetaHtml,
   fallbackUrl: pengaturan?.linkPeta,
@@ -91,10 +101,10 @@ import Icon from '../components/ui/Icon.tsx';
     </PageSection>
   )}
 
-  {profil?.dataWilayah && profil.dataWilayah.length > 0 && (
+  {dataWilayah.length > 0 && (
     <PageSection eyebrow={halaman.profil.statsEyebrow} title={halaman.profil.statsTitle}>
       <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
-        {profil.dataWilayah.map((item) => (
+        {dataWilayah.map((item) => (
           <InfoCard>
             <p class="text-xl font-bold leading-tight text-m3-primary sm:text-2xl">{item.value}</p>
             <p class="mt-1.5 text-[12px] font-medium text-on-surface-variant">{item.label}</p>

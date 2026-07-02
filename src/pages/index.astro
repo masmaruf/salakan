@@ -13,17 +13,20 @@ import {
   getGaleri,
   getLogKegiatan,
   getLayananWarga,
+  getMonografi,
   sortByDateDesc,
   excerpt,
 } from '../lib/content';
+import { getMonografiSummary } from '../lib/monografi-summary';
 
-const [beranda, kegiatanItems, agendaRaw, galeriItems, logItems, layananItems] = await Promise.all([
+const [beranda, kegiatanItems, agendaRaw, galeriItems, logItems, layananItems, monografi] = await Promise.all([
   getBeranda(),
   getKegiatan(),
   getAgenda(),
   getGaleri(),
   getLogKegiatan(),
   getLayananWarga(),
+  getMonografi(),
 ]);
 
 const hero = beranda?.hero;
@@ -31,6 +34,7 @@ const beritaSection = beranda?.berita;
 const galeriSection = beranda?.galeri;
 const penutup = beranda?.penutup;
 const now = Date.now();
+const monografiSummary = getMonografiSummary(monografi);
 
 const agendaPublished = sortByDateDesc(
   agendaRaw
@@ -220,6 +224,26 @@ import Icon from '../components/ui/Icon.tsx';
         Hubungi ketua RT <Icon name="arrow_forward" class="text-[16px]" />
       </span>
     </a>
+  </section>
+
+  <section class="container-premium py-5 sm:py-6">
+    <div class="grid gap-4 md:grid-cols-3">
+      <div class="section-card">
+        <p class="section-kicker">Statistik Wilayah</p>
+        <p class="mt-2 text-3xl font-black tracking-tight text-on-surface">{monografiSummary.totalJiwa}</p>
+        <p class="mt-1 text-sm text-on-surface-variant">Total jiwa yang tercatat dari data monografi padukuhan.</p>
+      </div>
+      <div class="section-card">
+        <p class="section-kicker">Kepala Keluarga</p>
+        <p class="mt-2 text-3xl font-black tracking-tight text-on-surface">{monografiSummary.totalKK}</p>
+        <p class="mt-1 text-sm text-on-surface-variant">Jumlah KK aktif sebagai konteks utama pelayanan warga.</p>
+      </div>
+      <div class="section-card">
+        <p class="section-kicker">Cakupan RT</p>
+        <p class="mt-2 text-3xl font-black tracking-tight text-on-surface">{monografiSummary.jumlahRT}</p>
+        <p class="mt-1 text-sm text-on-surface-variant">Ringkasan wilayah aktif yang saat ini terlayani di padukuhan.</p>
+      </div>
+    </div>
   </section>
 
   <section class="container-premium py-10 sm:py-14">
