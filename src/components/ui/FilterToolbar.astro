@@ -1,0 +1,31 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  resultText?: string;
+  class?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  resultText,
+  class: className = '',
+} = Astro.props;
+---
+
+<div class:list={['section-card grid gap-4', className]}>
+  <div class="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+    <div class="max-w-2xl">
+      {eyebrow && <p class="section-kicker">{eyebrow}</p>}
+      <h2 class="mt-1 text-2xl font-bold tracking-tight text-on-surface">{title}</h2>
+      {description && <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">{description}</p>}
+      {resultText && <p class="mt-3 text-sm font-semibold text-on-surface-variant">{resultText}</p>}
+    </div>
+    <slot name="active" />
+  </div>
+
+  <slot name="filters" />
+</div>
