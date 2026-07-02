@@ -13,6 +13,7 @@ kontenUtama:
   penanggungJawab: Tim lingkungan padukuhan dan ketua RT 02
   sumberDana: Swadaya warga dan dukungan kas lingkungan
   anggaran: Rp7.500.000
+  targetHasilSingkat: Saluran sisi timur RT 02 kembali lancar, titik genangan berkurang, dan jalur rumah warga tetap aman saat hujan deras.
   manfaat:
     - Mengurangi genangan di akses rumah warga.
     - Memperlancar aliran air saat hujan lebat.
@@ -20,6 +21,7 @@ kontenUtama:
 pengaturanTampil:
   kategori: infrastruktur
   statusProgram: berjalan
+  tahapProgram: pelaksanaan
   unggulan: true
   tag:
     - drainase

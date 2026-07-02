@@ -15,6 +15,11 @@ kontenUtama:
   layananUtama:
     - Informasi kegiatan belajar PAUD
     - Koordinasi kebutuhan anak usia dini
+  dokumentasiTerkait:
+    - label: Pelepasan siswa PAUD
+      href: /berita/pelepasan-siswa-paud-sps-bunga-kaca-piring-2026
+    - label: Jadwal posyandu balita
+      href: /agenda/jadwal-posyandu
 pengaturanTampil:
   bidang: kegiatan
   statusPublikasi: publish

@@ -4,8 +4,9 @@ import MainLayout from '../../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import InfoCard from '../../../components/ui/InfoCard.astro';
 import ActionLinkButton from '../../../components/ui/ActionLinkButton.astro';
+import BadgeList from '../../../components/ui/BadgeList.astro';
 import { getUmkm, isPlaceholderWhatsapp, normalizeWhatsapp } from '../../../lib/content';
-import { kategoriLabelsUmkm } from '../../../lib/content-taxonomy';
+import { kategoriLabelsUmkm, statusLayananUmkmLabels } from '../../../lib/content-taxonomy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
 const { slug } = Astro.params;
@@ -51,26 +52,27 @@ import Icon from '../../../components/ui/Icon.tsx';
       </div>
 
       <div>
-        <div class="mb-3 flex flex-wrap items-center gap-2">
-          <span class="rounded-md bg-primary-container px-2.5 py-1 text-[12px] font-semibold text-on-primary-container">
-            {kategoriLabelsUmkm[entry.kategori]}
-          </span>
-          {entry.unggulan && (
-            <span class="flex items-center gap-1 rounded-md bg-amber-100 px-2.5 py-1 text-[12px] font-semibold text-amber-800">
-              <Icon name="star" class="text-[12px]" /> Unggulan
-            </span>
-          )}
-        </div>
+        <BadgeList
+          class="mb-3 flex flex-wrap items-center gap-2"
+          items={[
+            { label: kategoriLabelsUmkm[entry.kategori], tone: 'primary' },
+            { label: statusLayananUmkmLabels[entry.statusLayanan], tone: entry.statusLayanan === 'aktif' ? 'success' : entry.statusLayanan === 'terbatas' ? 'warning' : 'surface' },
+            { label: 'Unggulan', tone: 'warning', icon: 'star', visible: entry.unggulan },
+          ]}
+        />
 
         <h1 class="text-2xl font-bold leading-tight tracking-tight text-on-surface sm:text-3xl">{entry.namaUsaha}</h1>
         <p class="mt-2 text-base text-on-surface-variant">{entry.ringkasan}</p>
 
-        <div class="mt-4 grid gap-3 sm:grid-cols-2">
+        <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <InfoCard title="Pemilik">
             <p class="text-sm font-bold text-on-surface">{entry.pemilik}</p>
           </InfoCard>
           <InfoCard title="Lokasi">
             <p class="text-sm font-bold text-on-surface">{entry.lokasi}</p>
+          </InfoCard>
+          <InfoCard title="Status Layanan">
+            <p class="text-sm font-bold text-on-surface">{statusLayananUmkmLabels[entry.statusLayanan]}</p>
           </InfoCard>
         </div>
 

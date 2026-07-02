@@ -2,14 +2,14 @@
 import MainLayout from '../../../layouts/MainLayout.astro';
 import PageIntro from '../../../components/ui/PageIntro.astro';
 import CmsIcon from '../../../components/CmsIcon.astro';
-import Badge from '../../../components/ui/Badge.astro';
+import BadgeList from '../../../components/ui/BadgeList.astro';
 import PageSection from '../../../components/PageSection.astro';
 import InlineAction from '../../../components/ui/InlineAction.astro';
 import FilterToolbar from '../../../components/ui/FilterToolbar.astro';
 import PillFilterBar from '../../../components/ui/PillFilterBar.astro';
 import EmptyStateCard from '../../../components/ui/EmptyStateCard.astro';
 import { getHalamanCopy, getUmkm, getPengaturan, isPlaceholderWhatsapp, normalizeWhatsapp } from '../../../lib/content';
-import { KATEGORI_UMKM, kategoriLabelsUmkm } from '../../../lib/content-taxonomy';
+import { KATEGORI_UMKM, kategoriLabelsUmkm, statusLayananUmkmLabels } from '../../../lib/content-taxonomy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../../lib/site';
 
 const [umkmItems, pengaturan] = await Promise.all([getUmkm(), getPengaturan()]);
@@ -38,6 +38,7 @@ const items = semuaItems.filter(({ entry }) => {
     entry.deskripsi,
     entry.lokasi,
     kategoriLabelsUmkm[entry.kategori],
+    statusLayananUmkmLabels[entry.statusLayanan],
     ...(entry.produkUnggulan ?? []),
   ]
     .filter(Boolean)
@@ -142,8 +143,14 @@ import Icon from '../../../components/ui/Icon.tsx';
 
               <div class="flex flex-1 flex-col p-5 sm:p-6">
                 <div class="mb-3 flex items-center gap-2">
-                  <Badge label={kategoriLabelsUmkm[entry.kategori]} tone="primary" class="px-2 py-1" />
-                  {entry.unggulan && <Badge label={halaman.umkm.featuredLabel} tone="warning" icon="star" class="px-2 py-1" />}
+                  <BadgeList
+                    class="flex flex-wrap gap-2"
+                    items={[
+                      { label: kategoriLabelsUmkm[entry.kategori], tone: 'primary' },
+                      { label: statusLayananUmkmLabels[entry.statusLayanan], tone: entry.statusLayanan === 'aktif' ? 'success' : entry.statusLayanan === 'terbatas' ? 'warning' : 'surface' },
+                      { label: halaman.umkm.featuredLabel, tone: 'warning', icon: 'star', visible: entry.unggulan },
+                    ]}
+                  />
                 </div>
 
                 <h2 class="text-base font-bold leading-tight text-on-surface transition-colors group-hover:text-m3-primary sm:text-lg">

@@ -13,6 +13,7 @@ kontenUtama:
   penanggungJawab: PKK dan relawan lingkungan
   sumberDana: Swadaya warga dan kemitraan komunitas
   anggaran: Rp4.800.000
+  targetHasilSingkat: Tiga titik pilah aktif, setor sampah rutin dua mingguan, dan kebun komunal menghasilkan panen perdana untuk kegiatan warga.
   manfaat:
     - Lingkungan lebih bersih dan pemilahan sampah lebih tertib.
     - Ada ruang aktivitas bersama untuk ibu-ibu dan remaja.
@@ -20,6 +21,7 @@ kontenUtama:
 pengaturanTampil:
   kategori: lingkungan
   statusProgram: selesai
+  tahapProgram: tuntas
   unggulan: false
   tag:
     - bank-sampah

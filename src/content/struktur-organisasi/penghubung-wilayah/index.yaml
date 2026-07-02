@@ -15,6 +15,11 @@ kontenUtama:
   layananUtama:
     - Informasi awal situasi keamanan lingkungan
     - Koordinasi cepat saat ada kebutuhan warga
+  dokumentasiTerkait:
+    - label: Log rapat koordinasi warga
+      href: /log-kegiatan?kategori=rapat
+    - label: Agenda musyawarah warga
+      href: /agenda/musyawarah-april-warga
 pengaturanTampil:
   bidang: wilayah
   statusPublikasi: publish

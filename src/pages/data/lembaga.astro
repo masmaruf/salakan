@@ -6,6 +6,7 @@ import StatCard from '../../components/ui/StatCard.astro';
 import BadgeList from '../../components/ui/BadgeList.astro';
 import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
 import LabelValueList from '../../components/ui/LabelValueList.astro';
+import InlineAction from '../../components/ui/InlineAction.astro';
 import Icon from '../../components/ui/Icon.tsx';
 import { getStrukturOrganisasi, getPengaturan } from '../../lib/content';
 import { BIDANG_LEMBAGA, bidangLembagaIcons, bidangLembagaLabels } from '../../lib/content-taxonomy';
@@ -22,6 +23,7 @@ const items = lembagaItems
       ...item.entry,
       fokusKegiatan: item.entry.fokusKegiatan ?? [],
       layananUtama: item.entry.layananUtama ?? [],
+      dokumentasiTerkait: item.entry.dokumentasiTerkait ?? [],
     },
   }));
 
@@ -49,6 +51,7 @@ function matchesSearch(value: typeof items[number]) {
     value.entry.lokasiKegiatan,
     ...value.entry.fokusKegiatan,
     ...value.entry.layananUtama,
+    ...value.entry.dokumentasiTerkait.map((item) => item.label),
   ]
     .filter(Boolean)
     .join(' ')
@@ -65,7 +68,7 @@ const filteredItems = filteredByBidang.filter(matchesSearch);
 
 const highlighted = filteredItems[0] ?? items[0] ?? null;
 const rutinCount = items.filter(({ entry }) => entry.jadwalRutin).length;
-const layananCount = items.reduce((sum, item) => sum + item.entry.layananUtama.length, 0);
+const dokumentasiCount = items.reduce((sum, item) => sum + item.entry.dokumentasiTerkait.length, 0);
 const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLembagaLabels[activeBidang as keyof typeof bidangLembagaLabels];
 ---
 
@@ -135,7 +138,7 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLemb
     <div class="grid gap-4 md:grid-cols-3">
       <StatCard label="Lembaga Aktif" value={items.length} icon="account_balance" variant="blue" description="Direktori organisasi dan pengampu kegiatan warga yang sedang ditampilkan." />
       <StatCard label="Jadwal Tersedia" value={rutinCount} icon="event_note" variant="emerald" description="Lembaga yang sudah memiliki informasi ritme kegiatan atau pertemuan rutin." />
-      <StatCard label="Layanan Utama" value={layananCount} icon="support_agent" variant="amber" description="Ringkasan fungsi dan jalur koordinasi yang bisa dimanfaatkan warga." />
+      <StatCard label="Dokumentasi Terkait" value={dokumentasiCount} icon="library_books" variant="amber" description="Tautan agenda, berita, atau arsip yang membantu warga menelusuri kegiatan lembaga." />
     </div>
   </section>
 
@@ -176,6 +179,16 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLemb
                     <li class="rounded-xl border border-outline-variant/50 bg-surface-container-low px-4 py-3">{item}</li>
                   ))}
                 </ul>
+              </div>
+            )}
+            {highlighted.entry.dokumentasiTerkait.length > 0 && (
+              <div class="mt-5 border-t border-outline-variant/40 pt-4">
+                <p class="detail-label">Dokumentasi terkait</p>
+                <div class="mt-3 flex flex-wrap gap-2">
+                  {highlighted.entry.dokumentasiTerkait.map((item) => (
+                    <InlineAction href={item.href} label={item.label} icon="arrow_outward" />
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -317,6 +330,17 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLemb
                   )}
                 </div>
               </div>
+
+              {entry.dokumentasiTerkait.length > 0 && (
+                <div class="mt-4 section-subcard">
+                  <p class="detail-label">Dokumentasi terkait</p>
+                  <div class="mt-3 flex flex-wrap gap-2">
+                    {entry.dokumentasiTerkait.map((item) => (
+                      <InlineAction href={item.href} label={item.label} icon="arrow_outward" />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </details>
         ))}

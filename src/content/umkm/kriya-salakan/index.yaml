@@ -17,6 +17,7 @@ media:
   altGambar: Produk kerajinan bambu Kriya Salakan
 pengaturanTampil:
   kategori: kerajinan
+  statusLayanan: aktif
   statusPublikasi: publish
   unggulan: false
   urutanTampil: 2

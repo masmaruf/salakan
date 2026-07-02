@@ -13,6 +13,7 @@ kontenUtama:
   penanggungJawab: Admin layanan warga
   sumberDana: Operasional padukuhan
   anggaran: Rp3.000.000
+  targetHasilSingkat: Pengajuan surat utama memakai nomor tiket tunggal dan warga dapat memantau statusnya secara mandiri dari ponsel.
   manfaat:
     - Warga bisa mengajukan dan melacak surat dari satu tempat.
     - Admin lebih mudah memantau permohonan yang perlu revisi.
@@ -20,6 +21,7 @@ kontenUtama:
 pengaturanTampil:
   kategori: pelayanan
   statusProgram: berjalan
+  tahapProgram: pelaksanaan
   unggulan: true
   tag:
     - layanan-surat

@@ -16,6 +16,7 @@ media:
   altGambar: Produk kudapan dan snack box Dapur Salakan
 pengaturanTampil:
   kategori: kuliner
+  statusLayanan: pendaftaran
   statusPublikasi: publish
   unggulan: true
   urutanTampil: 1

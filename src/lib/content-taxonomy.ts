@@ -58,6 +58,15 @@ export const statusProgramLabels = {
   selesai: 'Selesai',
 } as const satisfies Record<(typeof STATUS_PROGRAM)[number], string>;
 
+export const TAHAP_PROGRAM = ['inisiasi', 'persiapan', 'pelaksanaan', 'pemantauan', 'tuntas'] as const;
+export const tahapProgramLabels = {
+  inisiasi: 'Inisiasi',
+  persiapan: 'Persiapan',
+  pelaksanaan: 'Pelaksanaan',
+  pemantauan: 'Pemantauan',
+  tuntas: 'Tuntas',
+} as const satisfies Record<(typeof TAHAP_PROGRAM)[number], string>;
+
 export const KATEGORI_KAS_RT = ['kasRt'] as const;
 export const kategoriLabelsKasRt = {
   kasRt: 'Transparansi Kas RT',
@@ -92,6 +101,13 @@ export const kategoriLabelsUmkm = {
   jasa: 'Jasa',
   perdagangan: 'Perdagangan',
 } as const satisfies Record<(typeof KATEGORI_UMKM)[number], string>;
+
+export const STATUS_LAYANAN_UMKM = ['aktif', 'terbatas', 'pendaftaran'] as const;
+export const statusLayananUmkmLabels = {
+  aktif: 'Aktif Melayani',
+  terbatas: 'Layanan Terbatas',
+  pendaftaran: 'Kontak Menyusul',
+} as const satisfies Record<(typeof STATUS_LAYANAN_UMKM)[number], string>;
 
 export const KATEGORI_LOG_KEGIATAN = [
   'pelayanan',

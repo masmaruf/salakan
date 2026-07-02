@@ -11,9 +11,11 @@ import {
   LABEL_AGENDA,
   KONDISI_INVENTARIS,
   STATUS_PINJAM_INVENTARIS,
+  STATUS_LAYANAN_UMKM,
   STATUS_PROGRAM,
   STATUS_PUBLIKASI_LOG,
   STATUS_PUBLIKASI_OPTIONS,
+  TAHAP_PROGRAM,
 } from './lib/content-taxonomy';
 import { pageCopyDefaults } from './lib/page-copy';
 
@@ -149,11 +151,13 @@ const program = defineCollection({
       penanggungJawab: z.string().min(1),
       sumberDana: z.string().default('Swadaya warga'),
       anggaran: z.string().default(''),
+      targetHasilSingkat: z.string().default(''),
       manfaat: z.array(z.string().min(1)).default([]),
     }),
     pengaturanTampil: z.object({
       kategori: z.enum(KATEGORI_PROGRAM),
       statusProgram: z.enum(STATUS_PROGRAM).default('rencana'),
+      tahapProgram: z.enum(TAHAP_PROGRAM).default('pelaksanaan'),
       tag: z.array(z.string().min(1)).default([]),
       unggulan: z.boolean().default(false),
       urutanTampil: z.number().int().default(0),
@@ -221,6 +225,7 @@ const umkm = defineCollection({
     }),
     pengaturanTampil: z.object({
       kategori: z.enum(KATEGORI_UMKM),
+      statusLayanan: z.enum(STATUS_LAYANAN_UMKM).default('aktif'),
       statusPublikasi: z.enum(STATUS_PUBLIKASI_OPTIONS).default('publish'),
       unggulan: z.boolean().default(false),
       urutanTampil: z.number().int(),
@@ -264,6 +269,10 @@ const strukturOrganisasi = defineCollection({
       lokasiKegiatan: z.string().default(''),
       fokusKegiatan: z.array(z.string().min(1)).default([]),
       layananUtama: z.array(z.string().min(1)).default([]),
+      dokumentasiTerkait: z.array(z.object({
+        label: z.string().min(1),
+        href: z.string().min(1),
+      })).default([]),
     }),
     pengaturanTampil: z.object({
       bidang: z.enum(BIDANG_LEMBAGA),

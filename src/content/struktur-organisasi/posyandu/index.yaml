@@ -15,6 +15,11 @@ kontenUtama:
   layananUtama:
     - Penimbangan dan pengukuran balita
     - Informasi jadwal pelayanan posyandu
+  dokumentasiTerkait:
+    - label: Jadwal posyandu
+      href: /agenda/jadwal-posyandu
+    - label: Berita posyandu Kacapiring
+      href: /berita/posyandu-kacapiring-salakan-juli-2026
 pengaturanTampil:
   bidang: kegiatan
   statusPublikasi: publish

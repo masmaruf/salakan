@@ -15,6 +15,11 @@ kontenUtama:
   layananUtama:
     - Koordinasi kegiatan PKK padukuhan
     - Pendampingan program keluarga sehat
+  dokumentasiTerkait:
+    - label: Program bank sampah dan kebun warga
+      href: /program/bank-sampah-dan-kebun-warga
+    - label: Agenda kerja bakti lingkungan
+      href: /agenda/kerja-bakti-lingkungan
 pengaturanTampil:
   bidang: pimpinan
   statusPublikasi: publish

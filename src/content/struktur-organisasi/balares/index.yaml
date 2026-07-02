@@ -15,6 +15,11 @@ kontenUtama:
   layananUtama:
     - Koordinasi relawan lapangan
     - Dukungan cepat kegiatan lingkungan
+  dokumentasiTerkait:
+    - label: Agenda kerja bakti lingkungan
+      href: /agenda/kerja-bakti-lingkungan
+    - label: Log kehadiran undangan
+      href: /log-kegiatan?kategori=undangan
 pengaturanTampil:
   bidang: wilayah
   statusPublikasi: publish

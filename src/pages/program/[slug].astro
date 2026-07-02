@@ -15,7 +15,7 @@ import {
   getLogKegiatan,
   getProgram,
 } from '../../lib/content';
-import { kategoriLabelsProgram, kategoriLogLabels, statusProgramLabels } from '../../lib/content-taxonomy';
+import { kategoriLabelsProgram, kategoriLogLabels, statusProgramLabels, tahapProgramLabels } from '../../lib/content-taxonomy';
 import { findRelatedContent } from '../../lib/related-content';
 import { resolveSeoText, withSiteTitle } from '../../lib/site';
 
@@ -33,6 +33,14 @@ const statusToneMap = {
   rencana: 'warning',
   berjalan: 'primary',
   selesai: 'success',
+} as const;
+
+const tahapToneMap = {
+  inisiasi: 'surface',
+  persiapan: 'warning',
+  pelaksanaan: 'primary',
+  pemantauan: 'info',
+  tuntas: 'success',
 } as const;
 
 const relatedItems = findRelatedContent(
@@ -101,6 +109,7 @@ const relatedItems = findRelatedContent(
         items={[
           { label: kategoriLabelsProgram[entry.kategori as keyof typeof kategoriLabelsProgram], tone: 'surface' },
           { label: statusProgramLabels[entry.statusProgram as keyof typeof statusProgramLabels], tone: statusToneMap[entry.statusProgram as keyof typeof statusToneMap] },
+          { label: tahapProgramLabels[entry.tahapProgram as keyof typeof tahapProgramLabels], tone: tahapToneMap[entry.tahapProgram as keyof typeof tahapToneMap] },
           { label: halaman.programDetail.priorityLabel, tone: 'info', visible: entry.unggulan },
         ]}
       />
@@ -116,6 +125,7 @@ const relatedItems = findRelatedContent(
           { icon: 'calendar_today', text: `${halaman.programDetail.updatedPrefix} ${formatTanggal(entry.tanggalUpdate)}`, datetime: entry.tanggalUpdate, accentClass: 'text-on-surface-variant' },
           { icon: 'location_on', text: entry.lokasi, accentClass: 'text-on-surface-variant' },
           { icon: 'person', text: entry.penanggungJawab, accentClass: 'text-on-surface-variant' },
+          { icon: 'flag', text: tahapProgramLabels[entry.tahapProgram as keyof typeof tahapProgramLabels], accentClass: 'text-on-surface-variant' },
         ]}
         iconClass="text-[16px] text-m3-primary"
       />
@@ -135,6 +145,9 @@ const relatedItems = findRelatedContent(
         </InfoCard>
         <InfoCard title={halaman.programDetail.budgetTitle} class="soft-panel">
           <p class="text-sm font-medium text-on-surface">{entry.anggaran || halaman.programDetail.budgetFallback}</p>
+        </InfoCard>
+        <InfoCard title="Target Hasil" class="soft-panel">
+          <p class="text-sm font-medium text-on-surface">{entry.targetHasilSingkat || 'Masih diperdalam bersama tim pelaksana.'}</p>
         </InfoCard>
       </div>
     </div>

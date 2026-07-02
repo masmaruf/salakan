@@ -3,8 +3,9 @@ kontenUtama:
   pemilik: Mas Arif
   ringkasan: Layanan jasa warga untuk perawatan kebun, kebersihan lingkungan, dan pekerjaan ringan harian.
   deskripsi: >
-    Contoh entri jasa warga yang bisa dipakai untuk menampilkan layanan lokal yang
-    mudah diakses oleh masyarakat sekitar.
+    Servis Lingkungan Salakan membantu warga untuk perawatan kebun, bersih
+    halaman, penataan tanaman, dan pekerjaan ringan yang bisa dijadwalkan
+    menyesuaikan kebutuhan rumah tangga maupun titik kegiatan kampung.
   whatsapp: '6285711223344'
   lokasi: RT 03 Padukuhan Salakan
   produkUnggulan:
@@ -16,6 +17,7 @@ media:
   altGambar: Ilustrasi layanan jasa lingkungan Servis Lingkungan Salakan
 pengaturanTampil:
   kategori: jasa
+  statusLayanan: terbatas
   statusPublikasi: publish
   unggulan: false
   urutanTampil: 3

@@ -15,6 +15,11 @@ kontenUtama:
   layananUtama:
     - Penghubung informasi kelompok keluarga
     - Dukungan koordinasi sosial warga
+  dokumentasiTerkait:
+    - label: Program bank sampah dan kebun warga
+      href: /program/bank-sampah-dan-kebun-warga
+    - label: Log administrasi warga
+      href: /log-kegiatan?kategori=administrasi
 pengaturanTampil:
   bidang: kegiatan
   statusPublikasi: publish

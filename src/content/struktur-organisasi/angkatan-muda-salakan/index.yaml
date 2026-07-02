@@ -15,6 +15,11 @@ kontenUtama:
   layananUtama:
     - Koordinasi relawan pemuda
     - Dukungan kegiatan warga dan kepanitiaan
+  dokumentasiTerkait:
+    - label: Syawalan warga
+      href: /agenda/syawalan-warga-padukuhan-salakan
+    - label: Bazar UMKM warga
+      href: /berita/bazar-umkm-warga
 pengaturanTampil:
   bidang: wilayah
   statusPublikasi: publish

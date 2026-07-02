@@ -12,7 +12,7 @@ import {
   getPengaturan,
   getProgram,
 } from '../../lib/content';
-import { kategoriLabelsProgram, statusProgramLabels } from '../../lib/content-taxonomy';
+import { kategoriLabelsProgram, statusProgramLabels, tahapProgramLabels } from '../../lib/content-taxonomy';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
 const [pengaturan, items] = await Promise.all([getPengaturan(), getProgram()]);
@@ -22,6 +22,14 @@ const statusToneMap = {
   rencana: 'warning',
   berjalan: 'primary',
   selesai: 'success',
+} as const;
+
+const tahapToneMap = {
+  inisiasi: 'surface',
+  persiapan: 'warning',
+  pelaksanaan: 'primary',
+  pemantauan: 'info',
+  tuntas: 'success',
 } as const;
 
 const programs = items
@@ -76,10 +84,17 @@ const stats = {
             items={[
               { label: kategoriLabelsProgram[featuredProgram.entry.kategori as keyof typeof kategoriLabelsProgram], tone: 'surface' },
               { label: statusProgramLabels[featuredProgram.entry.statusProgram as keyof typeof statusProgramLabels], tone: statusToneMap[featuredProgram.entry.statusProgram as keyof typeof statusToneMap] },
+              { label: tahapProgramLabels[featuredProgram.entry.tahapProgram as keyof typeof tahapProgramLabels], tone: tahapToneMap[featuredProgram.entry.tahapProgram as keyof typeof tahapToneMap] },
             ]}
           />
           <h2 class="mt-4 text-2xl font-bold tracking-tight text-on-surface sm:text-3xl">{featuredProgram.entry.judul}</h2>
           <p class="mt-3 text-base leading-relaxed text-on-surface-variant">{featuredProgram.entry.ringkasan}</p>
+          {featuredProgram.entry.targetHasilSingkat && (
+            <div class="mt-4 rounded-2xl border border-outline-variant/50 bg-surface-container-low px-4 py-4">
+              <p class="section-kicker-muted text-[11px] tracking-[0.12em] text-outline">Target hasil</p>
+              <p class="mt-2 text-sm leading-relaxed text-on-surface">{featuredProgram.entry.targetHasilSingkat}</p>
+            </div>
+          )}
           <p class="mt-4 whitespace-pre-line text-sm leading-relaxed text-on-surface-variant">{featuredProgram.entry.deskripsi}</p>
         </div>
 
@@ -89,6 +104,7 @@ const stats = {
             items={[
               { label: 'Lokasi', value: featuredProgram.entry.lokasi },
               { label: 'Periode', value: featuredProgram.entry.periode },
+              { label: 'Tahap saat ini', value: tahapProgramLabels[featuredProgram.entry.tahapProgram as keyof typeof tahapProgramLabels] },
               { label: 'Pembaruan Terakhir', value: formatTanggal(featuredProgram.entry.tanggalUpdate) },
             ]}
           />
@@ -112,6 +128,7 @@ const stats = {
               items={[
                 { label: kategoriLabelsProgram[item.entry.kategori as keyof typeof kategoriLabelsProgram], tone: 'surface' },
                 { label: statusProgramLabels[item.entry.statusProgram as keyof typeof statusProgramLabels], tone: statusToneMap[item.entry.statusProgram as keyof typeof statusToneMap] },
+                { label: tahapProgramLabels[item.entry.tahapProgram as keyof typeof tahapProgramLabels], tone: tahapToneMap[item.entry.tahapProgram as keyof typeof tahapToneMap] },
                 { label: 'Prioritas', tone: 'info', visible: item.entry.unggulan },
               ]}
             />
@@ -119,6 +136,9 @@ const stats = {
               {item.entry.judul}
             </h3>
             <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-on-surface-variant">{item.entry.ringkasan}</p>
+            {item.entry.targetHasilSingkat && (
+              <p class="mt-3 line-clamp-2 text-sm leading-relaxed text-on-surface">{item.entry.targetHasilSingkat}</p>
+            )}
             <div class="mt-4 grid gap-2 border-t border-outline-variant/50 pt-4 text-sm text-on-surface-variant sm:grid-cols-2">
               <div>
                 <p class="section-kicker-muted text-[11px] tracking-[0.12em] text-outline">Lokasi</p>
