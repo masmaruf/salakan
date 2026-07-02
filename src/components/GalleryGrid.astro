@@ -22,7 +22,7 @@ const { items } = Astro.props;
 
 <div class="grid gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
   {items.map(({ slug, entry }) => (
-    <article class="group overflow-hidden rounded-2xl border border-outline-variant bg-surface-container-lowest transition-all hover:-translate-y-0.5 hover:shadow-md">
+    <article id={slug} class="group scroll-mt-28 overflow-hidden rounded-2xl border border-outline-variant bg-surface-container-lowest transition-all hover:-translate-y-0.5 hover:shadow-md">
       {entry.gambar && (
         <Image
           src={entry.gambar}

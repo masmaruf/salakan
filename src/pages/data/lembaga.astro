@@ -7,13 +7,43 @@ import BadgeList from '../../components/ui/BadgeList.astro';
 import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
 import LabelValueList from '../../components/ui/LabelValueList.astro';
 import InlineAction from '../../components/ui/InlineAction.astro';
+import ArchiveCard from '../../components/ui/ArchiveCard.astro';
 import Icon from '../../components/ui/Icon.tsx';
-import { getStrukturOrganisasi, getPengaturan } from '../../lib/content';
-import { BIDANG_LEMBAGA, bidangLembagaIcons, bidangLembagaLabels } from '../../lib/content-taxonomy';
+import {
+  excerpt,
+  formatTanggal,
+  getAgenda,
+  getGaleri,
+  getKegiatan,
+  getKategoriBeritaMap,
+  getLogKegiatan,
+  getPengaturan,
+  getProgram,
+  getStrukturOrganisasi,
+} from '../../lib/content';
+import { BIDANG_LEMBAGA, bidangLembagaIcons, bidangLembagaLabels, fokusLembagaLabels } from '../../lib/content-taxonomy';
+import {
+  createAgendaRelationItem,
+  createBeritaRelationItem,
+  createGaleriRelationItem,
+  createLembagaRelationItem,
+  createLogRelationItem,
+  createProgramRelationItem,
+} from '../../lib/content-relations';
+import { findRelatedContent } from '../../lib/related-content';
 import { markdownToText, renderMarkdown } from '../../lib/rich-text';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
 
-const [lembagaItems, pengaturan] = await Promise.all([getStrukturOrganisasi(), getPengaturan()]);
+const [lembagaItems, pengaturan, agendaItems, beritaItems, programItems, logItems, galeriItems, categoryLabels] = await Promise.all([
+  getStrukturOrganisasi(),
+  getPengaturan(),
+  getAgenda(),
+  getKegiatan(),
+  getProgram(),
+  getLogKegiatan(),
+  getGaleri(),
+  getKategoriBeritaMap(),
+]);
 const seo = pengaturan?.seoHalamanData?.strukturOrganisasi;
 const items = lembagaItems
   .filter(({ entry }) => entry.statusPublikasi === 'publish')
@@ -61,6 +91,10 @@ function matchesSearch(value: typeof items[number]) {
   return haystack.includes(normalizedQuery);
 }
 
+function formatFokusLabel(value: string) {
+  return fokusLembagaLabels[value as keyof typeof fokusLembagaLabels] ?? value;
+}
+
 const filteredByBidang = activeBidang === 'semua'
   ? items
   : items.filter(({ entry }) => entry.bidang === activeBidang);
@@ -71,6 +105,31 @@ const highlighted = filteredItems[0] ?? items[0] ?? null;
 const rutinCount = items.filter(({ entry }) => entry.jadwalRutin).length;
 const dokumentasiCount = items.reduce((sum, item) => sum + item.entry.dokumentasiTerkait.length, 0);
 const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLembagaLabels[activeBidang as keyof typeof bidangLembagaLabels];
+
+const relationCandidates = [
+  ...agendaItems
+    .filter((candidate) => candidate.entry?.statusPublikasi === 'publish')
+    .map(createAgendaRelationItem),
+  ...beritaItems
+    .filter((candidate) => candidate.entry?.statusPublikasi === 'publish')
+    .map((candidate) => createBeritaRelationItem(candidate, categoryLabels)),
+  ...programItems
+    .filter((candidate) => candidate.entry?.statusPublikasi === 'publish')
+    .map(createProgramRelationItem),
+  ...logItems
+    .filter((candidate) => candidate.entry?.statusPublikasi === 'publish')
+    .map(createLogRelationItem),
+  ...galeriItems.map(createGaleriRelationItem),
+];
+
+const highlightedRelated = highlighted
+  ? findRelatedContent(createLembagaRelationItem(highlighted), relationCandidates, 3)
+  : [];
+
+const filteredItemsWithRelations = filteredItems.map((item) => ({
+  ...item,
+  relatedItems: findRelatedContent(createLembagaRelationItem(item), relationCandidates, 3),
+}));
 ---
 
 <MainLayout
@@ -167,7 +226,7 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLemb
               <BadgeList
                 class="mt-4 flex flex-wrap gap-2"
                 items={highlighted.entry.fokusKegiatan.map((item) => ({
-                  label: item,
+                  label: formatFokusLabel(item),
                   tone: 'surface' as const,
                 }))}
               />
@@ -188,6 +247,25 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLemb
                 <div class="mt-3 flex flex-wrap gap-2">
                   {highlighted.entry.dokumentasiTerkait.map((item) => (
                     <InlineAction href={item.href} label={item.label} icon="arrow_outward" />
+                  ))}
+                </div>
+              </div>
+            )}
+            {highlightedRelated.length > 0 && (
+              <div class="mt-5 border-t border-outline-variant/40 pt-4">
+                <p class="detail-label">Konten terkait</p>
+                <div class="mt-3 grid gap-3">
+                  {highlightedRelated.map((related) => (
+                    <ArchiveCard
+                      href={related.href}
+                      title={related.title}
+                      summary={excerpt(related.summary || '', 120)}
+                      badges={[{ label: related.typeLabel, tone: related.badgeTone ?? 'surface' }]}
+                      meta={[
+                        ...(related.date ? [{ icon: 'calendar_today', text: formatTanggal(related.date), datetime: related.date }] : []),
+                      ]}
+                      class="gap-3 p-4"
+                    />
                   ))}
                 </div>
               </div>
@@ -267,7 +345,7 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLemb
 
     {filteredItems.length > 0 ? (
       <div class="space-y-4">
-        {filteredItems.map(({ slug, entry }, index) => (
+        {filteredItemsWithRelations.map(({ slug, entry, relatedItems }, index) => (
           <details class="group section-card transition-all open:shadow-md" id={slug} open={index === 0 && !query}>
             <summary class="flex cursor-pointer list-none items-start gap-4">
               <div class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary-container text-on-primary-container">
@@ -298,7 +376,7 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLemb
                 <BadgeList
                   class="flex flex-wrap gap-2"
                   items={entry.fokusKegiatan.map((item) => ({
-                    label: item,
+                    label: formatFokusLabel(item),
                     tone: 'surface' as const,
                   }))}
                 />
@@ -338,6 +416,26 @@ const activeBidangLabel = activeBidang === 'semua' ? 'Semua bidang' : bidangLemb
                   <div class="mt-3 flex flex-wrap gap-2">
                     {entry.dokumentasiTerkait.map((item) => (
                       <InlineAction href={item.href} label={item.label} icon="arrow_outward" />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {relatedItems.length > 0 && (
+                <div class="mt-4 section-subcard">
+                  <p class="detail-label">Konten terkait</p>
+                  <div class="mt-3 grid gap-3 lg:grid-cols-2">
+                    {relatedItems.map((related) => (
+                      <ArchiveCard
+                        href={related.href}
+                        title={related.title}
+                        summary={excerpt(related.summary || '', 110)}
+                        badges={[{ label: related.typeLabel, tone: related.badgeTone ?? 'surface' }]}
+                        meta={[
+                          ...(related.date ? [{ icon: 'calendar_today', text: formatTanggal(related.date), datetime: related.date }] : []),
+                        ]}
+                        class="gap-3 p-4"
+                      />
                     ))}
                   </div>
                 </div>

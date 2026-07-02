@@ -26,6 +26,7 @@ const allLogs = (await getLogKegiatan())
     return new Date(b.entry.tanggal).getTime() - new Date(a.entry.tanggal).getTime();
   })
   .map((item) => ({
+    slug: item.slug,
     judul: item.entry.judul,
     tanggal: item.entry.tanggal,
     kategori: item.entry.kategori,
@@ -36,6 +37,7 @@ const allLogs = (await getLogKegiatan())
     hasil_tindak_lanjut: item.entry.hasilTindakLanjut,
     pihak_terlibat: item.entry.pihakTerlibat,
     foto_dokumentasi: item.entry.fotoDokumentasi,
+    kontenTerkait: item.entry.kontenTerkait,
   }));
 
 const kategoriParam = Astro.url.searchParams.get('kategori') ?? 'semua';
@@ -149,6 +151,7 @@ const logs = allLogs.filter((item) => {
           const waktuLabel = formatWaktuLog(item.waktu_mulai, item.waktu_selesai);
           return (
             <ArchiveCard
+              href={`/log-kegiatan/${item.slug}`}
               title={item.judul}
               summary={excerptMarkdown(item.ringkasan, 220)}
               image={item.foto_dokumentasi}

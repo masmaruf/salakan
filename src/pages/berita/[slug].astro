@@ -1,18 +1,34 @@
 ---
 import { Image } from 'astro:assets';
-import { marked } from 'marked';
 import MainLayout from '../../layouts/MainLayout.astro';
 import ShareActions from '../../components/ShareActions.astro';
 import ContentMeta from '../../components/ui/ContentMeta.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import { resolveSeoImage, resolveSeoText, toAbsoluteUrl, withSiteTitle } from '../../lib/site';
-import { formatTanggal, getKegiatan, getKategoriBeritaMap } from '../../lib/content';
+import { formatTanggal, getAgenda, getGaleri, getKegiatan, getKategoriBeritaMap, getLogKegiatan, getProgram, getStrukturOrganisasi } from '../../lib/content';
 import { getBeritaCategoryTone } from '../../lib/content-taxonomy';
-import NewsGrid from '../../components/NewsGrid.astro';
-import PageSection from '../../components/PageSection.astro';
+import RelatedContentSection from '../../components/ui/RelatedContentSection.astro';
+import {
+  createAgendaRelationItem,
+  createBeritaRelationItem,
+  createGaleriRelationItem,
+  createLembagaRelationItem,
+  createLogRelationItem,
+  createProgramRelationItem,
+} from '../../lib/content-relations';
+import { findRelatedContent } from '../../lib/related-content';
+import { renderMarkdown } from '../../lib/rich-text';
 
 const { slug } = Astro.params;
-const [categoryLabels, allKegiatan] = await Promise.all([getKategoriBeritaMap(), getKegiatan()]);
+const [categoryLabels, allKegiatan, agendaItems, programItems, logItems, lembagaItems, galeriItems] = await Promise.all([
+  getKategoriBeritaMap(),
+  getKegiatan(),
+  getAgenda(),
+  getProgram(),
+  getLogKegiatan(),
+  getStrukturOrganisasi(),
+  getGaleri(),
+]);
 
 const item = allKegiatan.find((k) => k.slug === slug && k.entry?.statusPublikasi === 'publish');
 if (!item) {
@@ -20,7 +36,7 @@ if (!item) {
 }
 
 const { entry } = item;
-const articleHtml = marked.parse(entry.isi || '', { breaks: true }) as string;
+const articleHtml = renderMarkdown(entry.isi || '');
 const articleUrl = toAbsoluteUrl(`/berita/${item.slug}`);
 const seoTitle = withSiteTitle(resolveSeoText(entry.seoTitle, entry.judul));
 const seoDescription = resolveSeoText(entry.seoDescription, entry.ringkasan);
@@ -32,17 +48,28 @@ const shareLinks = [
   { label: 'Salin', href: articleUrl, icon: 'content_copy', copy: true },
 ];
 
-const relatedArticles = allKegiatan
-  .filter((c) => c.slug !== item.slug && c.entry?.statusPublikasi === 'publish')
-  .sort((a, b) => {
-    const sameCatA = a.entry?.kategori === entry.kategori ? 1 : 0;
-    const sameCatB = b.entry?.kategori === entry.kategori ? 1 : 0;
-    if (sameCatA !== sameCatB) return sameCatB - sameCatA;
-    const sharedA = (a.entry?.tag ?? []).filter((t) => entry.tag?.includes(t)).length;
-    const sharedB = (b.entry?.tag ?? []).filter((t) => entry.tag?.includes(t)).length;
-    return sharedB - sharedA;
-  })
-  .slice(0, 3);
+const relatedItems = findRelatedContent(
+  createBeritaRelationItem(item, categoryLabels),
+  [
+    ...allKegiatan
+      .filter((candidate) => candidate.entry?.statusPublikasi === 'publish')
+      .map((candidate) => createBeritaRelationItem(candidate, categoryLabels)),
+    ...agendaItems
+      .filter((candidate) => candidate.entry?.statusPublikasi === 'publish')
+      .map(createAgendaRelationItem),
+    ...programItems
+      .filter((candidate) => candidate.entry?.statusPublikasi === 'publish')
+      .map(createProgramRelationItem),
+    ...logItems
+      .filter((candidate) => candidate.entry?.statusPublikasi === 'publish')
+      .map(createLogRelationItem),
+    ...lembagaItems
+      .filter((candidate) => candidate.entry?.statusPublikasi === 'publish')
+      .map(createLembagaRelationItem),
+    ...galeriItems.map(createGaleriRelationItem),
+  ],
+  4,
+);
 
 import Icon from '../../components/ui/Icon.tsx';
 ---
@@ -149,15 +176,12 @@ import Icon from '../../components/ui/Icon.tsx';
     <ShareActions title="Bagikan artikel ini" links={shareLinks} />
   </article>
 
-  {relatedArticles.length > 0 && (
-    <PageSection
-      sectionClass="bg-surface-container-low/50 py-10"
-      title="Berita Terkait"
-      actionHref="/berita"
-      actionLabel="Lihat semua"
-    >
-      <NewsGrid items={relatedArticles.map((a) => ({ slug: a.slug, entry: a.entry as any }))} compact />
-    </PageSection>
-  )}
+  <RelatedContentSection
+    title="Konten Terkait Berita Ini"
+    actionHref="/berita"
+    actionLabel="Lihat arsip berita"
+    items={relatedItems}
+    sectionClass="bg-surface-container-low/50 py-10"
+  />
 
 </MainLayout>

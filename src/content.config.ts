@@ -8,6 +8,7 @@ import {
   KATEGORI_LOG_KEGIATAN,
   KATEGORI_PROGRAM,
   KATEGORI_UMKM,
+  KONTEN_RELASI_TYPES,
   LABEL_AGENDA,
   KONDISI_INVENTARIS,
   STATUS_PINJAM_INVENTARIS,
@@ -22,6 +23,14 @@ import { pageCopyDefaults } from './lib/page-copy';
 const tanggalSchema = z
   .union([z.string(), z.date()])
   .transform((value) => (value instanceof Date ? value.toISOString().slice(0, 10) : value));
+
+const kontenTerkaitSchema = z.array(
+  z.object({
+    type: z.enum(KONTEN_RELASI_TYPES),
+    slug: z.string().min(1),
+    label: z.string().default(''),
+  }),
+).default([]);
 
 
 const dokumen = defineCollection({
@@ -72,6 +81,7 @@ const kegiatan = defineCollection({
         altGambarUtama: z.string().default('Dokumentasi kegiatan Padukuhan Salakan'),
         tag: z.array(z.string().min(1)).default([]),
         unggulan: z.boolean().default(false),
+        kontenTerkait: kontenTerkaitSchema,
       }),
       seo: z.object({
         seoTitle: z.string().default(''),
@@ -108,6 +118,7 @@ const agenda = defineCollection({
       label: z.enum(LABEL_AGENDA).default('Agenda'),
       tag: z.array(z.string().min(1)).default([]),
       unggulan: z.boolean().default(false),
+      kontenTerkait: kontenTerkaitSchema,
     }),
   }),
 });
@@ -133,7 +144,8 @@ const logKegiatan = defineCollection({
     pengaturanTampil: z.object({
       tag: z.array(z.string().min(1)).default([]),
       urutanTampil: z.number().int().default(0),
-    }).default({ tag: [], urutanTampil: 0 }),
+      kontenTerkait: kontenTerkaitSchema,
+    }).default({ tag: [], urutanTampil: 0, kontenTerkait: [] }),
   }),
 });
 
@@ -161,6 +173,7 @@ const program = defineCollection({
       tag: z.array(z.string().min(1)).default([]),
       unggulan: z.boolean().default(false),
       urutanTampil: z.number().int().default(0),
+      kontenTerkait: kontenTerkaitSchema,
     }),
   }),
 });
@@ -273,6 +286,7 @@ const strukturOrganisasi = defineCollection({
         label: z.string().min(1),
         href: z.string().min(1),
       })).default([]),
+      kontenTerkait: kontenTerkaitSchema,
     }),
     pengaturanTampil: z.object({
       bidang: z.enum(BIDANG_LEMBAGA),

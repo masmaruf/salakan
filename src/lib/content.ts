@@ -101,6 +101,7 @@ export async function getKegiatan() {
       ringkasan: data.editorArtikel?.kontenUtama?.ringkasan,
       tag: data.editorArtikel?.sidebar?.tag,
       unggulan: data.editorArtikel?.sidebar?.unggulan,
+      kontenTerkait: data.editorArtikel?.sidebar?.kontenTerkait ?? [],
       seoTitle: data.editorArtikel?.seo?.seoTitle,
       seoDescription: data.editorArtikel?.seo?.seoDescription,
       ogImage: data.editorArtikel?.seo?.ogImage,
@@ -129,6 +130,7 @@ export async function getAgenda() {
       label: data.pengaturanTampil?.label,
       tag: data.pengaturanTampil?.tag,
       unggulan: data.pengaturanTampil?.unggulan,
+      kontenTerkait: data.pengaturanTampil?.kontenTerkait ?? [],
     },
   }));
 }
@@ -152,6 +154,7 @@ export async function getLogKegiatan() {
       fotoDokumentasi: data.media?.fotoDokumentasi,
       tag: data.pengaturanTampil?.tag ?? [],
       urutanTampil: data.pengaturanTampil?.urutanTampil ?? 0,
+      kontenTerkait: data.pengaturanTampil?.kontenTerkait ?? [],
     },
   }));
 }
@@ -180,6 +183,7 @@ export async function getProgram() {
       tag: data.pengaturanTampil.tag ?? [],
       unggulan: data.pengaturanTampil.unggulan,
       urutanTampil: data.pengaturanTampil.urutanTampil,
+      kontenTerkait: data.pengaturanTampil.kontenTerkait ?? [],
     },
   }));
 }
@@ -299,6 +303,7 @@ export async function getStrukturOrganisasi() {
       fokusKegiatan: data.kontenUtama?.fokusKegiatan,
       layananUtama: data.kontenUtama?.layananUtama,
       dokumentasiTerkait: data.kontenUtama?.dokumentasiTerkait,
+      kontenTerkait: data.kontenUtama?.kontenTerkait ?? [],
       bidang: data.pengaturanTampil?.bidang,
       statusPublikasi: data.pengaturanTampil?.statusPublikasi,
       urutanTampil: data.pengaturanTampil?.urutanTampil,

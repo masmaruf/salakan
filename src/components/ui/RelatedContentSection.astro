@@ -1,0 +1,51 @@
+---
+import PageSection from '../PageSection.astro';
+import ArchiveCard from './ArchiveCard.astro';
+import { excerpt } from '../../lib/content';
+import { formatTanggalLog } from '../../lib/log-kegiatan';
+
+interface RelatedItem {
+  href: string;
+  title: string;
+  summary?: string;
+  typeLabel: string;
+  badgeTone?: 'primary' | 'surface' | 'error' | 'warning' | 'success' | 'info';
+  date?: string;
+}
+
+interface Props {
+  title: string;
+  actionHref?: string;
+  actionLabel?: string;
+  sectionClass?: string;
+  items: RelatedItem[];
+}
+
+const {
+  title,
+  actionHref,
+  actionLabel,
+  sectionClass = 'bg-surface-container-low/40 py-10',
+  items,
+} = Astro.props;
+---
+
+{items.length > 0 && (
+  <PageSection sectionClass={sectionClass} title={title} actionHref={actionHref} actionLabel={actionLabel}>
+    <div class="grid gap-4 lg:grid-cols-2">
+      {items.map((related) => (
+        <ArchiveCard
+          href={related.href}
+          title={related.title}
+          summary={excerpt(related.summary || '', 140)}
+          badges={[
+            { label: related.typeLabel, tone: related.badgeTone ?? 'surface' },
+          ]}
+          meta={[
+            ...(related.date ? [{ icon: 'calendar_today', text: formatTanggalLog(related.date), datetime: related.date }] : []),
+          ]}
+        />
+      ))}
+    </div>
+  </PageSection>
+)}
