@@ -1,0 +1,52 @@
+---
+interface Props {
+  value: string;
+  label: string;
+  icon?: string;
+  class?: string;
+}
+
+const {
+  value,
+  label,
+  icon = 'content_copy',
+  class: className = '',
+} = Astro.props;
+
+import Icon from './Icon.tsx';
+---
+
+<button
+  type="button"
+  class:list={[
+    'inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-outline-variant bg-white px-5 py-3 text-sm font-bold text-on-surface transition hover:bg-surface-container-low',
+    className,
+  ]}
+  data-copy-button
+  data-copy-value={value}
+>
+  <Icon name={icon} class="text-[18px]" />
+  <span>{label}</span>
+</button>
+
+<script is:inline>
+  document.querySelectorAll('[data-copy-button]').forEach((button) => {
+    if (button.dataset.copyBound === 'true') return;
+    button.dataset.copyBound = 'true';
+
+    button.addEventListener('click', async () => {
+      const value = button.getAttribute('data-copy-value') || '';
+      if (!value) return;
+
+      try {
+        await navigator.clipboard.writeText(value);
+        const labelNode = button.querySelector('span');
+        const original = labelNode?.textContent || '';
+        if (labelNode) labelNode.textContent = 'Tersalin';
+        window.setTimeout(() => {
+          if (labelNode) labelNode.textContent = original;
+        }, 1600);
+      } catch {}
+    });
+  });
+</script>

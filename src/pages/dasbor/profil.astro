@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import DashboardLayout from '../../layouts/DashboardLayout.astro';
 import DashboardPanel from '../../components/ui/DashboardPanel.astro';
 import DashboardStatCard from '../../components/ui/DashboardStatCard.astro';
+import CopyButton from '../../components/ui/CopyButton.astro';
 import { getDashboardContent, getMonografi, getPengaturan } from '../../lib/content';
 import Icon from '../../components/ui/Icon.tsx';
 
@@ -10,6 +11,11 @@ const [dashboardContent, monografi, pengaturan, rtItems] = await Promise.all([ge
 const content = dashboardContent?.profil;
 const daftarRt = rtItems.filter((item) => item.data.aktif).sort((a, b) => a.data.nomor_rt.localeCompare(b.data.nomor_rt));
 const dokumenKeluarga = content?.checklistItems ?? ['Kartu Keluarga', 'KTP anggota keluarga'];
+
+function normalizedPhone(value?: string) {
+  if (!value) return '';
+  return value.startsWith('62') ? `0${value.slice(2)}` : value;
+}
 ---
 
 <DashboardLayout title="Data Keluarga (KK)" activeMenu="profil" description="Ringkasan data wilayah dan kesiapan administrasi keluarga warga.">
@@ -33,7 +39,28 @@ const dokumenKeluarga = content?.checklistItems ?? ['Kartu Keluarga', 'KTP anggo
 
     <div class="grid gap-6">
       <DashboardPanel title={content?.activeRtTitle ?? 'Kontak RT Aktif'} icon="groups">
-        <div class="mt-4 space-y-3">{daftarRt.map((item) => <div class="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4"><p class="text-sm font-black text-slate-900">RT {item.data.nomor_rt}</p><p class="mt-1 text-sm font-medium text-slate-600">Ketua: {item.data.nama_ketua}</p><p class="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-400">{item.data.no_hp_ketua || 'Kontak belum dicantumkan'}</p></div>)}</div>
+        <div class="mt-4 space-y-3">
+          {daftarRt.map((item) => (
+            <div class="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-4">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <p class="text-sm font-black text-slate-900">RT {item.data.nomor_rt}</p>
+                  <p class="mt-1 text-sm font-medium text-slate-600">Ketua: {item.data.nama_ketua}</p>
+                  <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-400">{normalizedPhone(item.data.no_hp_ketua) || 'Kontak belum dicantumkan'}</p>
+                </div>
+                <a href={`/ketua-rt#rt-${item.data.nomor_rt}`} class="inline-action">
+                  <Icon name="open_in_new" class="text-[14px]" />
+                  Buka
+                </a>
+              </div>
+              {item.data.no_hp_ketua && (
+                <div class="mt-3">
+                  <CopyButton value={normalizedPhone(item.data.no_hp_ketua)} label="Salin nomor" class="w-full justify-center border-slate-200 bg-white text-slate-700 hover:bg-slate-100" />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </DashboardPanel>
 
       <DashboardPanel title={content?.serviceAddressTitle ?? 'Alamat Layanan'} icon="home_pin">

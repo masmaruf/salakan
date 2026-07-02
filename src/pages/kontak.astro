@@ -3,13 +3,16 @@ import MainLayout from '../layouts/MainLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import InfoCard from '../components/ui/InfoCard.astro';
 import ActionLinkButton from '../components/ui/ActionLinkButton.astro';
+import CopyButton from '../components/ui/CopyButton.astro';
 import { getHalamanCopy, getPengaturan, normalizeWhatsapp } from '../lib/content';
 
 const pengaturan = await getPengaturan();
 const halaman = await getHalamanCopy();
 const nomorWhatsapp = pengaturan?.kontakWhatsApp ? normalizeWhatsapp(pengaturan.kontakWhatsApp) : '';
+const nomorWhatsappDisplay = pengaturan?.kontakWhatsApp ? `0${nomorWhatsapp.replace(/^62/, '')}` : '';
 const whatsappLink = nomorWhatsapp ? `https://wa.me/${nomorWhatsapp}` : null;
-
+const alamat = pengaturan?.alamat ?? halaman.kontak.addressFallback;
+const email = pengaturan?.email ?? '';
 ---
 
 <MainLayout title={halaman.kontak.layoutTitle} description={halaman.kontak.layoutDescription}>
@@ -25,26 +28,82 @@ const whatsappLink = nomorWhatsapp ? `https://wa.me/${nomorWhatsapp}` : null;
     ]}
   />
 
-  <section class="container-premium py-10 sm:py-14">
-    <div class="space-y-4">
-      <InfoCard title={halaman.kontak.addressTitle} icon="location_on">
-        <p class="whitespace-pre-line text-sm font-bold text-on-surface">{pengaturan?.alamat ?? halaman.kontak.addressFallback}</p>
-      </InfoCard>
+  <section class="container-premium py-8 sm:py-10">
+    <div class="section-card">
+      <p class="section-kicker">Aksi Cepat</p>
+      <h2 class="mt-1 text-2xl font-bold tracking-tight text-on-surface">Pilih cara tercepat untuk menghubungi layanan warga</h2>
+      <p class="mt-2 max-w-3xl text-sm leading-relaxed text-on-surface-variant">
+        Warga bisa langsung membuka WhatsApp resmi, menyalin nomor kontak, atau lompat ke halaman ketua RT sesuai kebutuhan pelayanan.
+      </p>
 
-      <InfoCard title={halaman.kontak.whatsappTitle} icon="chat">
+      <div class="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {whatsappLink ? (
-          <ActionLinkButton href={whatsappLink} label={halaman.kontak.whatsappActionLabel} icon="open_in_new" variant="success" target="_blank" rel="noreferrer" class="mt-1 w-full justify-center sm:w-auto sm:justify-start" />
+          <>
+            <ActionLinkButton href={whatsappLink} label="Buka WhatsApp" icon="chat" variant="success" target="_blank" rel="noreferrer" class="justify-center" />
+            <CopyButton value={nomorWhatsappDisplay || nomorWhatsapp} label="Salin nomor WA" class="justify-center" />
+          </>
         ) : (
-          <p class="mt-1 text-sm font-bold text-on-surface">{halaman.kontak.whatsappPendingLabel}</p>
+          <div class="section-subcard sm:col-span-2 xl:col-span-2">
+            <p class="text-sm font-bold text-on-surface">{halaman.kontak.whatsappPendingLabel}</p>
+          </div>
         )}
-      </InfoCard>
+        <ActionLinkButton href="/ketua-rt" label="Pilih Ketua RT" icon="groups" variant="outline" class="justify-center" />
+        <CopyButton value={alamat} label="Salin alamat" icon="home_pin" class="justify-center" />
+      </div>
+    </div>
+  </section>
 
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <InfoCard title={halaman.kontak.emailTitle} icon="mail">
-          <p class="break-words text-sm font-bold text-on-surface">{pengaturan?.email ?? '-'}</p>
+  <section class="container-premium py-0 pb-10 sm:pb-14">
+    <div class="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+      <div class="space-y-4">
+        <InfoCard title={halaman.kontak.addressTitle} icon="location_on">
+          <p class="whitespace-pre-line text-sm font-bold leading-relaxed text-on-surface">{alamat}</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <CopyButton value={alamat} label="Salin alamat" icon="content_copy" />
+            <ActionLinkButton href="/profil#lokasi" label="Lihat peta" icon="map" variant="outline" />
+          </div>
         </InfoCard>
-        <InfoCard title={halaman.kontak.workingHoursTitle} icon="schedule">
-          <p class="text-sm font-bold text-on-surface">{pengaturan?.jamLayanan ?? '-'}</p>
+
+        <InfoCard title={halaman.kontak.whatsappTitle} icon="chat">
+          {whatsappLink ? (
+            <>
+              <p class="text-sm font-bold text-on-surface">{nomorWhatsappDisplay || nomorWhatsapp}</p>
+              <p class="mt-1 text-sm text-on-surface-variant">Gunakan nomor ini untuk pertanyaan umum, konfirmasi layanan, atau arahan ke pengurus terkait.</p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                <ActionLinkButton href={whatsappLink} label={halaman.kontak.whatsappActionLabel} icon="open_in_new" variant="success" target="_blank" rel="noreferrer" />
+                <CopyButton value={nomorWhatsappDisplay || nomorWhatsapp} label="Salin nomor" />
+              </div>
+            </>
+          ) : (
+            <p class="mt-1 text-sm font-bold text-on-surface">{halaman.kontak.whatsappPendingLabel}</p>
+          )}
+        </InfoCard>
+      </div>
+
+      <div class="space-y-4">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-1">
+          <InfoCard title={halaman.kontak.emailTitle} icon="mail">
+            <p class="break-words text-sm font-bold text-on-surface">{email || '-'}</p>
+            {email && (
+              <div class="mt-4 flex flex-wrap gap-2">
+                <ActionLinkButton href={`mailto:${email}`} label="Kirim email" icon="send" variant="outline" />
+                <CopyButton value={email} label="Salin email" />
+              </div>
+            )}
+          </InfoCard>
+
+          <InfoCard title={halaman.kontak.workingHoursTitle} icon="schedule">
+            <p class="text-sm font-bold leading-relaxed text-on-surface">{pengaturan?.jamLayanan ?? '-'}</p>
+          </InfoCard>
+        </div>
+
+        <InfoCard title="Butuh jalur yang lebih spesifik?" icon="call">
+          <p class="text-sm leading-relaxed text-on-surface-variant">
+            Untuk urusan yang perlu tindak lanjut di tingkat lingkungan, pilih ketua RT wilayah Anda agar komunikasi lebih cepat dan sesuai konteks domisili.
+          </p>
+          <div class="mt-4">
+            <ActionLinkButton href="/ketua-rt" label="Buka kontak ketua RT" icon="arrow_forward" variant="outline" />
+          </div>
         </InfoCard>
       </div>
     </div>
