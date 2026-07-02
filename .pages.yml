@@ -56,6 +56,36 @@ components:
     options:
       format: html
 
+  richTextWithImages:
+    type: rich-text
+    label: Konten terformat
+    description: Gunakan heading, daftar, tautan, dan sisipkan gambar bila diperlukan.
+    options:
+      format: markdown
+      switcher: true
+      path: public/images/editorial
+      rename: safe
+
+  richTextCompact:
+    type: rich-text
+    label: Catatan terformat
+    description: Cocok untuk jawaban, visi, atau catatan singkat tanpa upload media.
+    options:
+      format: markdown
+      switcher: false
+      media: false
+
+  tautanReferensi:
+    type: object
+    label: Tautan referensi
+    fields:
+      - name: label
+        label: Label tautan
+        type: string
+      - name: href
+        label: Link tujuan
+        type: string
+
 content:
   # ─── COLLECTIONS ────────────────────────────────────────────────
 
@@ -88,9 +118,7 @@ content:
             type: text
           - name: deskripsi
             label: Deskripsi lengkap
-            type: rich-text
-            options:
-              format: markdown
+            component: richTextWithImages
       - name: media
         label: Media
         type: object
@@ -253,9 +281,7 @@ content:
             type: text
           - name: deskripsi
             label: Deskripsi lengkap
-            type: rich-text
-            options:
-              format: markdown
+            component: richTextWithImages
           - name: kontakPic
             label: Kontak / PIC
             type: string
@@ -337,9 +363,7 @@ content:
             type: text
           - name: hasilTindakLanjut
             label: Hasil / tindak lanjut
-            type: rich-text
-            options:
-              format: markdown
+            component: richTextCompact
           - name: pihakTerlibat
             label: Pihak terlibat
             type: text
@@ -392,9 +416,7 @@ content:
             type: text
           - name: deskripsi
             label: Deskripsi lengkap
-            type: rich-text
-            options:
-              format: markdown
+            component: richTextWithImages
           - name: targetHasilSingkat
             label: Target hasil singkat
             type: text
@@ -631,9 +653,7 @@ content:
             type: text
           - name: deskripsi
             label: Deskripsi lengkap
-            type: rich-text
-            options:
-              format: markdown
+            component: richTextWithImages
           - name: whatsapp
             component: kontakWhatsapp
           - name: lokasi
@@ -782,9 +802,7 @@ content:
             type: text
           - name: deskripsiTugas
             label: Deskripsi tugas
-            type: rich-text
-            options:
-              format: markdown
+            component: richTextWithImages
           - name: kontak
             label: Kontak
             type: string
@@ -809,13 +827,7 @@ content:
               collapsible:
                 collapsed: true
                 summary: "{label}"
-            fields:
-              - name: label
-                label: Label tautan
-                type: string
-              - name: href
-                label: Link tujuan
-                type: string
+            component: tautanReferensi
       - name: pengaturanTampil
         label: Pengaturan Tampil
         type: object
@@ -898,9 +910,7 @@ content:
         required: true
       - name: jawaban
         label: Jawaban
-        type: rich-text
-        options:
-          format: markdown
+        component: richTextCompact
       - name: kategori
         label: Kategori
         type: string
@@ -983,14 +993,10 @@ content:
         type: string
       - name: sejarahSingkat
         label: Isi sejarah
-        type: rich-text
-        options:
-          format: markdown
+        component: richTextWithImages
       - name: visi
         label: Visi
-        type: rich-text
-        options:
-          format: markdown
+        component: richTextCompact
       - name: misi
         label: Misi
         type: string
@@ -1308,13 +1314,7 @@ content:
             label: Tautan bantuan cepat
             type: object
             list: true
-            fields:
-              - name: label
-                label: Label tautan
-                type: string
-              - name: href
-                label: Link tautan
-                type: string
+            component: tautanReferensi
 
   - name: beranda
     label: Konten Beranda
