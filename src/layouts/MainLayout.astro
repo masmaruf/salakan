@@ -5,6 +5,7 @@ import SiteHeader from '../components/SiteHeader.astro';
 import DevServiceWorkerReset from '../components/DevServiceWorkerReset.astro';
 import '../styles/global.css';
 import { getSeoImage, siteMeta, toAbsoluteUrl } from '../lib/site';
+import { generateLocalBusinessSchema, generateWebSiteSchema, localSeo } from '../lib/seo';
 import { SEO } from 'astro-seo';
 import { Schema } from 'astro-seo-schema';
 
@@ -14,7 +15,9 @@ interface Props {
   image?: string;
   type?: 'website' | 'article';
   publishedTime?: string;
+  modifiedTime?: string;
   noIndex?: boolean;
+  breadcrumbs?: Array<{ name: string; url: string }>;
 }
 
 const {
@@ -23,12 +26,18 @@ const {
   image,
   type = 'website',
   publishedTime,
+  modifiedTime,
   noIndex = false,
+  breadcrumbs,
 } = Astro.props;
 const canonical = Astro.site
   ? new URL(Astro.url.pathname, Astro.site)
   : new URL(Astro.url.pathname, siteMeta.siteUrl);
 const seoImage = getSeoImage(image);
+
+// Generate schemas for all pages
+const localBusinessSchema = generateLocalBusinessSchema();
+const webSiteSchema = generateWebSiteSchema();
 ---
 
 <!doctype html>
@@ -37,7 +46,26 @@ const seoImage = getSeoImage(image);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#3b5998" />
+    <meta name="theme-color" content={siteMeta.themeColor} />
+    
+    {/* Local SEO Geo Meta Tags */}
+    <meta name="geo.region" content="ID-YO" />
+    <meta name="geo.placename" content="Bangunjiwo, Kasihan, Bantul" />
+    <meta name="geo.position" content={`${localSeo.latitude};${localSeo.longitude}`} />
+    <meta name="ICBM" content={`${localSeo.latitude}, ${localSeo.longitude}`} />
+    
+    {/* Additional SEO Meta Tags */}
+    <meta name="author" content={siteMeta.name} />
+    <meta name="language" content="id" />
+    <meta name="revisit-after" content="3 days" />
+    <meta name="rating" content="general" />
+    <meta name="distribution" content="global" />
+    
+    {/* Mobile Web App */}
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content={siteMeta.name} />
     <SEO
       title={title}
       description={description}
@@ -72,6 +100,13 @@ const seoImage = getSeoImage(image);
         image: seoImage,
       }}
     />
+    
+    {/* LocalBusiness Schema - appears on all pages */}
+    <Schema item={localBusinessSchema} />
+    
+    {/* WebSite Schema - appears on all pages */}
+    <Schema item={webSiteSchema} />
+    
     {type === 'article' && publishedTime ? (
       <Schema
         item={{
@@ -104,7 +139,8 @@ const seoImage = getSeoImage(image);
     )}
     <link rel="icon" type="image/svg+xml" href="/images/og-salakan.svg" />
     <link rel="alternate" type="application/rss+xml" title="RSS Berita Padukuhan Salakan" href={toAbsoluteUrl('/rss/berita.xml')} />
-    <link rel="alternate" type="application/rss+xml" title="RSS Agenda Warga Padukuhan Salakan" href={toAbsoluteUrl('/rss/pengumuman.xml')} />
+    <link rel="alternate" type="application/rss+xml" title="RSS Agenda Warga Padukuhan Salakan" href={toAbsoluteUrl('/rss/pengumuman.xml')} />
+
   </head>
   <body class="relative min-h-screen bg-slate-50 pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))] md:pb-0">
     <DevServiceWorkerReset />

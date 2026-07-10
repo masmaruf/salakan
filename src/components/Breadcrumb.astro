@@ -1,0 +1,67 @@
+---
+/**
+ * Breadcrumb navigation component for salakan.id
+ * Improves SEO and user navigation
+ * 
+ * Usage:
+ * <Breadcrumb items={[
+ *   { name: 'Beranda', href: '/' },
+ *   { name: 'Berita', href: '/berita' },
+ *   { name: 'Judul Berita' },
+ * ]} />
+ */
+
+interface BreadcrumbItem {
+  name: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+  class?: string;
+}
+
+const { items, class: className = '' } = Astro.props;
+
+// Generate JSON-LD for breadcrumbs
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.name,
+    ...(item.href && {
+      item: new URL(item.href, Astro.site || 'https://salakan.pages.dev').toString(),
+    }),
+  })),
+};
+---
+
+{/* Breadcrumb JSON-LD */}
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+
+{/* Visual Breadcrumb */}
+<nav aria-label="Breadcrumb" class:list={['text-sm', className]}>
+  <ol class="flex flex-wrap items-center gap-1.5">
+    {items.map((item, index) => (
+      <li class="flex items-center gap-1.5">
+        {index > 0 && (
+          <span class="text-on-surface-variant/50" aria-hidden="true">/</span>
+        )}
+        {item.href ? (
+          <a
+            href={item.href}
+            class="text-on-surface-variant hover:text-m3-primary transition-colors"
+          >
+            {item.name}
+          </a>
+        ) : (
+          <span class="font-medium text-on-surface" aria-current="page">
+            {item.name}
+          </span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
