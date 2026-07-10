@@ -99,7 +99,7 @@ const integrations = [
 ];
 
 export default defineConfig({
-  site: 'https://salakan.pages.dev',
+  site: 'https://salakan.id',
   output: 'server',
   adapter: useCloudflareAdapter ? cloudflare() : undefined,
   session: {

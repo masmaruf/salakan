@@ -3,7 +3,7 @@ export const siteMeta = {
   title: 'Padukuhan Salakan',
   description:
     'Portal warga Padukuhan Salakan untuk agenda, berita, profil wilayah, galeri, dan informasi kontak.',
-  siteUrl: 'https://salakan.pages.dev',
+  siteUrl: 'https://salakan.id',
   ogImage: '/images/og-salakan.svg',
   locale: 'id_ID',
   themeColor: '#ffffff',
