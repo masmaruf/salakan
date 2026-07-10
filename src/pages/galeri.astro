@@ -2,6 +2,7 @@
 import GalleryGrid from '../components/GalleryGrid.astro';
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
 import { getGaleri, sortByDateDesc } from '../lib/content';
 
 const galeri = sortByDateDesc(
@@ -24,6 +25,13 @@ const galeri = sortByDateDesc(
       { class: 'absolute bottom-[-3rem] left-[12%] h-[220px] w-[220px] rounded-full bg-emerald-400/10 blur-3xl sm:h-[300px] sm:w-[300px]' },
     ]}
   />
+
+  <section class="container-premium pt-4 pb-2">
+    <Breadcrumb items={[
+      { name: 'Beranda', href: '/' },
+      { name: 'Galeri' },
+    ]} />
+  </section>
 
   <section class="container-premium py-10 sm:py-14">
     <GalleryGrid items={galeri} />

@@ -4,6 +4,8 @@ import PageIntro from '../../components/ui/PageIntro.astro';
 import { getFaq, getPengaturan } from '../../lib/content';
 import { renderMarkdown } from '../../lib/rich-text';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
+import { generateFaqSchema } from '../../lib/seo';
+import { Schema } from 'astro-seo-schema';
 
 const [faqItems, pengaturan] = await Promise.all([getFaq(), getPengaturan()]);
 const seo = pengaturan?.seoHalamanData?.faq;
@@ -13,6 +15,14 @@ const items = faqItems
 
 const categories = [...new Set(items.map(({ entry }) => entry.kategori))];
 
+// Generate FAQ structured data for Google rich results
+const faqSchema = generateFaqSchema(
+  items.map(({ entry }) => ({
+    question: entry.pertanyaan,
+    answer: entry.jawaban,
+  }))
+);
+
 import Icon from '../../components/ui/Icon.tsx';
 ---
 
@@ -21,6 +31,7 @@ import Icon from '../../components/ui/Icon.tsx';
   description={resolveSeoText(seo?.seoDescription, 'Pertanyaan yang sering diajukan warga Padukuhan Salakan.')}
   image={resolveSeoImage(seo?.ogImage)}
 >
+  <Schema item={faqSchema} />
 
   <PageIntro
     title="Tanya & Jawab (FAQ)"

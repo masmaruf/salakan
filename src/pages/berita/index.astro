@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import NewsGrid from '../../components/NewsGrid.astro';
 import EmptyStateCard from '../../components/ui/EmptyStateCard.astro';
 import PillFilterBar from '../../components/ui/PillFilterBar.astro';
@@ -72,6 +73,13 @@ const displayItems = shouldShowFeatured ? kegiatan.slice(1) : kegiatan;
     title="Kabar Salakan"
     description="Informasi terbaru, catatan kegiatan, dan cerita warga Padukuhan Salakan dalam satu ruang baca yang lebih rapi."
   />
+
+  <section class="container-premium pt-4 pb-2">
+    <Breadcrumb items={[
+      { name: 'Beranda', href: '/' },
+      { name: 'Berita' },
+    ]} />
+  </section>
 
   <section class="container-premium pb-4 pt-6 sm:pt-8">
     <FilterToolbar

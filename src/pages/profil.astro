@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
 import PageSection from '../components/PageSection.astro';
 import InfoCard from '../components/ui/InfoCard.astro';
 import ActionLinkButton from '../components/ui/ActionLinkButton.astro';
@@ -49,6 +50,13 @@ import Icon from '../components/ui/Icon.tsx';
     overlayClass="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-slate-900/20"
     orbs={[]}
   />
+
+  <section class="container-premium pt-4 pb-2">
+    <Breadcrumb items={[
+      { name: 'Beranda', href: '/' },
+      { name: 'Profil' },
+    ]} />
+  </section>
 
   <PageSection eyebrow={profil?.sejarahLabel || halaman.profil.storyEyebrow} title={profil?.sejarahJudul || halaman.profil.storyTitle} sectionClass="relative overflow-hidden py-10 sm:py-14">
     <div class="article-rich prose-profil max-w-none text-[15px] leading-[1.8] text-on-surface-variant lg:max-w-3xl" set:html={renderMarkdown(profil?.sejarahSingkat)} />
