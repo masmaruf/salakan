@@ -40,7 +40,7 @@ editorArtikel:
     ogImage: /images/kegiatan/kenapa-website-padukuhan-penting-untuk-warga-salakan/gambar-utama.svg
 ---
 
-## Headline: Salakan.id sebagai Rumah Digital Warga
+## Salakan.id sebagai Rumah Digital Warga
 
 **Di tengah arus informasi yang bergerak cepat, Padukuhan Salakan membutuhkan satu tempat rujukan yang rapi, mudah dicari, dan dekat dengan kehidupan warga.** Website **salakan.id** hadir sebagai rumah digital: tempat warga menemukan informasi layanan, agenda, kegiatan, dokumentasi, UMKM, dan potensi kampung tanpa harus menunggu pengumuman berulang.
 
