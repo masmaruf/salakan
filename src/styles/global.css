@@ -192,6 +192,17 @@
   --surface-tint: #a8bce0;
 }
 
+/*
+  CSS architecture:
+  1. @theme + :root tokens
+  2. Base document/reset rules
+  3. Shared components and article typography
+  4. Small utilities and responsive/reduced-motion overrides
+
+  Keep page-specific decoration in Astro components when possible; keep this
+  file for repeated primitives used across warga/admin pages.
+*/
+
 /* Base Styles */
 * {
   box-sizing: border-box;
@@ -230,11 +241,6 @@ img {
   max-width: 100%;
 }
 
-.container {
-  width: min(calc(100% - 2rem), var(--max-width));
-  margin: 0 auto;
-}
-
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -261,59 +267,7 @@ img {
   backdrop-filter: blur(18px);
 }
 
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.38rem 0.7rem;
-  border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, rgba(59, 89, 152, 0.12), rgba(37, 99, 235, 0.12));
-  color: var(--accent);
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.55rem;
-  min-height: 3rem;
-  padding: 0.85rem 1.2rem;
-  border-radius: var(--radius-md);
-  border: 1px solid transparent;
-  font-weight: 700;
-  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
-}
-
-.button:hover {
-  transform: translateY(-1px);
-}
-
-.button-primary {
-  background: linear-gradient(135deg, var(--accent) 0%, #3b6abf 45%, var(--accent-2) 100%);
-  color: #ffffff;
-  box-shadow: 0 18px 34px rgba(59, 89, 152, 0.24);
-}
-
-.button-secondary {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.34);
-  color: #ffffff;
-}
-
 /* Typography */
-.prose p,
-.prose li {
-  color: var(--muted);
-  line-height: 1.75;
-}
-
-.prose ul {
-  margin: 0;
-  padding-left: 1.1rem;
-}
-
 h1, h2, h3, h4 {
   margin: 0;
   font-family: "Segoe UI Variable", "Aptos Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
@@ -327,33 +281,6 @@ p {
 
 input, button, textarea, select {
   font: inherit;
-}
-
-/* Card Styles */
-.surface-card {
-  @apply bg-white/95 border border-slate-200 shadow-xl;
-  border-radius: var(--radius-lg);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 10px 26px rgba(148, 163, 184, 0.08);
-}
-
-.glass-card {
-  @apply bg-white/85 border border-slate-200/80 shadow-lg backdrop-blur-xl;
-}
-
-/* Border Radius Utilities */
-.ui-radius-xl { border-radius: var(--radius-xl); }
-.ui-radius-lg { border-radius: var(--radius-lg); }
-.ui-radius-md { border-radius: var(--radius-md); }
-.ui-radius-sm { border-radius: var(--radius-sm); }
-
-/* Button Styles */
-.btn {
-  border-radius: var(--radius-md);
-  @apply border border-transparent font-semibold normal-case transition-colors duration-200;
-  min-height: 2.95rem;
-  padding-inline: 1rem;
-  padding-block: 0.78rem;
 }
 
 .badge {
@@ -375,41 +302,6 @@ input, button, textarea, select {
 
 .badge.badge-ghost {
   @apply border-slate-200 bg-slate-100 text-slate-600;
-}
-
-.brand-button {
-  @apply inline-flex items-center justify-center gap-2 border-0 text-white shadow-md font-semibold transition-colors;
-  border-radius: var(--radius-md);
-  min-height: 2.95rem;
-  padding-inline: 1rem;
-  padding-block: 0.78rem;
-  background-image: linear-gradient(135deg, var(--accent) 0%, #3b6abf 45%, var(--accent-2) 100%);
-}
-
-.brand-button:hover {
-  filter: brightness(1.03);
-}
-
-.btn.btn-outline {
-  @apply border-slate-200 bg-white text-slate-700 shadow-none hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700;
-}
-
-.btn.btn-ghost {
-  @apply border border-transparent bg-transparent text-slate-600 shadow-none hover:border-slate-200 hover:bg-slate-100 hover:text-slate-800;
-}
-
-.btn.btn-circle {
-  border-radius: 999px;
-}
-
-.btn.btn-sm {
-  min-height: 2.5rem;
-  padding-inline: 0.9rem;
-  padding-block: 0.6rem;
-}
-
-.rounded-ui {
-  border-radius: var(--radius-lg);
 }
 
 /* Rich Text Styles */
@@ -456,24 +348,12 @@ input, button, textarea, select {
   border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
 }
 
-/* Typography Classes */
-.page-title { font-size: var(--heading-1); line-height: 1.08; letter-spacing: -0.035em; }
-.section-title { font-size: var(--heading-2); line-height: 1.12; letter-spacing: -0.03em; }
-.card-title { font-size: var(--heading-3); line-height: 1.2; letter-spacing: -0.02em; }
-.text-body-lg { font-size: var(--body-lg); line-height: 1.8; }
-.text-body-md { font-size: var(--body-md); line-height: 1.75; }
-.text-body-sm { font-size: var(--body-sm); line-height: 1.65; }
-
-/* ========== Premium Design System ========== */
+/* ========== Shared layout and component system ========== */
 
 .container-premium {
   width: min(calc(100% - 2rem), var(--max-width));
   margin-inline: auto;
   padding-inline: 1rem;
-}
-
-.section-premium {
-  padding-block: 4rem;
 }
 
 .card-premium {
@@ -488,13 +368,6 @@ input, button, textarea, select {
 
 .card-premium:hover {
   box-shadow: 0 12px 36px rgba(15, 23, 42, 0.08);
-}
-
-.hero-title {
-  font-size: var(--heading-hero);
-  font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -0.04em;
 }
 
 .text-gradient {
@@ -521,21 +394,6 @@ input, button, textarea, select {
   @apply -translate-y-0.5;
   filter: brightness(1.05);
   box-shadow: 0 12px 28px rgba(37, 99, 235, 0.3);
-}
-
-.btn-premium-outline {
-  @apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-7 py-3.5 text-sm font-bold text-slate-700 shadow-sm transition-all hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 hover:-translate-y-0.5;
-}
-
-.btn-premium-ghost {
-  @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold text-slate-600 transition-all hover:bg-slate-100 hover:text-slate-900;
-}
-
-.badge-premium {
-  @apply inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[0.7rem] font-bold uppercase tracking-wider;
-  background: theme(--color-blue-50);
-  color: theme(--color-blue-700);
-  border: 1px solid theme(--color-blue-100);
 }
 
 .section-card {
@@ -685,12 +543,8 @@ input, button, textarea, select {
     --body-sm: 0.88rem;
   }
   .section { padding: 1.7rem 0 2.9rem; }
-  .section-premium { padding-block: 2.5rem; }
-  .container { width: min(calc(100% - 1rem), var(--max-width)); }
   .container-premium { padding-inline: 0.75rem; }
   .card-premium { padding: 1.25rem; border-radius: 1rem; }
-  .btn { min-height: 2.85rem; padding-inline: 0.95rem; padding-block: 0.72rem; }
-  .btn.btn-sm { min-height: 2.35rem; padding-inline: 0.82rem; padding-block: 0.52rem; }
   .badge { @apply px-2.5 py-1.5 text-[0.78rem]; }
 }
 
