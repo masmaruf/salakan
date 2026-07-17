@@ -14,7 +14,7 @@ editorArtikel:
     penulis: Rintok Juhirman
     unggulan: false
     gambarUtama: >-
-      /images/kegiatan/semarak-syawalan-padukuhan-salakan-di-masjid-al-huda/editorArtikel/sidebar/gambarUtama.jpeg
+      /images/kegiatan/semarak-syawalan-padukuhan-salakan-di-masjid-al-huda/editorArtikel/sidebar/gambarUtama.webp
     tag:
       - syawalan
       - pengajian

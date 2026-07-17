@@ -12,7 +12,7 @@ editorArtikel:
     kategori: pasar-alam
     penulis: Pak Dukuh
     unggulan: false
-    gambarUtama: /images/Pasar Alam Sendang.jpeg
+    gambarUtama: /images/Pasar Alam Sendang.webp
     altGambarUtama: Pasar Alam Sendang Banyu Temumpang #4
     tag:
       - pasar-alam
@@ -21,7 +21,7 @@ editorArtikel:
   seo:
     seoTitle: ''
     seoDescription: ''
-    ogImage: /images/Pasar%20Alam%20Sendang.jpeg
+    ogImage: /images/Pasar%20Alam%20Sendang.webp
 ---
 🌿✨ PASAR ALAM BANYU TEMUMPANG KEMBALI HADIR! ✨🌿  
 Halo warga Banyu Temumpang, Salakan, Bangunjiwo dan sekitarnya 👋

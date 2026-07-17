@@ -13,7 +13,7 @@ editorArtikel:
     kategori: paud
     penulis: Pak Dukuh
     unggulan: true
-    gambarUtama: /images/1002185119.jpg
+    gambarUtama: /images/1002185119.webp
     altGambarUtama: Pelepasan siswa PAUD SPS Bunga Kaca Piring 2026 di Joglo Mangun Diharjo.
     tag:
       - paud

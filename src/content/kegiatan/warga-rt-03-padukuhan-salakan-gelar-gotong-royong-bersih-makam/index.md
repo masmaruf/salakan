@@ -13,7 +13,7 @@ editorArtikel:
     penulis: Kak Maruf
     unggulan: false
     gambarUtama: >-
-      /images/kegiatan/warga-rt-03-padukuhan-salakan-gelar-gotong-royong-bersih-makam/editorArtikel/sidebar/gambarUtama.jpeg
+      /images/kegiatan/warga-rt-03-padukuhan-salakan-gelar-gotong-royong-bersih-makam/editorArtikel/sidebar/gambarUtama.webp
     tag:
       - gotong-royong
       - kerja-bakti

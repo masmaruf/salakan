@@ -13,7 +13,7 @@ editorArtikel:
     kategori: posyandu
     penulis: Pak Dukuh
     unggulan: true
-    gambarUtama: /images/kegiatan/posyandu-kacapiring-salakan-juli-2026/poster.jpg
+    gambarUtama: /images/kegiatan/posyandu-kacapiring-salakan-juli-2026/poster.webp
     altGambarUtama: Poster Posyandu Kacapiring Salakan pada 2 Juli 2026 di Rumah Dukuh Salakan.
     tag:
       - posyandu
@@ -30,11 +30,11 @@ editorArtikel:
   seo:
     seoTitle: ''
     seoDescription: ''
-    ogImage: /images/kegiatan/posyandu-kacapiring-salakan-juli-2026/poster.jpg
+    ogImage: /images/kegiatan/posyandu-kacapiring-salakan-juli-2026/poster.webp
 ---
 Posyandu Kacapiring Salakan akan kembali melayani warga pada **Kamis, 2 Juli 2026**, pukul **08.00 - 10.30 WIB** di **Rumah Dukuh Salakan - Bp. Ma'ruf Cahyadi**. Kegiatan ini menjadi kesempatan penting bagi orang tua untuk memantau kesehatan dan tumbuh kembang anak sejak dini.
 
-![Poster Posyandu Kacapiring Salakan Juli 2026](/images/kegiatan/posyandu-kacapiring-salakan-juli-2026/poster.jpg)
+![Poster Posyandu Kacapiring Salakan Juli 2026](/images/kegiatan/posyandu-kacapiring-salakan-juli-2026/poster.webp)
 
 Dalam kegiatan ini, balita akan mendapatkan layanan pemeriksaan rutin seperti **pengukuran berat badan, tinggi badan, lingkar kepala, dan lingkar lengan**. Selain itu, ada pula layanan **DISKOGALAKSI** dan **CKG Balita** bersama tim kesehatan dari **Puskesmas Kasihan 1**.
 

@@ -14,7 +14,7 @@ editorArtikel:
     kategori: kegiatan-warga
     penulis: Bapak Rintok Juhirman
     unggulan: false
-    gambarUtama: /images/kegiatan/mmd-ke-3-dukuh-v-salakan-dan-perpisahan-mahasiswa-kkg-ners-angkatan-xxv/foto-utama.jpg
+    gambarUtama: /images/kegiatan/mmd-ke-3-dukuh-v-salakan-dan-perpisahan-mahasiswa-kkg-ners-angkatan-xxv/foto-utama.webp
     altGambarUtama: Mahasiswa KKG Ners memaparkan hasil program saat MMD ke-3 di Dukuh V Salakan pada 3 Juli 2026.
     tag:
       - musyawarah
@@ -24,11 +24,11 @@ editorArtikel:
   seo:
     seoTitle: ''
     seoDescription: ''
-    ogImage: /images/kegiatan/mmd-ke-3-dukuh-v-salakan-dan-perpisahan-mahasiswa-kkg-ners-angkatan-xxv/foto-utama.jpg
+    ogImage: /images/kegiatan/mmd-ke-3-dukuh-v-salakan-dan-perpisahan-mahasiswa-kkg-ners-angkatan-xxv/foto-utama.webp
 ---
 Penuh kehangatan dan semangat kebersamaan, kegiatan **Musyawarah Masyarakat Desa (MMD) ke-3** digelar di rumah Dukuh V Salakan pada **Jumat, 3 Juli 2026**. Kegiatan ini sekaligus menjadi momen perpisahan bagi **Mahasiswa KKG Profesi Ners Angkatan XXV Universitas Jenderal Ahmad Yani Yogyakarta** yang telah mengabdi selama lima pekan di tengah masyarakat.
 
-![Mahasiswa KKG Ners memaparkan hasil program saat MMD ke-3 di Dukuh V Salakan](/images/kegiatan/mmd-ke-3-dukuh-v-salakan-dan-perpisahan-mahasiswa-kkg-ners-angkatan-xxv/foto-utama.jpg)
+![Mahasiswa KKG Ners memaparkan hasil program saat MMD ke-3 di Dukuh V Salakan](/images/kegiatan/mmd-ke-3-dukuh-v-salakan-dan-perpisahan-mahasiswa-kkg-ners-angkatan-xxv/foto-utama.webp)
 
 Dukuh V Salakan, **Bapak Ma''ruf Cahyadi**, menyampaikan rasa terima kasih yang mendalam kepada para mahasiswa atas survei dan penelitian kesehatan yang dilakukan untuk balita dan lansia. Beliau juga berharap masukan serta evaluasi yang telah disampaikan dapat menjadi bahan perbaikan untuk kegiatan-kegiatan berikutnya.
 
@@ -44,7 +44,7 @@ Mahasiswa memaparkan sejumlah temuan utama selama pelaksanaan program, antara la
 4. Kasih sayang dan perhatian keluarga
 5. Bahaya rokok terhadap kesehatan
 
-![Suasana warga dan tokoh masyarakat saat mengikuti MMD ke-3 di Dukuh V Salakan](/images/kegiatan/mmd-ke-3-dukuh-v-salakan-dan-perpisahan-mahasiswa-kkg-ners-angkatan-xxv/foto-2.jpg)
+![Suasana warga dan tokoh masyarakat saat mengikuti MMD ke-3 di Dukuh V Salakan](/images/kegiatan/mmd-ke-3-dukuh-v-salakan-dan-perpisahan-mahasiswa-kkg-ners-angkatan-xxv/foto-2.webp)
 
 Berbagai tindak lanjut dan edukasi kesehatan juga telah dilakukan oleh mahasiswa bersama warga. Materi yang diberikan menyasar kebutuhan kesehatan sehari-hari yang dekat dengan keluarga, anak, remaja, hingga lansia.
 
@@ -58,7 +58,7 @@ Berbagai tindak lanjut dan edukasi kesehatan juga telah dilakukan oleh mahasiswa
 - Balut bidai
 - Kepatuhan pengobatan lansia hipertensi
 
-![Mahasiswa KKG Ners saat menyampaikan paparan penutupan program pengabdian di Dukuh V Salakan](/images/kegiatan/mmd-ke-3-dukuh-v-salakan-dan-perpisahan-mahasiswa-kkg-ners-angkatan-xxv/foto-3.jpg)
+![Mahasiswa KKG Ners saat menyampaikan paparan penutupan program pengabdian di Dukuh V Salakan](/images/kegiatan/mmd-ke-3-dukuh-v-salakan-dan-perpisahan-mahasiswa-kkg-ners-angkatan-xxv/foto-3.webp)
 
 Kegiatan MMD ke-3 ini menegaskan bahwa kolaborasi antara masyarakat dan kalangan akademik dapat menghadirkan manfaat nyata. Pendampingan, survei, dan edukasi yang telah dilakukan diharapkan menjadi bekal untuk memperkuat perilaku hidup sehat di lingkungan Dukuh V Salakan.
 

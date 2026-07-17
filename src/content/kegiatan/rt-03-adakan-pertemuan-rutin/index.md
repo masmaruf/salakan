@@ -13,7 +13,7 @@ editorArtikel:
     penulis: Sekretaris RT
     unggulan: false
     gambarUtama: >-
-      /images/kegiatan/rt-03-adakan-pertemuan-rutin/editorArtikel/sidebar/gambarUtama.jpeg
+      /images/kegiatan/rt-03-adakan-pertemuan-rutin/editorArtikel/sidebar/gambarUtama.webp
     tag:
       - musyawarah
       - rt-03

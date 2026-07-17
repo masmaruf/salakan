@@ -14,7 +14,7 @@ editorArtikel:
     kategori: pelayanan
     penulis: Pak Dukuh
     unggulan: true
-    gambarUtama: /images/kegiatan/posko-pbb-padukuhan-salakan-sukses-terbayar-warga-antusias-bayar-pajak-lewat-mobil-keliling/foto-1.jpg
+    gambarUtama: /images/kegiatan/posko-pbb-padukuhan-salakan-sukses-terbayar-warga-antusias-bayar-pajak-lewat-mobil-keliling/foto-1.webp
     altGambarUtama: Mobil keliling pelayanan pajak daerah BPKPAD Kabupaten Bantul saat melayani pembayaran PBB di Padukuhan Salakan pada 4 Juli 2026.
     tag:
       - pbb
@@ -29,11 +29,11 @@ editorArtikel:
   seo:
     seoTitle: ''
     seoDescription: ''
-    ogImage: /images/kegiatan/posko-pbb-padukuhan-salakan-sukses-terbayar-warga-antusias-bayar-pajak-lewat-mobil-keliling/foto-1.jpg
+    ogImage: /images/kegiatan/posko-pbb-padukuhan-salakan-sukses-terbayar-warga-antusias-bayar-pajak-lewat-mobil-keliling/foto-1.webp
 ---
 **Bantul, 4 Juli 2026** — Posko Pembayaran Pajak Bumi dan Bangunan (PBB) Padukuhan Salakan berhasil diselenggarakan dengan lancar pada **Sabtu, 4 Juli 2026**. Kegiatan yang berlangsung mulai pukul **12.00 hingga 14.30 WIB** di **rumah Mas Dukuh Ma'ruf Cahyadi** ini berjalan tertib dan mendapat dukungan penuh dari berbagai pihak.
 
-![Mobil keliling pelayanan pajak daerah BPKPAD Kabupaten Bantul saat melayani pembayaran PBB di Padukuhan Salakan](/images/kegiatan/posko-pbb-padukuhan-salakan-sukses-terbayar-warga-antusias-bayar-pajak-lewat-mobil-keliling/foto-1.jpg)
+![Mobil keliling pelayanan pajak daerah BPKPAD Kabupaten Bantul saat melayani pembayaran PBB di Padukuhan Salakan](/images/kegiatan/posko-pbb-padukuhan-salakan-sukses-terbayar-warga-antusias-bayar-pajak-lewat-mobil-keliling/foto-1.webp)
 
 Lebih dari **15 warga Padukuhan Salakan** memanfaatkan kesempatan ini untuk membayar **PBB-P2** secara langsung melalui layanan **mobil keliling BPKPAD Kabupaten Bantul**. Total terdapat **70 Nomor Objek Pajak (NOP)** yang terbayar dengan jumlah keseluruhan mencapai **Rp7.587.628**.
 
@@ -49,7 +49,7 @@ Menurut petugas, antusiasme warga sangat tinggi. Banyak warga datang langsung se
 - Jumlah NOP terbayar: 70
 - Total pembayaran: Rp7.587.628
 
-![Rekapitulasi jumlah NOP dan total pembayaran PBB Padukuhan Salakan pada 4 Juli 2026](/images/kegiatan/posko-pbb-padukuhan-salakan-sukses-terbayar-warga-antusias-bayar-pajak-lewat-mobil-keliling/foto-2.jpg)
+![Rekapitulasi jumlah NOP dan total pembayaran PBB Padukuhan Salakan pada 4 Juli 2026](/images/kegiatan/posko-pbb-padukuhan-salakan-sukses-terbayar-warga-antusias-bayar-pajak-lewat-mobil-keliling/foto-2.webp)
 
 "Alhamdulillah, hari ini berjalan lancar berkat dukungan semua pihak. Warga sangat antusias, dan kehadiran Bapak Agil Dwi Raharjo dari Kalurahan Bangunjiwo turut membantu koordinasi di lapangan," ujar salah satu petugas.
 
