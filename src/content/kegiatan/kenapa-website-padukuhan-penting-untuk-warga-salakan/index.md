@@ -1,5 +1,5 @@
 ---
-judul: Kenapa Website Padukuhan Penting untuk Warga Salakan?
+judul: "Salakan.id, Rumah Digital Warga: Kenapa Website Padukuhan Penting?"
 tanggal: 2026-07-17
 statusPublikasi: publish
 editorArtikel:
@@ -33,12 +33,24 @@ editorArtikel:
         slug: contoh-pelayanan-awal
         label: Log pelayanan administrasi
   seo:
-    seoTitle: Website Padukuhan Salakan untuk Informasi Warga
+    seoTitle: Salakan.id, Rumah Digital Warga Padukuhan
     seoDescription: >-
       Mengapa salakan.id penting untuk warga Salakan? Simak manfaat website
       padukuhan untuk layanan, agenda, dokumentasi, UMKM, dan informasi publik.
     ogImage: /images/kegiatan/kenapa-website-padukuhan-penting-untuk-warga-salakan/gambar-utama.svg
 ---
+
+## Headline: Salakan.id sebagai Rumah Digital Warga
+
+**Di tengah arus informasi yang bergerak cepat, Padukuhan Salakan membutuhkan satu tempat rujukan yang rapi, mudah dicari, dan dekat dengan kehidupan warga.** Website **salakan.id** hadir sebagai rumah digital: tempat warga menemukan informasi layanan, agenda, kegiatan, dokumentasi, UMKM, dan potensi kampung tanpa harus menunggu pengumuman berulang.
+
+> **Catatan editorial:** Website padukuhan bukan sekadar proyek teknologi. Ia adalah cara baru merawat informasi kampung agar pelayanan lebih jelas, kegiatan lebih terdokumentasi, dan warga lebih mudah ikut terlibat.
+
+Ada tiga alasan utama mengapa website ini penting bagi Salakan:
+
+1. **Informasi layanan lebih mudah ditemukan** — warga dapat mengecek alur dan kebutuhan awal sebelum bertanya atau datang mengurus keperluan.
+2. **Agenda dan kegiatan kampung punya arsip yang tertata** — pengumuman tidak cepat hilang di antara pesan grup.
+3. **Potensi warga lebih mudah dikenalkan** — UMKM, komunitas, dan kegiatan lokal dapat tampil sebagai bagian dari wajah Padukuhan Salakan.
 
 ## Informasi kampung sekarang perlu lebih mudah ditemukan
 
