@@ -41,12 +41,27 @@ export default function TrackingSuratForm({ initialTicket = '' }: Props) {
 
   const handleSubmit = async (event: { preventDefault(): void }) => {
     event.preventDefault();
+    const normalizedTicket = getPublicTicketLabel(ticket).trim();
+    const normalizedNik = nik.replace(/\D/g, '');
+
+    if (!normalizedTicket) {
+      setResult(null);
+      setError('Nomor tiket wajib diisi.');
+      return;
+    }
+
+    if (normalizedNik.length !== 16) {
+      setResult(null);
+      setError('NIK pemohon harus berisi tepat 16 digit angka.');
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
     const formData = new FormData();
-    formData.append('nomor_surat', getPublicTicketLabel(ticket));
-    formData.append('nik', nik.replace(/\D/g, ''));
+    formData.append('nomor_surat', normalizedTicket);
+    formData.append('nik', normalizedNik);
 
     try {
       const { data, error: actionError } = await actions.layanan.lacakSurat(formData);
@@ -71,6 +86,7 @@ export default function TrackingSuratForm({ initialTicket = '' }: Props) {
       <form
         onSubmit={handleSubmit}
         className="rounded-[2rem] border border-white/60 bg-white/85 p-6 shadow-sm backdrop-blur-xl sm:p-8"
+        noValidate
       >
         <div className="grid gap-4 sm:grid-cols-[1.4fr_1fr_auto] sm:items-end">
           <label className="grid gap-2">
@@ -81,6 +97,8 @@ export default function TrackingSuratForm({ initialTicket = '' }: Props) {
               onChange={(event) => setTicket(event.target.value.toUpperCase())}
               placeholder="001/RT-01/DkV/2026"
               className="input-premium"
+              autoComplete="off"
+              aria-describedby="tracking-help"
               required
             />
           </label>
@@ -92,6 +110,12 @@ export default function TrackingSuratForm({ initialTicket = '' }: Props) {
               onChange={(event) => setNik(event.target.value.replace(/\D/g, '').slice(0, 16))}
               placeholder="16 digit NIK"
               className="input-premium"
+              inputMode="numeric"
+              pattern="[0-9]{16}"
+              minLength={16}
+              maxLength={16}
+              autoComplete="off"
+              aria-describedby="tracking-help"
               required
             />
           </label>
@@ -100,8 +124,8 @@ export default function TrackingSuratForm({ initialTicket = '' }: Props) {
             {loading ? 'Memeriksa...' : 'Cek Status'}
           </button>
         </div>
-        <p className="mt-3 text-xs font-medium text-slate-500">
-          Gunakan nomor tiket yang diterima setelah pengajuan dan NIK pemohon yang sama.
+        <p id="tracking-help" className="mt-3 text-xs font-medium text-slate-500">
+          Gunakan nomor tiket yang diterima setelah pengajuan dan NIK pemohon yang sama. NIK harus tepat 16 digit angka.
         </p>
       </form>
 

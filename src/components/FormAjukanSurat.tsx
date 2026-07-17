@@ -19,10 +19,27 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
 
   const handleSubmit = async (e: { preventDefault(): void; currentTarget: HTMLFormElement }) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const nik = String(formData.get('nik') || '').replace(/\D/g, '');
+    const whatsapp = String(formData.get('whatsapp') || '').replace(/\D/g, '').replace(/^0+/, '');
+
+    if (nik.length !== 16) {
+      setError('NIK harus berisi tepat 16 digit angka.');
+      form.querySelector<HTMLInputElement>('input[name="nik"]')?.focus();
+      return;
+    }
+
+    if (whatsapp.length < 9 || whatsapp.length > 15) {
+      setError('Nomor WhatsApp harus berisi 9–15 digit setelah kode +62.');
+      form.querySelector<HTMLInputElement>('input[name="whatsapp"]')?.focus();
+      return;
+    }
+
+    formData.set('nik', nik);
+    formData.set('whatsapp', whatsapp);
     setLoading(true);
     setError(null);
-
-    const formData = new FormData(e.currentTarget);
     
     try {
       const { data, error } = await actions.layanan.ajukanSurat(formData);
@@ -79,7 +96,7 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
             </a>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form onSubmit={handleSubmit} className="space-y-8" aria-describedby="form-privacy-note" noValidate>
             {error && (
               <div className="bg-red-50 text-red-700 p-4 rounded-2xl border border-red-100 text-sm font-bold flex items-center gap-3">
                 <Icon name="error" className="text-[18px]" />
@@ -109,8 +126,9 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-black text-slate-500 uppercase ml-1">Uraian Keperluan</label>
+                <label htmlFor="keperluan" className="text-xs font-black text-slate-500 uppercase ml-1">Uraian Keperluan</label>
                 <textarea 
+                  id="keperluan"
                   name="keperluan" 
                   required 
                   disabled={loading}
@@ -130,12 +148,13 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-500 uppercase ml-1">Nama Lengkap</label>
-                  <input type="text" name="nama" required disabled={loading} placeholder="Sesuai KTP" className="input-premium" />
+                  <label htmlFor="nama" className="text-xs font-black text-slate-500 uppercase ml-1">Nama Lengkap</label>
+                  <input id="nama" type="text" name="nama" required disabled={loading} autoComplete="name" placeholder="Sesuai KTP" className="input-premium" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-500 uppercase ml-1">NIK (16 Digit)</label>
-                  <input type="text" name="nik" required disabled={loading} maxLength={16} placeholder="3404XXXXXXXXXXXX" className="input-premium" />
+                  <label htmlFor="nik" className="text-xs font-black text-slate-500 uppercase ml-1">NIK (16 Digit)</label>
+                  <input id="nik" type="text" name="nik" required disabled={loading} inputMode="numeric" pattern="[0-9]{16}" minLength={16} maxLength={16} autoComplete="off" placeholder="3404XXXXXXXXXXXX" className="input-premium" aria-describedby="nik-help" />
+                  <p id="nik-help" className="text-[11px] font-medium text-slate-400">Hanya angka, tepat 16 digit.</p>
                 </div>
               </div>
 
@@ -191,8 +210,9 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-black text-slate-500 uppercase ml-1">Alamat Domisili</label>
+                <label htmlFor="alamat" className="text-xs font-black text-slate-500 uppercase ml-1">Alamat Domisili</label>
                 <textarea 
+                  id="alamat"
                   name="alamat" 
                   required 
                   disabled={loading}
@@ -211,19 +231,26 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
               </div>
               
               <div className="space-y-2">
-                <label className="text-xs font-black text-slate-500 uppercase ml-1">Nomor WhatsApp Aktif</label>
+                <label htmlFor="whatsapp" className="text-xs font-black text-slate-500 uppercase ml-1">Nomor WhatsApp Aktif</label>
                 <div className="relative">
                   <span className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">+62</span>
                   <input 
+                    id="whatsapp"
                     type="tel" 
                     name="whatsapp" 
                     required 
                     disabled={loading}
+                    inputMode="numeric"
+                    pattern="[0-9]{9,15}"
+                    minLength={9}
+                    maxLength={15}
+                    autoComplete="tel"
                     placeholder="812xxxxxxx"
                     className="input-premium pl-14"
+                    aria-describedby="whatsapp-help"
                   />
                 </div>
-                <p className="text-label mt-2 ml-1">Pastikan nomor aktif untuk menerima kabar update, revisi data, atau konfirmasi dari Ketua RT.</p>
+                <p id="whatsapp-help" className="text-label mt-2 ml-1">Tulis tanpa angka 0 di depan. Pastikan nomor aktif untuk menerima kabar update, revisi data, atau konfirmasi dari Ketua RT.</p>
               </div>
             </div>
 
@@ -247,7 +274,7 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
                   </>
                 )}
               </button>
-              <p className="text-[0.65rem] text-center text-slate-400 font-bold uppercase tracking-widest">
+              <p id="form-privacy-note" className="text-[0.65rem] text-center text-slate-400 font-bold uppercase tracking-widest">
                 Data Anda aman dan hanya digunakan untuk kepentingan administrasi Padukuhan.
               </p>
             </div>
