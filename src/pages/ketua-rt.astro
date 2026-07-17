@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
 import Badge from '../components/ui/Badge.astro';
 import CopyButton from '../components/ui/CopyButton.astro';
 import Icon from '../components/ui/Icon.tsx';
@@ -49,6 +50,14 @@ function whatsappHref(rt: (typeof rtItems)[number]) {
     title="Hubungi Ketua RT"
     description="Hubungi ketua RT wilayah Anda untuk konsultasi pelayanan warga, koordinasi lingkungan, atau hal yang perlu ditindaklanjuti di tingkat RT."
   />
+
+  <section class="container-premium pt-4 pb-2">
+    <Breadcrumb items={[
+      { name: 'Beranda', href: '/' },
+      { name: 'Kontak', href: '/kontak' },
+      { name: 'Ketua RT' },
+    ]} />
+  </section>
 
   <section class="container-premium py-8 sm:py-10">
     <div class="section-card mb-6">

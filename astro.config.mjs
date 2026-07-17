@@ -32,17 +32,53 @@ const integrations = [
   react(),
   ...(isDevCommand && !enableAstroDbInDev ? [] : [db()]),
   sitemap({
+    changefreq: 'weekly',
+    priority: 0.7,
+    lastmod: new Date(),
     filter(page) {
       try {
         const pathname = new URL(page).pathname;
         return !(
           pathname.startsWith('/admin') ||
           pathname.startsWith('/cms') ||
-          pathname.startsWith('/api/')
+          pathname.startsWith('/api/') ||
+          pathname.startsWith('/keystatic') ||
+          pathname.startsWith('/dasbor') ||
+          pathname.startsWith('/login')
         );
       } catch {
         return true;
       }
+    },
+    serialize(item) {
+      const rawPathname = new URL(item.url).pathname;
+      const pathname = rawPathname === '/' ? '/' : rawPathname.replace(/\/$/, '');
+
+      if (pathname === '/') {
+        return { ...item, changefreq: 'daily', priority: 1.0 };
+      }
+
+      if (pathname === '/profil' || pathname.startsWith('/data/layanan-warga')) {
+        return { ...item, changefreq: 'monthly', priority: 0.9 };
+      }
+
+      if (pathname === '/berita' || pathname.startsWith('/berita/')) {
+        return { ...item, changefreq: 'daily', priority: 0.8 };
+      }
+
+      if (pathname === '/agenda' || pathname.startsWith('/agenda/')) {
+        return { ...item, changefreq: 'daily', priority: 0.8 };
+      }
+
+      if (pathname === '/data' || pathname.startsWith('/data/') || pathname === '/galeri') {
+        return { ...item, changefreq: 'weekly', priority: 0.7 };
+      }
+
+      if (pathname === '/kontak') {
+        return { ...item, changefreq: 'monthly', priority: 0.6 };
+      }
+
+      return item;
     },
   }),
   robotsTxt({

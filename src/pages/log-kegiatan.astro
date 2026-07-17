@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
 import EmptyStateCard from '../components/ui/EmptyStateCard.astro';
 import FilterToolbar from '../components/ui/FilterToolbar.astro';
 import ArchiveCard from '../components/ui/ArchiveCard.astro';
@@ -82,6 +83,13 @@ const logs = allLogs.filter((item) => {
     title="Log kegiatan dukuh yang sudah dipublikasikan bisa dipantau dari satu halaman"
     description="Halaman ini merangkum kegiatan operasional dukuh secara ringkas agar warga dapat melihat layanan, administrasi, rapat, dan kehadiran kegiatan yang sudah dipublikasikan."
   />
+
+  <section class="container-premium pt-4 pb-2">
+    <Breadcrumb items={[
+      { name: 'Beranda', href: '/' },
+      { name: 'Log Kegiatan' },
+    ]} />
+  </section>
 
   <section class="container-premium py-8 sm:py-10">
     <FilterToolbar

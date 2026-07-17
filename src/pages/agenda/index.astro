@@ -1,5 +1,6 @@
 ---
 import PageHero from '../../components/PageHero.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import EmptyStateCard from '../../components/ui/EmptyStateCard.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
 import PillFilterBar from '../../components/ui/PillFilterBar.astro';
@@ -106,6 +107,13 @@ function getSignal(item: TimelineItem) {
     title={halaman.agendaIndex.heroTitle}
     description={halaman.agendaIndex.heroDescription}
   />
+
+  <section class="container-premium pt-4 pb-2">
+    <Breadcrumb items={[
+      { name: 'Beranda', href: '/' },
+      { name: 'Agenda' },
+    ]} />
+  </section>
 
   <section class="container-premium py-8 pb-5">
     <div class="grid gap-4 md:grid-cols-3">

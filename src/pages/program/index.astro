@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import PageSection from '../../components/PageSection.astro';
 import BadgeList from '../../components/ui/BadgeList.astro';
 import StatCard from '../../components/ui/StatCard.astro';
@@ -68,6 +69,13 @@ const stats = {
     title="Program warga yang sedang berjalan bisa dipantau dari satu halaman"
     description="Halaman ini merangkum program kerja, pembangunan, dan perbaikan layanan yang sedang dikerjakan agar warga lebih mudah mengikuti arah tindak lanjut padukuhan."
   />
+
+  <section class="container-premium pt-4 pb-2">
+    <Breadcrumb items={[
+      { name: 'Beranda', href: '/' },
+      { name: 'Program' },
+    ]} />
+  </section>
 
   <section class="container-premium py-6 sm:py-8">
     <div class="grid gap-4 md:grid-cols-3">
