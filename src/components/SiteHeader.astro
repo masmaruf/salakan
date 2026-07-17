@@ -1,7 +1,7 @@
 ---
 import { getPengaturan } from '../lib/content';
 import { navItems } from '../lib/site';
-import SearchDialog from './SearchDialog.tsx';
+import SearchDialog from './SearchDialog.astro';
 
 interface Props {
   currentPath: string;
@@ -156,7 +156,7 @@ import Icon from './ui/Icon.tsx';
       </nav>
 
       <div class="flex items-center justify-end gap-2 md:col-start-3 md:row-start-1 sm:gap-3">
-        <SearchDialog client:idle />
+        <SearchDialog />
       </div>
     </div>
   </div>
