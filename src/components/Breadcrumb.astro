@@ -23,23 +23,20 @@ interface Props {
 
 const { items, class: className = '' } = Astro.props;
 
+import { generateBreadcrumbSchema } from '../lib/seo';
+import { siteMeta } from '../lib/site';
+
 // Generate JSON-LD for breadcrumbs
-const breadcrumbJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: items.map((item, index) => ({
-    '@type': 'ListItem',
-    position: index + 1,
+const breadcrumbJsonLd = generateBreadcrumbSchema(
+  items.map((item) => ({
     name: item.name,
-    ...(item.href && {
-      item: new URL(item.href, Astro.site || 'https://salakan.pages.dev').toString(),
-    }),
+    url: new URL(item.href ?? Astro.url.pathname, Astro.site ?? siteMeta.siteUrl).toString(),
   })),
-};
+);
 ---
 
 {/* Breadcrumb JSON-LD */}
-<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
 
 {/* Visual Breadcrumb */}
 <nav aria-label="Breadcrumb" class:list={['text-sm', className]}>

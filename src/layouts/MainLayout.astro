@@ -5,7 +5,7 @@ import SiteHeader from '../components/SiteHeader.astro';
 import DevServiceWorkerReset from '../components/DevServiceWorkerReset.astro';
 import '../styles/global.css';
 import { getSeoImage, siteMeta, toAbsoluteUrl } from '../lib/site';
-import { generateLocalBusinessSchema, generateWebSiteSchema, localSeo } from '../lib/seo';
+import { generateArticleSchema, generateLocalBusinessSchema, generateWebSiteSchema, localSeo } from '../lib/seo';
 import { SEO } from 'astro-seo';
 import { Schema } from 'astro-seo-schema';
 
@@ -17,7 +17,6 @@ interface Props {
   publishedTime?: string;
   modifiedTime?: string;
   noIndex?: boolean;
-  breadcrumbs?: Array<{ name: string; url: string }>;
 }
 
 const {
@@ -28,7 +27,6 @@ const {
   publishedTime,
   modifiedTime,
   noIndex = false,
-  breadcrumbs,
 } = Astro.props;
 const canonical = Astro.site
   ? new URL(Astro.url.pathname, Astro.site)
@@ -38,6 +36,16 @@ const seoImage = getSeoImage(image);
 // Generate schemas for all pages
 const localBusinessSchema = generateLocalBusinessSchema();
 const webSiteSchema = generateWebSiteSchema();
+const articleSchema = type === 'article' && publishedTime
+  ? generateArticleSchema({
+      title,
+      description,
+      image: seoImage,
+      publishedTime,
+      modifiedTime,
+      url: canonical.toString(),
+    })
+  : undefined;
 ---
 
 <!doctype html>
@@ -107,36 +115,7 @@ const webSiteSchema = generateWebSiteSchema();
     {/* WebSite Schema - appears on all pages */}
     <Schema item={webSiteSchema} />
     
-    {type === 'article' && publishedTime ? (
-      <Schema
-        item={{
-          '@context': 'https://schema.org',
-          '@type': 'Article',
-          headline: title,
-          description,
-          image: [seoImage],
-          datePublished: publishedTime,
-          inLanguage: 'id-ID',
-          mainEntityOfPage: canonical.toString(),
-          publisher: {
-            '@type': 'Organization',
-            name: siteMeta.name,
-            url: siteMeta.siteUrl,
-          },
-        }}
-      />
-    ) : (
-      <Schema
-        item={{
-          '@context': 'https://schema.org',
-          '@type': 'WebSite',
-          name: siteMeta.name,
-          description,
-          url: siteMeta.siteUrl,
-          inLanguage: 'id-ID',
-        }}
-      />
-    )}
+    {articleSchema && <Schema item={articleSchema} />}
     <link rel="icon" type="image/svg+xml" href="/images/og-salakan.svg" />
     <link rel="alternate" type="application/rss+xml" title="RSS Berita Padukuhan Salakan" href={toAbsoluteUrl('/rss/berita.xml')} />
     <link rel="alternate" type="application/rss+xml" title="RSS Agenda Warga Padukuhan Salakan" href={toAbsoluteUrl('/rss/pengumuman.xml')} />

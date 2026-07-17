@@ -34,5 +34,11 @@ export async function GET() {
     ...umkm.filter((item) => item.entry?.statusPublikasi === 'publish').map((item) => ({ title: item.entry.namaUsaha, description: item.entry.ringkasan || '', url: `/data/umkm/${item.slug}`, type: 'umkm', priority: getPriority(item.entry.unggulan), keywords: [item.entry.pemilik || '', item.entry.kategori || '', statusLayananUmkmLabels[item.entry.statusLayanan], item.entry.lokasi || '', markdownToText(item.entry.deskripsi), ...(item.entry.produkUnggulan || [])].filter(Boolean) })),
   ];
 
-  return new Response(JSON.stringify(searchIndex), { status: 200, headers: { 'Content-Type': 'application/json' } });
+  return new Response(JSON.stringify(searchIndex), {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Cache-Control': 'public, max-age=300, s-maxage=3600, stale-while-revalidate=86400',
+    },
+  });
 }

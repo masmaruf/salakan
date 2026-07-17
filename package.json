@@ -8,6 +8,7 @@
     "start": "astro dev",
     "build": "astro build --remote && node scripts/fix-wrangler-config.mjs",
     "build:local": "astro build && node scripts/fix-wrangler-config.mjs",
+    "check": "astro check",
     "preview": "astro preview"
   },
   "dependencies": {

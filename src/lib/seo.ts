@@ -1,18 +1,15 @@
 /**
  * SEO utilities for salakan.id
- * Provides structured data (JSON-LD), meta tags, and SEO helpers
+ * Provides structured data (JSON-LD), meta tags, and SEO helpers.
  */
+import type { Thing, WithContext } from 'schema-dts';
+import { siteMeta, toAbsoluteUrl } from './site';
 
-export const siteMeta = {
-  name: 'Padukuhan Salakan',
-  title: 'Padukuhan Salakan',
-  description:
-    'Portal warga Padukuhan Salakan untuk agenda, berita, profil wilayah, galeri, dan informasi kontak.',
-  siteUrl: 'https://salakan.pages.dev',
-  ogImage: '/images/og-salakan.svg',
-  locale: 'id_ID',
-  themeColor: '#ffffff',
-};
+export type JsonLdSchema = WithContext<Thing>;
+
+function asJsonLd<T extends object>(schema: T): JsonLdSchema {
+  return schema as unknown as JsonLdSchema;
+}
 
 // Local SEO constants
 export const localSeo = {
@@ -20,7 +17,7 @@ export const localSeo = {
   // Update with exact coordinates if available
   latitude: -7.8266,
   longitude: 110.3441,
-  
+
   // Address
   address: {
     street: 'Padukuhan Salakan',
@@ -31,61 +28,31 @@ export const localSeo = {
     country: 'ID',
     postalCode: '55184',
   },
-  
+
   // Contact (update with real data)
   contact: {
     phone: '',
     whatsapp: '',
     email: '',
   },
-  
+
   // Business hours
   opens: 'Mo-Su 08:00-16:00',
-  
+
   // Social profiles
   social: {
     instagram: '',
     facebook: '',
     youtube: '',
   },
-};
-
-export function toAbsoluteUrl(path = '/') {
-  return new URL(path, siteMeta.siteUrl).toString();
-}
-
-export function getSeoImage(image?: string) {
-  if (!image) {
-    return toAbsoluteUrl(siteMeta.ogImage);
-  }
-
-  return image.startsWith('http://') || image.startsWith('https://')
-    ? image
-    : toAbsoluteUrl(image);
-}
-
-export function withSiteTitle(title: string) {
-  return `${title} | ${siteMeta.name}`;
-}
-
-export function resolveSeoText(primary?: string, fallback?: string) {
-  const value = primary?.trim();
-  if (value) return value;
-  return fallback ?? '';
-}
-
-export function resolveSeoImage(primary?: string, fallback?: string) {
-  const value = primary?.trim();
-  if (value) return value;
-  return fallback;
-}
+} as const;
 
 /**
- * Generate LocalBusiness structured data for Google
- * Improves local search results and Google Knowledge Panel
+ * Generate GovernmentOrganization structured data for Google.
+ * Improves local search results and Google Knowledge Panel.
  */
-export function generateLocalBusinessSchema() {
-  return {
+export function generateLocalBusinessSchema(): JsonLdSchema {
+  return asJsonLd({
     '@context': 'https://schema.org',
     '@type': 'GovernmentOrganization',
     name: siteMeta.name,
@@ -109,26 +76,21 @@ export function generateLocalBusinessSchema() {
       '@type': 'AdministrativeArea',
       name: 'Kalurahan Bangunjiwo, Kasihan, Bantul',
     },
-    ...(localSeo.contact.phone && {
-      telephone: localSeo.contact.phone,
-    }),
-    ...(localSeo.contact.email && {
-      email: localSeo.contact.email,
-    }),
+    ...(localSeo.contact.phone ? { telephone: localSeo.contact.phone } : {}),
+    ...(localSeo.contact.email ? { email: localSeo.contact.email } : {}),
     sameAs: [
       localSeo.social.instagram,
       localSeo.social.facebook,
       localSeo.social.youtube,
     ].filter(Boolean),
-  };
+  } as const);
 }
 
 /**
- * Generate WebSite structured data with SearchAction
- * Enables Google sitelinks search box
+ * Generate WebSite structured data with site identity.
  */
-export function generateWebSiteSchema() {
-  return {
+export function generateWebSiteSchema(): JsonLdSchema {
+  return asJsonLd({
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: siteMeta.name,
@@ -139,17 +101,16 @@ export function generateWebSiteSchema() {
       '@type': 'GovernmentOrganization',
       name: siteMeta.name,
     },
-  };
+  } as const);
 }
 
 /**
- * Generate BreadcrumbList structured data
- * Improves navigation display in search results
+ * Generate BreadcrumbList structured data.
  */
 export function generateBreadcrumbSchema(
-  items: Array<{ name: string; url: string }>
-) {
-  return {
+  items: Array<{ name: string; url: string }>,
+): JsonLdSchema {
+  return asJsonLd({
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: items.map((item, index) => ({
@@ -158,12 +119,11 @@ export function generateBreadcrumbSchema(
       name: item.name,
       item: item.url,
     })),
-  };
+  } as const);
 }
 
 /**
- * Generate Article structured data
- * For news/berita articles
+ * Generate Article structured data for news/berita articles.
  */
 export function generateArticleSchema({
   title,
@@ -181,8 +141,8 @@ export function generateArticleSchema({
   modifiedTime?: string;
   url: string;
   author?: string;
-}) {
-  return {
+}): JsonLdSchema {
+  return asJsonLd({
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
     headline: title,
@@ -201,12 +161,11 @@ export function generateArticleSchema({
       url: siteMeta.siteUrl,
     },
     inLanguage: 'id-ID',
-  };
+  } as const);
 }
 
 /**
- * Generate Event structured data
- * For agenda/events
+ * Generate Event structured data for agenda/events.
  */
 export function generateEventSchema({
   title,
@@ -222,8 +181,8 @@ export function generateEventSchema({
   endDate?: string;
   location?: string;
   url: string;
-}) {
-  return {
+}): JsonLdSchema {
+  return asJsonLd({
     '@context': 'https://schema.org',
     '@type': 'Event',
     name: title,
@@ -248,17 +207,16 @@ export function generateEventSchema({
     url,
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     eventStatus: 'https://schema.org/EventScheduled',
-  };
+  } as const);
 }
 
 /**
- * Generate FAQ structured data
- * For FAQ pages
+ * Generate FAQ structured data for FAQ pages.
  */
 export function generateFaqSchema(
-  faqs: Array<{ question: string; answer: string }>
-) {
-  return {
+  faqs: Array<{ question: string; answer: string }>,
+): JsonLdSchema {
+  return asJsonLd({
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
     mainEntity: faqs.map((faq) => ({
@@ -269,15 +227,14 @@ export function generateFaqSchema(
         text: faq.answer,
       },
     })),
-  };
+  } as const);
 }
 
 /**
- * Generate Organization structured data
- * For profil/about pages
+ * Generate Organization structured data for profil/about pages.
  */
-export function generateOrganizationSchema() {
-  return {
+export function generateOrganizationSchema(): JsonLdSchema {
+  return asJsonLd({
     '@context': 'https://schema.org',
     '@type': 'GovernmentOrganization',
     name: siteMeta.name,
@@ -305,14 +262,5 @@ export function generateOrganizationSchema() {
       localSeo.social.facebook,
       localSeo.social.youtube,
     ].filter(Boolean),
-  };
+  } as const);
 }
-
-export const navItems = [
-  { href: '/', label: 'Beranda' },
-  { href: '/profil', label: 'Profil' },
-  { href: '/data', label: 'Data' },
-  { href: '/berita', label: 'Berita' },
-  { href: '/galeri', label: 'Galeri' },
-  { href: '/kontak', label: 'Kontak' },
-];
