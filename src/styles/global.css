@@ -443,6 +443,19 @@ input, button, textarea, select {
 .article-rich td { @apply border-b border-slate-100 px-4 py-3 align-top; }
 .article-rich tbody tr:last-child td { @apply border-b-0; }
 
+.berita-rich > h2:first-child {
+  @apply mt-0 rounded-3xl border border-blue-100 bg-blue-50/70 px-5 py-5 text-3xl font-black leading-tight tracking-tight text-on-surface shadow-sm md:text-5xl;
+}
+
+.berita-rich > h2:first-child + p {
+  @apply mt-5 text-xl font-semibold leading-9 text-on-surface;
+}
+
+.berita-rich blockquote {
+  @apply border-l-4 border-m3-primary bg-primary-container/60 px-5 py-4 text-on-primary-container shadow-sm;
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+}
+
 /* Typography Classes */
 .page-title { font-size: var(--heading-1); line-height: 1.08; letter-spacing: -0.035em; }
 .section-title { font-size: var(--heading-2); line-height: 1.12; letter-spacing: -0.03em; }
