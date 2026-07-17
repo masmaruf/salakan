@@ -125,3 +125,10 @@ Website Padukuhan Salakan adalah langkah kecil menuju pelayanan informasi yang l
 Melalui salakan.id, informasi layanan, agenda, kegiatan, dokumentasi, UMKM, dan potensi warga dapat dikumpulkan dalam satu rumah digital. Harapannya, website ini tidak hanya menjadi halaman di internet, tetapi menjadi jembatan antara pengurus padukuhan, warga, dan semua pihak yang ingin mengenal Salakan lebih dekat.
 
 Jika ada informasi kegiatan, agenda, layanan, atau potensi warga yang perlu ditampilkan, warga dapat menghubungi pengurus padukuhan agar data yang dipublikasikan tetap akurat dan bermanfaat.
+
+## Jelajahi Salakan.id lebih lanjut
+
+- [Buka layanan warga](/data/layanan-warga) untuk melihat informasi awal pengurusan surat dan layanan administrasi.
+- [Lihat agenda warga](/agenda) agar kegiatan padukuhan tidak mudah terlewat.
+- [Kenali UMKM Salakan](/data/umkm) sebagai bagian dari potensi ekonomi warga.
+- [Hubungi pengurus Padukuhan Salakan](/kontak) jika ada informasi kegiatan, agenda, atau potensi warga yang perlu ditampilkan.

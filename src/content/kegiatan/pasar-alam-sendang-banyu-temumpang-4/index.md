@@ -47,3 +47,9 @@ Kalau jaraknya dekat, lebih baik jalan kaki dari rumah. Selain sehat, juga lebih
 
 Ajak keluarga, tetangga, dan teman-teman.  
 Sampai jumpa di Pasar Alam Banyu Temumpang! 🌿
+
+## Baca juga di Salakan.id
+
+- [Lihat direktori UMKM Salakan](/data/umkm) untuk mendukung produk dan jasa warga.
+- [Pantau agenda warga](/agenda) untuk jadwal pasar, senam, bazar, dan kegiatan lingkungan berikutnya.
+- [Kirim informasi kegiatan warga](/kontak) jika ada agenda pasar alam atau kegiatan komunitas yang perlu dipublikasikan.

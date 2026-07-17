@@ -59,3 +59,9 @@ Semua anak usia **0 - 60 bulan** sangat diharapkan hadir. Orang tua diminta memb
 5. PMT Posyandu rutin
 
 Mari ajak si kecil datang ke Posyandu Kacapiring Salakan. Dengan pemantauan rutin, kesehatan anak bisa lebih terjaga dan pencegahan stunting dapat dilakukan sejak dini.
+
+## Informasi terkait
+
+- [Lihat agenda Posyandu](/agenda/jadwal-posyandu) untuk memastikan jadwal layanan kesehatan berikutnya.
+- [Baca informasi lembaga Posyandu](/data/lembaga#posyandu) untuk mengenal pengampu kegiatan kesehatan warga.
+- [Hubungi pengurus padukuhan](/kontak) jika ada perubahan jadwal atau informasi kesehatan warga yang perlu diumumkan.

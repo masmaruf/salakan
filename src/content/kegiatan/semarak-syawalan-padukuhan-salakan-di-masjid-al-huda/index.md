@@ -55,3 +55,9 @@ Selain mendorong jamaah untuk menjadi manusia yang bermanfaat, Ustadz Nurudin ju
 
 
 Melalui momentum Syawalan ini, warga Padukuhan Salakan tidak hanya saling bermaafan, tetapi juga dibekali dengan ilmu agama untuk menjadi pribadi dan masyarakat yang lebih baik ke depannya.
+
+## Baca juga di Salakan.id
+
+- [Lihat agenda warga](/agenda) untuk jadwal pengajian, pertemuan, dan kegiatan sosial berikutnya.
+- [Buka profil lembaga warga](/data/lembaga) untuk mengenal organisasi dan kelompok yang aktif di Padukuhan Salakan.
+- [Lihat galeri kegiatan](/galeri) sebagai arsip dokumentasi visual warga.

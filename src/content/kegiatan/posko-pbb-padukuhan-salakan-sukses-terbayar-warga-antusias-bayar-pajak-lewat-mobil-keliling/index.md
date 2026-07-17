@@ -59,3 +59,8 @@ Dukuh Salakan, **Ma'ruf Cahyadi**, menyambut baik terselenggaranya posko ini. Ia
 
 Pembayaran **PBB-P2** merupakan salah satu sumber **Pendapatan Asli Daerah (PAD)** yang vital bagi Kabupaten Bantul. Dana tersebut akan digunakan untuk pembangunan infrastruktur dan peningkatan pelayanan publik. Posko keliling seperti ini diharapkan dapat terus digelar di berbagai padukuhan guna meningkatkan kesadaran dan kepatuhan masyarakat dalam membayar pajak tepat waktu.
 
+## Baca juga di Salakan.id
+
+- [Lihat layanan warga](/data/layanan-warga) untuk informasi awal pelayanan administrasi padukuhan.
+- [Pantau agenda pelayanan](/agenda/pelayanan-administrasi) agar tidak tertinggal jadwal layanan berikutnya.
+- [Hubungi pengurus padukuhan](/kontak) jika membutuhkan konfirmasi jadwal atau informasi layanan.

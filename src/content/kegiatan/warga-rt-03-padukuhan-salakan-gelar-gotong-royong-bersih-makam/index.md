@@ -39,3 +39,9 @@ Beberapa poin utama dalam kegiatan ini meliputi:
 Kegiatan bersih makam ini bukan sekadar urusan kebersihan fisik, melainkan menjadi momentum untuk mempererat silaturahmi antarwarga. Dengan semangat gotong royong, tradisi "resik-resik" ini menjadi cerminan kepedulian masyarakat terhadap tempat peristirahatan terakhir para leluhur.
 
 Kehadiran puluhan warga dalam waktu yang relatif singkat (2 jam) menunjukkan bahwa kekompakan di lingkungan RT 03 masih sangat terjaga dengan baik.
+
+## Informasi terkait
+
+- [Lihat berita gotong royong lainnya](/berita?kategori=gotong-royong) untuk dokumentasi kegiatan lingkungan warga.
+- [Hubungi ketua RT](/ketua-rt) jika ada agenda kerja bakti yang perlu dikoordinasikan.
+- [Pantau agenda warga](/agenda) agar tidak ketinggalan jadwal kegiatan lingkungan berikutnya.

@@ -53,3 +53,9 @@ Fokus utama yang dibahas adalah **pengajuan proposal pengerjaan talud jalan**. P
 Selain itu, Bapak Kasidi juga memaparkan gambaran program kerja untuk periode 2026-2027 yang diproyeksikan akan cukup padat. Warga sepakat untuk bersinergi menyukseskan berbagai rencana program tersebut, yang mencakup program pembangunan fisik (infrastruktur) maupun non-fisik (pemberdayaan masyarakat).
 
 Melalui pertemuan rutin ini, diharapkan kekompakan warga RT 03 Padukuhan Salakan semakin erat, sehingga setiap visi pembangunan lingkungan dapat terealisasi dengan baik.
+
+## Baca juga di Salakan.id
+
+- [Hubungi ketua RT](/ketua-rt) jika ada usulan pembangunan atau informasi lingkungan yang perlu ditindaklanjuti.
+- [Lihat program padukuhan](/program) untuk mengikuti rencana pembangunan dan pemberdayaan warga.
+- [Buka arsip log kegiatan](/log-kegiatan) untuk melihat catatan operasional padukuhan lainnya.

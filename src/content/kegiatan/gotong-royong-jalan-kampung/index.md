@@ -49,3 +49,9 @@ Selain pembersihan fisik, warga juga berdiskusi mengenai pola pemeliharaan rutin
 ## Tindak lanjut
 
 Hasil musyawarah singkat setelah kegiatan akan dijadikan acuan untuk jadwal perawatan berkala pada bulan berikutnya.
+
+## Baca juga di Salakan.id
+
+- [Lihat agenda warga](/agenda) untuk jadwal kerja bakti dan kegiatan lingkungan berikutnya.
+- [Buka informasi ketua RT](/ketua-rt) jika ada usulan perbaikan lingkungan yang perlu dikoordinasikan.
+- [Telusuri berita kegiatan warga](/berita?kategori=gotong-royong) untuk dokumentasi gotong royong lainnya.

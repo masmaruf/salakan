@@ -49,3 +49,9 @@ Tempat : Joglo Mangun Diharjo
 Acara Unggulan : Pentas Seni Siswa PAUD
 
 Semoga acara berjalan lancar dan memberikan kenangan indah bagi seluruh siswa, orang tua, serta guru di SPS Bunga Kaca Piring. 🎓✨
+
+## Informasi terkait
+
+- [Lihat profil lembaga PAUD](/data/lembaga#paud) untuk mengenal peran pendidikan anak usia dini di Padukuhan Salakan.
+- [Pantau agenda warga](/agenda) untuk kegiatan pendidikan, keluarga, dan masyarakat berikutnya.
+- [Buka galeri kegiatan](/galeri) untuk melihat dokumentasi visual kegiatan warga.

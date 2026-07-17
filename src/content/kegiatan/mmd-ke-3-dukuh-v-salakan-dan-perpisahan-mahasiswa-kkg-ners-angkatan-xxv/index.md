@@ -67,3 +67,9 @@ Semoga ilmu dan dedikasi yang telah diberikan membawa manfaat nyata sehingga mas
 Terima kasih, calon perawat hebat Angkatan XXV.
 
 Redaksi dan foto utama: **Bapak Rintok Juhirman**
+
+## Informasi terkait
+
+- [Lihat agenda warga Salakan](/agenda) untuk mengikuti kegiatan kesehatan, musyawarah, dan pelayanan masyarakat berikutnya.
+- [Baca profil Padukuhan Salakan](/profil) untuk memahami konteks wilayah dan lembaga yang terlibat.
+- [Hubungi pengurus padukuhan](/kontak) jika ada dokumentasi atau tindak lanjut kegiatan yang perlu dilengkapi.

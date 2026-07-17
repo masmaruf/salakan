@@ -47,3 +47,9 @@ Sesi pelatihan difokuskan pada pengenalan panel admin CMS dan alur kerja publika
 ## Hasil pelatihan
 
 Dengan pembekalan ini, website padukuhan diharapkan dapat dirawat langsung oleh pengelola lokal tanpa proses teknis yang rumit.
+
+## Baca juga di Salakan.id
+
+- [Baca panduan layanan warga](/data/layanan-warga) untuk melihat informasi yang perlu dirawat oleh admin.
+- [Lihat program digitalisasi layanan surat](/program/digitalisasi-layanan-surat) sebagai konteks penguatan administrasi padukuhan.
+- [Hubungi pengurus padukuhan](/kontak) bila ada data berita, agenda, atau layanan yang perlu diperbarui.

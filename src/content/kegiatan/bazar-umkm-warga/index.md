@@ -33,3 +33,9 @@ Bazar menghadirkan suasana akrab sekaligus membuka ruang promosi bagi usaha keci
 ## Manfaat kegiatan
 
 Kegiatan semacam ini dapat menjadi agenda berulang karena membantu perputaran ekonomi lokal dan memperkuat jejaring antarwarga.
+
+## Baca juga di Salakan.id
+
+- [Lihat direktori UMKM warga](/data/umkm) untuk menemukan usaha lokal lain di sekitar Salakan.
+- [Pantau agenda warga](/agenda) agar tidak ketinggalan kegiatan pasar, pertemuan, dan acara padukuhan.
+- [Hubungi pengurus padukuhan](/kontak) jika ada informasi UMKM atau kegiatan warga yang perlu ditambahkan.
