@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 import {
   BIDANG_LEMBAGA,
@@ -364,7 +365,7 @@ const pengaturan = defineCollection({
   schema: z.object({
     alamat: z.string().min(1),
     kontakWhatsApp: z.string().min(1),
-    email: z.string().email(),
+    email: z.email(),
     jamLayanan: z.string().min(1),
     linkPeta: z.string().default(''),
     embedPetaHtml: z.string().default(''),

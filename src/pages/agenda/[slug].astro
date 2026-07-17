@@ -17,7 +17,9 @@ import {
 } from '../../lib/content-relations';
 import { findRelatedContent } from '../../lib/related-content';
 import { renderMarkdown } from '../../lib/rich-text';
-import { resolveSeoText, withSiteTitle } from '../../lib/site';
+import { resolveSeoText, toAbsoluteUrl, withSiteTitle } from '../../lib/site';
+import { generateEventSchema } from '../../lib/seo';
+import { Schema } from 'astro-seo-schema';
 
 const { slug } = Astro.params;
 const [items, beritaItems, logItems, programItems, lembagaItems, galeriItems, categoryLabels] = await Promise.all([
@@ -67,12 +69,24 @@ const relatedItems = findRelatedContent(
   ],
   4,
 );
+
+const agendaUrl = toAbsoluteUrl(`/agenda/${item.slug}`);
+const eventSchema = generateEventSchema({
+  title: entry.judul,
+  description: resolveSeoText(entry.ringkasan, entry.deskripsi),
+  startDate: entry.waktuMulai ? `${entry.tanggal}T${entry.waktuMulai}` : entry.tanggal,
+  endDate: entry.waktuSelesai ? `${entry.tanggal}T${entry.waktuSelesai}` : undefined,
+  location: entry.lokasi,
+  url: agendaUrl,
+});
 ---
 
 <MainLayout
   title={withSiteTitle(resolveSeoText(entry.judul, 'Agenda'))}
   description={resolveSeoText(entry.ringkasan, entry.deskripsi)}
 >
+
+  <Schema item={eventSchema} />
 
   <article class="container-premium max-w-3xl py-6 sm:py-8">
     <Breadcrumbs items={[

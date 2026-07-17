@@ -1,5 +1,5 @@
 import Icon from './ui/Icon.tsx';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { actions } from 'astro:actions';
 
 interface RT {
@@ -17,7 +17,7 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
   const [success, setSuccess] = useState<{message: string, ticket: string} | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: { preventDefault(): void; currentTarget: HTMLFormElement }) => {
     e.preventDefault();
     setLoading(true);
     setError(null);

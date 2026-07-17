@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { actions } from 'astro:actions';
 import Icon from './ui/Icon.tsx';
 import { getPengajuanStatusMeta, getPublicTicketLabel } from '../lib/pengajuan';
@@ -39,7 +39,7 @@ export default function TrackingSuratForm({ initialTicket = '' }: Props) {
     setTicket(initialTicket);
   }, [initialTicket]);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: { preventDefault(): void }) => {
     event.preventDefault();
     setLoading(true);
     setError(null);

@@ -9,6 +9,8 @@ import { getHalamanCopy, getMonografi, getPengaturan, getProfil } from '../lib/c
 import { getMonografiSummary } from '../lib/monografi-summary';
 import { resolveMapEmbedSrc } from '../lib/maps';
 import { renderMarkdown } from '../lib/rich-text';
+import { generateOrganizationSchema } from '../lib/seo';
+import { Schema } from 'astro-seo-schema';
 
 const profil = await getProfil();
 const pengaturan = await getPengaturan();
@@ -29,11 +31,14 @@ const mapEmbedSrc = resolveMapEmbedSrc({
   embedHtml: pengaturan?.embedPetaHtml,
   fallbackUrl: pengaturan?.linkPeta,
 });
+const organizationSchema = generateOrganizationSchema();
 
 import Icon from '../components/ui/Icon.tsx';
 ---
 
 <MainLayout title={halaman.profil.layoutTitle} description={halaman.profil.layoutDescription}>
+
+  <Schema item={organizationSchema} />
 
   <PageHero
     eyebrow={profil?.hero?.badge}
