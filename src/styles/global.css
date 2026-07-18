@@ -1,5 +1,45 @@
 @import "tailwindcss";
 
+@plugin "daisyui" {
+  logs: false;
+  themes: false;
+  include: properties, rootcolor, button, card, badge, stat;
+}
+
+@plugin "daisyui/theme" {
+  name: "salakan";
+  default: true;
+  color-scheme: light;
+  --color-base-100: #fbfaf4;
+  --color-base-200: #f5f1e6;
+  --color-base-300: #ebe4d1;
+  --color-base-content: #172018;
+  --color-primary: #315d44;
+  --color-primary-content: #ffffff;
+  --color-secondary: #8b5f2f;
+  --color-secondary-content: #fff8ec;
+  --color-accent: #c58b2a;
+  --color-accent-content: #211400;
+  --color-neutral: #263629;
+  --color-neutral-content: #f3f7ef;
+  --color-info: #38688d;
+  --color-info-content: #f3f9ff;
+  --color-success: #31704a;
+  --color-success-content: #f3fff6;
+  --color-warning: #b17418;
+  --color-warning-content: #fff8e8;
+  --color-error: #a43c33;
+  --color-error-content: #fff7f5;
+  --radius-selector: 0.75rem;
+  --radius-field: 0.9rem;
+  --radius-box: 1.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
 /* Local SVG icon host */
 /* Material You Design Tokens — registered as Tailwind utilities */
 @theme {
