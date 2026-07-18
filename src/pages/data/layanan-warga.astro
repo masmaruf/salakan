@@ -31,16 +31,16 @@ const highlightedServices = items.slice(0, 3).map(({ slug, entry }) => ({
       { label: 'Layanan Warga', active: true },
     ]} />
     <div class="mt-4 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch">
-      <div class="card border border-outline-variant/60 bg-base-100/80 shadow-sm">
+      <div class="card border border-base-300/70 bg-base-100/80 shadow-sm">
         <div class="card-body gap-5 p-6 sm:p-7">
           <div class="badge badge-soft badge-primary w-fit rounded-full px-3 py-3 text-[12px] font-semibold uppercase tracking-[0.18em]">
             Pelayanan Padukuhan
           </div>
           <div>
-            <h1 class="text-[30px] font-bold leading-[38px] tracking-tight text-on-surface sm:text-[38px] sm:leading-[46px]">
+            <h1 class="text-[30px] font-bold leading-[38px] tracking-tight text-base-content sm:text-[38px] sm:leading-[46px]">
               {halaman.layananWarga.pageTitle}
             </h1>
-            <p class="mt-3 max-w-2xl text-base leading-relaxed text-on-surface-variant">
+            <p class="mt-3 max-w-2xl text-base leading-relaxed text-base-content/70">
           {halaman.layananWarga.pageDescription}
             </p>
           </div>
@@ -65,8 +65,8 @@ const highlightedServices = items.slice(0, 3).map(({ slug, entry }) => ({
           {highlightedServices.map((service) => (
             <a class="card border border-primary/10 bg-base-100/75 shadow-none transition hover:-translate-y-0.5 hover:border-primary/30 hover:bg-base-100" href={`#${service.slug}`}>
               <div class="card-body gap-1 p-4">
-                <h2 class="text-sm font-bold text-on-surface">{service.title}</h2>
-                <p class="text-sm leading-relaxed text-on-surface-variant line-clamp-2">{service.description}</p>
+                <h2 class="text-sm font-bold text-base-content">{service.title}</h2>
+                <p class="text-sm leading-relaxed text-base-content/70 line-clamp-2">{service.description}</p>
               </div>
             </a>
           ))}
@@ -77,11 +77,11 @@ const highlightedServices = items.slice(0, 3).map(({ slug, entry }) => ({
   </div>
 
   <section class="container-premium pb-6">
-    <div class="stats stats-vertical w-full overflow-hidden border border-outline-variant/50 bg-base-100 shadow-none md:stats-horizontal">
+    <div class="stats stats-vertical w-full overflow-hidden border border-base-300/70 bg-base-100 shadow-none md:stats-horizontal">
       {halaman.layananWarga.features.map((feature) => (
         <div class="stat gap-2 px-5 py-4">
           <div class="stat-title text-[12px] font-semibold uppercase tracking-[0.16em] text-primary">{feature.title}</div>
-          <div class="stat-desc whitespace-normal text-sm leading-relaxed text-on-surface-variant">{feature.description}</div>
+          <div class="stat-desc whitespace-normal text-sm leading-relaxed text-base-content/70">{feature.description}</div>
         </div>
       ))}
     </div>
@@ -90,8 +90,8 @@ const highlightedServices = items.slice(0, 3).map(({ slug, entry }) => ({
   <section class="container-premium py-8">
     <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
       <div>
-        <h2 class="text-2xl font-bold text-on-surface">{halaman.layananWarga.listTitle}</h2>
-        <p class="mt-1 text-sm text-on-surface-variant">{halaman.layananWarga.listDescription}</p>
+        <h2 class="text-2xl font-bold text-base-content">{halaman.layananWarga.listTitle}</h2>
+        <p class="mt-1 text-sm text-base-content/70">{halaman.layananWarga.listDescription}</p>
       </div>
       <span class="badge badge-lg badge-soft badge-primary rounded-full px-4">{items.length} {halaman.layananWarga.listCountSuffix}</span>
     </div>
