@@ -50,7 +50,7 @@ function normalizedPhone(value?: string) {
                   <p class="mt-1 text-sm font-medium text-slate-600">Ketua: {item.data.nama_ketua}</p>
                   <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-slate-400">{normalizedPhone(item.data.no_hp_ketua) || 'Kontak belum dicantumkan'}</p>
                 </div>
-                <a href={`/ketua-rt#rt-${item.data.nomor_rt}`} class="inline-action">
+                <a href={`/ketua-rt#rt-${item.data.nomor_rt}`} class="inline-flex items-center gap-1 text-[12px] font-semibold text-blue-600 hover:underline">
                   <Icon name="open_in_new" class="text-[14px]" />
                   Buka
                 </a>

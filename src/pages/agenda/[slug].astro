@@ -45,9 +45,9 @@ type MetaItem = {
 };
 
 const metaItems = [
-  entry.waktuMulai ? { icon: 'schedule', text: `${entry.waktuMulai}${entry.waktuSelesai ? ` - ${entry.waktuSelesai}` : ''}`, accentClass: 'text-on-surface-variant' } : null,
-  entry.lokasi ? { icon: 'location_on', text: entry.lokasi, accentClass: 'text-on-surface-variant' } : null,
-  entry.kontakPic ? { icon: 'person', text: entry.kontakPic, accentClass: 'text-on-surface-variant' } : null,
+  entry.waktuMulai ? { icon: 'schedule', text: `${entry.waktuMulai}${entry.waktuSelesai ? ` - ${entry.waktuSelesai}` : ''}`, accentClass: 'text-base-content/70' } : null,
+  entry.lokasi ? { icon: 'location_on', text: entry.lokasi, accentClass: 'text-base-content/70' } : null,
+  entry.kontakPic ? { icon: 'person', text: entry.kontakPic, accentClass: 'text-base-content/70' } : null,
 ].filter((meta): meta is MetaItem => meta !== null);
 
 const relatedItems = findRelatedContent(
@@ -97,21 +97,21 @@ const eventSchema = generateEventSchema({
 
     <div class="mb-3 flex flex-wrap items-center gap-2 sm:gap-3">
       <Badge label={entry.label || 'Agenda'} tone={getAgendaLabelTone(entry.label)} class="px-2 py-0.5" />
-      <time class="meta-time" datetime={entry.tanggal}>
+      <time class="badge badge-ghost rounded-full px-3 py-3 text-[12px] font-semibold" datetime={entry.tanggal}>
         {formatTanggal(entry.tanggal)}
       </time>
       {(entry.tag || []).slice(0, 3).map((tag) => (
-        <span class="tag-chip py-0.5">
+        <span class="badge badge-outline rounded-full px-3 py-3 text-[12px] font-semibold">
           #{getTagUmumLabel(tag)}
         </span>
       ))}
     </div>
 
-    <h1 class="text-2xl font-bold leading-tight tracking-tight text-on-surface sm:text-3xl">
+    <h1 class="text-2xl font-bold leading-tight tracking-tight text-base-content sm:text-3xl">
       {entry.judul}
     </h1>
 
-    <p class="mt-3 text-base leading-relaxed text-on-surface-variant">
+    <p class="mt-3 text-base leading-relaxed text-base-content/70">
       {entry.ringkasan}
     </p>
 
@@ -119,12 +119,12 @@ const eventSchema = generateEventSchema({
       <ContentMeta
         class="mt-4 flex flex-wrap gap-x-5 gap-y-2"
         items={metaItems}
-        iconClass="text-[18px] text-m3-primary"
+        iconClass="text-[18px] text-primary"
       />
     )}
 
     {entry.gambarUtama && (
-      <div class="media-frame mt-6">
+      <div class="card mt-6 overflow-hidden border border-base-300/70 bg-base-100 shadow-sm">
         <img
           src={entry.gambarUtama}
           alt={entry.altGambarUtama || entry.judul}
@@ -134,11 +134,11 @@ const eventSchema = generateEventSchema({
       </div>
     )}
 
-    <div class="mt-6 border-t border-outline-variant/40 pt-5">
-      <div class="article-rich text-base leading-relaxed text-on-surface-variant" set:html={renderMarkdown(entry.deskripsi)} />
+    <div class="mt-6 border-t border-base-300/70 pt-5">
+      <div class="article-rich text-base leading-relaxed text-base-content/75" set:html={renderMarkdown(entry.deskripsi)} />
     </div>
 
-    <div class="mt-8 border-t border-outline-variant/40 pt-5">
+    <div class="mt-8 border-t border-base-300/70 pt-5">
       <ActionLinkButton href="/agenda" label="Kembali ke Agenda" icon="arrow_back" />
     </div>
   </article>

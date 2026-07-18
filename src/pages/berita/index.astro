@@ -90,7 +90,7 @@ const displayItems = shouldShowFeatured ? kegiatan.slice(1) : kegiatan;
     >
       <div slot="active" class="flex flex-wrap items-center gap-2">
         {(selectedCategory || selectedTag || query) && (
-          <a class="inline-action" href="/berita">
+          <a class="btn btn-outline btn-sm rounded-full" href="/berita">
             <Icon name="restart_alt" class="text-[16px]" />
             Reset filter
           </a>
