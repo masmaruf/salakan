@@ -157,18 +157,19 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
   </PageIntro>
 
   <section class="container-premium py-3 sm:py-4">
-    <form action="/data/lembaga" method="get" class="section-card grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+    <form action="/data/lembaga" method="get" class="card border border-base-300/70 bg-base-100 shadow-sm">
+      <div class="card-body grid gap-3 p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
       <div class="grid gap-2">
         <label for="search-lembaga" class="detail-label">Cari lembaga, pengampu, fokus, atau layanan</label>
-        <div class="flex items-center gap-3 rounded-2xl border border-outline-variant bg-surface-container-lowest px-4 py-3">
-          <Icon name="search" class="text-[20px] text-outline" />
+        <div class="input input-bordered flex h-auto min-h-12 items-center gap-3 rounded-2xl bg-base-100 px-4 py-3 focus-within:outline focus-within:outline-2 focus-within:outline-primary/35">
+          <Icon name="search" class="text-[20px] text-primary" />
           <input
             id="search-lembaga"
             name="q"
             type="search"
             value={query}
             placeholder="Contoh: posyandu, keamanan, pembangunan"
-            class="w-full border-0 bg-transparent p-0 text-sm text-on-surface outline-none placeholder:text-on-surface-variant"
+            class="w-full border-0 bg-transparent p-0 text-sm text-base-content outline-none placeholder:text-base-content/50"
           />
         </div>
         <input type="hidden" name="bidang" value={activeBidang} />
@@ -176,7 +177,7 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
       <div class="flex flex-wrap gap-2">
         <button
           type="submit"
-          class="inline-flex items-center gap-2 rounded-full bg-m3-primary px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-m3-primary/90"
+          class="btn btn-primary rounded-full"
         >
           <Icon name="search" class="text-[18px]" />
           Cari
@@ -184,12 +185,13 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
         {(query || activeBidang !== 'semua') && (
           <a
             href="/data/lembaga"
-            class="inline-flex items-center gap-2 rounded-full border border-outline-variant bg-surface-container-low px-5 py-3 text-sm font-semibold text-on-surface-variant transition-colors hover:bg-primary-container hover:text-on-primary-container"
+            class="btn btn-outline rounded-full"
           >
             <Icon name="restart_alt" class="text-[18px]" />
             Reset filter
           </a>
         )}
+      </div>
       </div>
     </form>
   </section>
@@ -205,21 +207,22 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
   <section class="container-premium py-8">
     <div class="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
       {highlighted && (
-        <article class="section-card grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+        <article class="card border border-base-300/70 bg-base-100 shadow-sm">
+          <div class="card-body grid gap-5 p-5 sm:p-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <div class="flex flex-wrap items-center gap-2">
-              <span class="rounded-full bg-primary-container px-3 py-1 text-[12px] font-semibold text-on-primary-container">
+              <span class="badge badge-primary badge-outline">
                 {bidangLembagaLabels[highlighted.entry.bidang as keyof typeof bidangLembagaLabels]}
               </span>
               {highlighted.entry.fokusKegiatan.length > 0 && (
-                <span class="rounded-full border border-outline-variant bg-white px-3 py-1 text-[12px] font-semibold text-on-surface-variant">
+                <span class="badge badge-ghost">
                   {highlighted.entry.fokusKegiatan.length} fokus kerja
                 </span>
               )}
             </div>
-            <h2 class="mt-4 text-2xl font-bold tracking-tight text-on-surface">{highlighted.entry.jabatan}</h2>
-            <p class="mt-1 text-sm font-semibold text-on-surface-variant">Pengampu: {highlighted.entry.namaPejabat}</p>
-            <p class="mt-3 text-base leading-relaxed text-on-surface-variant">
+            <h2 class="mt-4 text-2xl font-bold tracking-tight text-base-content">{highlighted.entry.jabatan}</h2>
+            <p class="mt-1 text-sm font-semibold text-base-content/70">Pengampu: {highlighted.entry.namaPejabat}</p>
+            <p class="mt-3 text-base leading-relaxed text-base-content/70">
               {highlighted.entry.ringkasan || markdownToText(highlighted.entry.deskripsiTugas)}
             </p>
             {highlighted.entry.fokusKegiatan.length > 0 && (
@@ -232,17 +235,17 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
               />
             )}
             {highlighted.entry.layananUtama.length > 0 && (
-              <div class="mt-5 border-t border-outline-variant/40 pt-4">
+              <div class="mt-5 border-t border-base-300/70 pt-4">
                 <p class="detail-label">Layanan atau peran utama</p>
-                <ul class="mt-3 grid gap-2 text-sm leading-relaxed text-on-surface-variant">
+                <ul class="mt-3 grid gap-2 text-sm leading-relaxed text-base-content/70">
                   {highlighted.entry.layananUtama.map((item) => (
-                    <li class="rounded-xl border border-outline-variant/50 bg-surface-container-low px-4 py-3">{item}</li>
+                    <li class="rounded-xl border border-base-300/70 bg-base-200 px-4 py-3">{item}</li>
                   ))}
                 </ul>
               </div>
             )}
             {highlighted.entry.dokumentasiTerkait.length > 0 && (
-              <div class="mt-5 border-t border-outline-variant/40 pt-4">
+              <div class="mt-5 border-t border-base-300/70 pt-4">
                 <p class="detail-label">Dokumentasi terkait</p>
                 <div class="mt-3 flex flex-wrap gap-2">
                   {highlighted.entry.dokumentasiTerkait.map((item) => (
@@ -252,7 +255,7 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
               </div>
             )}
             {highlightedRelated.length > 0 && (
-              <div class="mt-5 border-t border-outline-variant/40 pt-4">
+              <div class="mt-5 border-t border-base-300/70 pt-4">
                 <p class="detail-label">Konten terkait</p>
                 <div class="mt-3 grid gap-3">
                   {highlightedRelated.map((related) => (
@@ -273,56 +276,69 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
           </div>
 
           <div class="grid gap-3">
-            <div class="section-subcard">
+            <div class="card border border-base-300/70 bg-base-200 shadow-none">
+              <div class="card-body p-4">
               <p class="section-kicker">Bidang</p>
-              <p class="mt-2 text-sm font-medium text-on-surface">{bidangLembagaLabels[highlighted.entry.bidang as keyof typeof bidangLembagaLabels]}</p>
+              <p class="mt-2 text-sm font-medium text-base-content">{bidangLembagaLabels[highlighted.entry.bidang as keyof typeof bidangLembagaLabels]}</p>
+              </div>
             </div>
-            <div class="section-subcard">
+            <div class="card border border-base-300/70 bg-base-200 shadow-none">
+              <div class="card-body p-4">
               <p class="section-kicker">Jadwal rutin</p>
-              <p class="mt-2 text-sm font-medium text-on-surface">{highlighted.entry.jadwalRutin || 'Menyesuaikan kebutuhan dan agenda warga'}</p>
+              <p class="mt-2 text-sm font-medium text-base-content">{highlighted.entry.jadwalRutin || 'Menyesuaikan kebutuhan dan agenda warga'}</p>
+              </div>
             </div>
-            <div class="section-subcard">
+            <div class="card border border-base-300/70 bg-base-200 shadow-none">
+              <div class="card-body p-4">
               <p class="section-kicker">Lokasi kegiatan</p>
-              <p class="mt-2 text-sm font-medium text-on-surface">{highlighted.entry.lokasiKegiatan || 'Wilayah Padukuhan Salakan'}</p>
+              <p class="mt-2 text-sm font-medium text-base-content">{highlighted.entry.lokasiKegiatan || 'Wilayah Padukuhan Salakan'}</p>
+              </div>
             </div>
-            <div class="section-subcard">
+            <div class="card border border-base-300/70 bg-base-200 shadow-none">
+              <div class="card-body p-4">
               <p class="section-kicker">Kontak koordinasi</p>
-              <p class="mt-2 text-sm font-medium text-on-surface">{highlighted.entry.kontak}</p>
+              <p class="mt-2 text-sm font-medium text-base-content">{highlighted.entry.kontak}</p>
+              </div>
             </div>
             <div class="pt-1">
               <ActionLinkButton href="/kontak" label="Butuh jalur kontak umum" icon="arrow_forward" variant="outline" />
             </div>
           </div>
+          </div>
         </article>
       )}
 
-      <div class="section-card">
+      <div class="card border border-base-300/70 bg-base-100 shadow-sm">
+        <div class="card-body p-5 sm:p-6">
         <div class="flex items-center gap-3">
-          <div class="grid h-11 w-11 place-items-center rounded-xl bg-primary-container/30 text-m3-primary">
+          <div class="grid h-11 w-11 place-items-center rounded-xl bg-base-200 text-primary">
             <Icon name="groups" class="text-[22px]" />
           </div>
           <div>
             <p class="section-kicker">Ringkasan Direktori</p>
-            <h2 class="mt-1 text-xl font-bold tracking-tight text-on-surface">Pilih lembaga yang paling relevan</h2>
+            <h2 class="mt-1 text-xl font-bold tracking-tight text-base-content">Pilih lembaga yang paling relevan</h2>
           </div>
         </div>
         <div class="mt-4 space-y-3">
           {Object.entries(grouped).map(([key, groupItems]) => (
-            <div class="rounded-2xl border border-outline-variant/50 bg-surface-container-low px-4 py-4">
+            <div class="card border border-base-300/70 bg-base-200 shadow-none">
+              <div class="card-body p-4">
               <div class="flex items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
-                  <div class="grid h-9 w-9 place-items-center rounded-full bg-white text-m3-primary">
+                  <div class="grid h-9 w-9 place-items-center rounded-full bg-base-100 text-primary">
                     <Icon name={bidangLembagaIcons[key as keyof typeof bidangLembagaIcons]} class="text-[18px]" />
                   </div>
                   <div>
-                    <p class="text-sm font-bold text-on-surface">{bidangLembagaLabels[key as keyof typeof bidangLembagaLabels]}</p>
-                    <p class="text-[12px] text-on-surface-variant">{groupItems.length} lembaga aktif</p>
+                    <p class="text-sm font-bold text-base-content">{bidangLembagaLabels[key as keyof typeof bidangLembagaLabels]}</p>
+                    <p class="text-[12px] text-base-content/65">{groupItems.length} lembaga aktif</p>
                   </div>
                 </div>
-                <a class="text-[12px] font-semibold text-m3-primary hover:underline" href={`/data/lembaga?bidang=${key}${query ? `&q=${encodeURIComponent(query)}` : ''}`}>Lihat</a>
+                <a class="btn btn-ghost btn-xs rounded-full text-primary" href={`/data/lembaga?bidang=${key}${query ? `&q=${encodeURIComponent(query)}` : ''}`}>Lihat</a>
+              </div>
               </div>
             </div>
           ))}
+        </div>
         </div>
       </div>
     </div>
@@ -332,9 +348,9 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
     <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
       <div>
         <p class="section-kicker">Daftar Lembaga</p>
-        <h2 class="mt-1 text-2xl font-bold tracking-tight text-on-surface">Direktori organisasi warga</h2>
+        <h2 class="mt-1 text-2xl font-bold tracking-tight text-base-content">Direktori organisasi warga</h2>
       </div>
-      <p class="max-w-xl text-sm leading-relaxed text-on-surface-variant">
+      <p class="max-w-xl text-sm leading-relaxed text-base-content/70">
         {query
           ? `Menampilkan ${filteredItems.length} hasil untuk pencarian "${query}" pada ${activeBidangLabel.toLowerCase()}.`
           : activeBidang === 'semua'
@@ -346,32 +362,31 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
     {filteredItems.length > 0 ? (
       <div class="space-y-4">
         {filteredItemsWithRelations.map(({ slug, entry, relatedItems }, index) => (
-          <details class="group section-card transition-all open:shadow-md" id={slug} open={index === 0 && !query}>
-            <summary class="flex cursor-pointer list-none items-start gap-4">
-              <div class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary-container text-on-primary-container">
+          <details class="collapse collapse-arrow group border border-base-300/70 bg-base-100 shadow-sm transition-all open:shadow-md" id={slug} open={index === 0 && !query}>
+            <summary class="collapse-title flex cursor-pointer list-none items-start gap-4 p-5 pr-14 sm:p-6 sm:pr-14">
+              <div class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary text-primary-content">
                 <Icon name={bidangLembagaIcons[entry.bidang as keyof typeof bidangLembagaIcons]} class="text-[20px]" />
               </div>
               <div class="min-w-0 flex-1">
                 <div class="flex flex-wrap items-center gap-2">
-                  <span class="rounded-full bg-primary-container px-3 py-1 text-[12px] font-semibold text-on-primary-container">
+                  <span class="badge badge-primary badge-outline">
                     {bidangLembagaLabels[entry.bidang as keyof typeof bidangLembagaLabels]}
                   </span>
                   {entry.fokusKegiatan.length > 0 && (
-                    <span class="rounded-full border border-outline-variant bg-white px-3 py-1 text-[12px] font-semibold text-on-surface-variant">
+                    <span class="badge badge-ghost">
                       {entry.fokusKegiatan.length} fokus
                     </span>
                   )}
                 </div>
-                <h3 class="mt-3 text-xl font-bold tracking-tight text-on-surface transition-colors group-hover:text-m3-primary">{entry.jabatan}</h3>
-                <p class="mt-1 text-sm font-semibold text-on-surface-variant">Pengampu: {entry.namaPejabat}</p>
-                <p class="mt-3 max-w-3xl text-sm leading-relaxed text-on-surface-variant">
+                <h3 class="mt-3 text-xl font-bold tracking-tight text-base-content transition-colors group-hover:text-primary">{entry.jabatan}</h3>
+                <p class="mt-1 text-sm font-semibold text-base-content/70">Pengampu: {entry.namaPejabat}</p>
+                <p class="mt-3 max-w-3xl text-sm leading-relaxed text-base-content/70">
                   {entry.ringkasan || markdownToText(entry.deskripsiTugas)}
                 </p>
               </div>
-              <Icon name="expand_more" class="mt-1 shrink-0 text-[22px] text-outline transition-transform group-open:rotate-180" />
             </summary>
 
-            <div class="mt-5 border-t border-outline-variant/40 pt-5">
+            <div class="collapse-content border-t border-base-300/70 px-5 pb-5 pt-5 sm:px-6 sm:pb-6">
               {entry.fokusKegiatan.length > 0 && (
                 <BadgeList
                   class="flex flex-wrap gap-2"
@@ -383,9 +398,10 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
               )}
 
               <div class="mt-4 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-                <div class="section-subcard">
+                <div class="card border border-base-300/70 bg-base-200 shadow-none">
+                  <div class="card-body p-4">
                   <p class="detail-label">Deskripsi tugas</p>
-                  <div class="article-rich mt-3 text-sm leading-relaxed text-on-surface-variant" set:html={renderMarkdown(entry.deskripsiTugas)} />
+                  <div class="article-rich mt-3 text-sm leading-relaxed text-base-content/70" set:html={renderMarkdown(entry.deskripsiTugas)} />
                   <LabelValueList
                     class="mt-4"
                     items={[
@@ -394,35 +410,41 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
                       { label: 'Kontak koordinasi', value: entry.kontak },
                     ]}
                   />
+                  </div>
                 </div>
 
-                <div class="section-subcard">
+                <div class="card border border-base-300/70 bg-base-200 shadow-none">
+                  <div class="card-body p-4">
                   <p class="detail-label">Peran utama</p>
                   {entry.layananUtama.length > 0 ? (
-                    <ul class="mt-3 grid gap-2 text-sm leading-relaxed text-on-surface-variant">
+                    <ul class="mt-3 grid gap-2 text-sm leading-relaxed text-base-content/70">
                       {entry.layananUtama.map((item) => (
-                        <li class="rounded-xl border border-outline-variant/50 bg-surface-container-low px-4 py-3">{item}</li>
+                        <li class="rounded-xl border border-base-300/70 bg-base-100 px-4 py-3">{item}</li>
                       ))}
                     </ul>
                   ) : (
-                    <p class="mt-3 text-sm leading-relaxed text-on-surface-variant">Peran utama lembaga ini mengikuti kebutuhan koordinasi dan pelayanan warga.</p>
+                    <p class="mt-3 text-sm leading-relaxed text-base-content/70">Peran utama lembaga ini mengikuti kebutuhan koordinasi dan pelayanan warga.</p>
                   )}
+                  </div>
                 </div>
               </div>
 
               {entry.dokumentasiTerkait.length > 0 && (
-                <div class="mt-4 section-subcard">
+                <div class="card mt-4 border border-base-300/70 bg-base-200 shadow-none">
+                  <div class="card-body p-4">
                   <p class="detail-label">Dokumentasi terkait</p>
                   <div class="mt-3 flex flex-wrap gap-2">
                     {entry.dokumentasiTerkait.map((item) => (
                       <InlineAction href={item.href} label={item.label} icon="arrow_outward" />
                     ))}
                   </div>
+                  </div>
                 </div>
               )}
 
               {relatedItems.length > 0 && (
-                <div class="mt-4 section-subcard">
+                <div class="card mt-4 border border-base-300/70 bg-base-200 shadow-none">
+                  <div class="card-body p-4">
                   <p class="detail-label">Konten terkait</p>
                   <div class="mt-3 grid gap-3 lg:grid-cols-2">
                     {relatedItems.map((related) => (
@@ -438,6 +460,7 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
                       />
                     ))}
                   </div>
+                  </div>
                 </div>
               )}
             </div>
@@ -445,17 +468,19 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
         ))}
       </div>
     ) : (
-      <div class="section-card text-center">
-        <div class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-primary-container/30 text-m3-primary">
+      <div class="card border border-base-300/70 bg-base-100 text-center shadow-sm">
+        <div class="card-body p-6 sm:p-8">
+        <div class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-base-200 text-primary">
           <Icon name="search_off" class="text-[28px]" />
         </div>
-        <h3 class="mt-4 text-xl font-bold tracking-tight text-on-surface">Belum ada lembaga yang cocok</h3>
-        <p class="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-on-surface-variant">
+        <h3 class="mt-4 text-xl font-bold tracking-tight text-base-content">Belum ada lembaga yang cocok</h3>
+        <p class="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-base-content/70">
           Coba gunakan kata kunci yang lebih umum, atau reset filter agar semua organisasi warga di Padukuhan Salakan ditampilkan kembali.
         </p>
         <div class="mt-5 flex flex-wrap justify-center gap-2">
           <ActionLinkButton href="/data/lembaga" label="Tampilkan semua lembaga" icon="restart_alt" variant="outline" />
           <ActionLinkButton href="/kontak" label="Hubungi padukuhan" icon="call" variant="outline" />
+        </div>
         </div>
       </div>
     )}

@@ -14,9 +14,9 @@ const visibleItems = items.filter((item) => item.value !== undefined && item.val
 ---
 
 {visibleItems.length > 0 && (
-  <div class:list={['space-y-2 border-t border-outline-variant/40 pt-4 text-sm text-on-surface-variant', className]}>
+  <div class:list={['space-y-2 border-t border-base-300/70 pt-4 text-sm text-base-content/70', className]}>
     {visibleItems.map((item) => (
-      <p><span class="font-semibold text-on-surface">{item.label}:</span> {item.value}</p>
+      <p><span class="font-semibold text-base-content">{item.label}:</span> {item.value}</p>
     ))}
   </div>
 )}
