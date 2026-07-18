@@ -1,0 +1,47 @@
+---
+type TagName = 'article' | 'aside' | 'div' | 'form' | 'section';
+type Surface = 'base' | 'muted' | 'plain';
+type Shadow = 'none' | 'sm' | 'md';
+
+interface Props {
+  as?: TagName;
+  action?: string;
+  method?: 'get' | 'post';
+  class?: string;
+  bodyClass?: string;
+  surface?: Surface;
+  shadow?: Shadow;
+  bordered?: boolean;
+}
+
+const {
+  as = 'div',
+  action,
+  method,
+  class: className = '',
+  bodyClass = 'card-body p-5 sm:p-6',
+  surface = 'base',
+  shadow = 'sm',
+  bordered = true,
+} = Astro.props as Props;
+
+const Tag = as;
+const surfaceClass = surface === 'muted' ? 'bg-base-200' : surface === 'plain' ? '' : 'bg-base-100';
+const shadowClass = shadow === 'md' ? 'shadow-md' : shadow === 'sm' ? 'shadow-sm' : 'shadow-none';
+---
+
+<Tag
+  action={action}
+  method={method}
+  class:list={[
+    'card',
+    bordered && 'border border-base-300/70',
+    surfaceClass,
+    shadowClass,
+    className,
+  ]}
+>
+  <div class={bodyClass}>
+    <slot />
+  </div>
+</Tag>

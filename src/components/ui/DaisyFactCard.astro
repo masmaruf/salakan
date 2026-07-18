@@ -1,0 +1,50 @@
+---
+import Icon from './Icon.tsx';
+
+interface Props {
+  label: string;
+  value?: string | number | null;
+  icon?: string;
+  href?: string;
+  actionLabel?: string;
+  class?: string;
+}
+
+const {
+  label,
+  value,
+  icon,
+  href,
+  actionLabel = 'Lihat',
+  class: className = '',
+} = Astro.props;
+const hasAction = Boolean(href);
+const Tag = hasAction ? 'a' : 'div';
+---
+
+<Tag
+  href={href}
+  class:list={[
+    'card border border-base-300/70 bg-base-200 shadow-none',
+    hasAction && 'transition-colors hover:border-primary/35 hover:bg-base-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40',
+    className,
+  ]}
+>
+  <div class="card-body p-4">
+    <div class="flex items-center justify-between gap-3">
+      <div class="min-w-0">
+        <p class="section-kicker">{label}</p>
+        {value !== undefined && value !== null && value !== '' && (
+          <p class="mt-2 text-sm font-medium text-base-content">{value}</p>
+        )}
+      </div>
+      {icon && (
+        <div class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-base-100 text-primary">
+          <Icon name={icon} class="text-[18px]" />
+        </div>
+      )}
+    </div>
+    {hasAction && <span class="btn btn-ghost btn-xs mt-3 w-fit rounded-full text-primary">{actionLabel}</span>}
+    <slot />
+  </div>
+</Tag>

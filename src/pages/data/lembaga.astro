@@ -8,6 +8,8 @@ import ActionLinkButton from '../../components/ui/ActionLinkButton.astro';
 import LabelValueList from '../../components/ui/LabelValueList.astro';
 import InlineAction from '../../components/ui/InlineAction.astro';
 import ArchiveCard from '../../components/ui/ArchiveCard.astro';
+import DaisyCard from '../../components/ui/DaisyCard.astro';
+import DaisyFactCard from '../../components/ui/DaisyFactCard.astro';
 import Icon from '../../components/ui/Icon.tsx';
 import {
   excerpt,
@@ -157,8 +159,7 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
   </PageIntro>
 
   <section class="container-premium py-3 sm:py-4">
-    <form action="/data/lembaga" method="get" class="card border border-base-300/70 bg-base-100 shadow-sm">
-      <div class="card-body grid gap-3 p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+    <DaisyCard as="form" action="/data/lembaga" method="get" bodyClass="card-body grid gap-3 p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
       <div class="grid gap-2">
         <label for="search-lembaga" class="detail-label">Cari lembaga, pengampu, fokus, atau layanan</label>
         <div class="input input-bordered flex h-auto min-h-12 items-center gap-3 rounded-2xl bg-base-100 px-4 py-3 focus-within:outline focus-within:outline-2 focus-within:outline-primary/35">
@@ -192,8 +193,7 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
           </a>
         )}
       </div>
-      </div>
-    </form>
+    </DaisyCard>
   </section>
 
   <section class="container-premium py-4 sm:py-6">
@@ -207,8 +207,7 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
   <section class="container-premium py-8">
     <div class="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
       {highlighted && (
-        <article class="card border border-base-300/70 bg-base-100 shadow-sm">
-          <div class="card-body grid gap-5 p-5 sm:p-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <DaisyCard as="article" bodyClass="card-body grid gap-5 p-5 sm:p-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <div class="flex flex-wrap items-center gap-2">
               <span class="badge badge-primary badge-outline">
@@ -276,40 +275,18 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
           </div>
 
           <div class="grid gap-3">
-            <div class="card border border-base-300/70 bg-base-200 shadow-none">
-              <div class="card-body p-4">
-              <p class="section-kicker">Bidang</p>
-              <p class="mt-2 text-sm font-medium text-base-content">{bidangLembagaLabels[highlighted.entry.bidang as keyof typeof bidangLembagaLabels]}</p>
-              </div>
-            </div>
-            <div class="card border border-base-300/70 bg-base-200 shadow-none">
-              <div class="card-body p-4">
-              <p class="section-kicker">Jadwal rutin</p>
-              <p class="mt-2 text-sm font-medium text-base-content">{highlighted.entry.jadwalRutin || 'Menyesuaikan kebutuhan dan agenda warga'}</p>
-              </div>
-            </div>
-            <div class="card border border-base-300/70 bg-base-200 shadow-none">
-              <div class="card-body p-4">
-              <p class="section-kicker">Lokasi kegiatan</p>
-              <p class="mt-2 text-sm font-medium text-base-content">{highlighted.entry.lokasiKegiatan || 'Wilayah Padukuhan Salakan'}</p>
-              </div>
-            </div>
-            <div class="card border border-base-300/70 bg-base-200 shadow-none">
-              <div class="card-body p-4">
-              <p class="section-kicker">Kontak koordinasi</p>
-              <p class="mt-2 text-sm font-medium text-base-content">{highlighted.entry.kontak}</p>
-              </div>
-            </div>
+            <DaisyFactCard label="Bidang" value={bidangLembagaLabels[highlighted.entry.bidang as keyof typeof bidangLembagaLabels]} />
+            <DaisyFactCard label="Jadwal rutin" value={highlighted.entry.jadwalRutin || 'Menyesuaikan kebutuhan dan agenda warga'} />
+            <DaisyFactCard label="Lokasi kegiatan" value={highlighted.entry.lokasiKegiatan || 'Wilayah Padukuhan Salakan'} />
+            <DaisyFactCard label="Kontak koordinasi" value={highlighted.entry.kontak} />
             <div class="pt-1">
               <ActionLinkButton href="/kontak" label="Butuh jalur kontak umum" icon="arrow_forward" variant="outline" />
             </div>
           </div>
-          </div>
-        </article>
+        </DaisyCard>
       )}
 
-      <div class="card border border-base-300/70 bg-base-100 shadow-sm">
-        <div class="card-body p-5 sm:p-6">
+      <DaisyCard>
         <div class="flex items-center gap-3">
           <div class="grid h-11 w-11 place-items-center rounded-xl bg-base-200 text-primary">
             <Icon name="groups" class="text-[22px]" />
@@ -321,26 +298,15 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
         </div>
         <div class="mt-4 space-y-3">
           {Object.entries(grouped).map(([key, groupItems]) => (
-            <div class="card border border-base-300/70 bg-base-200 shadow-none">
-              <div class="card-body p-4">
-              <div class="flex items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
-                  <div class="grid h-9 w-9 place-items-center rounded-full bg-base-100 text-primary">
-                    <Icon name={bidangLembagaIcons[key as keyof typeof bidangLembagaIcons]} class="text-[18px]" />
-                  </div>
-                  <div>
-                    <p class="text-sm font-bold text-base-content">{bidangLembagaLabels[key as keyof typeof bidangLembagaLabels]}</p>
-                    <p class="text-[12px] text-base-content/65">{groupItems.length} lembaga aktif</p>
-                  </div>
-                </div>
-                <a class="btn btn-ghost btn-xs rounded-full text-primary" href={`/data/lembaga?bidang=${key}${query ? `&q=${encodeURIComponent(query)}` : ''}`}>Lihat</a>
-              </div>
-              </div>
-            </div>
+            <DaisyFactCard
+              label={bidangLembagaLabels[key as keyof typeof bidangLembagaLabels]}
+              value={`${groupItems.length} lembaga aktif`}
+              icon={bidangLembagaIcons[key as keyof typeof bidangLembagaIcons]}
+              href={`/data/lembaga?bidang=${key}${query ? `&q=${encodeURIComponent(query)}` : ''}`}
+            />
           ))}
         </div>
-        </div>
-      </div>
+      </DaisyCard>
     </div>
   </section>
 
@@ -398,8 +364,7 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
               )}
 
               <div class="mt-4 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-                <div class="card border border-base-300/70 bg-base-200 shadow-none">
-                  <div class="card-body p-4">
+                <DaisyCard surface="muted" shadow="none" bodyClass="card-body p-4">
                   <p class="detail-label">Deskripsi tugas</p>
                   <div class="article-rich mt-3 text-sm leading-relaxed text-base-content/70" set:html={renderMarkdown(entry.deskripsiTugas)} />
                   <LabelValueList
@@ -410,11 +375,9 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
                       { label: 'Kontak koordinasi', value: entry.kontak },
                     ]}
                   />
-                  </div>
-                </div>
+                </DaisyCard>
 
-                <div class="card border border-base-300/70 bg-base-200 shadow-none">
-                  <div class="card-body p-4">
+                <DaisyCard surface="muted" shadow="none" bodyClass="card-body p-4">
                   <p class="detail-label">Peran utama</p>
                   {entry.layananUtama.length > 0 ? (
                     <ul class="mt-3 grid gap-2 text-sm leading-relaxed text-base-content/70">
@@ -425,26 +388,22 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
                   ) : (
                     <p class="mt-3 text-sm leading-relaxed text-base-content/70">Peran utama lembaga ini mengikuti kebutuhan koordinasi dan pelayanan warga.</p>
                   )}
-                  </div>
-                </div>
+                </DaisyCard>
               </div>
 
               {entry.dokumentasiTerkait.length > 0 && (
-                <div class="card mt-4 border border-base-300/70 bg-base-200 shadow-none">
-                  <div class="card-body p-4">
+                <DaisyCard surface="muted" shadow="none" class="mt-4" bodyClass="card-body p-4">
                   <p class="detail-label">Dokumentasi terkait</p>
                   <div class="mt-3 flex flex-wrap gap-2">
                     {entry.dokumentasiTerkait.map((item) => (
                       <InlineAction href={item.href} label={item.label} icon="arrow_outward" />
                     ))}
                   </div>
-                  </div>
-                </div>
+                </DaisyCard>
               )}
 
               {relatedItems.length > 0 && (
-                <div class="card mt-4 border border-base-300/70 bg-base-200 shadow-none">
-                  <div class="card-body p-4">
+                <DaisyCard surface="muted" shadow="none" class="mt-4" bodyClass="card-body p-4">
                   <p class="detail-label">Konten terkait</p>
                   <div class="mt-3 grid gap-3 lg:grid-cols-2">
                     {relatedItems.map((related) => (
@@ -460,16 +419,14 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
                       />
                     ))}
                   </div>
-                  </div>
-                </div>
+                </DaisyCard>
               )}
             </div>
           </details>
         ))}
       </div>
     ) : (
-      <div class="card border border-base-300/70 bg-base-100 text-center shadow-sm">
-        <div class="card-body p-6 sm:p-8">
+      <DaisyCard class="text-center" bodyClass="card-body p-6 sm:p-8">
         <div class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-base-200 text-primary">
           <Icon name="search_off" class="text-[28px]" />
         </div>
@@ -481,8 +438,7 @@ const filteredItemsWithRelations = filteredItems.map((item) => ({
           <ActionLinkButton href="/data/lembaga" label="Tampilkan semua lembaga" icon="restart_alt" variant="outline" />
           <ActionLinkButton href="/kontak" label="Hubungi padukuhan" icon="call" variant="outline" />
         </div>
-        </div>
-      </div>
+      </DaisyCard>
     )}
   </section>
 </MainLayout>
