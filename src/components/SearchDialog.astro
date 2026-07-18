@@ -3,7 +3,7 @@
 
 <button
   type="button"
-  class="js-search-open inline-flex h-9 w-9 items-center justify-center rounded-full text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-on-surface focus:outline-none focus-visible:ring-2 focus-visible:ring-m3-primary focus-visible:ring-offset-2"
+  class="js-search-open btn btn-ghost btn-circle btn-sm text-base-content/70 hover:bg-base-200 hover:text-base-content focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-base-100"
   aria-label="Cari di website"
   aria-haspopup="dialog"
 >
@@ -13,28 +13,28 @@
   </svg>
 </button>
 
-<div class="js-search-modal fixed inset-0 z-50 hidden bg-inverse-surface/40 p-3 backdrop-blur-sm sm:p-4" role="presentation">
+<div class="js-search-modal modal z-50 hidden bg-neutral/45 p-3 backdrop-blur-sm sm:p-4" role="presentation">
   <div
     role="dialog"
     aria-modal="true"
     aria-labelledby="search-dialog-title"
-    class="mx-auto mt-6 flex max-h-[88vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-outline-variant bg-surface-container-lowest shadow-[0_32px_80px_rgba(15,23,42,0.2)] sm:mt-[8vh] sm:max-h-[80vh]"
+    class="modal-box flex max-h-[88vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl border border-base-300 bg-base-100 p-0 text-base-content shadow-[0_32px_80px_rgba(15,23,42,0.2)] sm:max-h-[80vh]"
   >
-    <div class="border-b border-outline-variant/40 px-5 py-4">
+    <div class="border-b border-base-300/70 px-5 py-4">
       <div class="flex items-center gap-3">
-        <svg aria-hidden="true" class="h-6 w-6 shrink-0 text-m3-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg aria-hidden="true" class="h-6 w-6 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="7"></circle>
           <path d="m20 20-3.5-3.5"></path>
         </svg>
         <h2 id="search-dialog-title" class="sr-only">Pencarian</h2>
         <input
-          class="js-search-input h-auto min-w-0 flex-1 border-0 bg-transparent p-0 text-base font-semibold text-on-surface outline-none placeholder:text-outline focus-visible:ring-0"
+          class="js-search-input input input-ghost min-w-0 flex-1 rounded-none border-0 bg-transparent px-0 text-base font-semibold text-base-content placeholder:text-base-content/45 focus-visible:ring-0"
           placeholder="Cari agenda, berita, layanan, atau dokumen"
           autocomplete="off"
         />
         <button
           type="button"
-          class="js-search-close rounded-full p-1.5 text-on-surface-variant opacity-80 transition hover:bg-surface-container-high hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-m3-primary"
+          class="js-search-close btn btn-ghost btn-circle btn-sm text-base-content/70 hover:bg-base-200 hover:text-base-content focus-visible:ring-2 focus-visible:ring-primary"
           aria-label="Tutup pencarian"
         >
           <svg aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -48,15 +48,10 @@
 
     <div class="js-search-results min-h-0 flex-1 overflow-y-auto p-4">
       <div class="py-12 text-center">
-        <div class="mx-auto grid h-16 w-16 place-items-center rounded-xl bg-surface-container-low text-outline animate-pulse">
-          <svg aria-hidden="true" class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2h12"></path>
-            <path d="M6 22h12"></path>
-            <path d="M7 2c0 6 10 6 10 10s-10 4-10 10"></path>
-            <path d="M17 2c0 6-10 6-10 10s10 4 10 10"></path>
-          </svg>
+        <div class="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-base-200 text-base-content/45">
+          <span class="loading loading-spinner loading-lg text-primary"></span>
         </div>
-        <p class="mt-3 text-[12px] font-semibold uppercase tracking-wider text-outline">Memuat data...</p>
+        <p class="mt-3 text-[12px] font-semibold uppercase tracking-wider text-base-content/55">Memuat data...</p>
       </div>
     </div>
   </div>
@@ -134,7 +129,7 @@
     filters.innerHTML = typeOrder.map((type) => {
       const meta = type === 'semua' ? { label: 'Semua' } : (typeMeta[type] || { label: type });
       const active = activeType === type;
-      return `<button type="button" data-search-type="${type}" class="inline-flex min-h-[38px] items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-colors ${active ? 'bg-primary-container text-on-primary-container shadow-sm' : 'border border-outline-variant bg-white text-on-surface-variant hover:bg-surface-container-low'}">${type === 'semua' ? iconSvg('travel', 'h-4 w-4') : iconSvg(meta.icon, 'h-4 w-4')} ${escapeHtml(meta.label)} <span class="text-[11px] opacity-70">${counts[type] ?? 0}</span></button>`;
+      return `<button type="button" data-search-type="${type}" class="btn btn-sm rounded-full ${active ? 'btn-primary' : 'btn-outline'}">${type === 'semua' ? iconSvg('travel', 'h-4 w-4') : iconSvg(meta.icon, 'h-4 w-4')} ${escapeHtml(meta.label)} <span class="badge badge-sm ${active ? 'badge-primary-content border-primary-content/40 bg-primary-content/15 text-primary-content' : 'badge-ghost'}">${counts[type] ?? 0}</span></button>`;
     }).join('');
   };
 
@@ -156,16 +151,16 @@
       .slice(0, 10);
 
     if (results.length === 0) {
-      resultsEl.innerHTML = `<div class="py-16 text-center"><div class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-surface-container-low text-outline">${iconSvg('empty', 'h-8 w-8')}</div><p class="mt-4 text-base font-bold text-on-surface">Tidak ditemukan</p><p class="mt-1 text-sm text-on-surface-variant">Coba kata kunci lain atau ubah tipe pencarian.</p></div>`;
+      resultsEl.innerHTML = `<div class="py-16 text-center"><div class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-base-200 text-base-content/45">${iconSvg('empty', 'h-8 w-8')}</div><p class="mt-4 text-base font-bold text-base-content">Tidak ditemukan</p><p class="mt-1 text-sm text-base-content/70">Coba kata kunci lain atau ubah tipe pencarian.</p></div>`;
       return;
     }
 
-    const intro = query ? '' : `<div class="mb-4 rounded-2xl border border-outline-variant bg-surface-container-low/60 p-4"><p class="text-[12px] font-semibold uppercase tracking-wider text-outline">Akses cepat warga</p><p class="mt-1 text-sm text-on-surface-variant">Mulai dari agenda penting, informasi terbaru, atau layanan yang paling sering dicari.</p></div>`;
+    const intro = query ? '' : `<div class="card mb-4 border border-base-300/70 bg-base-200/60 shadow-none"><div class="card-body p-4"><p class="text-[12px] font-semibold uppercase tracking-wider text-primary">Akses cepat warga</p><p class="mt-1 text-sm text-base-content/70">Mulai dari agenda penting, informasi terbaru, atau layanan yang paling sering dicari.</p></div></div>`;
 
-    resultsEl.innerHTML = `${intro}<div class="space-y-1"><p class="mb-2 px-2 text-[12px] font-semibold uppercase tracking-wider text-outline">${query ? `${results.length} hasil ditemukan` : 'Saran cepat'}</p>${results.map((item) => {
+    resultsEl.innerHTML = `${intro}<div class="space-y-1"><p class="mb-2 px-2 text-[12px] font-semibold uppercase tracking-wider text-base-content/55">${query ? `${results.length} hasil ditemukan` : 'Saran cepat'}</p>${results.map((item) => {
       const meta = typeMeta[item.type] || { label: item.type, icon: 'search' };
       const date = formatDate(item.date);
-      return `<a href="${escapeHtml(item.url)}" class="group flex items-start gap-4 rounded-xl p-3 transition-colors hover:bg-surface-container-low focus:outline-none focus-visible:ring-2 focus-visible:ring-m3-primary"><div class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary-container/30 text-m3-primary transition-colors group-hover:bg-m3-primary group-hover:text-on-primary">${iconSvg(meta.icon, 'h-5 w-5')}</div><div class="min-w-0 flex-1"><div class="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-outline"><span>${escapeHtml(meta.label)}</span>${item.priority === 'high' ? '<span class="rounded-full bg-error-container px-2 py-0.5 text-[10px] text-on-error-container">Penting</span>' : ''}${date ? `<span class="normal-case tracking-normal">${escapeHtml(date)}</span>` : ''}</div><h3 class="truncate text-sm font-bold leading-tight text-on-surface transition-colors group-hover:text-m3-primary">${escapeHtml(item.title)}</h3><p class="mt-0.5 line-clamp-2 text-[12px] text-on-surface-variant">${escapeHtml(item.description)}</p></div>${iconSvg('chevron', 'h-[18px] w-[18px] text-outline transition-transform group-hover:translate-x-0.5 group-hover:text-m3-primary')}</a>`;
+      return `<a href="${escapeHtml(item.url)}" class="group flex items-start gap-4 rounded-2xl p-3 transition-colors hover:bg-base-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"><div class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-content">${iconSvg(meta.icon, 'h-5 w-5')}</div><div class="min-w-0 flex-1"><div class="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-base-content/55"><span>${escapeHtml(meta.label)}</span>${item.priority === 'high' ? '<span class="badge badge-error badge-sm">Penting</span>' : ''}${date ? `<span class="normal-case tracking-normal">${escapeHtml(date)}</span>` : ''}</div><h3 class="truncate text-sm font-bold leading-tight text-base-content transition-colors group-hover:text-primary">${escapeHtml(item.title)}</h3><p class="mt-0.5 line-clamp-2 text-[12px] text-base-content/70">${escapeHtml(item.description)}</p></div>${iconSvg('chevron', 'h-[18px] w-[18px] text-base-content/45 transition-transform group-hover:translate-x-0.5 group-hover:text-primary')}</a>`;
     }).join('')}</div>`;
   };
 
