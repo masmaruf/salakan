@@ -3,7 +3,7 @@ import GalleryGrid from '../components/GalleryGrid.astro';
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
-import { getGaleri, sortByDateDesc } from '../lib/content';
+import { formatTanggal, getGaleri, sortByDateDesc } from '../lib/content';
 
 const galeri = sortByDateDesc(
   (await getGaleri()).map((item) => ({
@@ -11,6 +11,8 @@ const galeri = sortByDateDesc(
     entry: item.entry!,
   }))
 );
+
+const terbaru = galeri[0]?.entry?.tanggal;
 ---
 
 <MainLayout title="Galeri | Padukuhan Salakan" description="Galeri kegiatan dan dokumentasi visual Padukuhan Salakan.">
@@ -33,7 +35,33 @@ const galeri = sortByDateDesc(
     ]} />
   </section>
 
-  <section class="container-premium py-10 sm:py-14">
+  <section class="container-premium py-6 pb-3">
+    <div class="grid gap-4 sm:grid-cols-3">
+      <div class="card border border-base-300/70 bg-base-100 shadow-sm">
+        <div class="card-body p-5">
+          <p class="section-kicker">Total Dokumentasi</p>
+          <p class="mt-2 text-3xl font-black tracking-tight text-base-content">{galeri.length}</p>
+          <p class="mt-1 text-sm text-base-content/65">Foto dan dokumentasi kegiatan yang sudah tampil di galeri publik.</p>
+        </div>
+      </div>
+      <div class="card border border-base-300/70 bg-base-100 shadow-sm">
+        <div class="card-body p-5">
+          <p class="section-kicker">Pembaruan Terbaru</p>
+          <p class="mt-2 text-base font-bold text-base-content">{terbaru ? formatTanggal(terbaru) : 'Belum ada data'}</p>
+          <p class="mt-1 text-sm text-base-content/65">Tanggal dokumentasi terbaru yang sudah dipublikasikan.</p>
+        </div>
+      </div>
+      <div class="card border border-primary/15 bg-primary/5 shadow-sm">
+        <div class="card-body p-5">
+          <p class="section-kicker">Ritme Visual</p>
+          <p class="mt-2 text-base font-bold text-base-content">Dokumentasi warga</p>
+          <p class="mt-1 text-sm text-base-content/65">Kartu galeri dibuat seragam dengan pola arsip berita dan agenda.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-premium py-8 sm:py-12">
     <GalleryGrid items={galeri} />
   </section>
 
