@@ -3,7 +3,7 @@
 @plugin "daisyui" {
   logs: false;
   themes: false;
-  include: properties, rootcolor, button, card, badge, stat, alert, input, select, textarea, steps, loading, collapse, modal, dropdown, menu, table, status, breadcrumbs, footer;
+  include: properties, rootcolor, button, card, badge, stat, alert, input, select, textarea, steps, loading, collapse, modal, dropdown, menu, table, status, breadcrumbs, footer, timeline;
 }
 
 @plugin "daisyui/theme" {

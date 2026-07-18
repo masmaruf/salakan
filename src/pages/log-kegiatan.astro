@@ -154,37 +154,56 @@ const logs = allLogs.filter((item) => {
 
   <section class="container-premium py-0 pb-10 sm:pb-12">
     {logs.length > 0 ? (
-      <div class="grid gap-4 lg:grid-cols-2">
-        {logs.map((item) => {
+      <ol class="timeline timeline-vertical timeline-snap-icon">
+        {logs.map((item, index) => {
           const waktuLabel = formatWaktuLog(item.waktu_mulai, item.waktu_selesai);
+          const isLast = index === logs.length - 1;
           return (
-            <ArchiveCard
-              href={`/log-kegiatan/${item.slug}`}
-              title={item.judul}
-              summary={excerptMarkdown(item.ringkasan, 220)}
-              image={item.foto_dokumentasi}
-              imageAlt={`Dokumentasi ${item.judul}`}
-              badges={[
-                { label: kategoriLogLabels[item.kategori], tone: 'surface' },
-                { label: 'Dipublikasikan', tone: 'success' },
-              ]}
-              meta={[
-                { icon: 'calendar_today', text: formatTanggalLog(item.tanggal), datetime: item.tanggal },
-                ...(waktuLabel ? [{ icon: 'schedule', text: waktuLabel }] : []),
-                ...(item.lokasi ? [{ icon: 'location_on', text: item.lokasi }] : []),
-                ...(item.pihak_terlibat ? [{ icon: 'group', text: item.pihak_terlibat }] : []),
-              ]}
-            >
-              {item.hasil_tindak_lanjut && (
-                <div class="rounded-2xl border border-emerald-100 bg-emerald-50/70 p-3">
-                  <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-emerald-700">Tindak lanjut</p>
-                  <p class="mt-2 text-sm leading-relaxed text-emerald-950">{excerptMarkdown(item.hasil_tindak_lanjut, 180)}</p>
-                </div>
-              )}
-            </ArchiveCard>
+            <li>
+              {index > 0 && <hr class="bg-base-300" />}
+              <div class="timeline-start hidden w-28 text-right sm:block">
+                <time datetime={item.tanggal} class="badge badge-ghost rounded-full px-3 py-3 text-[11px] font-bold uppercase tracking-[0.08em]">
+                  {formatTanggalLog(item.tanggal)}
+                </time>
+              </div>
+              <div class="timeline-middle">
+                <span class="status status-primary status-lg shadow-sm" aria-label="Log kegiatan dipublikasikan"></span>
+              </div>
+              <div class="timeline-end w-full pb-5 ps-3 sm:ps-5">
+                <ArchiveCard
+                  href={`/log-kegiatan/${item.slug}`}
+                  title={item.judul}
+                  summary={excerptMarkdown(item.ringkasan, 220)}
+                  image={item.foto_dokumentasi}
+                  imageAlt={`Dokumentasi ${item.judul}`}
+                  badges={[
+                    { label: kategoriLogLabels[item.kategori], tone: 'surface' },
+                    { label: 'Dipublikasikan', tone: 'success' },
+                  ]}
+                  meta={[
+                    { icon: 'calendar_today', text: formatTanggalLog(item.tanggal), datetime: item.tanggal },
+                    ...(waktuLabel ? [{ icon: 'schedule', text: waktuLabel }] : []),
+                    ...(item.lokasi ? [{ icon: 'location_on', text: item.lokasi }] : []),
+                    ...(item.pihak_terlibat ? [{ icon: 'group', text: item.pihak_terlibat }] : []),
+                  ]}
+                  class="w-full"
+                >
+                  {item.hasil_tindak_lanjut && (
+                    <div class="alert border-success/20 bg-success/10 items-start rounded-2xl p-3 text-base-content">
+                      <Icon name="check_circle" class="mt-0.5 text-[18px] text-success" />
+                      <div>
+                        <p class="text-[11px] font-bold uppercase tracking-[0.12em] text-success">Tindak lanjut</p>
+                        <p class="mt-1 text-sm leading-relaxed text-base-content">{excerptMarkdown(item.hasil_tindak_lanjut, 180)}</p>
+                      </div>
+                    </div>
+                  )}
+                </ArchiveCard>
+              </div>
+              {!isLast && <hr class="bg-base-300" />}
+            </li>
           );
         })}
-      </div>
+      </ol>
     ) : (
       <EmptyStateCard message="Belum ada log kegiatan yang cocok dengan filter saat ini." />
     )}
