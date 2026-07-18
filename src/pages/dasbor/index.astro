@@ -22,12 +22,12 @@ import Icon from '../../components/ui/Icon.tsx';
 <DashboardLayout title="E-Surat & Pengantar" activeMenu="berkeluarga" description="Layanan pengajuan surat administrasi warga mandiri.">
   <div class="mb-10 flex flex-col gap-3">
     <h2 class="text-gradient">Layanan Persuratan RT/RW</h2>
-    <p class="max-w-3xl text-base font-medium leading-relaxed text-slate-500 lg:text-lg">Pantau proses pengajuan surat pengantar KTP, domisili, atau keterangan tidak mampu langsung dari dasbor Anda tanpa harus menunggu lama di balai.</p>
+    <p class="max-w-3xl text-base font-medium leading-relaxed text-base-content/65 lg:text-lg">Pantau proses pengajuan surat pengantar KTP, domisili, atau keterangan tidak mampu langsung dari dasbor Anda tanpa harus menunggu lama di balai.</p>
     <div class="flex flex-wrap gap-3 pt-2">
-      <a href="/dasbor/buat-surat" class="inline-flex h-11 items-center gap-2 rounded-full bg-blue-600 px-6 text-sm font-black text-white shadow-[0_10px_25px_rgba(37,99,235,0.3)] transition-all hover:-translate-y-0.5 hover:bg-blue-700">
+      <a href="/dasbor/buat-surat" class="btn btn-primary rounded-full">
         <Icon name="add_circle" class="text-[18px]" /> Buat Pengajuan Baru
       </a>
-      <a href="/dasbor/lacak-surat" class="inline-flex h-11 items-center gap-2 rounded-full border border-slate-200 bg-white px-6 text-sm font-black text-slate-700 transition-all hover:bg-slate-50">
+      <a href="/dasbor/lacak-surat" class="btn btn-outline btn-primary rounded-full">
         <Icon name="travel_explore" class="text-[18px]" /> Lacak Status Surat
       </a>
     </div>
@@ -39,32 +39,32 @@ import Icon from '../../components/ui/Icon.tsx';
     <DashboardStatCard label="Perlu Tindak Lanjut" value={stats.revisi} description="Berkas yang perlu diperbaiki sebelum bisa diproses lanjut." tone="orange" icon="edit_note" />
   </div>
 
-  <div class="overflow-hidden rounded-[2.5rem] border border-white/50 bg-white/70 shadow-[0_12px_40px_rgba(0,0,0,0.04)] backdrop-blur-3xl">
-    <div class="flex flex-wrap items-center justify-between gap-6 border-b border-white/40 bg-white/20 px-8 py-8">
+  <div class="card border border-base-300/70 bg-base-100 shadow-sm">
+    <div class="card-body flex flex-wrap items-center justify-between gap-6 border-b border-base-300/70 p-6 sm:p-8">
       <div class="space-y-1">
-        <h3 class="text-xl font-extrabold tracking-tight text-slate-900">Riwayat Pengajuan</h3>
+        <h3 class="text-xl font-extrabold tracking-tight text-base-content">Riwayat Pengajuan</h3>
         <p class="text-label">Daftar permohonan terbaru dan status terkini</p>
       </div>
-      <a href="/dasbor/lacak-surat" class="inline-flex h-12 items-center gap-2 rounded-full border border-slate-200 bg-white px-6 text-sm font-black text-slate-700 transition-all hover:bg-slate-50">
+      <a href="/dasbor/lacak-surat" class="btn btn-outline btn-primary rounded-full">
         <Icon name="travel_explore" class="text-[20px]" /> Cek status dengan tiket
       </a>
     </div>
 
     <div class="overflow-x-auto">
-      <table class="w-full border-collapse text-left text-[0.95rem] text-slate-600">
-        <thead class="border-b border-white/40 bg-slate-50/30 text-label">
+      <table class="table table-zebra w-full">
+        <thead class="text-base-content/60">
           <tr>
-            <th class="px-8 py-5">Tiket</th>
-            <th class="px-8 py-5">Jenis Surat</th>
-            <th class="px-8 py-5">Tanggal</th>
-            <th class="px-8 py-5">Status</th>
-            <th class="px-8 py-5 text-right">Arah</th>
+            <th>Tiket</th>
+            <th>Jenis Surat</th>
+            <th>Tanggal</th>
+            <th>Status</th>
+            <th class="text-right">Arah</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-white/40">
+        <tbody>
           {riwayat.length === 0 ? (
             <tr>
-              <td colspan="5" class="px-8 py-10 text-center font-medium text-slate-400">
+              <td colspan="5" class="py-10 text-center font-medium text-base-content/45">
                 Belum ada riwayat pengajuan surat.
               </td>
             </tr>
@@ -72,21 +72,21 @@ import Icon from '../../components/ui/Icon.tsx';
             riwayat.map((item) => {
               const statusMeta = getPengajuanStatusMeta(item.status);
               return (
-                <tr class="group transition-all hover:bg-white/40">
-                  <td class="px-8 py-6 font-mono text-xs font-black text-blue-600">#{item.nomor_surat.split('/')[0]}</td>
-                  <td class="px-8 py-6">
-                    <p class="font-extrabold text-slate-900">Surat Pengantar</p>
-                    <p class="mt-0.5 max-w-[220px] truncate text-[0.7rem] font-bold text-slate-400">Keperluan: {item.keperluan}</p>
+                <tr class="group">
+                  <td class="font-mono text-xs font-black text-primary">#{item.nomor_surat.split('/')[0]}</td>
+                  <td>
+                    <p class="font-extrabold text-base-content">Surat Pengantar</p>
+                    <p class="mt-0.5 max-w-[220px] truncate text-[0.7rem] font-bold text-base-content/45">Keperluan: {item.keperluan}</p>
                   </td>
-                  <td class="px-8 py-6 font-bold text-slate-500">{formatTgl(item.created_at)}</td>
-                  <td class="px-8 py-6">
-                    <span class:list={['inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold', statusMeta.badgeClass]}>
-                      <span class:list={['h-2 w-2 rounded-full', statusMeta.dotClass]}></span>
+                  <td class="font-bold text-base-content/65">{formatTgl(item.created_at)}</td>
+                  <td>
+                    <span class:list={['gap-2 rounded-full font-bold', statusMeta.badgeClass]}>
+                      <span class={statusMeta.dotClass}></span>
                       {statusMeta.label}
                     </span>
                   </td>
-                  <td class="px-8 py-6 text-right">
-                    <a href={`/dasbor/lacak-surat?ticket=${encodeURIComponent(item.nomor_surat)}`} class="inline-flex h-9 items-center gap-1.5 rounded-xl bg-slate-50 px-4 text-xs font-bold text-slate-600 shadow-sm transition-all hover:bg-blue-600 hover:text-white">
+                  <td class="text-right">
+                    <a href={`/dasbor/lacak-surat?ticket=${encodeURIComponent(item.nomor_surat)}`} class="btn btn-ghost btn-xs rounded-full text-primary hover:bg-primary hover:text-primary-content">
                       <Icon name="visibility" class="text-[14px]" /> Lacak
                     </a>
                   </td>
@@ -97,8 +97,8 @@ import Icon from '../../components/ui/Icon.tsx';
         </tbody>
       </table>
     </div>
-    <div class="border-t border-white/40 bg-slate-50/20 px-8 py-6 text-center">
-      <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Menampilkan {riwayat.length} pengajuan terbaru</p>
+    <div class="border-t border-base-300/70 bg-base-200/50 px-8 py-6 text-center">
+      <p class="text-xs font-bold uppercase tracking-widest text-base-content/45">Menampilkan {riwayat.length} pengajuan terbaru</p>
     </div>
   </div>
 </DashboardLayout>

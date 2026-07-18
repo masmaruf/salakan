@@ -33,99 +33,98 @@ import Icon from '../components/ui/Icon.tsx';
 ---
 
 <!doctype html>
-<html lang="id" class="bg-slate-50 text-slate-900 antialiased">
+<html lang="id" class="bg-base-200 text-base-content antialiased" data-theme="salakan">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | Portal Layanan Digital Salakan</title>
     {description && <meta name="description" content={description} />}
-
-    
   </head>
-  <body class="flex min-h-screen flex-col bg-slate-50 relative overflow-x-clip lg:flex-row">
+  <body class="relative flex min-h-screen flex-col overflow-x-clip bg-base-200 lg:flex-row">
     <DevServiceWorkerReset />
-    
-    {/* Glowing Orbs Background */}
+
     <div class="orb-blue"></div>
     <div class="orb-emerald"></div>
 
-    {/* Sidebar Section */}
-    <aside class="relative hidden w-72 shrink-0 bg-white/70 pt-8 shadow-[0_4px_30px_rgba(0,0,0,0.03)] backdrop-blur-3xl z-30 lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:self-start">
+    <aside class="relative z-30 hidden w-72 shrink-0 border-r border-base-300/70 bg-base-100/75 pt-8 shadow-[0_4px_30px_rgba(23,32,24,0.04)] backdrop-blur-3xl lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:self-start">
       <div class="px-8 pb-8">
-         <a href="/" class="flex items-center gap-4 group">
-            <span class="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 font-bold text-white text-base shadow-[0_8px_20px_rgba(37,99,235,0.3)] group-hover:scale-105 transition-transform">
-              PS
-            </span>
-            <div class="space-y-0.5">
-               <h2 class="font-extrabold text-[1rem] tracking-tight leading-tight text-slate-900 group-hover:text-blue-700 transition-colors">E-Mandiri</h2>
-               <p class="text-[0.62rem] font-bold text-slate-400 uppercase tracking-[0.1em]">Layanan Warga</p>
-            </div>
-         </a>
+        <a href="/" class="group flex items-center gap-4">
+          <span class="grid h-11 w-11 place-items-center rounded-2xl bg-neutral font-bold text-base text-neutral-content shadow-[0_8px_20px_rgba(23,32,24,0.22)] transition-transform group-hover:scale-105">
+            PS
+          </span>
+          <div class="space-y-0.5">
+            <h2 class="text-[1rem] font-extrabold leading-tight tracking-tight text-base-content transition-colors group-hover:text-primary">E-Mandiri</h2>
+            <p class="text-[0.62rem] font-bold uppercase tracking-[0.1em] text-base-content/45">Layanan Warga</p>
+          </div>
+        </a>
       </div>
 
-      <div class="flex-1 overflow-y-auto px-5 py-2 space-y-9">
-         {sidebarMenus.map((group) => (
-            <div>
-               <h3 class="px-4 text-label mb-4">{group.group}</h3>
-               <nav class="space-y-1.5 text-center">
-                  {group.menus.map(menu => {
-                     const isActive = activeMenu === menu.id;
-                     return (
-                        <a 
-                          href={menu.href} 
-                          class={`flex items-center gap-3.5 px-4 py-3 rounded-2xl text-[0.9rem] font-bold transition-all duration-300 group ${isActive ? 'bg-blue-600 text-white shadow-[0_10px_25px_rgba(37,99,235,0.25)] scale-[1.02]' : 'text-slate-500 hover:bg-blue-50 hover:text-blue-700 hover:translate-x-1'}`}
-                        >
-                           <Icon name={menu.icon} class={`text-[22px] transition-colors ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-500'}`} />
-                           {menu.label}
-                        </a>
-                     )
-                   })}
-               </nav>
-            </div>
-         ))}
+      <div class="flex-1 space-y-9 overflow-y-auto px-5 py-2">
+        {sidebarMenus.map((group) => (
+          <div>
+            <h3 class="mb-4 px-4 text-label">{group.group}</h3>
+            <ul class="menu grid gap-1.5 p-0 text-sm">
+              {group.menus.map((menu) => {
+                const isActive = activeMenu === menu.id;
+                return (
+                  <li>
+                    <a
+                      href={menu.href}
+                      class:list={[
+                        'group rounded-2xl px-4 py-3 font-bold transition-all duration-300',
+                        isActive ? 'active bg-primary text-primary-content shadow-[0_10px_25px_rgba(49,93,68,0.22)]' : 'text-base-content/65 hover:bg-base-200 hover:text-base-content hover:translate-x-1',
+                      ]}
+                    >
+                      <Icon name={menu.icon} class:list={['text-[22px] transition-colors', isActive ? 'text-primary-content' : 'text-base-content/45 group-hover:text-primary']} />
+                      {menu.label}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
       </div>
 
-      <div class="p-5 mt-auto">
-         <div class="flex items-center gap-3 rounded-3xl bg-white/80 backdrop-blur-xl p-4 shadow-sm border border-white/50">
-            <div class="h-10 w-10 bg-indigo-100 text-indigo-700 rounded-2xl flex items-center justify-center font-bold text-base shadow-inner">
-               BW
+      <div class="mt-auto p-5">
+        <div class="card border border-base-300/70 bg-base-100/80 shadow-sm backdrop-blur-xl">
+          <div class="card-body flex-row items-center gap-3 p-4">
+            <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-base font-bold text-primary shadow-inner">
+              BW
             </div>
-            <div class="flex-1 min-w-0">
-               <p class="text-[0.85rem] font-extrabold text-slate-900 truncate">Sandi Warga</p>
-               <p class="text-[0.68rem] font-bold text-slate-400 truncate mt-0.5">Penduduk Salakan</p>
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-[0.85rem] font-extrabold text-base-content">Sandi Warga</p>
+              <p class="mt-0.5 truncate text-[0.68rem] font-bold text-base-content/45">Penduduk Salakan</p>
             </div>
-         </div>
+          </div>
+        </div>
       </div>
     </aside>
 
-    {/* Main Content Area */}
     <main class="relative z-10 flex min-h-screen flex-1 flex-col">
-      <header class="sticky top-0 z-20 flex h-20 shrink-0 items-center justify-between border-b border-white/40 bg-white/40 px-6 backdrop-blur-2xl transition-all lg:px-10">
-         <div class="flex items-center gap-5">
-            <button class="lg:hidden h-10 w-10 flex items-center justify-center rounded-xl bg-white shadow-sm text-slate-600 hover:text-blue-600">
-               <Icon name="menu" />
-            </button>
-            <h1 class="text-xl font-extrabold tracking-tight text-slate-900 hidden sm:block text-gradient">{title}</h1>
-         </div>
-         <div class="flex items-center gap-5">
-            <button class="relative h-11 w-11 flex items-center justify-center rounded-2xl bg-white text-slate-400 hover:bg-blue-50 hover:text-blue-600 transition-all shadow-sm group">
-               <Icon name="notifications" class="text-[24px]" />
-               <span class="absolute top-3 right-3 h-2.5 w-2.5 rounded-full bg-red-500 ring-4 ring-white group-hover:scale-110 transition-transform"></span>
-            </button>
-            <a href="/" class="hidden sm:flex items-center gap-2 text-[0.72rem] font-black uppercase tracking-[0.1em] text-blue-700 bg-blue-50 px-5 py-2.5 rounded-full hover:bg-blue-600 hover:text-white transition-all shadow-sm">
-               <Icon name="public" class="text-[16px]" /> Kembali Ke Portal Utama
-            </a>
-         </div>
+      <header class="sticky top-0 z-20 flex h-20 shrink-0 items-center justify-between border-b border-base-300/60 bg-base-100/50 px-6 backdrop-blur-2xl transition-all lg:px-10">
+        <div class="flex items-center gap-5">
+          <button class="btn btn-ghost btn-circle lg:hidden" aria-label="Buka menu dasbor">
+            <Icon name="menu" />
+          </button>
+          <h1 class="hidden text-xl font-extrabold tracking-tight text-gradient sm:block">{title}</h1>
+        </div>
+        <div class="flex items-center gap-5">
+          <button class="btn btn-ghost btn-circle relative bg-base-100 shadow-sm" aria-label="Notifikasi">
+            <Icon name="notifications" class="text-[24px] text-base-content/55" />
+            <span class="status status-error absolute right-3 top-3 ring-4 ring-base-100"></span>
+          </button>
+          <a href="/" class="btn btn-outline btn-primary btn-sm hidden rounded-full font-black uppercase tracking-[0.1em] sm:inline-flex">
+            <Icon name="public" class="text-[16px]" /> Kembali Ke Portal Utama
+          </a>
+        </div>
       </header>
 
       <div class="flex-1 bg-transparent">
-         <div class="p-8 lg:p-12 max-w-6xl mx-auto">
-            <slot />
-         </div>
+        <div class="mx-auto max-w-6xl p-8 lg:p-12">
+          <slot />
+        </div>
       </div>
     </main>
-    
   </body>
 </html>
-
-
