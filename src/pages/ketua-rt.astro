@@ -60,26 +60,28 @@ function whatsappHref(rt: (typeof rtItems)[number]) {
   </section>
 
   <section class="container-premium py-8 sm:py-10">
-    <div class="section-card mb-6">
+    <div class="card mb-6 border border-base-300/70 bg-base-100 shadow-sm">
+      <div class="card-body p-5 sm:p-6">
       <div class="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <Badge label="Langkah 1 dari 2 · Pilih RT" tone="primary" class="px-3 py-1" />
-          <h2 class="mt-4 text-2xl font-bold tracking-tight text-on-surface">Pemetaan kontak RT aktif</h2>
-          <p class="mt-3 max-w-3xl text-base leading-relaxed text-on-surface-variant">
+          <div class="badge badge-primary badge-outline rounded-full px-3 py-3 text-xs font-bold">Langkah 1 dari 2 · Pilih RT</div>
+          <h2 class="mt-4 text-2xl font-bold tracking-tight text-base-content">Pemetaan kontak RT aktif</h2>
+          <p class="mt-3 max-w-3xl text-base leading-relaxed text-base-content/65">
             Pilih RT sesuai tempat tinggal Anda, lalu lanjut ke WhatsApp atau salin nomor ketuanya. Pola ini dibuat agar warga bisa bergerak cepat tanpa mencari kontak satu per satu.
           </p>
         </div>
-        <a href="/kontak" class="action-link-inline">
+        <a href="/kontak" class="btn btn-outline btn-sm rounded-full">
           Jalur kontak umum <Icon name="arrow_forward" class="text-[16px]" />
         </a>
       </div>
 
       <div class="mt-5 grid gap-3 sm:grid-cols-3">
         {rtItems.map((rt) => (
-          <a href={`#rt-${rt.data.nomor_rt}`} class="section-subcard section-subcard-hover flex items-center justify-between gap-3">
+          <a href={`#rt-${rt.data.nomor_rt}`} class="card border border-base-300/70 bg-base-100 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
+            <div class="flex items-center justify-between gap-3">
             <div>
               <p class="section-kicker-muted">Wilayah</p>
-              <p class="mt-1 text-lg font-black tracking-tight text-on-surface">RT {rt.data.nomor_rt}</p>
+              <p class="mt-1 text-lg font-black tracking-tight text-base-content">RT {rt.data.nomor_rt}</p>
             </div>
             <div class:list={[
               'grid h-11 w-11 place-items-center rounded-2xl',
@@ -87,8 +89,10 @@ function whatsappHref(rt: (typeof rtItems)[number]) {
             ]}>
               <Icon name={rt.data.no_hp_ketua ? 'chat' : 'info'} class="text-[20px]" />
             </div>
+            </div>
           </a>
         ))}
+      </div>
       </div>
     </div>
 
@@ -99,11 +103,12 @@ function whatsappHref(rt: (typeof rtItems)[number]) {
         const phoneDisplay = displayPhone(rt.data.no_hp_ketua);
 
         return (
-          <article id={`rt-${rt.data.nomor_rt}`} class="section-card flex h-full scroll-mt-28 flex-col rounded-[1.5rem] p-5 sm:p-5">
+          <article id={`rt-${rt.data.nomor_rt}`} class="card flex h-full scroll-mt-28 flex-col border border-base-300/70 bg-base-100 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
+            <div class="card-body p-5">
             <div class="flex items-start justify-between gap-3">
               <div>
                 <p class="section-kicker">Wilayah</p>
-                <h3 class="mt-1 text-3xl font-black tracking-tight text-on-surface">RT {rt.data.nomor_rt}</h3>
+                <h3 class="mt-1 text-3xl font-black tracking-tight text-base-content">RT {rt.data.nomor_rt}</h3>
               </div>
               <div class:list={[
                 'grid h-11 w-11 place-items-center rounded-2xl',
@@ -117,10 +122,10 @@ function whatsappHref(rt: (typeof rtItems)[number]) {
               <Badge label={hasContact ? 'Siap dihubungi' : 'Kontak belum tersedia'} tone={hasContact ? 'success' : 'surface'} />
             </div>
 
-            <div class="mt-5 flex-1 rounded-2xl bg-surface-container-low px-4 py-4">
+            <div class="mt-5 flex-1 rounded-2xl bg-base-200/70 px-4 py-4">
               <p class="section-kicker-muted">Ketua RT</p>
-              <p class="mt-1 text-base font-bold text-on-surface">{rt.data.nama_ketua}</p>
-              <p class="mt-1 text-sm text-on-surface-variant">
+              <p class="mt-1 text-base font-bold text-base-content">{rt.data.nama_ketua}</p>
+              <p class="mt-1 text-sm text-base-content/65">
                 {phoneDisplay || 'Nomor WhatsApp belum tersedia'}
               </p>
             </div>
@@ -128,20 +133,21 @@ function whatsappHref(rt: (typeof rtItems)[number]) {
             {hasContact ? (
               <div class="mt-5 grid gap-2">
                 <a
-                  class="action-pill-success"
+                  class="btn btn-success rounded-full"
                   href={href}
                   target="_blank"
                   rel="noreferrer"
                 >
                   <Icon name="chat" class="text-[18px]" /> Chat WhatsApp
                 </a>
-                <CopyButton value={phoneDisplay || rt.data.no_hp_ketua || ''} label="Salin nomor" class="w-full" />
+                <CopyButton value={phoneDisplay || rt.data.no_hp_ketua || ''} label="Salin nomor" class="btn btn-outline rounded-full w-full" />
               </div>
             ) : (
-              <span class="mt-5 inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-surface-container px-5 py-3 text-sm font-bold text-on-surface-variant">
+              <span class="alert alert-warning mt-5 inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-bold">
                 <Icon name="warning" class="text-[18px]" /> Kontak belum tersedia
               </span>
             )}
+            </div>
           </article>
         );
       })}
