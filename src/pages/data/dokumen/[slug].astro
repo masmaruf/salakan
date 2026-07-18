@@ -24,11 +24,23 @@ const { entry } = item;
 const seoTitle = withSiteTitle(resolveSeoText(entry.seoTitle, entry.judul));
 const seoDescription = resolveSeoText(entry.seoDescription, entry.ringkasan);
 const seoImage = resolveSeoImage(entry.ogImage);
+
+const fileUrl = entry.fileDokumen ?? '';
+const hasFile = Boolean(fileUrl);
+const rawFileName = fileUrl ? fileUrl.split('/').filter(Boolean).pop() ?? 'Dokumen publik' : '';
+let fileName = rawFileName;
+try {
+  fileName = decodeURIComponent(rawFileName);
+} catch {
+  fileName = rawFileName;
+}
+const fileExtension = fileName.includes('.') ? fileName.split('.').pop()?.toUpperCase() : '';
+const fileHost = fileUrl.startsWith('http') ? new URL(fileUrl).hostname : 'salakan.id';
 ---
 
 <MainLayout title={seoTitle} description={seoDescription} image={seoImage}>
 
-  <article class="container-premium max-w-3xl py-8">
+  <article class="container-premium max-w-4xl py-8 sm:py-10">
     <Breadcrumbs items={[
       { label: 'Beranda', href: '/' },
       { label: 'Pusat Data', href: '/data' },
@@ -36,39 +48,97 @@ const seoImage = resolveSeoImage(entry.ogImage);
       { label: entry.judul, active: true },
     ]} />
 
-    <header class="mb-6">
-      <BadgeList
-        class="mb-3 flex flex-wrap items-center gap-2"
-        items={[
-          { label: kategoriLabelsDokumen[entry.kategori], tone: 'primary' },
-          { label: 'Unggulan', tone: 'warning', icon: 'star', visible: entry.unggulan },
-        ]}
-      />
-      <h1 class="text-2xl font-bold leading-tight tracking-tight text-on-surface sm:text-3xl">{entry.judul}</h1>
-      <p class="mt-3 text-base leading-relaxed text-on-surface-variant">{entry.ringkasan}</p>
-      <ContentMeta
-        class="mt-4 flex items-center gap-4 border-t border-outline-variant/40 pt-4"
-        items={[
-          { icon: 'calendar_today', text: formatTanggal(entry.tanggalUpdate), datetime: entry.tanggalUpdate, accentClass: 'text-on-surface-variant' },
-          { icon: 'tag', text: `ID: ${slug}`, accentClass: 'text-outline' },
-        ]}
-        iconClass="text-[16px]"
-      />
-    </header>
+    <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+      <div class="grid gap-5">
+        <header class="card border border-base-300/70 bg-base-100 shadow-sm">
+          <div class="card-body p-5 sm:p-7">
+            <BadgeList
+              class="flex flex-wrap items-center gap-2"
+              items={[
+                { label: kategoriLabelsDokumen[entry.kategori], tone: 'primary' },
+                { label: 'Unggulan', tone: 'warning', icon: 'star', visible: entry.unggulan },
+              ]}
+            />
+            <h1 class="mt-4 text-2xl font-bold leading-tight tracking-tight text-base-content sm:text-3xl">
+              {entry.judul}
+            </h1>
+            <p class="mt-3 text-base leading-relaxed text-base-content/70">
+              {entry.ringkasan}
+            </p>
+            <ContentMeta
+              class="mt-5 flex flex-wrap items-center gap-3 border-t border-base-300/70 pt-4"
+              itemClass="text-sm text-base-content/65"
+              iconClass="text-[16px] text-primary"
+              items={[
+                { icon: 'calendar_today', text: formatTanggal(entry.tanggalUpdate), datetime: entry.tanggalUpdate },
+                { icon: 'tag', text: `ID: ${slug}` },
+              ]}
+            />
+          </div>
+        </header>
 
-    <InfoCard title="Deskripsi Dokumen" class="mb-6 rounded-xl border border-outline-variant bg-surface-container-low p-5">
-      <div class="article-rich text-base leading-relaxed text-on-surface-variant" set:html={renderMarkdown(entry.deskripsi)} />
-    </InfoCard>
+        <InfoCard title="Deskripsi Dokumen" icon="description">
+          <div class="article-rich text-base leading-relaxed text-base-content/75" set:html={renderMarkdown(entry.deskripsi)} />
+        </InfoCard>
+      </div>
 
-    <div class="flex flex-wrap gap-3">
-      {entry.fileDokumen ? (
-        <ActionLinkButton href={entry.fileDokumen} label="Buka File Dokumen" icon="download" variant="primary" target="_blank" rel="noreferrer" />
-      ) : (
-        <span class="inline-flex items-center gap-2 rounded-xl border border-outline-variant bg-surface-container-low px-5 py-3 text-sm font-medium text-on-surface-variant">
-          <Icon name="lock" class="text-[18px]" /> File belum ditambahkan
-        </span>
-      )}
-      <ActionLinkButton href="/data/dokumen" label="Kembali ke katalog" icon="arrow_back" />
+      <aside class="grid gap-4 lg:sticky lg:top-24">
+        <section class="card border border-base-300/70 bg-base-100 shadow-sm">
+          <div class="card-body p-5">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-[12px] font-semibold uppercase tracking-wider text-primary">Status file</p>
+                <h2 class="mt-1 text-lg font-bold text-base-content">
+                  {hasFile ? 'File siap dibuka' : 'File belum tersedia'}
+                </h2>
+              </div>
+              <span class:list={[
+                'badge badge-outline gap-1.5 rounded-full px-3 py-3 text-[12px] font-semibold',
+                hasFile ? 'badge-success' : 'badge-warning',
+              ]}>
+                <span class:list={['status', hasFile ? 'status-success' : 'status-warning']} aria-hidden="true"></span>
+                {hasFile ? 'Tersedia' : 'Menunggu'}
+              </span>
+            </div>
+
+            {hasFile ? (
+              <div class="mt-5 grid gap-3 rounded-2xl border border-base-300/70 bg-base-200/60 p-4 text-sm text-base-content/70">
+                <div class="flex items-center justify-between gap-3">
+                  <span class="font-medium text-base-content/60">Nama file</span>
+                  <span class="max-w-[11rem] truncate text-right font-semibold text-base-content">{fileName}</span>
+                </div>
+                {fileExtension && (
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="font-medium text-base-content/60">Format</span>
+                    <span class="badge badge-primary badge-outline rounded-full px-3 py-3 text-[12px]">{fileExtension}</span>
+                  </div>
+                )}
+                <div class="flex items-center justify-between gap-3">
+                  <span class="font-medium text-base-content/60">Sumber</span>
+                  <span class="max-w-[11rem] truncate text-right font-semibold text-base-content">{fileHost}</span>
+                </div>
+              </div>
+            ) : (
+              <div class="alert alert-warning mt-5 items-start rounded-2xl text-sm">
+                <Icon name="lock" class="mt-0.5 text-[18px]" />
+                <span>File utama belum ditambahkan. Informasi ringkas tetap ditampilkan agar warga tahu dokumen ini sedang disiapkan.</span>
+              </div>
+            )}
+
+            <div class="card-actions mt-5 grid gap-2">
+              {hasFile ? (
+                <ActionLinkButton href={fileUrl} label="Buka File Dokumen" icon="download" variant="primary" target="_blank" rel="noreferrer" class="w-full" />
+              ) : (
+                <span class="btn btn-disabled rounded-full">
+                  <Icon name="lock" class="text-[18px]" />
+                  File belum ditambahkan
+                </span>
+              )}
+              <ActionLinkButton href="/data/dokumen" label="Kembali ke katalog" icon="arrow_back" class="w-full" />
+            </div>
+          </div>
+        </section>
+      </aside>
     </div>
   </article>
 
