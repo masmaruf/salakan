@@ -8,11 +8,13 @@ interface Props {
 const {
   title,
   message,
-  class: className = 'rounded-xl border border-outline-variant bg-surface-container-lowest p-12 text-center text-on-surface-variant',
+  class: className = 'card border border-base-300/70 bg-base-100 text-center text-base-content/70 shadow-sm',
 } = Astro.props;
 ---
 
 <div class={className}>
-  {title && <p class="text-base font-bold text-on-surface mb-2">{title}</p>}
+  <div class="card-body p-8 sm:p-12">
+  {title && <p class="mb-2 text-base font-bold text-base-content">{title}</p>}
   <p>{message}</p>
+  </div>
 </div>

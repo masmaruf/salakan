@@ -484,10 +484,6 @@ input, button, textarea, select {
   @apply text-[12px] font-medium text-outline;
 }
 
-.action-link-inline {
-  @apply inline-flex items-center gap-2 text-sm font-bold text-m3-primary transition-colors hover:text-blue-700;
-}
-
 .inline-action {
   @apply inline-flex items-center gap-1 text-[12px] font-semibold text-m3-primary hover:underline;
 }
@@ -498,38 +494,6 @@ input, button, textarea, select {
 
 .inline-action-muted {
   @apply inline-flex items-center gap-1 text-[12px] font-medium text-outline;
-}
-
-.action-pill-dark {
-  @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition;
-}
-
-.action-pill-dark:hover {
-  @apply -translate-y-0.5 bg-m3-primary;
-}
-
-.action-pill-success {
-  @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-emerald-600 px-5 py-3 text-sm font-bold text-white transition;
-}
-
-.action-pill-success:hover {
-  @apply -translate-y-0.5 bg-emerald-700;
-}
-
-.hero-cta-primary {
-  @apply inline-flex items-center gap-2 rounded-full bg-primary-container px-7 py-3.5 text-sm font-bold text-on-primary-container shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl;
-}
-
-.hero-cta-secondary {
-  @apply inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-lg shadow-slate-950/10 transition-all hover:-translate-y-0.5 hover:border-white hover:bg-blue-50;
-}
-
-.cta-soft-primary {
-  @apply inline-flex min-h-[44px] items-center gap-2 rounded-full bg-primary-container px-5 py-3 text-sm font-bold text-on-primary-container transition hover:-translate-y-0.5;
-}
-
-.cta-outline-neutral {
-  @apply inline-flex min-h-[44px] items-center gap-2 rounded-full border border-outline-variant bg-white px-5 py-3 text-sm font-bold text-on-surface transition hover:bg-surface-container-low;
 }
 
 .media-frame {

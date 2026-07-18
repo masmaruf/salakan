@@ -100,7 +100,7 @@ const logs = allLogs.filter((item) => {
     >
       <div slot="active" class="flex flex-wrap items-center gap-2">
         {(query || activeKategori !== 'semua' || activePeriode !== 'semua') && (
-          <a class="inline-action" href="/log-kegiatan">
+          <a class="btn btn-outline btn-sm rounded-full" href="/log-kegiatan">
             <Icon name="restart_alt" class="text-[16px]" />
             Reset filter
           </a>
@@ -110,21 +110,21 @@ const logs = allLogs.filter((item) => {
       <form slot="filters" class="grid gap-4 md:grid-cols-[1.1fr_0.8fr_0.8fr_auto] md:items-end">
         <label class="grid gap-2">
           <span class="detail-label">Cari judul, lokasi, atau pihak terlibat</span>
-          <div class="flex items-center gap-3 rounded-2xl border border-outline-variant bg-surface-container-lowest px-4 py-3">
-            <Icon name="search" class="text-[20px] text-outline" />
+          <div class="input input-bordered flex h-auto min-h-12 items-center gap-3 rounded-2xl bg-base-100 px-4 py-3 focus-within:outline focus-within:outline-2 focus-within:outline-primary/35">
+            <Icon name="search" class="text-[20px] text-primary" />
             <input
               name="q"
               type="search"
               value={query}
               placeholder="Contoh: pelayanan surat, rapat, posyandu"
-              class="w-full border-0 bg-transparent p-0 text-sm text-on-surface outline-none placeholder:text-on-surface-variant"
+              class="w-full border-0 bg-transparent p-0 text-sm text-base-content outline-none placeholder:text-base-content/50"
             />
           </div>
         </label>
 
         <label class="grid gap-2">
           <span class="detail-label">Kategori</span>
-          <select name="kategori" class="rounded-2xl border border-outline-variant bg-white px-4 py-3 text-sm text-on-surface outline-none">
+          <select name="kategori" class="select select-bordered min-h-12 rounded-2xl bg-base-100 text-sm text-base-content">
             <option value="semua" selected={activeKategori === 'semua'}>Semua kategori</option>
             {KATEGORI_LOG_KEGIATAN.map((item) => (
               <option value={item} selected={activeKategori === item}>{kategoriLogLabels[item]}</option>
@@ -134,7 +134,7 @@ const logs = allLogs.filter((item) => {
 
         <label class="grid gap-2">
           <span class="detail-label">Periode</span>
-          <select name="periode" class="rounded-2xl border border-outline-variant bg-white px-4 py-3 text-sm text-on-surface outline-none">
+          <select name="periode" class="select select-bordered min-h-12 rounded-2xl bg-base-100 text-sm text-base-content">
             <option value="semua" selected={activePeriode === 'semua'}>Semua waktu</option>
             <option value="bulan-ini" selected={activePeriode === 'bulan-ini'}>Bulan ini</option>
             <option value="tahun-ini" selected={activePeriode === 'tahun-ini'}>Tahun ini</option>
@@ -143,7 +143,7 @@ const logs = allLogs.filter((item) => {
 
         <button
           type="submit"
-          class="action-pill-dark w-full md:w-auto"
+          class="btn btn-primary w-full rounded-full md:w-auto"
         >
           <Icon name="search" class="text-[16px]" />
           Terapkan

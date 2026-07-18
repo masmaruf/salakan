@@ -14,7 +14,9 @@ const {
 } = Astro.props;
 ---
 
-<div class:list={['section-subcard', className]}>
+<div class:list={['card border border-base-300/70 bg-base-200 shadow-none', className]}>
+  <div class="card-body p-4">
   <p class="detail-label">{label}</p>
-  <p class:list={['mt-1 text-sm font-bold text-on-surface', valueClass]}>{value}</p>
+  <p class:list={['mt-1 text-sm font-bold text-base-content', valueClass]}>{value}</p>
+  </div>
 </div>

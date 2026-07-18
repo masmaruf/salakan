@@ -1,5 +1,6 @@
 ---
 import Breadcrumbs from './Breadcrumbs.astro';
+import DaisyContainer from './DaisyContainer.astro';
 
 interface BreadcrumbItem {
   label: string;
@@ -21,14 +22,14 @@ const {
   description,
   breadcrumbs,
   class: className = 'container-premium pb-4 pt-8',
-  titleClass = 'text-[28px] font-bold leading-[36px] text-on-surface',
-  descriptionClass = 'mt-1 max-w-2xl text-base text-on-surface-variant',
+  titleClass = 'text-[28px] font-bold leading-[36px] text-base-content',
+  descriptionClass = 'mt-1 max-w-2xl text-base leading-relaxed text-base-content/70',
 } = Astro.props;
 ---
 
-<div class={className}>
+<DaisyContainer as="div" class="" containerClass={className}>
   <Breadcrumbs items={breadcrumbs} />
   <h1 class={titleClass}>{title}</h1>
   {description && <p class={descriptionClass}>{description}</p>}
   <slot />
-</div>
+</DaisyContainer>

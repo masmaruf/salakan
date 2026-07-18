@@ -1,0 +1,48 @@
+---
+import Icon from './Icon.tsx';
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  actionHref?: string;
+  actionLabel?: string;
+  class?: string;
+  contentClass?: string;
+  titleClass?: string;
+  descriptionClass?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  actionHref,
+  actionLabel,
+  class: className = 'mb-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center',
+  contentClass = '',
+  titleClass = 'text-[24px] font-bold leading-[32px] text-base-content sm:text-[28px] sm:leading-[36px]',
+  descriptionClass = 'mt-2 max-w-2xl text-sm leading-relaxed text-base-content/70',
+} = Astro.props as Props;
+---
+
+{(title || eyebrow || description || actionHref) && (
+  <div class={className}>
+    <div class={contentClass}>
+      {eyebrow && (
+        <div class="mb-2 flex items-center gap-3">
+          <div class="h-px w-8 bg-primary"></div>
+          <span class="text-[11px] font-bold uppercase tracking-[0.15em] text-primary">{eyebrow}</span>
+        </div>
+      )}
+      {title && <h2 class={titleClass}>{title}</h2>}
+      {description && <p class={descriptionClass}>{description}</p>}
+    </div>
+    {actionHref && actionLabel && (
+      <a class="btn btn-outline btn-sm shrink-0 rounded-full" href={actionHref}>
+        {actionLabel}
+        <Icon name="arrow_forward" class="text-[16px]" />
+      </a>
+    )}
+  </div>
+)}

@@ -1,5 +1,6 @@
 ---
-import Icon from './ui/Icon.tsx';
+import DaisyContainer from './ui/DaisyContainer.astro';
+import SectionHeading from './ui/SectionHeading.astro';
 
 interface Props {
   title?: string;
@@ -22,27 +23,13 @@ const {
 } = Astro.props;
 ---
 
-<section class={sectionClass}>
-  <div class={containerClass}>
-    {(title || eyebrow || actionHref) && (
-      <div class={headerClass}>
-        <div>
-          {eyebrow && (
-            <div class="mb-2 flex items-center gap-3">
-              <div class="h-px w-8 bg-m3-primary"></div>
-              <span class="text-[11px] font-bold uppercase tracking-[0.15em] text-m3-primary">{eyebrow}</span>
-            </div>
-          )}
-          {title && <h2 class="text-[24px] font-bold leading-[32px] text-on-surface sm:text-[28px] sm:leading-[36px]">{title}</h2>}
-        </div>
-        {actionHref && actionLabel && (
-          <a class="action-link-inline shrink-0" href={actionHref}>
-            {actionLabel}
-            <Icon name="arrow_forward" class="text-[16px]" />
-          </a>
-        )}
-      </div>
-    )}
+<DaisyContainer class={sectionClass} containerClass={containerClass}>
+    <SectionHeading
+      eyebrow={eyebrow}
+      title={title}
+      actionHref={actionHref}
+      actionLabel={actionLabel}
+      class={headerClass}
+    />
     <slot />
-  </div>
-</section>
+</DaisyContainer>

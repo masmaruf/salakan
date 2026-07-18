@@ -1,0 +1,21 @@
+---
+interface Props {
+  as?: 'div' | 'section';
+  class?: string;
+  containerClass?: string;
+}
+
+const {
+  as = 'section',
+  class: className = 'py-10 sm:py-14',
+  containerClass = 'container-premium',
+} = Astro.props as Props;
+
+const Tag = as;
+---
+
+<Tag class={className}>
+  <div class={containerClass}>
+    <slot />
+  </div>
+</Tag>
