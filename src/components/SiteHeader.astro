@@ -15,53 +15,61 @@ const isDataActive = currentPath === '/data' || currentPath.startsWith('/data/')
 import Icon from './ui/Icon.tsx';
 ---
 
-<header class="sticky top-0 z-50 border-b border-slate-200/60 bg-white/95 backdrop-blur-xl transition-all duration-300">
+<header class="sticky top-0 z-50 border-b border-base-300/70 bg-base-100/95 backdrop-blur-xl transition-all duration-300">
   <div class="container-premium py-3 sm:py-4">
     <div class="grid grid-cols-[2.5rem_1fr_2.5rem] items-center gap-2 md:grid-cols-[auto_1fr_auto] md:gap-8">
       <div class="flex items-center justify-start md:hidden">
-        <details class="group relative">
-          <summary class="inline-flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition-colors hover:bg-slate-50">
+        <details class="dropdown group">
+          <summary class="btn btn-ghost btn-circle btn-sm border border-base-300 bg-base-100 text-base-content/70 shadow-sm hover:bg-base-200 hover:text-base-content">
             <Icon name="menu_open" class="transition-opacity group-open:opacity-0" />
             <Icon name="close" class="absolute opacity-0 transition-opacity group-open:opacity-100" />
           </summary>
-          <div class="absolute left-0 top-full z-50 mt-3 max-h-[calc(100vh-6rem)] w-[min(22rem,calc(100vw-1.5rem))] overflow-y-auto rounded-2xl bg-white/98 p-5 shadow-[0_10px_40px_rgba(15,23,42,0.12)] ring-1 ring-slate-900/5 backdrop-blur-2xl">
-            <div class="grid gap-2">
+          <div class="dropdown-content menu z-50 mt-3 max-h-[calc(100vh-6rem)] w-[min(22rem,calc(100vw-1.5rem))] overflow-y-auto rounded-3xl border border-base-300 bg-base-100 p-3 text-base-content shadow-[0_18px_50px_rgba(23,32,24,0.14)] backdrop-blur-2xl">
+            <ul class="grid gap-1">
               {navItems.map((item) => {
                 const isActive = item.href === '/' ? currentPath === item.href : currentPath.startsWith(item.href);
 
                 return (
-                  <div class="flex flex-col">
+                  <li>
                     <a
                       class:list={[
-                        'rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors',
-                        isActive ? 'bg-blue-50 text-blue-700' : 'text-slate-700 hover:bg-slate-50',
+                        'rounded-2xl text-sm font-semibold',
+                        isActive ? 'active bg-primary text-primary-content' : 'text-base-content/75 hover:bg-base-200 hover:text-base-content',
                       ]}
                       href={item.href}
                     >
                       {item.label}
                     </a>
                     {item.href === '/data' && dataSubmenu.length > 0 && (
-                      <details class="ml-4 mt-1">
-                        <summary class="flex cursor-pointer list-none items-center gap-1 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-slate-400 transition-colors hover:text-slate-600">
+                      <details class="mt-1">
+                        <summary class="rounded-xl text-xs font-semibold uppercase tracking-wider text-base-content/55 hover:bg-base-200 hover:text-base-content">
                           <Icon name="expand_more" class="text-[14px]" />
                           Sub-menu
                         </summary>
-                        <div class="mt-1 grid gap-1 border-l-2 border-slate-100 py-1 pl-3">
-                          {dataSubmenu.map((subItem) => (
-                            <a
-                              class="rounded-md px-3 py-2 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 hover:text-slate-900"
-                              href={subItem.href}
-                            >
-                              {subItem.label}
-                            </a>
-                          ))}
-                        </div>
+                        <ul class="mt-1 border-l border-base-300 pl-3">
+                          {dataSubmenu.map((subItem) => {
+                            const isSubActive = currentPath === subItem.href || currentPath.startsWith(`${subItem.href}/`);
+                            return (
+                              <li>
+                                <a
+                                  class:list={[
+                                    'rounded-xl text-sm font-medium',
+                                    isSubActive ? 'active bg-primary/10 text-primary' : 'text-base-content/65 hover:bg-base-200 hover:text-base-content',
+                                  ]}
+                                  href={subItem.href}
+                                >
+                                  {subItem.label}
+                                </a>
+                              </li>
+                            );
+                          })}
+                        </ul>
                       </details>
                     )}
-                  </div>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
           </div>
         </details>
       </div>
@@ -69,70 +77,71 @@ import Icon from './ui/Icon.tsx';
       <div class="flex items-center justify-center md:col-start-1 md:row-start-1 md:justify-start">
         <a class="group inline-flex items-center gap-3 sm:gap-4" href="/">
           <div class="relative">
-            <div class="absolute -inset-1 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 opacity-20 blur transition group-hover:opacity-40"></div>
-            <span class="relative flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900 font-['Inter'] text-xs font-bold text-white shadow-lg transition-transform group-hover:scale-105 sm:h-11 sm:w-11 sm:rounded-xl sm:text-sm">
+            <div class="absolute -inset-1 rounded-xl bg-primary/20 blur transition group-hover:bg-accent/25"></div>
+            <span class="relative flex h-9 w-9 items-center justify-center rounded-xl bg-neutral font-['Inter'] text-xs font-bold text-neutral-content shadow-lg transition-transform group-hover:scale-105 sm:h-11 sm:w-11 sm:text-sm">
               PS
             </span>
           </div>
           <span class="hidden md:block">
-            <strong class="block text-base font-bold leading-none tracking-tight text-slate-900 sm:text-lg">Padukuhan Salakan</strong>
+            <strong class="block text-base font-bold leading-none tracking-tight text-base-content sm:text-lg">Padukuhan Salakan</strong>
           </span>
         </a>
       </div>
 
       <nav aria-label="Navigasi utama" class="hidden justify-center md:col-start-2 md:row-start-1 md:flex">
-        <ul class="flex items-center gap-1 rounded-full border border-slate-200/40 bg-slate-100/50 p-1">
+        <ul class="menu menu-horizontal items-center gap-1 rounded-full border border-base-300/70 bg-base-200/60 p-1 text-sm">
           {navItems.map((item) => {
             const isActive = item.href === '/' ? currentPath === item.href : currentPath.startsWith(item.href);
 
             if (item.href === '/data') {
               return (
-                <li class="group/nav relative cursor-pointer">
+                <li class="dropdown dropdown-hover dropdown-bottom group/nav">
                   <div
+                    tabindex="0"
+                    role="button"
                     class:list={[
-                      'relative inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all',
-                      isDataActive ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-600 hover:bg-white/60 hover:text-slate-900',
+                      'gap-1.5 rounded-full px-4 py-2 font-semibold transition-all',
+                      isDataActive ? 'active bg-base-100 text-primary shadow-sm' : 'text-base-content/65 hover:bg-base-100/80 hover:text-base-content',
                     ]}
                   >
                     <span>{item.label}</span>
-                    <Icon name="expand_more" class="text-[16px] text-slate-400 transition-transform duration-300 group-hover/nav:rotate-180" />
+                    <Icon name="expand_more" class="text-[16px] text-base-content/45 transition-transform duration-300 group-hover/nav:rotate-180" />
                   </div>
 
-                  <div class="invisible absolute left-1/2 top-full z-50 mt-1 w-72 -translate-x-1/2 translate-y-3 opacity-0 transition-all duration-300 group-hover/nav:visible group-hover/nav:translate-y-0 group-hover/nav:opacity-100">
-                    <div class="absolute left-0 -top-4 h-4 w-full"></div>
-                    <div class="rounded-xl border border-slate-200/60 bg-white p-2.5 shadow-[0_10px_30px_rgba(15,23,42,0.08)] backdrop-blur-xl">
+                  <ul tabindex="0" class="dropdown-content menu z-50 mt-2 w-72 rounded-2xl border border-base-300 bg-base-100 p-2.5 text-base-content shadow-[0_14px_40px_rgba(23,32,24,0.12)]">
+                    <li>
                       <a
                         class:list={[
-                          'flex items-center gap-3 rounded-lg px-4 py-2.5 transition-all',
-                          currentPath === '/data' ? 'bg-blue-50 text-blue-700' : 'text-slate-700 hover:bg-slate-50',
+                          'items-start gap-3 rounded-xl px-4 py-3',
+                          currentPath === '/data' ? 'active bg-primary text-primary-content' : 'text-base-content/75 hover:bg-base-200 hover:text-base-content',
                         ]}
                         href="/data"
                       >
-                        <Icon name="dashboard_customize" class="text-blue-500" />
-                        <div>
+                        <Icon name="dashboard_customize" class={currentPath === '/data' ? 'text-primary-content' : 'text-primary'} />
+                        <span>
                           <span class="block text-sm font-semibold">Pusat Data Warga</span>
-                          <span class="block text-[0.65rem] font-normal text-slate-400">Indeks semua kategori data</span>
-                        </div>
+                          <span class="block text-[0.68rem] font-normal opacity-70">Indeks semua kategori data</span>
+                        </span>
                       </a>
-                      <div class="mx-2 my-2 border-t border-slate-100"></div>
-                      <div class="grid gap-1">
-                        {dataSubmenu.map((subItem) => {
-                          const isSubActive = currentPath === subItem.href || currentPath.startsWith(`${subItem.href}/`);
-                          return (
-                            <a
-                              class:list={[
-                                'block rounded-lg px-4 py-2 transition-all',
-                                isSubActive ? 'bg-blue-50/40 font-semibold text-blue-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
-                              ]}
-                              href={subItem.href}
-                            >
-                              <span class="text-sm">{subItem.label}</span>
-                            </a>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
+                    </li>
+                    {dataSubmenu.length > 0 && <li class="mx-2 my-1 border-t border-base-300"></li>}
+                    {dataSubmenu.map((subItem) => {
+                      const isSubActive = currentPath === subItem.href || currentPath.startsWith(`${subItem.href}/`);
+                      return (
+                        <li>
+                          <a
+                            class:list={[
+                              'rounded-xl px-4 py-2 text-sm',
+                              isSubActive ? 'active bg-primary/10 font-semibold text-primary' : 'text-base-content/65 hover:bg-base-200 hover:text-base-content',
+                            ]}
+                            href={subItem.href}
+                          >
+                            {subItem.label}
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </li>
               );
             }
@@ -141,8 +150,8 @@ import Icon from './ui/Icon.tsx';
               <li>
                 <a
                   class:list={[
-                    'relative inline-flex items-center rounded-full px-4 py-2 text-sm font-medium transition-all',
-                    isActive ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-600 hover:bg-white/60 hover:text-slate-900',
+                    'rounded-full px-4 py-2 font-semibold transition-all',
+                    isActive ? 'active bg-base-100 text-primary shadow-sm' : 'text-base-content/65 hover:bg-base-100/80 hover:text-base-content',
                   ]}
                   href={item.href}
                   aria-current={isActive ? 'page' : undefined}
