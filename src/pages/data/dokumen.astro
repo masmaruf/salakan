@@ -68,7 +68,7 @@ const dokumen = dokumenSemua.filter(({ entry }) => {
     >
       <div slot="active" class="flex flex-wrap items-center gap-2">
         {(query || activeKategori !== 'semua') && (
-          <a class="inline-action" href="/data/dokumen">
+          <a class="btn btn-outline btn-sm rounded-full" href="/data/dokumen">
             <Icon name="restart_alt" class="text-[16px]" />
             Reset filter
           </a>
@@ -90,7 +90,7 @@ const dokumen = dokumenSemua.filter(({ entry }) => {
         <form action="/data/dokumen" method="get" class="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
           <div class="grid gap-2">
             <label for="dokumen-search" class="detail-label">Cari judul, ringkasan, atau kategori dokumen</label>
-            <div class="flex items-center gap-3 rounded-2xl border border-outline-variant bg-surface-container-lowest px-4 py-3">
+            <div class="input input-bordered flex items-center gap-3 rounded-2xl bg-base-100">
               <Icon name="search" class="text-[20px] text-outline" />
               <input
                 id="dokumen-search"
@@ -98,12 +98,12 @@ const dokumen = dokumenSemua.filter(({ entry }) => {
                 type="search"
                 value={query}
                 placeholder="Contoh: surat domisili, arsip rapat, pedoman"
-                class="w-full border-0 bg-transparent p-0 text-sm text-on-surface outline-none placeholder:text-on-surface-variant"
+                class="w-full border-0 bg-transparent p-0 text-sm text-base-content outline-none placeholder:text-base-content/45"
               />
             </div>
             {activeKategori !== 'semua' && <input type="hidden" name="kategori" value={activeKategori} />}
           </div>
-          <button type="submit" class="action-pill-dark">
+          <button type="submit" class="btn btn-primary rounded-full">
             <Icon name="search" class="text-[16px]" />
             Terapkan
           </button>
@@ -116,26 +116,28 @@ const dokumen = dokumenSemua.filter(({ entry }) => {
     {dokumen.length > 0 ? (
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {dokumen.map(({ slug, entry }) => (
-          <article class="section-card section-card-hover group flex flex-col" id={slug}>
+          <article class="card group flex flex-col border border-base-300/70 bg-base-100 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md" id={slug}>
+            <div class="card-body p-5">
             <div class="mb-3 flex items-center justify-between gap-2">
               <Badge label={kategoriLabelsDokumen[entry.kategori]} tone="primary" class="px-2 py-1" />
-              <time class="meta-time" datetime={entry.tanggalUpdate}>
+              <time class="badge badge-ghost rounded-full px-3 py-3 text-[12px]" datetime={entry.tanggalUpdate}>
                 {formatTanggal(entry.tanggalUpdate)}
               </time>
             </div>
 
-            <h2 class="text-base font-bold leading-tight text-on-surface transition-colors group-hover:text-m3-primary sm:text-lg">
+            <h2 class="text-base font-bold leading-tight text-base-content transition-colors group-hover:text-primary sm:text-lg">
               <a href={`/data/dokumen/${slug}`}>{entry.judul}</a>
             </h2>
-            <p class="mt-2 flex-1 line-clamp-2 text-sm text-on-surface-variant">{entry.ringkasan}</p>
+            <p class="mt-2 flex-1 line-clamp-2 text-sm text-base-content/65">{entry.ringkasan}</p>
 
-            <div class="mt-4 flex flex-wrap gap-2 border-t border-outline-variant/40 pt-3">
-              <InlineAction href={`/data/dokumen/${slug}`} label={halaman.dokumen.detailLabel} icon="visibility" />
+            <div class="mt-4 flex flex-wrap gap-2 border-t border-base-300/70 pt-3">
+              <InlineAction href={`/data/dokumen/${slug}`} label={halaman.dokumen.detailLabel} icon="visibility" class="btn btn-ghost btn-sm rounded-full text-primary" />
               {entry.fileDokumen ? (
-                <InlineAction href={entry.fileDokumen} label={halaman.dokumen.downloadLabel} icon="download" target="_blank" rel="noreferrer" />
+                <InlineAction href={entry.fileDokumen} label={halaman.dokumen.downloadLabel} icon="download" target="_blank" rel="noreferrer" class="btn btn-outline btn-sm rounded-full" />
               ) : (
-                <InlineAction as="span" label={halaman.dokumen.unavailableLabel} icon="lock" tone="muted" />
+                <InlineAction as="span" label={halaman.dokumen.unavailableLabel} icon="lock" tone="muted" class="btn btn-disabled btn-sm rounded-full" />
               )}
+            </div>
             </div>
           </article>
         ))}

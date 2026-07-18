@@ -36,7 +36,8 @@ const statusToneMap = { tersedia: 'success', dipinjam: 'warning', perawatan: 'er
   <PageSection sectionClass="pb-10 pt-4 sm:pb-14" title={halaman.inventaris.sectionTitle} eyebrow={halaman.inventaris.sectionEyebrow}>
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {inventory.map(({ slug, entry }) => (
-        <article class="section-card" id={slug}>
+        <article class="card border border-base-300/70 bg-base-100 shadow-sm" id={slug}>
+          <div class="card-body p-5">
           <BadgeList
             class="mb-3 flex flex-wrap items-center gap-2"
             items={[
@@ -45,10 +46,10 @@ const statusToneMap = { tersedia: 'success', dipinjam: 'warning', perawatan: 'er
               { label: halaman.inventaris.labels.priority, tone: 'info', class: 'px-2 py-1', visible: entry.unggulan },
             ]}
           />
-          <h2 class="text-base font-bold leading-tight text-on-surface sm:text-lg">{entry.namaItem}</h2>
-          <p class="mt-2 text-sm leading-relaxed text-on-surface-variant">{entry.ringkasan}</p>
+          <h2 class="text-base font-bold leading-tight text-base-content sm:text-lg">{entry.namaItem}</h2>
+          <p class="mt-2 text-sm leading-relaxed text-base-content/65">{entry.ringkasan}</p>
           <LabelValueList
-            class="mt-4"
+            class="mt-4 border-base-300/70 text-base-content/65"
             items={[
               { label: halaman.inventaris.labels.condition, value: kondisiInventarisLabels[entry.kondisi] },
               { label: halaman.inventaris.labels.location, value: entry.lokasiSimpan },
@@ -56,6 +57,7 @@ const statusToneMap = { tersedia: 'success', dipinjam: 'warning', perawatan: 'er
               { label: halaman.inventaris.labels.note, value: entry.catatan },
             ]}
           />
+          </div>
         </article>
       ))}
     </div>
