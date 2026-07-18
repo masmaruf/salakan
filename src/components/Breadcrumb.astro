@@ -44,17 +44,17 @@ const breadcrumbJsonLd = generateBreadcrumbSchema(
     {items.map((item, index) => (
       <li class="flex items-center gap-1.5">
         {index > 0 && (
-          <span class="text-on-surface-variant/50" aria-hidden="true">/</span>
+          <span class="text-base-content/50" aria-hidden="true">/</span>
         )}
         {item.href ? (
           <a
             href={item.href}
-            class="text-on-surface-variant hover:text-m3-primary transition-colors"
+            class="text-base-content/70 hover:text-primary transition-colors"
           >
             {item.name}
           </a>
         ) : (
-          <span class="font-medium text-on-surface" aria-current="page">
+          <span class="font-medium text-base-content" aria-current="page">
             {item.name}
           </span>
         )}

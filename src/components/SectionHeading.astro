@@ -15,11 +15,11 @@ const { title, description, href, linkLabel, center = false } = Astro.props;
   center ? 'flex flex-col items-center gap-2 text-center' : 'flex flex-col gap-2 md:flex-row md:items-end md:justify-between',
 ]}>
   <div class="space-y-2">
-    <h2 class="text-[24px] font-bold leading-[32px] text-on-surface">{title}</h2>
-    <p class:list={['text-base text-on-surface-variant', center && 'mx-auto max-w-2xl']}>{description}</p>
+    <h2 class="text-[24px] font-bold leading-[32px] text-base-content">{title}</h2>
+    <p class:list={['text-base text-base-content/70', center && 'mx-auto max-w-2xl']}>{description}</p>
   </div>
   {href && linkLabel && (
-    <a class="text-sm font-semibold text-m3-primary hover:underline transition-colors shrink-0" href={href}>
+    <a class="text-sm font-semibold text-primary hover:underline transition-colors shrink-0" href={href}>
       {linkLabel}
     </a>
   )}

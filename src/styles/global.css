@@ -41,47 +41,47 @@
 }
 
 /* Local SVG icon host */
-/* Material You Design Tokens — registered as Tailwind utilities */
+/* Legacy utility aliases mapped to the active daisyUI Salakan theme. */
 @theme {
-  --color-surface: #faf8ff;
-  --color-surface-dim: #d2d9f4;
-  --color-surface-bright: #faf8ff;
+  --color-surface: #fbfaf4;
+  --color-surface-dim: #ebe4d1;
+  --color-surface-bright: #fbfaf4;
   --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #f2f3ff;
-  --color-surface-container: #eaedff;
-  --color-surface-container-high: #e2e7ff;
-  --color-surface-container-highest: #dae2fd;
-  --color-surface-variant: #dae2fd;
-  --color-on-surface: #131b2e;
-  --color-on-surface-variant: #43483d;
-  --color-inverse-surface: #283044;
-  --color-inverse-on-surface: #eef0ff;
-  --color-inverse-primary: #a8bce0;
-  --color-outline: #74796c;
-  --color-outline-variant: #c4c8ba;
-  --color-m3-primary: #3b5998;
+  --color-surface-container-low: #f5f1e6;
+  --color-surface-container: #f5f1e6;
+  --color-surface-container-high: #ebe4d1;
+  --color-surface-container-highest: #e0d6bd;
+  --color-surface-variant: #ebe4d1;
+  --color-on-surface: #172018;
+  --color-on-surface-variant: #4d5a4c;
+  --color-inverse-surface: #263629;
+  --color-inverse-on-surface: #f3f7ef;
+  --color-inverse-primary: #c5d7c5;
+  --color-outline: #73806f;
+  --color-outline-variant: #d8cfba;
+  --color-m3-primary: #315d44;
   --color-on-primary: #ffffff;
-  --color-primary-container: #dbe4f8;
-  --color-on-primary-container: #1a3060;
-  --color-primary-fixed: #dbe4f8;
-  --color-primary-fixed-dim: #a8bce0;
-  --color-m3-secondary: #9f402d;
+  --color-primary-container: #dcebdd;
+  --color-on-primary-container: #183321;
+  --color-primary-fixed: #dcebdd;
+  --color-primary-fixed-dim: #9fbea3;
+  --color-m3-secondary: #8b5f2f;
   --color-on-secondary: #ffffff;
-  --color-secondary-container: #fd876f;
-  --color-on-secondary-container: #732010;
-  --color-secondary-fixed: #ffdad3;
-  --color-secondary-fixed-dim: #ffb4a5;
-  --color-m3-tertiary: #515f74;
+  --color-secondary-container: #f5dfbf;
+  --color-on-secondary-container: #3d2610;
+  --color-secondary-fixed: #f5dfbf;
+  --color-secondary-fixed-dim: #d6b783;
+  --color-m3-tertiary: #38688d;
   --color-on-tertiary: #ffffff;
-  --color-tertiary-container: #92a0b7;
-  --color-on-tertiary-container: #29374a;
-  --color-tertiary-fixed: #d5e3fc;
-  --color-tertiary-fixed-dim: #b9c7df;
-  --color-m3-error: #ba1a1a;
+  --color-tertiary-container: #d8e8f2;
+  --color-on-tertiary-container: #183247;
+  --color-tertiary-fixed: #d8e8f2;
+  --color-tertiary-fixed-dim: #a6c2d5;
+  --color-m3-error: #a43c33;
   --color-on-error: #ffffff;
-  --color-error-container: #ffdad6;
-  --color-on-error-container: #93000a;
-  --color-surface-tint: #3b5998;
+  --color-error-container: #f7d9d4;
+  --color-on-error-container: #611913;
+  --color-surface-tint: #315d44;
 
   --spacing-xs: 4px;
   --spacing-base: 8px;
@@ -104,26 +104,26 @@
 }
 
 :root {
-  /* Material You Theme - Light Mode Colors */
-  --surface: #faf8ff;
+  /* Legacy CSS variables mapped to the daisyUI Salakan theme */
+  --surface: #fbfaf4;
   --surface-container-lowest: #ffffff;
-  --surface-container-low: #f2f3ff;
-  --surface-container: #eaedff;
-  --surface-container-high: #e2e7ff;
-  --surface-container-highest: #dae2fd;
-  --surface-bright: #faf8ff;
-  --surface-dim: #d2d9f4;
-  --surface-variant: #dae2fd;
-  --on-surface: #131b2e;
-  --on-surface-variant: #43483d;
+  --surface-container-low: #f5f1e6;
+  --surface-container: #f5f1e6;
+  --surface-container-high: #ebe4d1;
+  --surface-container-highest: #e0d6bd;
+  --surface-bright: #fbfaf4;
+  --surface-dim: #ebe4d1;
+  --surface-variant: #ebe4d1;
+  --on-surface: #172018;
+  --on-surface-variant: #4d5a4c;
   --inverse-surface: #283044;
   --inverse-on-surface: #eef0ff;
-  --outline: #74796c;
-  --outline-variant: #c4c8ba;
-  --primary: #3b5998;
+  --outline: #73806f;
+  --outline-variant: #d8cfba;
+  --primary: #315d44;
   --on-primary: #ffffff;
-  --primary-container: #dbe4f8;
-  --on-primary-container: #1a3060;
+  --primary-container: #dcebdd;
+  --on-primary-container: #183321;
   --primary-fixed: #dbe4f8;
   --primary-fixed-dim: #a8bce0;
   --on-primary-fixed: #0d1f3c;
@@ -149,18 +149,18 @@
   --error-container: #ffdad6;
   --on-error-container: #93000a;
   --inverse-primary: #a8bce0;
-  --surface-tint: #3b5998;
+  --surface-tint: #315d44;
 
   /* Original theme variables (backward compatibility) */
-  --bg: #f7f8ff;
+  --bg: #fbfaf4;
   --bg-soft: #ffffff;
   --surface-strong: rgba(255, 255, 255, 0.95);
-  --surface-dark: #18213f;
-  --text: #171a2b;
-  --muted: #5f6787;
-  --line: rgba(110, 128, 196, 0.18);
-  --accent: #3b5998;
-  --accent-2: #2563eb;
+  --surface-dark: #263629;
+  --text: #172018;
+  --muted: #4d5a4c;
+  --line: rgba(49, 93, 68, 0.18);
+  --accent: #315d44;
+  --accent-2: #8b5f2f;
   --heading-hero: clamp(2.4rem, 5vw, 4.75rem);
   --heading-1: clamp(1.85rem, 3vw, 3rem);
   --heading-2: clamp(1.45rem, 2.2vw, 2.2rem);
@@ -170,10 +170,10 @@
   --body-sm: 0.92rem;
   --hero-grad:
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.32), transparent 28%),
-    radial-gradient(circle at 85% 18%, rgba(51, 136, 255, 0.22), transparent 24%),
-    linear-gradient(135deg, #1e3a5f 0%, #2b4f8a 46%, #2563eb 100%);
-  --page-grad: #ffffff;
-  --shadow: 0 16px 40px rgba(68, 90, 175, 0.08);
+    radial-gradient(circle at 85% 18%, rgba(197, 139, 42, 0.18), transparent 24%),
+    linear-gradient(135deg, #263629 0%, #315d44 52%, #8b5f2f 100%);
+  --page-grad: #fbfaf4;
+  --shadow: 0 16px 40px rgba(49, 93, 68, 0.08);
   --radius-xl: 20px;
   --radius-lg: 20px;
   --radius-md: 20px;
@@ -183,7 +183,7 @@
   --container-max: 1200px;
 }
 
-/* Dark Mode Material You Theme */
+/* Legacy dark aliases kept for any future dark-mode toggle. */
 .dark {
   --surface: #131b2e;
   --surface-container-lowest: #0f1627;
@@ -267,9 +267,9 @@ body {
 }
 #app-shell {
   background:
-    radial-gradient(circle at top right, rgba(59, 89, 152, 0.06), transparent 22%),
-    radial-gradient(circle at top left, rgba(37, 99, 235, 0.05), transparent 20%),
-    #ffffff;
+    radial-gradient(circle at top right, rgba(49, 93, 68, 0.06), transparent 22%),
+    radial-gradient(circle at top left, rgba(197, 139, 42, 0.06), transparent 20%),
+    var(--surface);
 }
 a {
   color: inherit;
@@ -313,45 +313,45 @@ input, button, textarea, select {
 
 /* Rich Text Styles */
 .article-rich {
-  @apply max-w-none text-[1rem] leading-8 text-slate-700;
+  @apply max-w-none text-[1rem] leading-8 text-base-content/75;
 }
 .article-rich > :first-child { @apply mt-0; }
-.article-rich :where(h1, h2, h3, h4, h5, h6) { @apply mt-10 text-slate-950; }
+.article-rich :where(h1, h2, h3, h4, h5, h6) { @apply mt-10 text-base-content; }
 .article-rich h1 { @apply text-4xl font-extrabold tracking-tight md:text-5xl; }
 .article-rich h2 { @apply text-3xl font-bold tracking-tight md:text-4xl; }
 .article-rich h3 { @apply text-2xl font-bold tracking-tight md:text-3xl; }
 .article-rich h4 { @apply text-xl font-bold; }
 .article-rich h5 { @apply text-lg font-semibold; }
-.article-rich h6 { @apply text-base font-semibold uppercase tracking-[0.12em] text-slate-500; }
+.article-rich h6 { @apply text-base font-semibold uppercase tracking-[0.12em] text-base-content/55; }
 .article-rich p, .article-rich ul, .article-rich ol, .article-rich blockquote, .article-rich table, .article-rich pre { @apply mt-6; }
 .article-rich ul { @apply list-disc pl-6; }
 .article-rich ol { @apply list-decimal pl-6; }
 .article-rich li { @apply mt-2 pl-1; }
-.article-rich a { @apply font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition-colors hover:text-blue-500; }
-.article-rich strong { @apply font-bold text-slate-950; }
+.article-rich a { @apply font-semibold text-primary underline decoration-primary/30 underline-offset-4 transition-colors hover:text-secondary; }
+.article-rich strong { @apply font-bold text-base-content; }
 .article-rich em { @apply italic; }
-.article-rich code:not(pre code) { @apply bg-slate-100 px-2 py-1 font-mono text-[0.95em] text-blue-700; border-radius: var(--radius-sm); }
-.article-rich pre { @apply overflow-x-auto border border-slate-200 bg-slate-950 p-5 text-sm text-slate-100 shadow-lg; border-radius: var(--radius-lg); }
+.article-rich code:not(pre code) { @apply bg-base-200 px-2 py-1 font-mono text-[0.95em] text-primary; border-radius: var(--radius-sm); }
+.article-rich pre { @apply overflow-x-auto border border-base-300 bg-neutral p-5 text-sm text-neutral-content shadow-lg; border-radius: var(--radius-lg); }
 .article-rich pre code { @apply bg-transparent p-0 text-inherit; }
-.article-rich blockquote { @apply border-l-4 border-blue-500 bg-blue-50 px-5 py-4 text-slate-600; border-radius: 0 var(--radius-lg) var(--radius-lg) 0; }
-.article-rich hr { @apply my-10 border-0 border-t border-slate-200; }
-.article-rich img { @apply my-8 w-full border border-slate-200 shadow-md; border-radius: var(--radius-lg); }
-.article-rich table { @apply w-full overflow-hidden border border-slate-200 text-left text-sm shadow-sm; border-radius: var(--radius-lg); border-collapse: separate; border-spacing: 0; }
-.article-rich thead { @apply bg-slate-50; }
-.article-rich th { @apply border-b border-slate-200 px-4 py-3 font-semibold text-slate-950; }
-.article-rich td { @apply border-b border-slate-100 px-4 py-3 align-top; }
+.article-rich blockquote { @apply border-l-4 border-primary bg-primary/10 px-5 py-4 text-base-content/70; border-radius: 0 var(--radius-lg) var(--radius-lg) 0; }
+.article-rich hr { @apply my-10 border-0 border-t border-base-300; }
+.article-rich img { @apply my-8 w-full border border-base-300 shadow-md; border-radius: var(--radius-lg); }
+.article-rich table { @apply w-full overflow-hidden border border-base-300 text-left text-sm shadow-sm; border-radius: var(--radius-lg); border-collapse: separate; border-spacing: 0; }
+.article-rich thead { @apply bg-base-200; }
+.article-rich th { @apply border-b border-base-300 px-4 py-3 font-semibold text-base-content; }
+.article-rich td { @apply border-b border-base-300/70 px-4 py-3 align-top; }
 .article-rich tbody tr:last-child td { @apply border-b-0; }
 
 .berita-rich > h2:first-child {
-  @apply mt-0 rounded-3xl border border-blue-100 bg-blue-50/70 px-5 py-5 text-3xl font-black leading-tight tracking-tight text-on-surface shadow-sm md:text-5xl;
+  @apply mt-0 rounded-3xl border border-base-300 bg-base-200/70 px-5 py-5 text-3xl font-black leading-tight tracking-tight text-base-content shadow-sm md:text-5xl;
 }
 
 .berita-rich > h2:first-child + p {
-  @apply mt-5 text-xl font-semibold leading-9 text-on-surface;
+  @apply mt-5 text-xl font-semibold leading-9 text-base-content;
 }
 
 .berita-rich blockquote {
-  @apply border-l-4 border-m3-primary bg-primary-container/60 px-5 py-4 text-on-primary-container shadow-sm;
+  @apply border-l-4 border-primary bg-primary/10 px-5 py-4 text-base-content/75 shadow-sm;
   border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
 }
 
@@ -365,16 +365,16 @@ input, button, textarea, select {
 
 .card-premium {
   position: relative;
-  background: #ffffff;
-  border: 1px solid theme(--color-slate-200);
+  background: theme(--color-base-100);
+  border: 1px solid theme(--color-base-300);
   border-radius: 1.25rem;
   padding: 2rem;
-  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 4px 20px rgba(49, 93, 68, 0.06);
   transition: box-shadow 0.3s, transform 0.3s;
 }
 
 .card-premium:hover {
-  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 36px rgba(49, 93, 68, 0.1);
 }
 
 .text-gradient {
@@ -382,14 +382,14 @@ input, button, textarea, select {
   font-weight: 900;
   line-height: 1.1;
   letter-spacing: -0.035em;
-  background: linear-gradient(135deg, theme(--color-slate-900) 0%, theme(--color-blue-700) 100%);
+  background: linear-gradient(135deg, theme(--color-neutral) 0%, theme(--color-primary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .text-label {
-  @apply text-xs font-semibold uppercase tracking-widest text-slate-400;
+  @apply text-xs font-semibold uppercase tracking-widest text-base-content/45;
 }
 
 .section-kicker {
@@ -411,7 +411,7 @@ input, button, textarea, select {
   width: 600px;
   height: 600px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.06), transparent 70%);
+  background: radial-gradient(circle, rgba(49, 93, 68, 0.06), transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -423,7 +423,7 @@ input, button, textarea, select {
   width: 500px;
   height: 500px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.05), transparent 70%);
+  background: radial-gradient(circle, rgba(197, 139, 42, 0.06), transparent 70%);
   pointer-events: none;
   z-index: 0;
 }

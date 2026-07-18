@@ -14,7 +14,7 @@ const { id, namaLayanan, ringkasan, syarat, langkah, kontak, jamLayanan } = Astr
 import Icon from './Icon.tsx';
 ---
 
-<article id={id} class="card group scroll-mt-28 border border-outline-variant/55 bg-base-100 shadow-none transition hover:-translate-y-0.5 hover:border-primary/35 hover:bg-base-100">
+<article id={id} class="card group scroll-mt-28 border border-base-300/55 bg-base-100 shadow-none transition hover:-translate-y-0.5 hover:border-primary/35 hover:bg-base-100">
   <div class="card-body gap-4 p-5 sm:p-6">
   <div class="flex items-start gap-4">
     <div class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary">
@@ -22,18 +22,18 @@ import Icon from './Icon.tsx';
     </div>
     <div class="min-w-0">
       <div class="mb-2 badge badge-soft badge-primary rounded-full px-3 text-[11px]">Layanan warga</div>
-      <h2 class="text-base font-bold text-on-surface transition-colors group-hover:text-primary sm:text-lg">{namaLayanan}</h2>
-      <p class="text-sm text-on-surface-variant mt-1">{ringkasan}</p>
+      <h2 class="text-base font-bold text-base-content transition-colors group-hover:text-primary sm:text-lg">{namaLayanan}</h2>
+      <p class="text-sm text-base-content/70 mt-1">{ringkasan}</p>
     </div>
   </div>
 
   <div class="grid gap-4 sm:grid-cols-2">
     {syarat.length > 0 && (
       <div class="rounded-2xl border border-base-300 bg-base-200/55 p-4">
-        <p class="flex items-center gap-1.5 text-[12px] font-semibold text-on-surface uppercase tracking-wider mb-3">
+        <p class="flex items-center gap-1.5 text-[12px] font-semibold text-base-content uppercase tracking-wider mb-3">
           <Icon name="checklist" class="text-[14px] text-primary" /> Syarat
         </p>
-        <ul class="space-y-2 text-sm text-on-surface-variant">
+        <ul class="space-y-2 text-sm text-base-content/70">
           {syarat.map((item) => (
             <li class="flex items-start gap-2">
               <Icon name="check_circle" class="text-[14px] mt-0.5 text-success" />
@@ -46,10 +46,10 @@ import Icon from './Icon.tsx';
 
     {langkah.length > 0 && (
       <div class="rounded-2xl border border-base-300 bg-base-200/55 p-4">
-        <p class="flex items-center gap-1.5 text-[12px] font-semibold text-on-surface uppercase tracking-wider mb-3">
+        <p class="flex items-center gap-1.5 text-[12px] font-semibold text-base-content uppercase tracking-wider mb-3">
           <Icon name="format_list_numbered" class="text-[14px] text-primary" /> Alur Proses
         </p>
-        <ol class="space-y-2 text-sm text-on-surface-variant">
+        <ol class="space-y-2 text-sm text-base-content/70">
           {langkah.map((item, idx) => (
             <li class="flex items-start gap-2">
               <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary text-primary-content text-[10px] font-bold mt-0.5">
@@ -63,7 +63,7 @@ import Icon from './Icon.tsx';
     )}
   </div>
 
-  <div class="flex flex-wrap gap-3 pt-3 border-t border-outline-variant/40 text-[12px] text-on-surface-variant">
+  <div class="flex flex-wrap gap-3 pt-3 border-t border-base-300/70 text-[12px] text-base-content/70">
     <span class="flex items-center gap-1.5">
       <Icon name="call" class="text-[14px] text-primary" /> {kontak}
     </span>
