@@ -117,20 +117,26 @@ function getSignal(item: TimelineItem) {
 
   <section class="container-premium py-8 pb-5">
     <div class="grid gap-4 md:grid-cols-3">
-      <div class="section-card rounded-2xl p-5 sm:p-5">
+      <div class="card border border-base-300/70 bg-base-100 shadow-sm">
+        <div class="card-body p-5">
         <p class="section-kicker">{halaman.agendaIndex.stats.totalLabel}</p>
-        <p class="mt-2 text-3xl font-black tracking-tight text-on-surface">{filteredTimeline.length}</p>
-        <p class="mt-1 text-sm text-on-surface-variant">{halaman.agendaIndex.stats.totalDescription}</p>
+        <p class="mt-2 text-3xl font-black tracking-tight text-base-content">{filteredTimeline.length}</p>
+        <p class="mt-1 text-sm text-base-content/65">{halaman.agendaIndex.stats.totalDescription}</p>
+        </div>
       </div>
-      <div class="section-card rounded-2xl p-5 sm:p-5">
+      <div class="card border border-base-300/70 bg-base-100 shadow-sm">
+        <div class="card-body p-5">
         <p class="section-kicker">{halaman.agendaIndex.stats.weeklyLabel}</p>
-        <p class="mt-2 text-3xl font-black tracking-tight text-on-surface">{agendaMingguIni}</p>
-        <p class="mt-1 text-sm text-on-surface-variant">{halaman.agendaIndex.stats.weeklyDescription}</p>
+        <p class="mt-2 text-3xl font-black tracking-tight text-base-content">{agendaMingguIni}</p>
+        <p class="mt-1 text-sm text-base-content/65">{halaman.agendaIndex.stats.weeklyDescription}</p>
+        </div>
       </div>
-      <div class="section-card rounded-2xl p-5 sm:p-5">
+      <div class="card border border-base-300/70 bg-base-100 shadow-sm">
+        <div class="card-body p-5">
         <p class="section-kicker">{halaman.agendaIndex.stats.distributionLabel}</p>
-        <p class="mt-2 text-base font-bold text-on-surface">{halaman.agendaIndex.stats.distributionTitle}</p>
-        <p class="mt-1 text-sm text-on-surface-variant">{halaman.agendaIndex.stats.distributionDescription}</p>
+        <p class="mt-2 text-base font-bold text-base-content">{halaman.agendaIndex.stats.distributionTitle}</p>
+        <p class="mt-1 text-sm text-base-content/65">{halaman.agendaIndex.stats.distributionDescription}</p>
+        </div>
       </div>
     </div>
   </section>
@@ -156,20 +162,20 @@ function getSignal(item: TimelineItem) {
         <form action="/agenda" method="get" class="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
           <div class="grid gap-2">
             <label for="agenda-search" class="detail-label">Cari agenda, lokasi, atau tag</label>
-            <div class="flex items-center gap-3 rounded-2xl border border-outline-variant bg-surface-container-lowest px-4 py-3">
-              <Icon name="search" class="text-[20px] text-outline" />
+            <div class="input input-bordered flex h-auto items-center gap-3 rounded-2xl bg-base-100 px-4 py-3">
+              <Icon name="search" class="text-[20px] text-base-content/45" />
               <input
                 id="agenda-search"
                 name="q"
                 type="search"
                 value={query}
                 placeholder="Contoh: posyandu, rapat, pengajian"
-                class="w-full border-0 bg-transparent p-0 text-sm text-on-surface outline-none placeholder:text-on-surface-variant"
+                class="w-full border-0 bg-transparent p-0 text-sm text-base-content outline-none placeholder:text-base-content/45"
               />
             </div>
             {selectedLabel && <input type="hidden" name="label" value={selectedLabel} />}
           </div>
-          <button type="submit" class="action-pill-dark">
+          <button type="submit" class="btn btn-primary rounded-full">
             <Icon name="search" class="text-[16px]" />
             Terapkan pencarian
           </button>
@@ -201,7 +207,7 @@ function getSignal(item: TimelineItem) {
               {item.tags.length > 0 && (
                 <div class="flex flex-wrap gap-2">
                   {item.tags.slice(0, 3).map((tag) => (
-                    <span class="tag-chip">#{getTagUmumLabel(tag)}</span>
+                    <span class="badge badge-outline rounded-full px-3 py-3 text-[12px] font-semibold">#{getTagUmumLabel(tag)}</span>
                   ))}
                 </div>
               )}
