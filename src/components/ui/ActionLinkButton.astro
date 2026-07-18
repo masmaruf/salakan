@@ -20,11 +20,11 @@ const {
 } = Astro.props;
 
 const variantClasses = {
-  primary: 'hero-cta-primary',
-  secondary: 'bg-surface-container-low text-on-surface-variant border border-outline-variant',
-  outline: 'bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:bg-primary-container hover:text-on-primary-container transition-colors',
-  success: 'action-pill-success',
-  dark: 'bg-slate-900 text-white hover:bg-blue-600 transition-colors',
+  primary: 'btn-primary',
+  secondary: 'btn-secondary',
+  outline: 'btn-outline',
+  success: 'btn-success',
+  dark: 'btn-neutral',
 };
 
 import Icon from './Icon.tsx';
@@ -35,7 +35,7 @@ import Icon from './Icon.tsx';
   target={target}
   rel={rel}
   class:list={[
-    'inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold',
+    'btn rounded-full',
     variantClasses[variant],
     className,
   ]}

@@ -87,7 +87,8 @@ const stats = {
 
   {featuredProgram && (
     <PageSection sectionClass="py-8 sm:py-10" title="Sorotan Utama" eyebrow="Program Prioritas">
-      <article class="section-card grid gap-5 p-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+      <article class="card border border-base-300/70 bg-base-100 shadow-sm">
+        <div class="card-body grid gap-5 p-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
         <div>
           <BadgeList
             items={[
@@ -99,7 +100,7 @@ const stats = {
           <h2 class="mt-4 text-2xl font-bold tracking-tight text-on-surface sm:text-3xl">{featuredProgram.entry.judul}</h2>
           <p class="mt-3 text-base leading-relaxed text-on-surface-variant">{featuredProgram.entry.ringkasan}</p>
           {featuredProgram.entry.targetHasilSingkat && (
-            <div class="mt-4 rounded-2xl border border-outline-variant/50 bg-surface-container-low px-4 py-4">
+            <div class="mt-4 rounded-2xl border border-base-300/70 bg-base-200/70 px-4 py-4">
               <p class="section-kicker-muted text-[11px] tracking-[0.12em] text-outline">Target hasil</p>
               <p class="mt-2 text-sm leading-relaxed text-on-surface">{featuredProgram.entry.targetHasilSingkat}</p>
             </div>
@@ -121,6 +122,7 @@ const stats = {
             <ActionLinkButton href={`/program/${featuredProgram.slug}`} label="Lihat detail program" icon="arrow_forward" variant="primary" />
           </div>
         </div>
+        </div>
       </article>
     </PageSection>
   )}
@@ -131,32 +133,34 @@ const stats = {
         {programs.map((item) => (
           <a
             href={`/program/${item.slug}`}
-            class="group section-card section-card-hover rounded-2xl p-5 sm:p-5"
+            class="card group h-full border border-base-300/70 bg-base-100 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md"
           >
-            <BadgeList
-              items={[
-                { label: kategoriLabelsProgram[item.entry.kategori as keyof typeof kategoriLabelsProgram], tone: 'surface' },
-                { label: statusProgramLabels[item.entry.statusProgram as keyof typeof statusProgramLabels], tone: statusToneMap[item.entry.statusProgram as keyof typeof statusToneMap] },
-                { label: tahapProgramLabels[item.entry.tahapProgram as keyof typeof tahapProgramLabels], tone: tahapToneMap[item.entry.tahapProgram as keyof typeof tahapToneMap] },
-                { label: 'Prioritas', tone: 'info', visible: item.entry.unggulan },
-              ]}
-            />
-            <h3 class="mt-4 text-lg font-bold leading-tight text-on-surface transition-colors group-hover:text-m3-primary">
-              {item.entry.judul}
-            </h3>
-            <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-on-surface-variant">{item.entry.ringkasan}</p>
-            {item.entry.targetHasilSingkat && (
-              <p class="mt-3 line-clamp-2 text-sm leading-relaxed text-on-surface">{item.entry.targetHasilSingkat}</p>
-            )}
-            <p class="mt-3 line-clamp-2 text-sm leading-relaxed text-on-surface-variant">{markdownToText(item.entry.deskripsi)}</p>
-            <div class="mt-4 grid gap-2 border-t border-outline-variant/50 pt-4 text-sm text-on-surface-variant sm:grid-cols-2">
-              <div>
-                <p class="section-kicker-muted text-[11px] tracking-[0.12em] text-outline">Lokasi</p>
-                <p class="mt-1 line-clamp-2">{item.entry.lokasi}</p>
-              </div>
-              <div>
-                <p class="section-kicker-muted text-[11px] tracking-[0.12em] text-outline">Periode</p>
-                <p class="mt-1">{item.entry.periode}</p>
+            <div class="card-body p-5">
+              <BadgeList
+                items={[
+                  { label: kategoriLabelsProgram[item.entry.kategori as keyof typeof kategoriLabelsProgram], tone: 'surface' },
+                  { label: statusProgramLabels[item.entry.statusProgram as keyof typeof statusProgramLabels], tone: statusToneMap[item.entry.statusProgram as keyof typeof statusToneMap] },
+                  { label: tahapProgramLabels[item.entry.tahapProgram as keyof typeof tahapProgramLabels], tone: tahapToneMap[item.entry.tahapProgram as keyof typeof tahapToneMap] },
+                  { label: 'Prioritas', tone: 'info', visible: item.entry.unggulan },
+                ]}
+              />
+              <h3 class="mt-4 text-lg font-bold leading-tight text-base-content transition-colors group-hover:text-primary">
+                {item.entry.judul}
+              </h3>
+              <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-base-content/70">{item.entry.ringkasan}</p>
+              {item.entry.targetHasilSingkat && (
+                <p class="mt-3 line-clamp-2 text-sm leading-relaxed text-base-content">{item.entry.targetHasilSingkat}</p>
+              )}
+              <p class="mt-3 line-clamp-2 text-sm leading-relaxed text-base-content/70">{markdownToText(item.entry.deskripsi)}</p>
+              <div class="mt-4 grid gap-2 border-t border-base-300/70 pt-4 text-sm text-base-content/70 sm:grid-cols-2">
+                <div>
+                  <p class="section-kicker-muted text-[11px] tracking-[0.12em] text-base-content/45">Lokasi</p>
+                  <p class="mt-1 line-clamp-2">{item.entry.lokasi}</p>
+                </div>
+                <div>
+                  <p class="section-kicker-muted text-[11px] tracking-[0.12em] text-base-content/45">Periode</p>
+                  <p class="mt-1">{item.entry.periode}</p>
+                </div>
               </div>
             </div>
           </a>

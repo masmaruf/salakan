@@ -113,7 +113,7 @@ const relatedItems = findRelatedContent(
       <p class="mt-3 text-base leading-relaxed text-on-surface-variant">{entry.ringkasan}</p>
 
       <ContentMeta
-        class="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-outline-variant/40 pt-4"
+        class="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-base-300/70 pt-4"
         items={[
           { icon: 'calendar_today', text: `${halaman.programDetail.updatedPrefix} ${formatTanggal(entry.tanggalUpdate)}`, datetime: entry.tanggalUpdate, accentClass: 'text-on-surface-variant' },
           { icon: 'location_on', text: entry.lokasi, accentClass: 'text-on-surface-variant' },
@@ -125,37 +125,37 @@ const relatedItems = findRelatedContent(
     </header>
 
     <div class="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
-      <InfoCard title={halaman.programDetail.summaryTitle} class="soft-panel">
+      <InfoCard title={halaman.programDetail.summaryTitle} class="card border border-base-300/70 bg-base-100 shadow-sm" bodyClass="card-body p-5">
         <div class="article-rich text-base leading-relaxed text-on-surface-variant" set:html={renderMarkdown(entry.deskripsi)} />
       </InfoCard>
 
       <div class="grid gap-4">
-        <InfoCard title={halaman.programDetail.periodTitle} class="soft-panel">
+        <InfoCard title={halaman.programDetail.periodTitle} class="card border border-base-300/70 bg-base-100 shadow-sm" bodyClass="card-body p-5">
           <p class="text-sm font-medium text-on-surface">{entry.periode}</p>
         </InfoCard>
-        <InfoCard title={halaman.programDetail.fundingTitle} class="soft-panel">
+        <InfoCard title={halaman.programDetail.fundingTitle} class="card border border-base-300/70 bg-base-100 shadow-sm" bodyClass="card-body p-5">
           <p class="text-sm font-medium text-on-surface">{entry.sumberDana || '-'}</p>
         </InfoCard>
-        <InfoCard title={halaman.programDetail.budgetTitle} class="soft-panel">
+        <InfoCard title={halaman.programDetail.budgetTitle} class="card border border-base-300/70 bg-base-100 shadow-sm" bodyClass="card-body p-5">
           <p class="text-sm font-medium text-on-surface">{entry.anggaran || halaman.programDetail.budgetFallback}</p>
         </InfoCard>
-        <InfoCard title="Target Hasil" class="soft-panel">
+        <InfoCard title="Target Hasil" class="card border border-base-300/70 bg-base-100 shadow-sm" bodyClass="card-body p-5">
           <p class="text-sm font-medium text-on-surface">{entry.targetHasilSingkat || 'Masih diperdalam bersama tim pelaksana.'}</p>
         </InfoCard>
       </div>
     </div>
 
     {entry.manfaat.length > 0 && (
-      <InfoCard title={halaman.programDetail.benefitsTitle} class="soft-panel mt-5">
+      <InfoCard title={halaman.programDetail.benefitsTitle} class="card mt-5 border border-base-300/70 bg-base-100 shadow-sm" bodyClass="card-body p-5">
         <ul class="grid gap-3 text-sm leading-relaxed text-on-surface-variant sm:grid-cols-2">
           {entry.manfaat.map((point) => (
-            <li class="rounded-xl border border-outline-variant/60 bg-white px-4 py-3">{point}</li>
+            <li class="rounded-xl border border-base-300/70 bg-base-200/60 px-4 py-3 text-base-content/75">{point}</li>
           ))}
         </ul>
       </InfoCard>
     )}
 
-    <div class="mt-8 flex flex-wrap gap-3 border-t border-outline-variant/40 pt-5">
+    <div class="mt-8 flex flex-wrap gap-3 border-t border-base-300/70 pt-5">
       <ActionLinkButton href="/program" label={halaman.programDetail.backToProgramsLabel} icon="arrow_back" />
       <ActionLinkButton href="/data" label={halaman.programDetail.openDataCenterLabel} icon="grid_view" />
     </div>
