@@ -85,31 +85,31 @@ export default function TrackingSuratForm({ initialTicket = '' }: Props) {
     <div className="space-y-6">
       <form
         onSubmit={handleSubmit}
-        className="rounded-[2rem] border border-white/60 bg-white/85 p-6 shadow-sm backdrop-blur-xl sm:p-8"
+        className="card border border-base-300/70 bg-base-100/90 shadow-sm backdrop-blur-xl"
         noValidate
       >
-        <div className="grid gap-4 sm:grid-cols-[1.4fr_1fr_auto] sm:items-end">
+        <div className="card-body grid gap-4 p-5 sm:grid-cols-[1.4fr_1fr_auto] sm:items-end sm:p-6">
           <label className="grid gap-2">
-            <span className="text-xs font-black uppercase tracking-widest text-slate-500">Nomor tiket</span>
+            <span className="text-xs font-black uppercase tracking-widest text-base-content/55">Nomor tiket</span>
             <input
               type="text"
               value={ticket}
               onChange={(event) => setTicket(event.target.value.toUpperCase())}
               placeholder="001/RT-01/DkV/2026"
-              className="input-premium"
+              className="input input-bordered w-full rounded-2xl bg-base-100"
               autoComplete="off"
               aria-describedby="tracking-help"
               required
             />
           </label>
           <label className="grid gap-2">
-            <span className="text-xs font-black uppercase tracking-widest text-slate-500">NIK pemohon</span>
+            <span className="text-xs font-black uppercase tracking-widest text-base-content/55">NIK pemohon</span>
             <input
               type="text"
               value={nik}
               onChange={(event) => setNik(event.target.value.replace(/\D/g, '').slice(0, 16))}
               placeholder="16 digit NIK"
-              className="input-premium"
+              className="input input-bordered w-full rounded-2xl bg-base-100"
               inputMode="numeric"
               pattern="[0-9]{16}"
               minLength={16}
@@ -119,64 +119,70 @@ export default function TrackingSuratForm({ initialTicket = '' }: Props) {
               required
             />
           </label>
-          <button type="submit" disabled={loading} className="btn-premium flex h-[52px] items-center justify-center gap-2 px-6">
-            <Icon name={loading ? 'hourglass_empty' : 'travel_explore'} className="text-[18px]" />
+          <button type="submit" disabled={loading} className="btn btn-primary h-[52px] rounded-full px-6">
+            {loading ? <span className="loading loading-spinner loading-sm"></span> : <Icon name="travel_explore" className="text-[18px]" />}
             {loading ? 'Memeriksa...' : 'Cek Status'}
           </button>
         </div>
-        <p id="tracking-help" className="mt-3 text-xs font-medium text-slate-500">
+        <p id="tracking-help" className="px-5 pb-5 text-xs font-medium text-base-content/60 sm:px-6">
           Gunakan nomor tiket yang diterima setelah pengajuan dan NIK pemohon yang sama. NIK harus tepat 16 digit angka.
         </p>
       </form>
 
       {error && (
-        <div className="rounded-2xl border border-rose-100 bg-rose-50 px-5 py-4 text-sm font-semibold text-rose-700">
-          {error}
+        <div className="alert alert-error border-error/20 bg-error/10 text-error">
+          <Icon name="error" className="text-[18px]" />
+          <span className="text-sm font-semibold">{error}</span>
         </div>
       )}
 
       {result && statusMeta && (
-        <div className="rounded-[2rem] border border-white/60 bg-white/90 p-6 shadow-sm backdrop-blur-xl sm:p-8">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div className="space-y-2">
-              <p className="text-xs font-black uppercase tracking-widest text-slate-500">Status pengajuan</p>
-              <h3 className="text-2xl font-black tracking-tight text-slate-900">{result.nomor_surat}</h3>
-              <p className="text-sm font-medium text-slate-500">{result.nama} • {result.rt_id.toUpperCase()}</p>
+        <div className="card border border-base-300/70 bg-base-100/90 shadow-sm backdrop-blur-xl">
+          <div className="card-body p-5 sm:p-6">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div className="space-y-2">
+                <p className="text-xs font-black uppercase tracking-widest text-base-content/55">Status pengajuan</p>
+                <h3 className="text-2xl font-black tracking-tight text-base-content">{result.nomor_surat}</h3>
+                <p className="text-sm font-medium text-base-content/60">{result.nama} • {result.rt_id.toUpperCase()}</p>
+              </div>
+              <span className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold ${statusMeta.badgeClass}`}>
+                <span className={`h-2.5 w-2.5 rounded-full ${statusMeta.dotClass}`}></span>
+                {statusMeta.label}
+              </span>
             </div>
-            <span className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold ${statusMeta.badgeClass}`}>
-              <span className={`h-2.5 w-2.5 rounded-full ${statusMeta.dotClass}`}></span>
-              {statusMeta.label}
-            </span>
-          </div>
 
-          <div className="mt-5 grid gap-4 rounded-2xl bg-slate-50/80 p-4 sm:grid-cols-2">
-            <div>
-              <p className="text-xs font-black uppercase tracking-widest text-slate-400">Keperluan</p>
-              <p className="mt-1 text-sm font-medium leading-relaxed text-slate-700">{result.keperluan}</p>
+            <div className="mt-5 grid gap-4 rounded-2xl bg-base-200/65 p-4 sm:grid-cols-2">
+              <div>
+                <p className="text-xs font-black uppercase tracking-widest text-base-content/45">Keperluan</p>
+                <p className="mt-1 text-sm font-medium leading-relaxed text-base-content/75">{result.keperluan}</p>
+              </div>
+              <div>
+                <p className="text-xs font-black uppercase tracking-widest text-base-content/45">Keterangan status</p>
+                <p className="mt-1 text-sm font-medium leading-relaxed text-base-content/75">{statusMeta.description}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs font-black uppercase tracking-widest text-slate-400">Keterangan status</p>
-              <p className="mt-1 text-sm font-medium leading-relaxed text-slate-700">{statusMeta.description}</p>
-            </div>
-          </div>
 
-          <div className="mt-4 grid gap-3 text-sm text-slate-600 sm:grid-cols-2">
-            <div className="rounded-xl border border-slate-200 bg-white px-4 py-3">
-              <p className="text-xs font-black uppercase tracking-widest text-slate-400">Dibuat</p>
-              <p className="mt-1 font-semibold">{formatDateTime(result.created_at)}</p>
+            <div className="mt-4 grid gap-3 text-sm text-base-content/65 sm:grid-cols-2">
+              <div className="rounded-xl border border-base-300 bg-base-100 px-4 py-3">
+                <p className="text-xs font-black uppercase tracking-widest text-base-content/45">Dibuat</p>
+                <p className="mt-1 font-semibold">{formatDateTime(result.created_at)}</p>
+              </div>
+              <div className="rounded-xl border border-base-300 bg-base-100 px-4 py-3">
+                <p className="text-xs font-black uppercase tracking-widest text-base-content/45">Update terakhir</p>
+                <p className="mt-1 font-semibold">{formatDateTime(result.updated_at)}</p>
+              </div>
             </div>
-            <div className="rounded-xl border border-slate-200 bg-white px-4 py-3">
-              <p className="text-xs font-black uppercase tracking-widest text-slate-400">Update terakhir</p>
-              <p className="mt-1 font-semibold">{formatDateTime(result.updated_at)}</p>
-            </div>
-          </div>
 
-          {result.catatan_rt && (
-            <div className="mt-4 rounded-2xl border border-amber-100 bg-amber-50 px-5 py-4">
-              <p className="text-xs font-black uppercase tracking-widest text-amber-700">Catatan pengurus</p>
-              <p className="mt-2 text-sm font-medium leading-relaxed text-amber-900">{result.catatan_rt}</p>
-            </div>
-          )}
+            {result.catatan_rt && (
+              <div className="alert mt-4 border-warning/20 bg-warning/10 text-warning">
+                <Icon name="info" className="text-[18px]" />
+                <div>
+                  <p className="text-xs font-black uppercase tracking-widest">Catatan pengurus</p>
+                  <p className="mt-2 text-sm font-medium leading-relaxed text-base-content/75">{result.catatan_rt}</p>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

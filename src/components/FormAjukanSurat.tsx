@@ -61,59 +61,70 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
     }
   };
 
+  const labelClass = "ml-1 text-xs font-black uppercase tracking-[0.14em] text-base-content/55";
+  const fieldClass = "input input-bordered w-full rounded-2xl bg-base-100";
+  const selectClass = "select select-bordered w-full rounded-2xl bg-base-100";
+  const textareaClass = "textarea textarea-bordered w-full rounded-2xl bg-base-100";
+
   return (
-    <div className="bg-white/90 backdrop-blur-3xl shadow-xl rounded-[2.5rem] border border-white/50 overflow-hidden max-w-2xl mx-auto mb-10">
+    <div className="card mx-auto mb-10 max-w-2xl overflow-hidden border border-base-300/70 bg-base-100/90 shadow-sm backdrop-blur-xl">
       {/* Header */}
-      <div className="sticky top-20 z-10 flex items-center gap-3 border-b border-slate-100 bg-white/50 px-8 py-6 backdrop-blur-md">
-         <div className="h-10 w-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+      <div className="sticky top-20 z-10 flex items-center gap-3 border-b border-base-300/70 bg-base-100/80 px-6 py-5 backdrop-blur-md sm:px-8">
+         <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
             <Icon name="edit_square" />
          </div>
          <div>
-            <h3 className="text-xl font-black text-slate-900 tracking-tight">Formulir Pengajuan</h3>
-            <p className="text-label mt-0.5">Layanan Mandiri Warga Salakan</p>
+            <h3 className="text-xl font-black tracking-tight text-base-content">Formulir Pengajuan</h3>
+            <p className="mt-0.5 text-sm font-medium text-base-content/60">Layanan Mandiri Warga Salakan</p>
          </div>
       </div>
 
-      <div className="p-8">
+      <div className="card-body p-6 sm:p-8">
         {success ? (
-          <div className="text-center py-8 space-y-6 animate-in fade-in zoom-in duration-300">
-            <div className="h-24 w-24 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center mx-auto shadow-inner">
+          <div className="space-y-6 py-8 text-center animate-in fade-in zoom-in duration-300">
+            <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-success/10 text-success shadow-inner">
               <Icon name="check_circle" className="text-6xl" />
             </div>
             <div className="space-y-2">
-              <h4 className="text-2xl font-black text-slate-900">Berhasil Terkirim!</h4>
-              <p className="text-slate-500 font-medium leading-relaxed">{success.message}</p>
+              <h4 className="text-2xl font-black text-base-content">Berhasil Terkirim!</h4>
+              <p className="font-medium leading-relaxed text-base-content/65">{success.message}</p>
             </div>
-            <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
-               <p className="text-label mb-1">Nomor Pengajuan / Tiket</p>
-               <strong className="text-2xl font-mono font-black text-blue-600 tracking-tighter">{success.ticket}</strong>
+            <div className="rounded-2xl border border-base-300 bg-base-200/70 p-5">
+               <p className="mb-1 text-xs font-bold uppercase tracking-[0.16em] text-base-content/50">Nomor Pengajuan / Tiket</p>
+               <strong className="font-mono text-2xl font-black tracking-tighter text-primary">{success.ticket}</strong>
             </div>
             <a 
               href="/dasbor"
-              className="btn-premium w-full flex justify-center items-center"
+              className="btn btn-primary w-full rounded-full"
             >
               Kembali ke Dasbor
             </a>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-8" aria-describedby="form-privacy-note" noValidate>
+            <ul className="steps steps-vertical w-full rounded-3xl bg-base-200/50 p-4 text-xs sm:steps-horizontal">
+              <li className="step step-primary">Wilayah</li>
+              <li className="step step-primary">Identitas</li>
+              <li className="step step-primary">Kontak</li>
+            </ul>
+
             {error && (
-              <div className="bg-red-50 text-red-700 p-4 rounded-2xl border border-red-100 text-sm font-bold flex items-center gap-3">
+              <div className="alert alert-error border-error/20 bg-error/10 text-error">
                 <Icon name="error" className="text-[18px]" />
-                {error}
+                <span className="text-sm font-semibold">{error}</span>
               </div>
             )}
 
             {/* Bagian 1: Tujuan & Wilayah */}
             <div className="space-y-6">
-              <div className="flex items-center gap-2 text-blue-600">
+              <div className="flex items-center gap-2 text-primary">
                 <Icon name="map" className="text-[20px]" />
                 <h4 className="text-sm font-black uppercase tracking-widest">Wilayah & Tujuan</h4>
               </div>
               
               <div className="space-y-2">
-                <label className="text-xs font-black text-slate-500 uppercase ml-1">Pilih RT Domisili</label>
-                <select name="rt_id" required disabled={loading} className="select-premium" defaultValue="">
+                <label className={labelClass}>Pilih RT Domisili</label>
+                <select name="rt_id" required disabled={loading} className={selectClass} defaultValue="">
                   <option value="" disabled>-- Pilih RT --</option>
                   {daftarRt && daftarRt.length > 0 ? (
                     daftarRt.map(rt => (
@@ -126,7 +137,7 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="keperluan" className="text-xs font-black text-slate-500 uppercase ml-1">Uraian Keperluan</label>
+                <label htmlFor="keperluan" className={labelClass}>Uraian Keperluan</label>
                 <textarea 
                   id="keperluan"
                   name="keperluan" 
@@ -134,42 +145,42 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
                   disabled={loading}
                   placeholder="Jelaskan secara detail maksud pengajuan surat Anda..."
                   rows={3}
-                  className="textarea-premium"
+                  className={textareaClass}
                 ></textarea>
               </div>
             </div>
 
             {/* Bagian 2: Identitas Diri */}
             <div className="space-y-6">
-              <div className="flex items-center gap-2 text-blue-600">
+              <div className="flex items-center gap-2 text-primary">
                 <Icon name="person" className="text-[20px]" />
                 <h4 className="text-sm font-black uppercase tracking-widest">Identitas Pemohon</h4>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
-                  <label htmlFor="nama" className="text-xs font-black text-slate-500 uppercase ml-1">Nama Lengkap</label>
-                  <input id="nama" type="text" name="nama" required disabled={loading} autoComplete="name" placeholder="Sesuai KTP" className="input-premium" />
+                  <label htmlFor="nama" className={labelClass}>Nama Lengkap</label>
+                  <input id="nama" type="text" name="nama" required disabled={loading} autoComplete="name" placeholder="Sesuai KTP" className={fieldClass} />
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="nik" className="text-xs font-black text-slate-500 uppercase ml-1">NIK (16 Digit)</label>
-                  <input id="nik" type="text" name="nik" required disabled={loading} inputMode="numeric" pattern="[0-9]{16}" minLength={16} maxLength={16} autoComplete="off" placeholder="3404XXXXXXXXXXXX" className="input-premium" aria-describedby="nik-help" />
-                  <p id="nik-help" className="text-[11px] font-medium text-slate-400">Hanya angka, tepat 16 digit.</p>
+                  <label htmlFor="nik" className={labelClass}>NIK (16 Digit)</label>
+                  <input id="nik" type="text" name="nik" required disabled={loading} inputMode="numeric" pattern="[0-9]{16}" minLength={16} maxLength={16} autoComplete="off" placeholder="3404XXXXXXXXXXXX" className={fieldClass} aria-describedby="nik-help" />
+                  <p id="nik-help" className="text-[11px] font-medium text-base-content/45">Hanya angka, tepat 16 digit.</p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-500 uppercase ml-1">Jenis Kelamin</label>
-                  <select name="jenis_kelamin" required disabled={loading} className="select-premium" defaultValue="">
+                  <label className={labelClass}>Jenis Kelamin</label>
+                  <select name="jenis_kelamin" required disabled={loading} className={selectClass} defaultValue="">
                     <option value="" disabled>-- Pilih --</option>
                     <option value="Laki-laki">Laki-laki</option>
                     <option value="Perempuan">Perempuan</option>
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-500 uppercase ml-1">Agama</label>
-                  <select name="agama" required disabled={loading} className="select-premium" defaultValue="">
+                  <label className={labelClass}>Agama</label>
+                  <select name="agama" required disabled={loading} className={selectClass} defaultValue="">
                     <option value="" disabled>-- Pilih --</option>
                     <option value="Islam">Islam</option>
                     <option value="Kristen">Kristen</option>
@@ -181,25 +192,25 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-500 uppercase ml-1">Tempat Lahir</label>
-                  <input type="text" name="tempat_lahir" required disabled={loading} placeholder="Kota/Kabupaten" className="input-premium" />
+                  <label className={labelClass}>Tempat Lahir</label>
+                  <input type="text" name="tempat_lahir" required disabled={loading} placeholder="Kota/Kabupaten" className={fieldClass} />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-500 uppercase ml-1">Tanggal Lahir</label>
-                  <input type="date" name="tanggal_lahir" required disabled={loading} className="input-premium" />
+                  <label className={labelClass}>Tanggal Lahir</label>
+                  <input type="date" name="tanggal_lahir" required disabled={loading} className={fieldClass} />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-500 uppercase ml-1">Pekerjaan</label>
-                  <input type="text" name="pekerjaan" required disabled={loading} placeholder="Contoh: Karyawan Swasta" className="input-premium" />
+                  <label className={labelClass}>Pekerjaan</label>
+                  <input type="text" name="pekerjaan" required disabled={loading} placeholder="Contoh: Karyawan Swasta" className={fieldClass} />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-slate-500 uppercase ml-1">Status Perkawinan</label>
-                  <select name="status_kawin" required disabled={loading} className="select-premium" defaultValue="">
+                  <label className={labelClass}>Status Perkawinan</label>
+                  <select name="status_kawin" required disabled={loading} className={selectClass} defaultValue="">
                     <option value="" disabled>-- Pilih --</option>
                     <option value="Belum Kawin">Belum Kawin</option>
                     <option value="Kawin">Kawin</option>
@@ -210,7 +221,7 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="alamat" className="text-xs font-black text-slate-500 uppercase ml-1">Alamat Domisili</label>
+                <label htmlFor="alamat" className={labelClass}>Alamat Domisili</label>
                 <textarea 
                   id="alamat"
                   name="alamat" 
@@ -218,22 +229,22 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
                   disabled={loading}
                   placeholder="Alamat lengkap di wilayah Salakan..."
                   rows={2}
-                  className="textarea-premium"
+                  className={textareaClass}
                 ></textarea>
               </div>
             </div>
 
             {/* Bagian 3: Kontak */}
             <div className="space-y-6">
-              <div className="flex items-center gap-2 text-blue-600">
+              <div className="flex items-center gap-2 text-primary">
                 <Icon name="contact_phone" className="text-[20px]" />
                 <h4 className="text-sm font-black uppercase tracking-widest">Kontak Notifikasi</h4>
               </div>
               
               <div className="space-y-2">
-                <label htmlFor="whatsapp" className="text-xs font-black text-slate-500 uppercase ml-1">Nomor WhatsApp Aktif</label>
+                <label htmlFor="whatsapp" className={labelClass}>Nomor WhatsApp Aktif</label>
                 <div className="relative">
-                  <span className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">+62</span>
+                  <span className="absolute left-5 top-1/2 -translate-y-1/2 text-sm font-bold text-base-content/45">+62</span>
                   <input 
                     id="whatsapp"
                     type="tel" 
@@ -246,26 +257,23 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
                     maxLength={15}
                     autoComplete="tel"
                     placeholder="812xxxxxxx"
-                    className="input-premium pl-14"
+                    className={`${fieldClass} pl-14`}
                     aria-describedby="whatsapp-help"
                   />
                 </div>
-                <p id="whatsapp-help" className="text-label mt-2 ml-1">Tulis tanpa angka 0 di depan. Pastikan nomor aktif untuk menerima kabar update, revisi data, atau konfirmasi dari Ketua RT.</p>
+                <p id="whatsapp-help" className="mt-2 ml-1 text-xs font-medium text-base-content/60">Tulis tanpa angka 0 di depan. Pastikan nomor aktif untuk menerima kabar update, revisi data, atau konfirmasi dari Ketua RT.</p>
               </div>
             </div>
 
-            <div className="pt-4 flex flex-col gap-4">
+            <div className="flex flex-col gap-4 pt-4">
               <button 
                 type="submit"
                 disabled={loading}
-                className="btn-premium w-full flex justify-center items-center gap-2"
+                className="btn btn-primary w-full rounded-full gap-2"
               >
                 {loading ? (
                   <>
-                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
+                    <span className="loading loading-spinner loading-sm"></span>
                     <span>Memproses Data...</span>
                   </>
                 ) : (
@@ -274,7 +282,7 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
                   </>
                 )}
               </button>
-              <p id="form-privacy-note" className="text-[0.65rem] text-center text-slate-400 font-bold uppercase tracking-widest">
+              <p id="form-privacy-note" className="text-center text-[0.65rem] font-bold uppercase tracking-widest text-base-content/45">
                 Data Anda aman dan hanya digunakan untuk kepentingan administrasi Padukuhan.
               </p>
             </div>
@@ -284,4 +292,3 @@ export default function FormAjukanSurat({ daftarRt }: Props) {
     </div>
   );
 }
-
