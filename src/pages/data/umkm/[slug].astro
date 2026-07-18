@@ -42,11 +42,11 @@ import Icon from '../../../components/ui/Icon.tsx';
     ]} />
 
     <div class="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
-      <div class="overflow-hidden rounded-xl border border-outline-variant bg-surface-container-low">
+      <div class="card overflow-hidden border border-base-300/70 bg-base-200 shadow-sm">
         {entry.gambar ? (
           <img class="aspect-[16/10] w-full object-cover" src={entry.gambar} alt={entry.altGambar || entry.namaUsaha} loading="lazy" />
         ) : (
-          <div class="grid aspect-[16/10] place-items-center text-on-surface-variant">
+          <div class="grid aspect-[16/10] place-items-center text-base-content/50">
             <CmsIcon name="storefront" class="size-14" />
           </div>
         )}
@@ -62,27 +62,27 @@ import Icon from '../../../components/ui/Icon.tsx';
           ]}
         />
 
-        <h1 class="text-2xl font-bold leading-tight tracking-tight text-on-surface sm:text-3xl">{entry.namaUsaha}</h1>
-        <p class="mt-2 text-base text-on-surface-variant">{entry.ringkasan}</p>
+        <h1 class="text-2xl font-bold leading-tight tracking-tight text-base-content sm:text-3xl">{entry.namaUsaha}</h1>
+        <p class="mt-2 text-base text-base-content/70">{entry.ringkasan}</p>
 
         <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <InfoCard title="Pemilik">
-            <p class="text-sm font-bold text-on-surface">{entry.pemilik}</p>
+          <InfoCard title="Pemilik" class="card border border-base-300/70 bg-base-100 shadow-sm" bodyClass="card-body p-4">
+            <p class="text-sm font-bold text-base-content">{entry.pemilik}</p>
           </InfoCard>
-          <InfoCard title="Lokasi">
-            <p class="text-sm font-bold text-on-surface">{entry.lokasi}</p>
+          <InfoCard title="Lokasi" class="card border border-base-300/70 bg-base-100 shadow-sm" bodyClass="card-body p-4">
+            <p class="text-sm font-bold text-base-content">{entry.lokasi}</p>
           </InfoCard>
-          <InfoCard title="Status Layanan">
-            <p class="text-sm font-bold text-on-surface">{statusLayananUmkmLabels[entry.statusLayanan]}</p>
+          <InfoCard title="Status Layanan" class="card border border-base-300/70 bg-base-100 shadow-sm" bodyClass="card-body p-4">
+            <p class="text-sm font-bold text-base-content">{statusLayananUmkmLabels[entry.statusLayanan]}</p>
           </InfoCard>
         </div>
 
         {entry.produkUnggulan?.length > 0 && (
           <div class="mt-4">
-            <p class="mb-2 text-[12px] font-semibold uppercase tracking-wider text-on-surface-variant">Produk Unggulan</p>
+            <p class="mb-2 text-[12px] font-semibold uppercase tracking-wider text-base-content/60">Produk Unggulan</p>
             <div class="flex flex-wrap gap-2">
               {entry.produkUnggulan.map((product: string) => (
-                <span class="rounded-full border border-outline-variant bg-surface-container-low px-3 py-1.5 text-[12px] font-semibold text-on-surface-variant">
+                <span class="badge badge-outline badge-primary">
                   {product}
                 </span>
               ))}
@@ -90,15 +90,15 @@ import Icon from '../../../components/ui/Icon.tsx';
           </div>
         )}
 
-        <InfoCard class="mt-4 rounded-xl border border-outline-variant bg-surface-container-low p-4">
-          <div class="article-rich text-sm leading-relaxed text-on-surface-variant" set:html={renderMarkdown(entry.deskripsi)} />
+        <InfoCard class="card mt-4 border border-base-300/70 bg-base-100 shadow-sm" bodyClass="card-body p-4">
+          <div class="article-rich text-sm leading-relaxed text-base-content/70" set:html={renderMarkdown(entry.deskripsi)} />
         </InfoCard>
 
         <div class="mt-5 flex flex-wrap gap-3">
           {whatsappUrl ? (
             <ActionLinkButton href={whatsappUrl} label="Hubungi via WhatsApp" icon="chat" variant="success" target="_blank" rel="noreferrer" />
           ) : (
-            <span class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-outline-variant bg-surface-container-low px-5 py-3 text-sm font-bold text-on-surface-variant">
+            <span class="btn btn-disabled rounded-full border-base-300 bg-base-200 text-base-content/60">
               <Icon name="schedule" class="text-[18px]" /> Kontak WhatsApp menyusul
             </span>
           )}

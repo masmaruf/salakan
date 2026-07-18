@@ -14,10 +14,10 @@ import Icon from './Icon.tsx';
 
 const toneClass =
   tone === 'success'
-    ? 'inline-action inline-action-success'
+    ? 'btn btn-success btn-xs rounded-full'
     : tone === 'muted'
-      ? 'inline-action-muted'
-      : 'inline-action';
+      ? 'btn btn-disabled btn-xs rounded-full border-base-300 bg-base-200 text-base-content/60'
+      : 'btn btn-outline btn-primary btn-xs rounded-full';
 
 const classes = [toneClass, className].filter(Boolean).join(' ');
 ---

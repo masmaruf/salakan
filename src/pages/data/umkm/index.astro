@@ -77,7 +77,7 @@ import Icon from '../../../components/ui/Icon.tsx';
     >
       <div slot="active" class="flex flex-wrap items-center gap-2">
         {(query || activeKategori !== 'semua') && (
-          <a class="inline-action" href="/data/umkm">
+          <a class="btn btn-outline btn-sm rounded-full" href="/data/umkm">
             <Icon name="restart_alt" class="text-[16px]" />
             Reset filter
           </a>
@@ -99,20 +99,20 @@ import Icon from '../../../components/ui/Icon.tsx';
         <form action="/data/umkm" method="get" class="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
           <div class="grid gap-2">
             <label for="umkm-search" class="detail-label">Cari nama usaha, pemilik, lokasi, atau produk unggulan</label>
-            <div class="flex items-center gap-3 rounded-2xl border border-outline-variant bg-surface-container-lowest px-4 py-3">
-              <Icon name="search" class="text-[20px] text-outline" />
+            <div class="input input-bordered flex min-h-12 items-center gap-3 rounded-2xl bg-base-100">
+              <Icon name="search" class="text-[20px] text-base-content/50" />
               <input
                 id="umkm-search"
                 name="q"
                 type="search"
                 value={query}
                 placeholder="Contoh: snack box, bambu, servis lingkungan"
-                class="w-full border-0 bg-transparent p-0 text-sm text-on-surface outline-none placeholder:text-on-surface-variant"
+                class="w-full border-0 bg-transparent p-0 text-sm text-base-content outline-none placeholder:text-base-content/50"
               />
             </div>
             {activeKategori !== 'semua' && <input type="hidden" name="kategori" value={activeKategori} />}
           </div>
-          <button type="submit" class="action-pill-dark">
+          <button type="submit" class="btn btn-primary rounded-full">
             <Icon name="search" class="text-[16px]" />
             Terapkan
           </button>
@@ -131,18 +131,18 @@ import Icon from '../../../components/ui/Icon.tsx';
             : null;
 
           return (
-            <article class="section-card section-card-hover group flex flex-col overflow-hidden p-0" id={slug}>
-              <div class="aspect-[16/10] bg-surface-container-low">
+            <article class="card group flex flex-col overflow-hidden border border-base-300/70 bg-base-100 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md" id={slug}>
+              <div class="aspect-[16/10] bg-base-200">
                 {entry.gambar ? (
                   <img class="h-full w-full object-cover" src={entry.gambar} alt={entry.altGambar || entry.namaUsaha} loading="lazy" />
                 ) : (
-                  <div class="grid h-full place-items-center text-on-surface-variant">
+                  <div class="grid h-full place-items-center text-base-content/50">
                     <CmsIcon name="storefront" class="size-12" />
                   </div>
                 )}
               </div>
 
-              <div class="flex flex-1 flex-col p-5 sm:p-6">
+              <div class="card-body flex flex-1 flex-col p-5 sm:p-6">
                 <div class="mb-3 flex items-center gap-2">
                   <BadgeList
                     class="flex flex-wrap gap-2"
@@ -154,17 +154,17 @@ import Icon from '../../../components/ui/Icon.tsx';
                   />
                 </div>
 
-                <h2 class="text-base font-bold leading-tight text-on-surface transition-colors group-hover:text-m3-primary sm:text-lg">
+                <h2 class="text-base font-bold leading-tight text-base-content transition-colors group-hover:text-primary sm:text-lg">
                   <a href={`/data/umkm/${slug}`}>{entry.namaUsaha}</a>
                 </h2>
-                <p class="mt-2 flex-1 line-clamp-2 text-sm text-on-surface-variant">{entry.ringkasan}</p>
+                <p class="mt-2 flex-1 line-clamp-2 text-sm text-base-content/70">{entry.ringkasan}</p>
 
                 <div class="meta-time mt-3">
                   <Icon name="location_on" class="mr-0.5 align-middle text-[14px]" />
                   {entry.lokasi}
                 </div>
 
-                <div class="mt-4 flex flex-wrap gap-2 border-t border-outline-variant/40 pt-3">
+                <div class="mt-4 flex flex-wrap gap-2 border-t border-base-300/70 pt-3">
                   <InlineAction href={`/data/umkm/${slug}`} label={halaman.umkm.detailLabel} icon="visibility" />
                   {whatsappUrl ? (
                     <InlineAction href={whatsappUrl} label={halaman.umkm.whatsappLabel} icon="chat" tone="success" target="_blank" rel="noreferrer" />
