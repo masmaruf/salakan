@@ -20,13 +20,15 @@ const iconBgMap = {
 import Icon from './Icon.tsx';
 ---
 
-<article class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 flex items-center gap-4 transition-all hover:-translate-y-0.5 hover:shadow-md">
+<article class="card border border-base-300/70 bg-base-100 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
+  <div class="card-body flex-row items-center gap-4 p-5">
   <div class:list={['grid h-11 w-11 shrink-0 place-items-center rounded-xl', iconBgMap[variant]]}>
     <Icon name={icon} class="text-[22px]" />
   </div>
   <div class="min-w-0">
-    <p class="text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider">{label}</p>
-    <p class="text-xl font-bold text-on-surface leading-tight">{value}</p>
-    {description && <p class="text-[12px] text-outline mt-0.5">{description}</p>}
+    <p class="text-[12px] font-semibold uppercase tracking-wider text-base-content/60">{label}</p>
+    <p class="text-xl font-bold leading-tight text-base-content">{value}</p>
+    {description && <p class="mt-0.5 text-[12px] text-base-content/55">{description}</p>}
+  </div>
   </div>
 </article>
