@@ -9,7 +9,6 @@ interface Props {
 
 const { items } = Astro.props;
 
-import Icon from './Icon.tsx';
 import { generateBreadcrumbSchema } from '../../lib/seo';
 import { siteMeta } from '../../lib/site';
 
@@ -23,17 +22,16 @@ const breadcrumbSchema = generateBreadcrumbSchema(
 
 <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
 
-<nav class="mb-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-base-content/70" aria-label="Breadcrumb">
-  {items.map((item, index) => (
-    <>
-      {index > 0 && (
-        <Icon name="chevron_right" class="text-[16px] text-base-content/50" />
-      )}
-      {item.active ? (
-        <span class="max-w-full min-w-0 break-words font-medium text-base-content sm:max-w-[200px] sm:truncate">{item.label}</span>
-      ) : (
-        <a href={item.href} class="hover:text-primary transition-colors whitespace-nowrap">{item.label}</a>
-      )}
-    </>
-  ))}
+<nav class="breadcrumbs mb-6 text-sm text-base-content/70" aria-label="Breadcrumb">
+  <ol>
+    {items.map((item) => (
+      <li>
+        {item.active ? (
+          <span class="max-w-full min-w-0 break-words font-semibold text-base-content sm:max-w-[220px] sm:truncate" aria-current="page">{item.label}</span>
+        ) : (
+          <a href={item.href} class="whitespace-nowrap transition-colors hover:text-primary">{item.label}</a>
+        )}
+      </li>
+    ))}
+  </ol>
 </nav>

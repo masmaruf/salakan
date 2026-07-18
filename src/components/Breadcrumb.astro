@@ -2,7 +2,7 @@
 /**
  * Breadcrumb navigation component for salakan.id
  * Improves SEO and user navigation
- * 
+ *
  * Usage:
  * <Breadcrumb items={[
  *   { name: 'Beranda', href: '/' },
@@ -26,7 +26,6 @@ const { items, class: className = '' } = Astro.props;
 import { generateBreadcrumbSchema } from '../lib/seo';
 import { siteMeta } from '../lib/site';
 
-// Generate JSON-LD for breadcrumbs
 const breadcrumbJsonLd = generateBreadcrumbSchema(
   items.map((item) => ({
     name: item.name,
@@ -35,26 +34,18 @@ const breadcrumbJsonLd = generateBreadcrumbSchema(
 );
 ---
 
-{/* Breadcrumb JSON-LD */}
 <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
 
-{/* Visual Breadcrumb */}
-<nav aria-label="Breadcrumb" class:list={['text-sm', className]}>
-  <ol class="flex flex-wrap items-center gap-1.5">
-    {items.map((item, index) => (
-      <li class="flex items-center gap-1.5">
-        {index > 0 && (
-          <span class="text-base-content/50" aria-hidden="true">/</span>
-        )}
+<nav aria-label="Breadcrumb" class:list={['breadcrumbs text-sm text-base-content/70', className]}>
+  <ol>
+    {items.map((item) => (
+      <li>
         {item.href ? (
-          <a
-            href={item.href}
-            class="text-base-content/70 hover:text-primary transition-colors"
-          >
+          <a href={item.href} class="transition-colors hover:text-primary">
             {item.name}
           </a>
         ) : (
-          <span class="font-medium text-base-content" aria-current="page">
+          <span class="max-w-full min-w-0 break-words font-semibold text-base-content" aria-current="page">
             {item.name}
           </span>
         )}

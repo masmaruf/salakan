@@ -11,67 +11,64 @@ const waDisplay = whatsapp ? `0${whatsapp.replace(/^62/, '')}` : '';
 import Icon from './ui/Icon.tsx';
 ---
 
-<footer class="border-t border-base-300/60 bg-base-200/60 pt-10 pb-6">
+<footer class="border-t border-base-300/60 bg-base-200/60 py-8 text-base-content">
   <div class="container-premium">
-
-    <!-- Top: Brand + Contact row -->
-    <div class="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
-
-      <!-- Brand -->
-      <div class="space-y-3 max-w-sm">
+    <div class="footer sm:footer-horizontal items-start gap-8">
+      <aside class="max-w-sm">
         <div class="flex items-center gap-2.5">
-          <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-on-surface text-surface text-xs font-bold">PS</span>
+          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-neutral text-xs font-bold text-neutral-content shadow-sm">PS</span>
           <span class="text-base font-bold tracking-tight text-base-content">Padukuhan Salakan</span>
         </div>
-        <p class="text-sm leading-relaxed text-base-content/70">
+        <p class="max-w-sm text-sm leading-relaxed text-base-content/70">
           Portal informasi dan layanan warga Padukuhan Salakan. Transparan, terbuka, dan mudah diakses.
         </p>
-      </div>
+      </aside>
 
-      <!-- Contact chips -->
-      <div class="flex flex-wrap gap-2">
-        {alamat && (
-          <span class="inline-flex items-center gap-1.5 rounded-full bg-base-100 border border-base-300 px-3 py-1.5 text-[12px] font-medium text-base-content/70">
-            <Icon name="location_on" class="text-[14px]" />
-            {alamat.split('\n')[0]}
-          </span>
-        )}
-        {waDisplay && (
-          <a
-            href={`https://wa.me/${whatsapp}`}
-            target="_blank"
-            rel="noreferrer"
-            class="inline-flex items-center gap-1.5 rounded-full bg-base-100 border border-base-300 px-3 py-1.5 text-[12px] font-medium text-base-content/70 hover:bg-primary/10 hover:text-base-content hover:border-transparent transition-colors"
-          >
-            <Icon name="chat" class="text-[14px]" />
-            {waDisplay}
-          </a>
-        )}
-        {email && (
-          <a
-            href={`mailto:${email}`}
-            class="inline-flex items-center gap-1.5 rounded-full bg-base-100 border border-base-300 px-3 py-1.5 text-[12px] font-medium text-base-content/70 hover:bg-primary/10 hover:text-base-content hover:border-transparent transition-colors"
-          >
-            <Icon name="mail" class="text-[14px]" />
-            {email}
-          </a>
-        )}
-      </div>
+      <nav aria-label="Kontak Padukuhan" class="gap-2 sm:justify-self-end">
+        <h2 class="footer-title text-base-content/55">Kontak</h2>
+        <div class="flex flex-wrap gap-2">
+          {alamat && (
+            <span class="badge badge-outline gap-1.5 rounded-full border-base-300 bg-base-100 px-3 py-3 text-[12px] font-medium text-base-content/70">
+              <Icon name="location_on" class="text-[14px]" />
+              {alamat.split('\n')[0]}
+            </span>
+          )}
+          {waDisplay && (
+            <a
+              href={`https://wa.me/${whatsapp}`}
+              target="_blank"
+              rel="noreferrer"
+              class="badge badge-outline gap-1.5 rounded-full border-base-300 bg-base-100 px-3 py-3 text-[12px] font-medium text-base-content/70 transition-colors hover:border-primary/30 hover:bg-primary/10 hover:text-base-content"
+            >
+              <Icon name="chat" class="text-[14px]" />
+              {waDisplay}
+            </a>
+          )}
+          {email && (
+            <a
+              href={`mailto:${email}`}
+              class="badge badge-outline gap-1.5 rounded-full border-base-300 bg-base-100 px-3 py-3 text-[12px] font-medium text-base-content/70 transition-colors hover:border-primary/30 hover:bg-primary/10 hover:text-base-content"
+            >
+              <Icon name="mail" class="text-[14px]" />
+              {email}
+            </a>
+          )}
+        </div>
+      </nav>
     </div>
 
-    <!-- Nav links row -->
-    <nav class="flex flex-wrap gap-x-6 gap-y-2 mt-8 pt-6 border-t border-base-300/70 text-sm font-medium text-base-content/70" aria-label="Footer">
-      <a class="hover:text-primary transition-colors" href="/">Beranda</a>
-      <a class="hover:text-primary transition-colors" href="/profil">Profil</a>
-      <a class="hover:text-primary transition-colors" href="/berita">Berita</a>
-      <a class="hover:text-primary transition-colors" href="/galeri">Galeri</a>
-      <a class="hover:text-primary transition-colors" href="/kontak">Kontak</a>
-    </nav>
+    <div class="mt-8 flex flex-col gap-5 border-t border-base-300/70 pt-6 sm:flex-row sm:items-center sm:justify-between">
+      <nav class="footer footer-horizontal gap-x-6 gap-y-2 text-sm font-medium text-base-content/70" aria-label="Footer">
+        <a class="link-hover hover:text-primary" href="/">Beranda</a>
+        <a class="link-hover hover:text-primary" href="/profil">Profil</a>
+        <a class="link-hover hover:text-primary" href="/berita">Berita</a>
+        <a class="link-hover hover:text-primary" href="/galeri">Galeri</a>
+        <a class="link-hover hover:text-primary" href="/kontak">Kontak</a>
+      </nav>
 
-    <!-- Copyright -->
-    <p class="mt-6 text-[12px] text-base-content/60">
-      &copy; {year} Padukuhan Salakan &middot; Portal digital warga
-    </p>
-
+      <p class="text-[12px] text-base-content/60">
+        &copy; {year} Padukuhan Salakan &middot; Portal digital warga
+      </p>
+    </div>
   </div>
 </footer>
