@@ -30,8 +30,8 @@ import Icon from './ui/Icon.tsx';
 
 <div class:list={['grid', compact ? 'grid-cols-1 gap-6 lg:grid-cols-2' : 'grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 xl:grid-cols-3']}>
   {items.map(({ slug, entry }) => (
-    <a href={`/berita/${slug}`} class="group flex h-full flex-col rounded-2xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40">
-      <div class="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-outline-variant bg-surface-container-low">
+    <a href={`/berita/${slug}`} class="card group h-full overflow-hidden border border-base-300/70 bg-base-100 shadow-sm transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
+      <div class="relative aspect-[16/10] w-full overflow-hidden bg-base-200">
         {entry.gambarUtama ? (
           <Image
             src={entry.gambarUtama}
@@ -44,24 +44,24 @@ import Icon from './ui/Icon.tsx';
             sizes={compact ? '(max-width: 960px) 100vw, 50vw' : '(max-width: 960px) 100vw, 33vw'}
           />
         ) : (
-          <div class="flex h-full w-full items-center justify-center bg-surface-container-low">
-            <Icon name="image" class="text-[48px] text-outline-variant" />
+          <div class="flex h-full w-full items-center justify-center bg-base-200">
+            <Icon name="image" class="text-[48px] text-base-content/25" />
           </div>
         )}
       </div>
 
-      <div class="flex flex-1 flex-col gap-1.5 px-1 pt-3">
+      <div class="card-body flex flex-1 flex-col gap-1.5 p-4 sm:p-5">
         <div class="flex flex-wrap items-center gap-2">
           <Badge label={categoryLabels[entry.kategori] ?? entry.kategori} tone={getBeritaCategoryTone(entry.kategori)} />
-          <span class="flex items-center gap-1 text-[11px] font-medium text-outline sm:text-[12px]">
+          <span class="flex items-center gap-1 text-[11px] font-medium text-base-content/55 sm:text-[12px]">
             <Icon name="schedule" class="text-[14px]" />
             {formatTanggal(entry.tanggal)}
           </span>
         </div>
-        <h3 class="mt-1 line-clamp-2 text-base font-bold leading-snug text-on-surface transition-colors group-hover:text-m3-primary sm:text-[1.05rem]">
+        <h3 class="mt-1 line-clamp-2 text-base font-bold leading-snug text-base-content transition-colors group-hover:text-primary sm:text-[1.05rem]">
           {entry.judul}
         </h3>
-        <p class="mt-0.5 line-clamp-3 text-sm leading-relaxed text-on-surface-variant sm:line-clamp-2">
+        <p class="mt-0.5 line-clamp-3 text-sm leading-relaxed text-base-content/65 sm:line-clamp-2">
           {compact ? excerpt(entry.ringkasan, 110) : entry.ringkasan}
         </p>
       </div>
