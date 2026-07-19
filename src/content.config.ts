@@ -257,6 +257,8 @@ const galeri = defineCollection({
     tanggal: tanggalSchema,
     gambar: z.string().optional(),
     caption: z.string().min(1),
+    deskripsi: z.string().default(''),
+    googleDriveUrl: z.string().refine((value) => URL.canParse(value), 'URL Google Drive tidak valid').optional(),
   }),
 });
 
