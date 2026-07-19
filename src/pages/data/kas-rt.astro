@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import PageIntro from '../../components/ui/PageIntro.astro';
+import Badge from '../../components/ui/Badge.astro';
 import BadgeList from '../../components/ui/BadgeList.astro';
 import StatCard from '../../components/ui/StatCard.astro';
 import PageSection from '../../components/PageSection.astro';
@@ -42,7 +43,13 @@ function formatRupiah(value: number) { return new Intl.NumberFormat('id-ID', { s
                 { label: 'Sorotan', tone: 'warning', visible: entry.unggulan },
               ]}
             />
-            <time class="badge badge-ghost rounded-full px-3 py-3 text-[12px] font-medium" datetime={entry.tanggalUpdate}>{formatTanggal(entry.tanggalUpdate)}</time>
+            <Badge
+              label={formatTanggal(entry.tanggalUpdate)}
+              tone="surface"
+              variant="ghost"
+              datetime={entry.tanggalUpdate}
+              class="px-3 py-3 text-[12px] font-medium"
+            />
           </div>
           <p class="text-sm leading-relaxed text-base-content/65">{entry.ringkasan}</p>
           <MetricGrid

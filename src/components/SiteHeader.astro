@@ -11,20 +11,31 @@ const { currentPath } = Astro.props;
 const pengaturan = await getPengaturan();
 const dataSubmenu = pengaturan?.menuData?.items?.filter((item) => item.status === 'tampil') ?? [];
 const isDataActive = currentPath === '/data' || currentPath.startsWith('/data/');
+const desktopNavLinkBase = 'group relative rounded-none bg-transparent px-0 py-2 font-semibold text-[0.95rem] transition-all hover:bg-transparent after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:origin-center after:scale-x-0 after:rounded-full after:bg-m3-primary after:opacity-0 after:transition-all after:duration-300 before:absolute before:-bottom-1 before:left-1/2 before:h-3 before:w-10 before:-translate-x-1/2 before:rounded-full before:bg-m3-primary/12 before:blur-md before:opacity-0 before:transition-all before:duration-300';
+const desktopNavLinkState = {
+  active: 'text-on-surface after:scale-x-100 after:opacity-100 before:opacity-100',
+  idle: 'text-on-surface/65 hover:text-on-surface hover:after:scale-x-100 hover:after:opacity-70',
+};
+const mobileNavLinkBase = 'rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors';
+const mobileNavLinkState = {
+  active: 'active bg-primary-container text-m3-primary',
+  idle: 'text-on-surface/75 hover:bg-surface-container-low hover:text-on-surface',
+};
+const dataDropdownPanel = 'dropdown-content menu z-50 mt-3 w-72 rounded-xl bg-surface-container-lowest/98 p-2.5 text-on-surface shadow-[0_18px_50px_rgba(15,23,42,0.14)] backdrop-blur-2xl';
 
 import Icon from './ui/Icon.tsx';
 ---
 
-<header class="sticky top-0 z-50 border-b border-base-300/70 bg-base-100/95 backdrop-blur-xl transition-all duration-300">
+<header class="sticky top-0 z-50 bg-surface-container-lowest/92 shadow-[0_10px_30px_rgba(15,23,42,0.06)] backdrop-blur-xl transition-all duration-300">
   <div class="container-premium py-3 sm:py-4">
     <div class="grid grid-cols-[2.5rem_1fr_2.5rem] items-center gap-2 md:grid-cols-[auto_1fr_auto] md:gap-8">
       <div class="flex items-center justify-start md:hidden">
         <details class="dropdown group">
-          <summary class="btn btn-ghost btn-circle btn-sm border border-base-300 bg-base-100 text-base-content/70 shadow-sm hover:bg-base-200 hover:text-base-content">
+          <summary class="grid h-10 w-10 place-items-center rounded-full bg-surface-container-low text-on-surface/70 transition-colors hover:bg-surface-container hover:text-on-surface">
             <Icon name="menu_open" class="transition-opacity group-open:opacity-0" />
             <Icon name="close" class="absolute opacity-0 transition-opacity group-open:opacity-100" />
           </summary>
-          <div class="dropdown-content menu z-50 mt-3 max-h-[calc(100vh-6rem)] w-[min(22rem,calc(100vw-1.5rem))] overflow-y-auto rounded-3xl border border-base-300 bg-base-100 p-3 text-base-content shadow-[0_18px_50px_rgba(23,32,24,0.14)] backdrop-blur-2xl">
+          <div class="dropdown-content menu z-50 mt-3 max-h-[calc(100vh-6rem)] w-[min(22rem,calc(100vw-1.5rem))] overflow-y-auto rounded-xl bg-surface-container-lowest/98 p-3 text-on-surface shadow-[0_18px_50px_rgba(15,23,42,0.14)] backdrop-blur-2xl">
             <ul class="grid gap-1">
               {navItems.map((item) => {
                 const isActive = item.href === '/' ? currentPath === item.href : currentPath.startsWith(item.href);
@@ -33,8 +44,8 @@ import Icon from './ui/Icon.tsx';
                   <li>
                     <a
                       class:list={[
-                        'rounded-2xl text-sm font-semibold',
-                        isActive ? 'active bg-primary text-primary-content' : 'text-base-content/75 hover:bg-base-200 hover:text-base-content',
+                        mobileNavLinkBase,
+                        isActive ? mobileNavLinkState.active : mobileNavLinkState.idle,
                       ]}
                       href={item.href}
                     >
@@ -42,19 +53,19 @@ import Icon from './ui/Icon.tsx';
                     </a>
                     {item.href === '/data' && dataSubmenu.length > 0 && (
                       <details class="mt-1">
-                        <summary class="rounded-xl text-xs font-semibold uppercase tracking-wider text-base-content/55 hover:bg-base-200 hover:text-base-content">
+                        <summary class="rounded-xl px-3 py-2 text-xs font-semibold tracking-[0.12em] text-on-surface-variant/75 hover:bg-surface-container-low hover:text-on-surface">
                           <Icon name="expand_more" class="text-[14px]" />
                           Sub-menu
                         </summary>
-                        <ul class="mt-1 border-l border-base-300 pl-3">
+                        <ul class="mt-1 pl-3">
                           {dataSubmenu.map((subItem) => {
                             const isSubActive = currentPath === subItem.href || currentPath.startsWith(`${subItem.href}/`);
                             return (
                               <li>
                                 <a
                                   class:list={[
-                                    'rounded-xl text-sm font-medium',
-                                    isSubActive ? 'active bg-primary/10 text-primary' : 'text-base-content/65 hover:bg-base-200 hover:text-base-content',
+                                    mobileNavLinkBase,
+                                    isSubActive ? 'active bg-primary-container/80 font-semibold text-m3-primary' : 'text-on-surface/65 hover:bg-surface-container-low hover:text-on-surface',
                                   ]}
                                   href={subItem.href}
                                 >
@@ -77,19 +88,20 @@ import Icon from './ui/Icon.tsx';
       <div class="flex items-center justify-center md:col-start-1 md:row-start-1 md:justify-start">
         <a class="group inline-flex items-center gap-3 sm:gap-4" href="/">
           <div class="relative">
-            <div class="absolute -inset-1 rounded-xl bg-primary/20 blur transition group-hover:bg-accent/25"></div>
-            <span class="relative flex h-9 w-9 items-center justify-center rounded-xl bg-neutral font-['Inter'] text-xs font-bold text-neutral-content shadow-lg transition-transform group-hover:scale-105 sm:h-11 sm:w-11 sm:text-sm">
+            <div class="absolute -inset-1 rounded-xl bg-m3-primary/20 blur transition group-hover:bg-m3-tertiary/30"></div>
+            <span class="relative flex h-10 w-10 items-center justify-center rounded-xl bg-neutral font-['Inter'] text-sm font-bold text-on-primary shadow-sm transition-transform group-hover:scale-105 sm:h-11 sm:w-11">
               PS
             </span>
           </div>
           <span class="hidden md:block">
-            <strong class="block text-base font-bold leading-none tracking-tight text-base-content sm:text-lg">Padukuhan Salakan</strong>
+            <strong class="block text-base font-bold leading-none tracking-tight text-on-surface sm:text-lg">Padukuhan Salakan</strong>
+            <span class="mt-0.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-on-surface-variant">Portal warga</span>
           </span>
         </a>
       </div>
 
       <nav aria-label="Navigasi utama" class="hidden justify-center md:col-start-2 md:row-start-1 md:flex">
-        <ul class="menu menu-horizontal items-center gap-1 rounded-full border border-base-300/70 bg-base-200/60 p-1 text-sm">
+        <ul class="menu menu-horizontal items-center gap-6 bg-transparent p-0 text-sm">
           {navItems.map((item) => {
             const isActive = item.href === '/' ? currentPath === item.href : currentPath.startsWith(item.href);
 
@@ -100,31 +112,32 @@ import Icon from './ui/Icon.tsx';
                     tabindex="0"
                     role="button"
                     class:list={[
-                      'gap-1.5 rounded-full px-4 py-2 font-semibold transition-all',
-                      isDataActive ? 'active bg-base-100 text-primary shadow-sm' : 'text-base-content/65 hover:bg-base-100/80 hover:text-base-content',
+                      desktopNavLinkBase,
+                      'inline-flex items-center gap-1.5',
+                      isDataActive ? desktopNavLinkState.active : desktopNavLinkState.idle,
                     ]}
                   >
                     <span>{item.label}</span>
-                    <Icon name="expand_more" class="text-[16px] text-base-content/45 transition-transform duration-300 group-hover/nav:rotate-180" />
+                    <Icon name="expand_more" class="text-[16px] text-on-surface/45 transition-transform duration-300 group-hover/nav:rotate-180" />
                   </div>
 
-                  <ul tabindex="0" class="dropdown-content menu z-50 mt-2 w-72 rounded-2xl border border-base-300 bg-base-100 p-2.5 text-base-content shadow-[0_14px_40px_rgba(23,32,24,0.12)]">
+                  <ul tabindex="0" class={dataDropdownPanel}>
                     <li>
                       <a
                         class:list={[
                           'items-start gap-3 rounded-xl px-4 py-3',
-                          currentPath === '/data' ? 'active bg-primary text-primary-content' : 'text-base-content/75 hover:bg-base-200 hover:text-base-content',
+                          currentPath === '/data' ? 'active bg-primary-container text-m3-primary' : 'text-on-surface/75 hover:bg-surface-container-low hover:text-on-surface',
                         ]}
                         href="/data"
                       >
-                        <Icon name="dashboard_customize" class={currentPath === '/data' ? 'text-primary-content' : 'text-primary'} />
+                        <Icon name="dashboard_customize" class="text-m3-primary" />
                         <span>
                           <span class="block text-sm font-semibold">Pusat Data Warga</span>
                           <span class="block text-[0.68rem] font-normal opacity-70">Indeks semua kategori data</span>
                         </span>
                       </a>
                     </li>
-                    {dataSubmenu.length > 0 && <li class="mx-2 my-1 border-t border-base-300"></li>}
+                    {dataSubmenu.length > 0 && <li class="mx-2 my-1 border-t border-outline-variant"></li>}
                     {dataSubmenu.map((subItem) => {
                       const isSubActive = currentPath === subItem.href || currentPath.startsWith(`${subItem.href}/`);
                       return (
@@ -132,7 +145,7 @@ import Icon from './ui/Icon.tsx';
                           <a
                             class:list={[
                               'rounded-xl px-4 py-2 text-sm',
-                              isSubActive ? 'active bg-primary/10 font-semibold text-primary' : 'text-base-content/65 hover:bg-base-200 hover:text-base-content',
+                              isSubActive ? 'active bg-primary-container/80 font-semibold text-m3-primary' : 'text-on-surface/65 hover:bg-surface-container-low hover:text-on-surface',
                             ]}
                             href={subItem.href}
                           >
@@ -150,8 +163,9 @@ import Icon from './ui/Icon.tsx';
               <li>
                 <a
                   class:list={[
-                    'rounded-full px-4 py-2 font-semibold transition-all',
-                    isActive ? 'active bg-base-100 text-primary shadow-sm' : 'text-base-content/65 hover:bg-base-100/80 hover:text-base-content',
+                    desktopNavLinkBase,
+                    'inline-flex items-center',
+                    isActive ? desktopNavLinkState.active : desktopNavLinkState.idle,
                   ]}
                   href={item.href}
                   aria-current={isActive ? 'page' : undefined}

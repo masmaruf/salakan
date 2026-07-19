@@ -1,20 +1,37 @@
 ---
+import Icon from './Icon.tsx';
+
 interface Props {
   title?: string;
   message: string;
+  icon?: string;
+  actionHref?: string;
+  actionLabel?: string;
   class?: string;
 }
 
 const {
   title,
   message,
-  class: className = 'card border border-base-300/70 bg-base-100 text-center text-base-content/70 shadow-sm',
+  icon = 'inventory_2',
+  actionHref,
+  actionLabel,
+  class: className = 'card border border-outline-variant bg-surface-container-lowest shadow-sm',
 } = Astro.props;
 ---
 
 <div class={className}>
-  <div class="card-body p-8 sm:p-12">
-  {title && <p class="mb-2 text-base font-bold text-base-content">{title}</p>}
-  <p>{message}</p>
+  <div class="card-body flex flex-col items-center gap-3 px-6 py-10 text-center sm:px-10 sm:py-12">
+    <div class="grid h-14 w-14 place-items-center rounded-2xl bg-primary-container/40 text-m3-primary">
+      <Icon name={icon} class="text-[28px]" />
+    </div>
+    {title && <p class="text-base font-bold text-on-surface">{title}</p>}
+    <p class="max-w-md text-sm leading-relaxed text-on-surface-variant">{message}</p>
+    {actionHref && actionLabel && (
+      <a href={actionHref} class="btn btn-primary mt-2 gap-1.5">
+        {actionLabel}
+        <Icon name="arrow_forward" class="text-[16px]" />
+      </a>
+    )}
   </div>
 </div>

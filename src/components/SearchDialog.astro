@@ -1,4 +1,25 @@
 ---
+import { getBadgeClasses } from '../lib/ui-badge';
+
+const compactBadgeBaseClass =
+  'badge badge-sm inline-flex h-auto min-h-[1.35rem] items-center rounded-md px-2 py-0.5 text-[10px] font-medium tracking-[0.02em] shadow-none';
+const filterBadgeActiveClass = getBadgeClasses({
+  tone: 'primary',
+  variant: 'soft',
+  baseClass: compactBadgeBaseClass,
+  className: 'border-primary-content/35 bg-primary-content/15 text-primary-content',
+});
+const filterBadgeIdleClass = getBadgeClasses({
+  tone: 'surface',
+  variant: 'ghost',
+  baseClass: compactBadgeBaseClass,
+  className: 'text-base-content/70',
+});
+const importantBadgeClass = getBadgeClasses({
+  tone: 'error',
+  variant: 'soft',
+  baseClass: compactBadgeBaseClass,
+});
 ---
 
 <button
@@ -57,7 +78,7 @@
   </div>
 </div>
 
-<script>
+<script is:inline define:vars={{ filterBadgeActiveClass, filterBadgeIdleClass, importantBadgeClass }}>
   // @ts-nocheck
   // Search records are escaped before insertion; innerHTML is only used to render trusted UI templates efficiently.
   const typeOrder = ['semua', 'berita', 'agenda', 'layanan', 'data', 'galeri'];
@@ -129,7 +150,8 @@
     filters.innerHTML = typeOrder.map((type) => {
       const meta = type === 'semua' ? { label: 'Semua' } : (typeMeta[type] || { label: type });
       const active = activeType === type;
-      return `<button type="button" data-search-type="${type}" class="btn btn-sm rounded-full ${active ? 'btn-primary' : 'btn-outline'}">${type === 'semua' ? iconSvg('travel', 'h-4 w-4') : iconSvg(meta.icon, 'h-4 w-4')} ${escapeHtml(meta.label)} <span class="badge badge-sm ${active ? 'badge-primary-content border-primary-content/40 bg-primary-content/15 text-primary-content' : 'badge-ghost'}">${counts[type] ?? 0}</span></button>`;
+      const badgeClass = active ? filterBadgeActiveClass : filterBadgeIdleClass;
+      return `<button type="button" data-search-type="${type}" class="btn btn-sm ${active ? 'btn-primary' : 'btn-outline'}">${type === 'semua' ? iconSvg('travel', 'h-4 w-4') : iconSvg(meta.icon, 'h-4 w-4')} ${escapeHtml(meta.label)} <span class="${badgeClass}">${counts[type] ?? 0}</span></button>`;
     }).join('');
   };
 
@@ -160,7 +182,7 @@
     resultsEl.innerHTML = `${intro}<div class="space-y-1"><p class="mb-2 px-2 text-[12px] font-semibold uppercase tracking-wider text-base-content/55">${query ? `${results.length} hasil ditemukan` : 'Saran cepat'}</p>${results.map((item) => {
       const meta = typeMeta[item.type] || { label: item.type, icon: 'search' };
       const date = formatDate(item.date);
-      return `<a href="${escapeHtml(item.url)}" class="group flex items-start gap-4 rounded-2xl p-3 transition-colors hover:bg-base-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"><div class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-content">${iconSvg(meta.icon, 'h-5 w-5')}</div><div class="min-w-0 flex-1"><div class="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-base-content/55"><span>${escapeHtml(meta.label)}</span>${item.priority === 'high' ? '<span class="badge badge-error badge-sm">Penting</span>' : ''}${date ? `<span class="normal-case tracking-normal">${escapeHtml(date)}</span>` : ''}</div><h3 class="truncate text-sm font-bold leading-tight text-base-content transition-colors group-hover:text-primary">${escapeHtml(item.title)}</h3><p class="mt-0.5 line-clamp-2 text-[12px] text-base-content/70">${escapeHtml(item.description)}</p></div>${iconSvg('chevron', 'h-[18px] w-[18px] text-base-content/45 transition-transform group-hover:translate-x-0.5 group-hover:text-primary')}</a>`;
+      return `<a href="${escapeHtml(item.url)}" class="group flex items-start gap-4 rounded-2xl p-3 transition-colors hover:bg-base-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"><div class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-content">${iconSvg(meta.icon, 'h-5 w-5')}</div><div class="min-w-0 flex-1"><div class="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-base-content/55"><span>${escapeHtml(meta.label)}</span>${item.priority === 'high' ? `<span class="${importantBadgeClass}">Penting</span>` : ''}${date ? `<span class="normal-case tracking-normal">${escapeHtml(date)}</span>` : ''}</div><h3 class="truncate text-sm font-bold leading-tight text-base-content transition-colors group-hover:text-primary">${escapeHtml(item.title)}</h3><p class="mt-0.5 line-clamp-2 text-[12px] text-base-content/70">${escapeHtml(item.description)}</p></div>${iconSvg('chevron', 'h-[18px] w-[18px] text-base-content/45 transition-transform group-hover:translate-x-0.5 group-hover:text-primary')}</a>`;
     }).join('')}</div>`;
   };
 

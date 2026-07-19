@@ -1,3 +1,6 @@
+import type { BadgeTone, BadgeVariant } from './ui-badge';
+import { getBadgeClasses } from './ui-badge';
+
 export const PENGAJUAN_STATUS = [
   'menunggu',
   'diproses',
@@ -12,10 +15,15 @@ type StatusMeta = {
   label: string;
   shortLabel: string;
   description: string;
-  tone: string;
+  tone: BadgeTone;
+  variant: BadgeVariant;
+  icon: string;
   badgeClass: string;
   dotClass: string;
 };
+
+const statusBadgeClass = (tone: BadgeTone) =>
+  getBadgeClasses({ tone, className: 'gap-2 rounded-[var(--radius-selector)] px-4 py-2 text-sm font-bold' });
 
 const STATUS_META: Record<PengajuanStatus, StatusMeta> = {
   menunggu: {
@@ -23,7 +31,9 @@ const STATUS_META: Record<PengajuanStatus, StatusMeta> = {
     shortLabel: 'Menunggu',
     description: 'Pengajuan sudah masuk dan sedang menunggu pemeriksaan awal dari pengurus RT.',
     tone: 'warning',
-    badgeClass: 'badge badge-outline badge-warning',
+    variant: 'outline',
+    icon: 'schedule',
+    badgeClass: statusBadgeClass('warning'),
     dotClass: 'status status-warning',
   },
   diproses: {
@@ -31,7 +41,9 @@ const STATUS_META: Record<PengajuanStatus, StatusMeta> = {
     shortLabel: 'Diproses',
     description: 'Data sedang diverifikasi dan surat sedang disiapkan.',
     tone: 'info',
-    badgeClass: 'badge badge-outline badge-info',
+    variant: 'outline',
+    icon: 'autorenew',
+    badgeClass: statusBadgeClass('info'),
     dotClass: 'status status-info',
   },
   perlu_revisi: {
@@ -39,7 +51,9 @@ const STATUS_META: Record<PengajuanStatus, StatusMeta> = {
     shortLabel: 'Revisi',
     description: 'Ada data yang perlu diperbaiki sebelum pengajuan bisa dilanjutkan.',
     tone: 'warning',
-    badgeClass: 'badge badge-outline badge-warning',
+    variant: 'outline',
+    icon: 'edit_note',
+    badgeClass: statusBadgeClass('warning'),
     dotClass: 'status status-warning',
   },
   selesai: {
@@ -47,15 +61,19 @@ const STATUS_META: Record<PengajuanStatus, StatusMeta> = {
     shortLabel: 'Selesai',
     description: 'Pengajuan selesai diproses dan surat siap ditindaklanjuti warga.',
     tone: 'success',
-    badgeClass: 'badge badge-outline badge-success',
+    variant: 'outline',
+    icon: 'check_circle',
+    badgeClass: statusBadgeClass('success'),
     dotClass: 'status status-success',
   },
   ditolak: {
     label: 'Ditolak',
     shortLabel: 'Ditolak',
     description: 'Pengajuan tidak dapat diproses dan membutuhkan pengajuan ulang bila diperlukan.',
-    tone: 'danger',
-    badgeClass: 'badge badge-outline badge-error',
+    tone: 'error',
+    variant: 'outline',
+    icon: 'cancel',
+    badgeClass: statusBadgeClass('error'),
     dotClass: 'status status-error',
   },
 };

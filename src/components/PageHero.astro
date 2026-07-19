@@ -1,19 +1,21 @@
 ---
-import Icon from './ui/Icon.tsx';
+import Badge from './ui/Badge.astro';
+import type { BadgeTone, BadgeVariant } from '../lib/ui-badge';
 
 interface Props {
   title: string;
   description?: string;
   icon?: string;
   eyebrow?: string;
+  eyebrowTone?: BadgeTone;
+  eyebrowVariant?: BadgeVariant;
   sectionClass?: string;
   containerClass?: string;
   contentClass?: string;
   titleClass?: string;
   descriptionClass?: string;
-  badgeClass?: string;
-  badgeIconClass?: string;
-  badgeTextClass?: string;
+  eyebrowClass?: string;
+  eyebrowIconClass?: string;
   overlayClass?: string;
   backgroundImage?: string;
   orbs?: Array<{
@@ -26,19 +28,20 @@ const {
   description,
   icon = 'info',
   eyebrow,
-  sectionClass = 'bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 py-12 sm:py-16 lg:py-20',
+  eyebrowTone = 'surface',
+  eyebrowVariant = 'outline',
+  sectionClass = 'bg-neutral py-12 sm:py-16 lg:py-20',
   containerClass = 'container-premium relative z-10',
   contentClass = 'mx-auto max-w-3xl flex flex-col items-center text-center',
-  titleClass = 'text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl',
-  descriptionClass = 'mx-auto mt-4 max-w-2xl text-sm font-medium leading-relaxed text-blue-100/75 sm:text-base md:text-lg',
-  badgeClass = 'mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-1.5 backdrop-blur',
-  badgeIconClass = 'text-[16px] text-blue-300',
-  badgeTextClass = 'text-xs font-bold uppercase tracking-[0.15em] text-blue-200',
-  overlayClass = 'absolute inset-0 bg-slate-950/35',
+  titleClass = 'text-3xl font-bold tracking-tight text-neutral-content sm:text-4xl md:text-5xl',
+  descriptionClass = 'mx-auto mt-4 max-w-2xl text-sm font-medium leading-relaxed text-neutral-content/70 sm:text-base md:text-lg',
+  eyebrowClass = 'mb-4 border-neutral-content/18 bg-neutral-content/10 text-neutral-content/85 backdrop-blur-sm',
+  eyebrowIconClass = 'text-[16px] text-accent',
+  overlayClass = 'absolute inset-0 bg-neutral/45',
   backgroundImage,
   orbs = [
-    { class: 'absolute -top-16 right-[12%] h-[260px] w-[260px] rounded-full bg-blue-400/20 blur-3xl sm:h-[340px] sm:w-[340px]' },
-    { class: 'absolute bottom-0 left-[8%] h-[220px] w-[220px] rounded-full bg-cyan-400/10 blur-3xl sm:h-[280px] sm:w-[280px]' },
+    { class: 'absolute -top-16 right-[12%] h-[260px] w-[260px] rounded-full bg-primary/20 blur-3xl sm:h-[340px] sm:w-[340px]' },
+    { class: 'absolute bottom-0 left-[8%] h-[220px] w-[220px] rounded-full bg-accent/15 blur-3xl sm:h-[280px] sm:w-[280px]' },
   ],
 } = Astro.props;
 ---
@@ -56,10 +59,14 @@ const {
   <div class={containerClass}>
     <div class={contentClass}>
       {eyebrow && (
-        <div class={badgeClass}>
-          <Icon name={icon} class={badgeIconClass} />
-          <span class={badgeTextClass}>{eyebrow}</span>
-        </div>
+        <Badge
+          label={eyebrow}
+          icon={icon}
+          iconClass={eyebrowIconClass}
+          tone={eyebrowTone}
+          variant={eyebrowVariant}
+          class={eyebrowClass}
+        />
       )}
       <h1 class={titleClass}>{title}</h1>
       {description && (

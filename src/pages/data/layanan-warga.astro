@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import Badge from '../../components/ui/Badge.astro';
 import LayananCard from '../../components/ui/LayananCard.astro';
 import { getHalamanCopy, getLayananWarga, getPengaturan } from '../../lib/content';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
@@ -33,9 +34,7 @@ const highlightedServices = items.slice(0, 3).map(({ slug, entry }) => ({
     <div class="mt-4 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-stretch">
       <div class="card border border-base-300/70 bg-base-100/80 shadow-sm">
         <div class="card-body gap-5 p-6 sm:p-7">
-          <div class="badge badge-soft badge-primary w-fit rounded-full px-3 py-3 text-[12px] font-semibold uppercase tracking-[0.18em]">
-            Pelayanan Padukuhan
-          </div>
+          <Badge label="Pelayanan Padukuhan" tone="primary" variant="soft" class="w-fit uppercase tracking-[0.16em]" />
           <div>
             <h1 class="text-[30px] font-bold leading-[38px] tracking-tight text-base-content sm:text-[38px] sm:leading-[46px]">
               {halaman.layananWarga.pageTitle}
@@ -45,10 +44,10 @@ const highlightedServices = items.slice(0, 3).map(({ slug, entry }) => ({
             </p>
           </div>
           <div class="card-actions gap-3">
-            <a class="btn btn-primary rounded-full px-5 shadow-none" href="/dasbor/buat-surat">
+            <a class="btn btn-primary px-5 shadow-none" href="/dasbor/buat-surat">
               {halaman.layananWarga.primaryCtaLabel}
             </a>
-            <a class="btn btn-outline rounded-full px-5" href="/dasbor/lacak-surat">
+            <a class="btn btn-outline px-5" href="/dasbor/lacak-surat">
               {halaman.layananWarga.secondaryCtaLabel}
             </a>
           </div>
@@ -59,7 +58,7 @@ const highlightedServices = items.slice(0, 3).map(({ slug, entry }) => ({
         <div class="card-body p-5 sm:p-6">
           <div class="flex items-center justify-between gap-3">
             <p class="text-[12px] font-semibold uppercase tracking-[0.18em] text-primary">{halaman.layananWarga.quickAccessLabel}</p>
-            <span class="badge badge-outline border-primary/30 text-primary">Cepat</span>
+            <Badge label="Cepat" tone="primary" variant="outline" />
           </div>
           <div class="mt-1 grid gap-3">
           {highlightedServices.map((service) => (
@@ -93,7 +92,7 @@ const highlightedServices = items.slice(0, 3).map(({ slug, entry }) => ({
         <h2 class="text-2xl font-bold text-base-content">{halaman.layananWarga.listTitle}</h2>
         <p class="mt-1 text-sm text-base-content/70">{halaman.layananWarga.listDescription}</p>
       </div>
-      <span class="badge badge-lg badge-soft badge-primary rounded-full px-4">{items.length} {halaman.layananWarga.listCountSuffix}</span>
+      <Badge label={`${items.length} ${halaman.layananWarga.listCountSuffix}`} tone="primary" variant="soft" />
     </div>
 
     <div class="grid gap-4 lg:grid-cols-2">

@@ -22,7 +22,7 @@ const { items } = Astro.props;
 
 <div class="grid gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
   {items.map(({ slug, entry }) => (
-    <article id={slug} class="card group scroll-mt-28 overflow-hidden border border-base-300/70 bg-base-100 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
+    <article id={slug} class="card group scroll-mt-28 overflow-hidden border border-outline-variant bg-surface-container-lowest shadow-[0_4px_12px_rgba(15,23,42,0.05)] transition-all hover:-translate-y-0.5 hover:border-m3-primary/30 hover:shadow-md active:scale-[0.98]">
       {entry.gambar && (
         <Image
           src={entry.gambar}
@@ -32,16 +32,16 @@ const { items } = Astro.props;
           loading="lazy"
           decoding="async"
           sizes="(max-width: 960px) 100vw, 33vw"
-          class="h-56 w-full bg-base-200 object-cover sm:h-64"
+          class="h-56 w-full bg-surface-container object-cover sm:h-64"
         />
       )}
       <div class="card-body gap-2 p-4 sm:p-5">
         <div class="mb-2 flex flex-wrap items-center justify-between gap-2">
           <Badge label="Galeri" tone="primary" />
-          <time class="badge badge-ghost rounded-full px-3 py-3 text-[11px] font-semibold sm:text-[12px]" datetime={entry.tanggal}>{formatTanggal(entry.tanggal)}</time>
+          <Badge label={formatTanggal(entry.tanggal)} tone="surface" variant="ghost" class="sm:text-[12px]" />
         </div>
-        <h3 class="text-base font-bold leading-tight text-base-content transition-colors group-hover:text-primary sm:text-lg">{entry.judul}</h3>
-        <p class="mt-2 line-clamp-2 text-sm text-base-content/65">{entry.caption}</p>
+        <h3 class="text-base font-bold leading-tight text-on-surface transition-colors group-hover:text-m3-primary sm:text-lg">{entry.judul}</h3>
+        <p class="mt-2 line-clamp-2 text-sm text-on-surface-variant">{entry.caption}</p>
       </div>
     </article>
   ))}

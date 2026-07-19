@@ -2,6 +2,7 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
+import Badge from '../components/ui/Badge.astro';
 import EmptyStateCard from '../components/ui/EmptyStateCard.astro';
 import FilterToolbar from '../components/ui/FilterToolbar.astro';
 import ArchiveCard from '../components/ui/ArchiveCard.astro';
@@ -100,7 +101,7 @@ const logs = allLogs.filter((item) => {
     >
       <div slot="active" class="flex flex-wrap items-center gap-2">
         {(query || activeKategori !== 'semua' || activePeriode !== 'semua') && (
-          <a class="btn btn-outline btn-sm rounded-full" href="/log-kegiatan">
+          <a class="btn btn-outline btn-sm" href="/log-kegiatan">
             <Icon name="restart_alt" class="text-[16px]" />
             Reset filter
           </a>
@@ -143,7 +144,7 @@ const logs = allLogs.filter((item) => {
 
         <button
           type="submit"
-          class="btn btn-primary w-full rounded-full md:w-auto"
+          class="btn btn-primary w-full md:w-auto"
         >
           <Icon name="search" class="text-[16px]" />
           Terapkan
@@ -162,9 +163,13 @@ const logs = allLogs.filter((item) => {
             <li>
               {index > 0 && <hr class="bg-base-300" />}
               <div class="timeline-start hidden w-28 text-right sm:block">
-                <time datetime={item.tanggal} class="badge badge-ghost rounded-full px-3 py-3 text-[11px] font-bold uppercase tracking-[0.08em]">
-                  {formatTanggalLog(item.tanggal)}
-                </time>
+                <Badge
+                  label={formatTanggalLog(item.tanggal)}
+                  tone="surface"
+                  variant="ghost"
+                  datetime={item.tanggal}
+                  class="px-3 py-3 text-[11px] font-bold uppercase tracking-[0.08em]"
+                />
               </div>
               <div class="timeline-middle">
                 <span class="status status-primary status-lg shadow-sm" aria-label="Log kegiatan dipublikasikan"></span>

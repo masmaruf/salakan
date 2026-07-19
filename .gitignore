@@ -52,3 +52,9 @@ Thumbs.db
 .jest/
 .nyc_output/node_modules
 .superpowers
+
+# Editor/agent tooling artifacts
+.agents/
+.claude/
+.codex-remote-attachments/
+skills-lock.json

@@ -119,7 +119,7 @@ export default function TrackingSuratForm({ initialTicket = '' }: Props) {
               required
             />
           </label>
-          <button type="submit" disabled={loading} className="btn btn-primary h-[52px] rounded-full px-6">
+          <button type="submit" disabled={loading} className="btn btn-primary h-[52px] px-6">
             {loading ? <span className="loading loading-spinner loading-sm"></span> : <Icon name="travel_explore" className="text-[18px]" />}
             {loading ? 'Memeriksa...' : 'Cek Status'}
           </button>
@@ -145,7 +145,7 @@ export default function TrackingSuratForm({ initialTicket = '' }: Props) {
                 <h3 className="text-2xl font-black tracking-tight text-base-content">{result.nomor_surat}</h3>
                 <p className="text-sm font-medium text-base-content/60">{result.nama} • {result.rt_id.toUpperCase()}</p>
               </div>
-              <span className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold ${statusMeta.badgeClass}`}>
+              <span className={statusMeta.badgeClass}>
                 <span className={`h-2.5 w-2.5 rounded-full ${statusMeta.dotClass}`}></span>
                 {statusMeta.label}
               </span>

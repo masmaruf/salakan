@@ -1,4 +1,6 @@
 ---
+import Badge from './Badge.astro';
+
 interface Props {
   id?: string;
   namaLayanan: string;
@@ -21,7 +23,7 @@ import Icon from './Icon.tsx';
       <Icon name="description" class="text-[22px]" />
     </div>
     <div class="min-w-0">
-      <div class="mb-2 badge badge-soft badge-primary rounded-full px-3 text-[11px]">Layanan warga</div>
+      <Badge label="Layanan warga" tone="primary" variant="soft" class="mb-2 px-3 text-[11px]" />
       <h2 class="text-base font-bold text-base-content transition-colors group-hover:text-primary sm:text-lg">{namaLayanan}</h2>
       <p class="text-sm text-base-content/70 mt-1">{ringkasan}</p>
     </div>

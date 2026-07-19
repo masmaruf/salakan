@@ -25,6 +25,7 @@ const { items, class: className = '' } = Astro.props;
 
 import { generateBreadcrumbSchema } from '../lib/seo';
 import { siteMeta } from '../lib/site';
+import Icon from './ui/Icon.tsx';
 
 const breadcrumbJsonLd = generateBreadcrumbSchema(
   items.map((item) => ({
@@ -36,18 +37,21 @@ const breadcrumbJsonLd = generateBreadcrumbSchema(
 
 <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
 
-<nav aria-label="Breadcrumb" class:list={['breadcrumbs text-sm text-base-content/70', className]}>
-  <ol>
-    {items.map((item) => (
-      <li>
+<nav aria-label="Breadcrumb" class:list={['flex flex-wrap items-center gap-1.5 text-sm text-on-surface-variant', className]}>
+  <ol class="flex flex-wrap items-center gap-1.5">
+    {items.map((item, index) => (
+      <li class="flex items-center gap-1.5">
         {item.href ? (
-          <a href={item.href} class="transition-colors hover:text-primary">
+          <a href={item.href} class="rounded-md px-1 transition-colors hover:text-m3-primary">
             {item.name}
           </a>
         ) : (
-          <span class="max-w-full min-w-0 break-words font-semibold text-base-content" aria-current="page">
+          <span class="max-w-full min-w-0 break-words rounded-md px-1 font-semibold text-on-surface" aria-current="page">
             {item.name}
           </span>
+        )}
+        {index < items.length - 1 && (
+          <Icon name="chevron_right" class="text-[14px] text-outline-variant" />
         )}
       </li>
     ))}

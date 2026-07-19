@@ -1,35 +1,56 @@
 ---
+import Icon from './Icon.tsx';
+import type { BadgeTone, BadgeVariant } from '../../lib/ui-badge';
+import { getBadgeClasses } from '../../lib/ui-badge';
+
 interface Props {
   label: string;
-  tone?: 'primary' | 'surface' | 'error' | 'warning' | 'success' | 'info';
+  tone?: BadgeTone;
+  variant?: BadgeVariant;
   icon?: string;
+  iconClass?: string;
+  href?: string;
+  target?: string;
+  rel?: string;
+  datetime?: string;
   class?: string;
 }
 
 const {
   label,
   tone = 'primary',
+  variant = 'outline',
   icon,
+  iconClass = 'shrink-0 text-[12px]',
+  href,
+  target,
+  rel,
+  datetime,
   class: className = '',
 } = Astro.props;
-
-const toneClasses = {
-  primary: 'badge-primary badge-outline',
-  surface: 'badge-ghost border-base-300 text-base-content/70',
-  error: 'badge-error badge-outline',
-  warning: 'badge-warning badge-outline',
-  success: 'badge-success badge-outline',
-  info: 'badge-info badge-outline',
-};
-
-import Icon from './Icon.tsx';
 ---
 
-<span class:list={[
-  'badge inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-[12px] font-semibold',
-  toneClasses[tone],
-  className,
-]}>
-  {icon && <Icon name={icon} class="text-[12px]" />}
-  <span>{label}</span>
-</span>
+{href ? (
+  <a
+    href={href}
+    target={target}
+    rel={rel}
+    class:list={[getBadgeClasses({ tone, variant, className }), 'transition-colors active:scale-[0.99]']}
+  >
+    {icon && <Icon name={icon} class={iconClass} />}
+    <span>{label}</span>
+  </a>
+) : datetime ? (
+  <time
+    datetime={datetime}
+    class={getBadgeClasses({ tone, variant, className })}
+  >
+    {icon && <Icon name={icon} class={iconClass} />}
+    <span>{label}</span>
+  </time>
+) : (
+  <span class={getBadgeClasses({ tone, variant, className })}>
+    {icon && <Icon name={icon} class={iconClass} />}
+    <span>{label}</span>
+  </span>
+)}

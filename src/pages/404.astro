@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import Badge from '../components/ui/Badge.astro';
 import Icon from '../components/ui/Icon.tsx';
 ---
 
@@ -11,13 +12,13 @@ import Icon from '../components/ui/Icon.tsx';
   <section class="container-premium flex min-h-[60vh] flex-col items-center justify-center py-16 text-center">
     <div class="mx-auto max-w-lg">
       {/* Error Code */}
-      <p class="text-8xl font-black tracking-tight text-primary-container/60">404</p>
-      
+      <p class="text-8xl font-bold tracking-tighter text-primary-container/70">404</p>
+
       {/* Icon */}
-      <div class="mx-auto mt-6 grid h-20 w-20 place-items-center rounded-full bg-primary-container/20">
-        <Icon name="search_off" class="text-[40px] text-m3-primary" />
+      <div class="mx-auto mt-6 grid h-20 w-20 place-items-center rounded-2xl bg-primary-container/30 text-m3-primary">
+        <Icon name="search_off" class="text-[40px]" />
       </div>
-      
+
       {/* Message */}
       <h1 class="mt-6 text-2xl font-bold tracking-tight text-on-surface sm:text-3xl">
         Halaman Tidak Ditemukan
@@ -25,44 +26,32 @@ import Icon from '../components/ui/Icon.tsx';
       <p class="mt-3 text-base leading-relaxed text-on-surface-variant">
         Halaman yang Anda cari mungkin sudah dipindahkan, dihapus, atau URL-nya salah. Silakan kembali ke beranda atau gunakan pencarian.
       </p>
-      
+
       {/* Actions */}
       <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <a
-          href="/"
-          class="inline-flex items-center gap-2 rounded-full bg-primary-container px-6 py-3 text-sm font-bold text-on-primary-container shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
-        >
+        <a href="/" class="btn btn-primary gap-2">
           <Icon name="home" class="text-[18px]" />
           Kembali ke Beranda
         </a>
-        <a
-          href="/kontak"
-          class="inline-flex items-center gap-2 rounded-full border border-outline-variant bg-white px-6 py-3 text-sm font-bold text-on-surface transition-all hover:bg-surface-container-low"
-        >
+        <a href="/kontak" class="btn btn-outline gap-2">
           <Icon name="support_agent" class="text-[18px]" />
           Hubungi Kami
         </a>
       </div>
-      
+
       {/* Quick Links */}
       <div class="mt-12 border-t border-outline-variant pt-8">
-        <p class="text-sm font-semibold text-on-surface-variant">Halaman yang sering dikunjungi:</p>
+        <p class="text-[11px] font-bold uppercase tracking-[0.14em] text-on-surface-variant">Halaman yang sering dikunjungi</p>
         <div class="mt-4 flex flex-wrap items-center justify-center gap-2">
-          <a href="/berita" class="rounded-full bg-surface-container-low px-4 py-2 text-sm font-medium text-on-surface-variant transition-colors hover:bg-primary-container hover:text-on-primary-container">
-            Berita
-          </a>
-          <a href="/agenda" class="rounded-full bg-surface-container-low px-4 py-2 text-sm font-medium text-on-surface-variant transition-colors hover:bg-primary-container hover:text-on-primary-container">
-            Agenda
-          </a>
-          <a href="/galeri" class="rounded-full bg-surface-container-low px-4 py-2 text-sm font-medium text-on-surface-variant transition-colors hover:bg-primary-container hover:text-on-primary-container">
-            Galeri
-          </a>
-          <a href="/data" class="rounded-full bg-surface-container-low px-4 py-2 text-sm font-medium text-on-surface-variant transition-colors hover:bg-primary-container hover:text-on-primary-container">
-            Pusat Data
-          </a>
-          <a href="/profil" class="rounded-full bg-surface-container-low px-4 py-2 text-sm font-medium text-on-surface-variant transition-colors hover:bg-primary-container hover:text-on-primary-container">
-            Profil
-          </a>
+          {[
+            { href: '/berita', label: 'Berita' },
+            { href: '/agenda', label: 'Agenda' },
+            { href: '/galeri', label: 'Galeri' },
+            { href: '/data', label: 'Pusat Data' },
+            { href: '/profil', label: 'Profil' },
+          ].map((item) => (
+            <Badge href={item.href} label={item.label} tone="surface" variant="outline" class="text-[12px] hover:bg-surface-container" />
+          ))}
         </div>
       </div>
     </div>

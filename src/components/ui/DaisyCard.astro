@@ -26,16 +26,26 @@ const {
 } = Astro.props as Props;
 
 const Tag = as;
-const surfaceClass = surface === 'muted' ? 'bg-base-200' : surface === 'plain' ? '' : 'bg-base-100';
-const shadowClass = shadow === 'md' ? 'shadow-md' : shadow === 'sm' ? 'shadow-sm' : 'shadow-none';
+const surfaceClass =
+  surface === 'muted'
+    ? 'bg-surface-container-low'
+    : surface === 'plain'
+      ? ''
+      : 'bg-surface-container-lowest';
+const shadowClass =
+  shadow === 'md'
+    ? 'shadow-md'
+    : shadow === 'sm'
+      ? 'shadow-[0_4px_12px_rgba(15,23,42,0.05)]'
+      : 'shadow-none';
 ---
 
 <Tag
   action={action}
   method={method}
   class:list={[
-    'card',
-    bordered && 'border border-base-300/70',
+    'card rounded-xl',
+    bordered && 'border border-outline-variant',
     surfaceClass,
     shadowClass,
     className,

@@ -4,6 +4,7 @@ import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import ContentMeta from '../../../components/ui/ContentMeta.astro';
 import InfoCard from '../../../components/ui/InfoCard.astro';
 import ActionLinkButton from '../../../components/ui/ActionLinkButton.astro';
+import Badge from '../../../components/ui/Badge.astro';
 import BadgeList from '../../../components/ui/BadgeList.astro';
 import Icon from '../../../components/ui/Icon.tsx';
 import { formatTanggal, getDokumen } from '../../../lib/content';
@@ -92,13 +93,12 @@ const fileHost = fileUrl.startsWith('http') ? new URL(fileUrl).hostname : 'salak
                   {hasFile ? 'File siap dibuka' : 'File belum tersedia'}
                 </h2>
               </div>
-              <span class:list={[
-                'badge badge-outline gap-1.5 rounded-full px-3 py-3 text-[12px] font-semibold',
-                hasFile ? 'badge-success' : 'badge-warning',
-              ]}>
-                <span class:list={['status', hasFile ? 'status-success' : 'status-warning']} aria-hidden="true"></span>
-                {hasFile ? 'Tersedia' : 'Menunggu'}
-              </span>
+              <Badge
+                label={hasFile ? 'Tersedia' : 'Menunggu'}
+                tone={hasFile ? 'success' : 'warning'}
+                icon={hasFile ? 'check_circle' : 'schedule'}
+                class="px-3 py-3 text-[12px] font-semibold"
+              />
             </div>
 
             {hasFile ? (
@@ -110,7 +110,7 @@ const fileHost = fileUrl.startsWith('http') ? new URL(fileUrl).hostname : 'salak
                 {fileExtension && (
                   <div class="flex items-center justify-between gap-3">
                     <span class="font-medium text-base-content/60">Format</span>
-                    <span class="badge badge-primary badge-outline rounded-full px-3 py-3 text-[12px]">{fileExtension}</span>
+                    <Badge label={fileExtension} tone="primary" class="px-3 py-3 text-[12px]" />
                   </div>
                 )}
                 <div class="flex items-center justify-between gap-3">
@@ -129,7 +129,7 @@ const fileHost = fileUrl.startsWith('http') ? new URL(fileUrl).hostname : 'salak
               {hasFile ? (
                 <ActionLinkButton href={fileUrl} label="Buka File Dokumen" icon="download" variant="primary" target="_blank" rel="noreferrer" class="w-full" />
               ) : (
-                <span class="btn btn-disabled rounded-full">
+                <span class="btn btn-disabled">
                   <Icon name="lock" class="text-[18px]" />
                   File belum ditambahkan
                 </span>

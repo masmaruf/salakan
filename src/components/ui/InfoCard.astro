@@ -9,8 +9,8 @@ interface Props {
 const {
   title,
   icon,
-  class: className = 'card border border-base-300/70 bg-base-100 shadow-sm',
-  bodyClass = 'card-body p-5 sm:p-6',
+  class: className = 'rounded-xl border border-outline-variant bg-surface-container-lowest shadow-[0_4px_12px_rgba(15,23,42,0.05)]',
+  bodyClass = 'p-5 sm:p-6',
 } = Astro.props;
 
 import Icon from './Icon.tsx';
@@ -19,7 +19,7 @@ import Icon from './Icon.tsx';
 <div class={className}>
   <div class={bodyClass}>
     {(title || icon) && (
-      <div class="mb-2 flex items-center gap-2 text-[12px] font-semibold uppercase tracking-wider text-primary">
+      <div class="mb-2 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-m3-primary">
         {icon && <Icon name={icon} class="text-[16px]" />}
         {title && <span>{title}</span>}
       </div>

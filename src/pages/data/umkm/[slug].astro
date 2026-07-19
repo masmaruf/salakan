@@ -80,13 +80,13 @@ import Icon from '../../../components/ui/Icon.tsx';
         {entry.produkUnggulan?.length > 0 && (
           <div class="mt-4">
             <p class="mb-2 text-[12px] font-semibold uppercase tracking-wider text-base-content/60">Produk Unggulan</p>
-            <div class="flex flex-wrap gap-2">
-              {entry.produkUnggulan.map((product: string) => (
-                <span class="badge badge-outline badge-primary">
-                  {product}
-                </span>
-              ))}
-            </div>
+            <BadgeList
+              class="flex flex-wrap gap-2"
+              items={entry.produkUnggulan.map((product: string) => ({
+                label: product,
+                tone: 'primary' as const,
+              }))}
+            />
           </div>
         )}
 
@@ -96,9 +96,9 @@ import Icon from '../../../components/ui/Icon.tsx';
 
         <div class="mt-5 flex flex-wrap gap-3">
           {whatsappUrl ? (
-            <ActionLinkButton href={whatsappUrl} label="Hubungi via WhatsApp" icon="chat" variant="success" target="_blank" rel="noreferrer" />
+            <ActionLinkButton href={whatsappUrl} label="Hubungi via WhatsApp" icon="chat" variant="whatsapp" target="_blank" rel="noreferrer" />
           ) : (
-            <span class="btn btn-disabled rounded-full border-base-300 bg-base-200 text-base-content/60">
+            <span class="btn btn-disabled border-base-300 bg-base-200 text-base-content/60">
               <Icon name="schedule" class="text-[18px]" /> Kontak WhatsApp menyusul
             </span>
           )}

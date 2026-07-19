@@ -90,7 +90,7 @@ const displayItems = shouldShowFeatured ? kegiatan.slice(1) : kegiatan;
     >
       <div slot="active" class="flex flex-wrap items-center gap-2">
         {(selectedCategory || selectedTag || query) && (
-          <a class="btn btn-outline btn-sm rounded-full" href="/berita">
+          <a class="btn btn-outline btn-sm" href="/berita">
             <Icon name="restart_alt" class="text-[16px]" />
             Reset filter
           </a>
@@ -102,22 +102,22 @@ const displayItems = shouldShowFeatured ? kegiatan.slice(1) : kegiatan;
 
         <form action="/berita" method="get" class="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
           <div class="grid gap-2">
-            <label for="berita-search" class="detail-label">Cari judul, ringkasan, kategori, atau tag</label>
-            <div class="input input-bordered flex h-auto items-center gap-3 rounded-2xl bg-base-100 px-4 py-3">
-              <Icon name="search" class="text-[20px] text-base-content/45" />
+            <label for="berita-search" class="detail-label text-on-surface-variant">Cari judul, ringkasan, kategori, atau tag</label>
+            <div class="flex h-auto items-center gap-3 rounded-xl border border-outline-variant bg-surface-container-lowest px-4 py-3 transition-all focus-within:border-m3-primary focus-within:ring-2 focus-within:ring-m3-primary/20">
+              <Icon name="search" class="text-[20px] text-on-surface-variant/70" />
               <input
                 id="berita-search"
                 name="q"
                 type="search"
                 value={query}
                 placeholder="Contoh: posyandu, gotong royong, pelayanan"
-                class="w-full border-0 bg-transparent p-0 text-sm text-base-content outline-none placeholder:text-base-content/45"
+                class="w-full border-0 bg-transparent p-0 text-sm text-on-surface outline-none placeholder:text-on-surface-variant/60"
               />
             </div>
             {selectedCategory && <input type="hidden" name="kategori" value={selectedCategory} />}
             {selectedTag && <input type="hidden" name="tag" value={selectedTag} />}
           </div>
-          <button type="submit" class="btn btn-primary rounded-full">
+          <button type="submit" class="btn btn-primary">
             <Icon name="search" class="text-[16px]" />
             Terapkan pencarian
           </button>
@@ -139,25 +139,29 @@ const displayItems = shouldShowFeatured ? kegiatan.slice(1) : kegiatan;
 
   {shouldShowFeatured && (
     <section class="container-premium py-3 sm:py-4">
-      <a class="card group grid overflow-hidden border border-base-300/70 bg-base-100 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md lg:grid-cols-[0.95fr_1.05fr]" href={`/berita/${featured.slug}`}>
+      <a class="group grid overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest shadow-[0_4px_12px_rgba(15,23,42,0.05)] transition-all hover:-translate-y-0.5 hover:border-m3-primary/30 hover:shadow-md lg:grid-cols-[0.95fr_1.05fr]" href={`/berita/${featured.slug}`}>
         {featured.entry.gambarUtama && (
-          <div class="min-h-[220px] bg-base-200 lg:min-h-full">
+          <div class="min-h-[220px] overflow-hidden bg-surface-container lg:min-h-full">
             <img
               src={featured.entry.gambarUtama}
-              alt={featured.entry.altGambarUtama || featured.entry.judul}
-              class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
-              loading="eager"
+              alt={featured.entry.judul}
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         )}
-        <div class="card-body flex flex-col justify-center p-6 sm:p-7">
+        <div class="flex flex-col gap-3 p-5 sm:p-7">
           <div class="flex flex-wrap items-center gap-2">
-            <Badge label="Sorotan" tone="info" class="px-3 py-1" />
-            {featured.entry.kategori && <Badge label={categoryLabels[featured.entry.kategori] ?? featured.entry.kategori} tone={getBeritaCategoryTone(featured.entry.kategori)} class="px-3 py-1" />}
+            <Badge label={categoryLabels[featured.entry.kategori] ?? featured.entry.kategori} tone={getBeritaCategoryTone(featured.entry.kategori)} />
+            {featured.entry.unggulan && <Badge label="Unggulan" tone="info" icon="verified" />}
           </div>
-          <h2 class="mt-4 text-2xl font-bold leading-tight tracking-tight text-base-content transition-colors group-hover:text-primary sm:text-3xl">{featured.entry.judul}</h2>
-          <p class="mt-2 text-sm font-semibold uppercase tracking-wide text-base-content/55">{new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(featured.entry.tanggal))}</p>
-          <p class="mt-3 max-w-3xl text-base leading-relaxed text-base-content/65">{featured.entry.ringkasan}</p>
+          <h2 class="mt-1 text-2xl font-bold leading-tight tracking-tight text-on-surface transition-colors group-hover:text-m3-primary sm:text-3xl">{featured.entry.judul}</h2>
+          <p class="text-[11px] font-bold uppercase tracking-[0.14em] text-on-surface-variant">{new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(featured.entry.tanggal))}</p>
+          <p class="mt-1 max-w-3xl text-base leading-relaxed text-on-surface-variant">{featured.entry.ringkasan}</p>
+          <div class="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-m3-primary transition-transform group-hover:translate-x-0.5">
+            Baca selengkapnya <Icon name="arrow_forward" class="text-[16px]" />
+          </div>
         </div>
       </a>
     </section>

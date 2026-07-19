@@ -14,10 +14,12 @@ import Icon from './Icon.tsx';
 
 const toneClass =
   tone === 'success'
-    ? 'btn btn-success btn-xs rounded-full'
-    : tone === 'muted'
-      ? 'btn btn-disabled btn-xs rounded-full border-base-300 bg-base-200 text-base-content/60'
-      : 'btn btn-outline btn-primary btn-xs rounded-full';
+    ? 'btn btn-success btn-xs'
+    : tone === 'whatsapp'
+      ? 'btn btn-xs border-[#25D366] bg-[#25D366] text-neutral hover:bg-[#1DA851] hover:border-[#1DA851]'
+      : tone === 'muted'
+        ? 'btn btn-disabled btn-xs border-base-300 bg-base-200 text-base-content/60'
+        : 'btn btn-outline btn-primary btn-xs';
 
 const classes = [toneClass, className].filter(Boolean).join(' ');
 ---

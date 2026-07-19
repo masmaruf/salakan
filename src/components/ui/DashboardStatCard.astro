@@ -16,7 +16,7 @@ const {
 } = Astro.props;
 
 const toneClasses = {
-  blue: { label: 'text-primary', iconBg: 'bg-primary/10', iconText: 'text-primary' },
+  blue: { label: 'text-m3-primary', iconBg: 'bg-primary-container/40', iconText: 'text-m3-primary' },
   emerald: { label: 'text-success', iconBg: 'bg-success/10', iconText: 'text-success' },
   amber: { label: 'text-warning', iconBg: 'bg-warning/10', iconText: 'text-warning' },
   red: { label: 'text-error', iconBg: 'bg-error/10', iconText: 'text-error' },
@@ -28,19 +28,17 @@ const toneClass = toneClasses[tone];
 import Icon from './Icon.tsx';
 ---
 
-<article class="card border border-base-300/70 bg-base-100 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
-  <div class="card-body relative p-6">
-    {icon && (
-      <div class:list={[
-        'absolute right-5 top-5 hidden h-12 w-12 place-items-center rounded-2xl shadow-inner sm:grid',
-        toneClass.iconBg,
-        toneClass.iconText,
-      ]}>
-        <Icon name={icon} class="text-[26px]" />
-      </div>
-    )}
-    <p class:list={['mb-2 max-w-[11rem] text-xs font-black uppercase tracking-[0.12em]', toneClass.label]}>{label}</p>
-    <strong class="block max-w-full break-words text-3xl font-black tracking-tight text-base-content sm:text-4xl">{value}</strong>
-    <p class="mt-3 text-sm font-medium leading-relaxed text-base-content/65">{description}</p>
-  </div>
+<article class="relative rounded-xl border border-outline-variant bg-surface-container-lowest p-6 shadow-[0_4px_12px_rgba(15,23,42,0.05)] transition-all hover:-translate-y-0.5 hover:border-m3-primary/30 hover:shadow-md">
+  {icon && (
+    <div class:list={[
+      'absolute right-5 top-5 hidden h-12 w-12 place-items-center rounded-2xl sm:grid',
+      toneClass.iconBg,
+      toneClass.iconText,
+    ]}>
+      <Icon name={icon} class="text-[26px]" />
+    </div>
+  )}
+  <p class:list={['mb-2 max-w-[11rem] text-[11px] font-bold uppercase tracking-[0.14em]', toneClass.label]}>{label}</p>
+  <strong class="block max-w-full break-words text-3xl font-bold tracking-tight text-on-surface sm:text-4xl">{value}</strong>
+  <p class="mt-3 text-sm font-medium leading-relaxed text-on-surface-variant">{description}</p>
 </article>

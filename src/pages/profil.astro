@@ -44,13 +44,14 @@ import Icon from '../components/ui/Icon.tsx';
     eyebrow={profil?.hero?.badge}
     icon="diamond"
     title={profil?.hero?.judul || profil?.namaPadukuhan || 'Padukuhan Salakan'}
+    eyebrowTone="surface"
+    eyebrowVariant="outline"
     sectionClass="bg-slate-900"
     containerClass="container-premium relative z-10 flex min-h-[280px] flex-col justify-end px-5 pb-8 pt-20 sm:min-h-[340px] sm:px-8 md:min-h-[400px]"
     contentClass="max-w-lg"
     titleClass="max-w-lg text-2xl font-bold leading-[1.15] tracking-tight text-white sm:text-3xl md:text-4xl"
-    badgeClass="mb-3 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-white/90 backdrop-blur-sm"
-    badgeTextClass="text-[11px] font-bold uppercase tracking-[0.12em] text-white/90"
-    badgeIconClass="text-[14px]"
+    eyebrowClass="mb-3 border-white/30 bg-white/10 px-3 py-3 text-[11px] font-bold uppercase tracking-[0.12em] text-white/90 backdrop-blur-sm"
+    eyebrowIconClass="text-[14px]"
     backgroundImage={heroImg}
     overlayClass="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-slate-900/20"
     orbs={[]}
@@ -66,13 +67,13 @@ import Icon from '../components/ui/Icon.tsx';
   <PageSection eyebrow={profil?.sejarahLabel || halaman.profil.storyEyebrow} title={profil?.sejarahJudul || halaman.profil.storyTitle} sectionClass="relative overflow-hidden py-10 sm:py-14">
     <div class="article-rich prose-profil max-w-none text-[15px] leading-[1.8] text-on-surface-variant lg:max-w-3xl" set:html={renderMarkdown(profil?.sejarahSingkat)} />
 
-    <div class="card mt-8 border-l-4 border-primary bg-base-100 shadow-sm">
-      <div class="card-body p-5 sm:p-6">
+    <div class="mt-8 overflow-hidden rounded-xl border border-outline-variant border-l-4 border-l-m3-primary bg-surface-container-lowest shadow-[0_4px_12px_rgba(15,23,42,0.05)]">
+      <div class="p-5 sm:p-6">
       <div class="mb-2 flex items-center gap-2">
-        <Icon name="visibility" class="text-[20px] text-primary" />
-        <h3 class="text-base font-bold text-base-content">{halaman.profil.visionTitle}</h3>
+        <Icon name="visibility" class="text-[20px] text-m3-primary" />
+        <h3 class="text-base font-bold text-on-surface">{halaman.profil.visionTitle}</h3>
       </div>
-      <div class="article-rich text-[15px] italic leading-relaxed text-base-content/70" set:html={renderMarkdown(profil?.visi)} />
+      <div class="article-rich text-[15px] italic leading-relaxed text-on-surface-variant" set:html={renderMarkdown(profil?.visi)} />
       </div>
     </div>
 
@@ -94,19 +95,19 @@ import Icon from '../components/ui/Icon.tsx';
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {potensi.map((item, i) => (
           <div class:list={[
-            'rounded-xl border p-6 transition-all hover:-translate-y-0.5 hover:shadow-md',
+            'rounded-xl border p-6 shadow-[0_4px_12px_rgba(15,23,42,0.05)] transition-all hover:-translate-y-0.5 hover:shadow-md',
             i === 0
-              ? 'border-m3-primary bg-m3-primary text-white sm:col-span-2 lg:col-span-1'
+              ? 'border-m3-primary bg-m3-primary text-on-primary sm:col-span-2 lg:col-span-1'
               : 'border-outline-variant bg-surface-container-lowest',
           ]}>
             <div class:list={[
               'mb-4 grid h-12 w-12 place-items-center rounded-xl',
-              i === 0 ? 'bg-white/20' : 'bg-primary-container/30',
+              i === 0 ? 'bg-white/20' : 'bg-primary-container/40',
             ]}>
-              <Icon name={item.ikon} class={['text-[24px]', i === 0 ? 'text-white' : 'text-m3-primary'].join(' ')} />
+              <Icon name={item.ikon} class={['text-[24px]', i === 0 ? 'text-on-primary' : 'text-m3-primary'].join(' ')} />
             </div>
-            <h3 class:list={['mb-2 text-lg font-bold', i === 0 ? 'text-white' : 'text-on-surface']}>{item.judul}</h3>
-            <p class:list={['text-sm leading-relaxed', i === 0 ? 'text-white/80' : 'text-on-surface-variant']}>{item.deskripsi}</p>
+            <h3 class:list={['mb-2 text-lg font-bold', i === 0 ? 'text-on-primary' : 'text-on-surface']}>{item.judul}</h3>
+            <p class:list={['text-sm leading-relaxed', i === 0 ? 'text-on-primary/85' : 'text-on-surface-variant']}>{item.deskripsi}</p>
           </div>
         ))}
       </div>
@@ -130,7 +131,7 @@ import Icon from '../components/ui/Icon.tsx';
     <PageSection eyebrow={halaman.profil.locationEyebrow} title={halaman.profil.locationTitle} sectionClass="bg-surface-container-low/40 py-10 sm:py-14">
       <div class="space-y-5">
         {(lokasi?.alamat || lokasi?.linkPeta) && (
-          <div class="card flex flex-col gap-4 border border-base-300/70 bg-base-100 p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-6">
+          <div class="flex flex-col gap-4 rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-[0_4px_12px_rgba(15,23,42,0.05)] sm:flex-row sm:items-center sm:justify-between sm:p-6">
             <div class="min-w-0">
               <div class="mb-1 flex items-center gap-1.5">
                 <Icon name="location_on" class="text-[16px] text-m3-primary" />
@@ -144,7 +145,7 @@ import Icon from '../components/ui/Icon.tsx';
           </div>
         )}
 
-        <div class="card overflow-hidden border border-base-300/70 bg-base-100 shadow-sm">
+        <div class="overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest shadow-[0_4px_12px_rgba(15,23,42,0.05)]">
           {mapEmbedSrc ? (
             <iframe
               title="Peta Padukuhan Salakan"

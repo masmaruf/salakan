@@ -1,5 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
+import Badge from '../../components/ui/Badge.astro';
+import BadgeList from '../../components/ui/BadgeList.astro';
 import PageIntro from '../../components/ui/PageIntro.astro';
 import StatCard from '../../components/ui/StatCard.astro';
 import { getPengaturan, getMonografi } from '../../lib/content';
@@ -126,7 +128,7 @@ import Icon from '../../components/ui/Icon.tsx';
                   </div>
                   <span class="text-sm font-medium text-base-content">{item.label}</span>
                 </div>
-                <span class="badge badge-outline badge-primary">{item.value}</span>
+                <Badge label={`${item.value}`} tone="primary" class="tabular-nums" />
               </div>
             </div>
           ))}
@@ -147,7 +149,7 @@ import Icon from '../../components/ui/Icon.tsx';
                   </div>
                   <span class="text-sm font-medium text-base-content">{item.label}</span>
                 </div>
-                <span class="badge badge-outline badge-error">{item.value}</span>
+                <Badge label={`${item.value}`} tone="error" class="tabular-nums" />
               </div>
             </div>
           ))}
@@ -162,13 +164,15 @@ import Icon from '../../components/ui/Icon.tsx';
           <h2 class="mb-4 flex items-center gap-2 text-base font-bold">
             <Icon name="theater_comedy" class="text-[18px]" /> Seni & Budaya
           </h2>
-          <div class="flex flex-wrap gap-2">
-            {potensi.seniBudaya.map((item) => (
-              <span class="badge border-white/10 bg-white/10 text-neutral-content">
-                {item}
-              </span>
-            ))}
-          </div>
+          <BadgeList
+            class="flex flex-wrap gap-2"
+            items={potensi.seniBudaya.map((item) => ({
+              label: item,
+              tone: 'surface' as const,
+              variant: 'outline' as const,
+              class: 'border-white/10 bg-white/10 text-neutral-content',
+            }))}
+          />
         </div>
       </div>
       <div class="card bg-primary text-primary-content shadow-sm">
@@ -176,13 +180,15 @@ import Icon from '../../components/ui/Icon.tsx';
           <h2 class="mb-4 flex items-center gap-2 text-base font-bold">
             <Icon name="storefront" class="text-[18px]" /> UMKM & Industri
           </h2>
-          <div class="flex flex-wrap gap-2">
-            {potensi.umkmIndustri.map((item) => (
-              <span class="badge border-white/20 bg-white/20 text-primary-content">
-                {item}
-              </span>
-            ))}
-          </div>
+          <BadgeList
+            class="flex flex-wrap gap-2"
+            items={potensi.umkmIndustri.map((item) => ({
+              label: item,
+              tone: 'primary' as const,
+              variant: 'outline' as const,
+              class: 'border-white/20 bg-white/20 text-primary-content',
+            }))}
+          />
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import MainLayout from '../../layouts/MainLayout.astro';
 import ShareActions from '../../components/ShareActions.astro';
+import Badge from '../../components/ui/Badge.astro';
 import ContentMeta from '../../components/ui/ContentMeta.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
 import { resolveSeoImage, resolveSeoText, toAbsoluteUrl, withSiteTitle } from '../../lib/site';
@@ -71,7 +72,6 @@ const relatedItems = findRelatedContent(
   4,
 );
 
-import Icon from '../../components/ui/Icon.tsx';
 ---
 
 <MainLayout
@@ -93,21 +93,23 @@ import Icon from '../../components/ui/Icon.tsx';
     <header class="card mb-6 border border-base-300/70 bg-base-100 shadow-sm">
       <div class="card-body p-5 sm:p-6">
       <div class="mb-3 flex flex-wrap items-center gap-2">
-        <a
+        <Badge
           href={`/berita?kategori=${entry.kategori}`}
-          class="badge badge-primary badge-soft rounded-full px-3 py-3 text-[12px] font-semibold transition-opacity hover:opacity-80"
-        >
-          {categoryLabels[entry.kategori] ?? entry.kategori}
-        </a>
+          label={categoryLabels[entry.kategori] ?? entry.kategori}
+          tone="primary"
+          variant="soft"
+          class="hover:opacity-80"
+        />
         {entry.jenisKonten && (
-          <span class="badge badge-outline rounded-full px-3 py-3 text-[12px] font-semibold capitalize">
-            {jenisKontenKegiatanLabels[entry.jenisKonten] ?? entry.jenisKonten}
-          </span>
+          <Badge
+            label={jenisKontenKegiatanLabels[entry.jenisKonten] ?? entry.jenisKonten}
+            tone="surface"
+            variant="outline"
+            class="capitalize"
+          />
         )}
         {entry.unggulan && (
-          <span class="badge badge-warning badge-soft rounded-full px-3 py-3 text-[12px] font-semibold">
-            <Icon name="star" class="text-[12px]" /> Unggulan
-          </span>
+          <Badge label="Unggulan" tone="warning" variant="soft" icon="star" />
         )}
       </div>
 
@@ -151,12 +153,13 @@ import Icon from '../../components/ui/Icon.tsx';
     {entry.tag && entry.tag.length > 0 && (
       <div class="mt-8 flex flex-wrap gap-2 border-t border-outline-variant/40 pt-6">
         {entry.tag.map((tag: string) => (
-          <a
+          <Badge
             href={`/berita?tag=${encodeURIComponent(tag)}`}
-            class="badge badge-outline rounded-full px-3 py-3 text-[12px] font-semibold transition-colors hover:badge-primary"
-          >
-            #{getTagUmumLabel(tag)}
-          </a>
+            label={`#${getTagUmumLabel(tag)}`}
+            tone="surface"
+            variant="outline"
+            class="transition-colors hover:border-primary hover:text-primary"
+          />
         ))}
       </div>
     )}

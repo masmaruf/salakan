@@ -77,7 +77,7 @@ import Icon from '../../../components/ui/Icon.tsx';
     >
       <div slot="active" class="flex flex-wrap items-center gap-2">
         {(query || activeKategori !== 'semua') && (
-          <a class="btn btn-outline btn-sm rounded-full" href="/data/umkm">
+          <a class="btn btn-outline btn-sm" href="/data/umkm">
             <Icon name="restart_alt" class="text-[16px]" />
             Reset filter
           </a>
@@ -112,7 +112,7 @@ import Icon from '../../../components/ui/Icon.tsx';
             </div>
             {activeKategori !== 'semua' && <input type="hidden" name="kategori" value={activeKategori} />}
           </div>
-          <button type="submit" class="btn btn-primary rounded-full">
+          <button type="submit" class="btn btn-primary">
             <Icon name="search" class="text-[16px]" />
             Terapkan
           </button>
@@ -167,7 +167,7 @@ import Icon from '../../../components/ui/Icon.tsx';
                 <div class="mt-4 flex flex-wrap gap-2 border-t border-base-300/70 pt-3">
                   <InlineAction href={`/data/umkm/${slug}`} label={halaman.umkm.detailLabel} icon="visibility" />
                   {whatsappUrl ? (
-                    <InlineAction href={whatsappUrl} label={halaman.umkm.whatsappLabel} icon="chat" tone="success" target="_blank" rel="noreferrer" />
+                    <InlineAction href={whatsappUrl} label={halaman.umkm.whatsappLabel} icon="chat" tone="whatsapp" target="_blank" rel="noreferrer" />
                   ) : (
                     <InlineAction as="span" label="Kontak menyusul" icon="schedule" tone="muted" />
                   )}

@@ -1,6 +1,7 @@
 ---
 import DashboardLayout from '../../layouts/DashboardLayout.astro';
 import DashboardPanel from '../../components/ui/DashboardPanel.astro';
+import Badge from '../../components/ui/Badge.astro';
 import { getDashboardContent } from '../../lib/content';
 import Icon from '../../components/ui/Icon.tsx';
 
@@ -13,7 +14,7 @@ const quickLinks = content?.quickLinks ?? [];
 
 <DashboardLayout title="Pengaturan Notifikasi" activeMenu="pengaturan" description="Pusat kanal komunikasi warga yang sudah aktif dan yang masih disiapkan.">
   <div class="mb-10 flex flex-col gap-3">
-    <a href="/dasbor" class="inline-flex w-fit items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-500 shadow-sm transition-all hover:bg-blue-50 hover:text-blue-600"><Icon name="arrow_back" class="text-[16px]" /> Kembali ke Dasbor</a>
+    <a href="/dasbor" class="btn btn-outline btn-sm w-fit rounded-xl border-slate-200 bg-white text-xs font-bold text-slate-500 shadow-sm transition-all hover:border-blue-100 hover:bg-blue-50 hover:text-blue-600 active:scale-[0.98]"><Icon name="arrow_back" class="text-[16px]" /> Kembali ke Dasbor</a>
     <h2 class="text-gradient">Pengaturan Notifikasi</h2>
     <p class="max-w-3xl text-base font-medium leading-relaxed text-slate-500 lg:text-lg">{content?.intro ?? 'Halaman ini memusatkan kanal komunikasi yang sudah aktif.'}</p>
   </div>
@@ -21,9 +22,16 @@ const quickLinks = content?.quickLinks ?? [];
   <div class="mb-8 grid gap-6 lg:grid-cols-3">
     {channels.map((channel) => (
       <DashboardPanel title={channel.title} icon={channel.icon}>
-        <div class="mt-4 flex items-center gap-2"><span class:list={['inline-flex rounded-full px-3 py-1 text-xs font-black uppercase tracking-[0.12em]', channel.status === 'aktif' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700']}>{channel.status === 'aktif' ? 'Aktif' : 'Segera'}</span></div>
+        <div class="mt-4 flex items-center gap-2">
+          <Badge
+            label={channel.status === 'aktif' ? 'Aktif' : 'Segera'}
+            tone={channel.status === 'aktif' ? 'success' : 'warning'}
+            variant="soft"
+            class="px-3 py-2 text-xs font-bold uppercase tracking-[0.12em]"
+          />
+        </div>
         <p class="mt-4 text-sm leading-relaxed text-slate-600">{channel.description}</p>
-        <a class="mt-5 inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-600" href={channel.href} target={channel.href.startsWith('http') ? '_blank' : undefined} rel={channel.href.startsWith('http') ? 'noreferrer' : undefined}>{channel.label} <Icon name="arrow_forward" class="text-[16px]" /></a>
+        <a class="btn btn-neutral mt-5 rounded-xl text-sm font-bold shadow-sm hover:-translate-y-0.5 hover:bg-blue-600 active:scale-[0.98]" href={channel.href} target={channel.href.startsWith('http') ? '_blank' : undefined} rel={channel.href.startsWith('http') ? 'noreferrer' : undefined}>{channel.label} <Icon name="arrow_forward" class="text-[16px]" /></a>
       </DashboardPanel>
     ))}
   </div>
@@ -34,7 +42,7 @@ const quickLinks = content?.quickLinks ?? [];
     </DashboardPanel>
 
     <DashboardPanel title={content?.quickHelpTitle ?? 'Butuh Respons Cepat?'} icon="bolt">
-      <div class="mt-4 grid gap-3">{quickLinks.map((link) => <a class="inline-flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700" href={link.href}>{link.label} <Icon name="arrow_forward" class="text-[16px]" /></a>)}</div>
+      <div class="mt-4 grid gap-3">{quickLinks.map((link) => <a class="btn btn-outline justify-between rounded-xl border-slate-200 bg-slate-50 text-sm font-bold text-slate-700 shadow-sm hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 active:scale-[0.98]" href={link.href}>{link.label} <Icon name="arrow_forward" class="text-[16px]" /></a>)}</div>
     </DashboardPanel>
   </div>
 </DashboardLayout>

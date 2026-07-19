@@ -131,29 +131,27 @@ const enrichedItems = dataItems
 
   <section class="container-premium py-4">
     <div class="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-      <a href="/ketua-rt" class="card group grid gap-5 border border-base-300/70 bg-base-100 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md lg:grid-cols-[1fr_auto] lg:items-center">
-        <div class="card-body grid gap-5 p-5 lg:grid-cols-[1fr_auto] lg:items-center">
+      <a href="/ketua-rt" class="group grid gap-5 overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-[0_4px_12px_rgba(15,23,42,0.05)] transition-all hover:-translate-y-0.5 hover:border-m3-primary/30 hover:shadow-md lg:grid-cols-[1fr_auto] lg:items-center">
         <div class="flex gap-4">
-          <div class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-primary-container/40 text-m3-primary transition group-hover:bg-m3-primary group-hover:text-on-primary">
+          <div class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-primary-container/40 text-m3-primary transition-colors group-hover:bg-m3-primary group-hover:text-on-primary">
             <Icon name="contact_phone" class="text-[24px]" />
           </div>
           <div>
             <p class="section-kicker">Layanan cepat warga</p>
-            <h2 class="mt-1 text-xl font-bold tracking-tight text-base-content">Hubungi Ketua RT</h2>
-            <p class="mt-2 max-w-2xl text-sm leading-relaxed text-base-content/65">Pilih RT sesuai tempat tinggal Anda untuk konsultasi pelayanan warga, koordinasi lingkungan, atau hal yang perlu ditindaklanjuti di tingkat RT.</p>
+            <h2 class="mt-1 text-xl font-bold tracking-tight text-on-surface">Hubungi Ketua RT</h2>
+            <p class="mt-2 max-w-2xl text-sm leading-relaxed text-on-surface-variant">Pilih RT sesuai tempat tinggal Anda untuk konsultasi pelayanan warga, koordinasi lingkungan, atau hal yang perlu ditindaklanjuti di tingkat RT.</p>
           </div>
         </div>
-        <span class="btn btn-primary rounded-full w-fit">
+        <span class="btn btn-primary w-fit gap-1.5 transition-transform group-hover:translate-x-0.5">
           Pilih RT <Icon name="arrow_forward" class="text-[16px]" />
         </span>
-        </div>
       </a>
 
-      <InfoCard title="Arsip Operasional" icon="pending_actions" class="card border border-base-300/70 bg-base-100 shadow-sm" bodyClass="card-body p-5">
-        <p class="text-sm leading-relaxed text-base-content/65">Butuh melihat catatan layanan, administrasi, rapat, atau undangan yang sudah dipublikasikan? Arsip log kegiatan dukuh sekarang tersedia dalam satu halaman.</p>
+      <InfoCard title="Arsip Operasional" icon="pending_actions" class="rounded-xl border border-outline-variant bg-surface-container-lowest shadow-[0_4px_12px_rgba(15,23,42,0.05)]" bodyClass="p-5">
+        <p class="text-sm leading-relaxed text-on-surface-variant">Butuh melihat catatan layanan, administrasi, rapat, atau undangan yang sudah dipublikasikan? Arsip log kegiatan dukuh sekarang tersedia dalam satu halaman.</p>
         <div class="mt-4 flex items-center justify-between gap-3">
-          <span class="badge badge-outline rounded-full px-3 py-3 text-[11px] font-semibold">{counts.log} log tayang</span>
-          <ActionLinkButton href="/log-kegiatan" label="Buka log" icon="arrow_forward" variant="outline" class="btn btn-outline btn-sm rounded-full" />
+          <span class="rounded-full bg-surface-container-low px-3 py-1 text-[11px] font-semibold text-on-surface-variant">{counts.log} log tayang</span>
+          <ActionLinkButton href="/log-kegiatan" label="Buka log" icon="arrow_forward" variant="outline" class="btn btn-outline btn-sm" />
         </div>
       </InfoCard>
     </div>
@@ -163,9 +161,9 @@ const enrichedItems = dataItems
     <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
       <div>
         <p class="section-kicker">Katalog Data</p>
-        <h2 class="mt-1 text-2xl font-bold tracking-tight text-base-content">Pilih jalur informasi sesuai kebutuhan</h2>
+        <h2 class="mt-1 text-2xl font-bold tracking-tight text-on-surface">Pilih jalur informasi sesuai kebutuhan</h2>
       </div>
-      <p class="max-w-xl text-sm leading-relaxed text-base-content/65">
+      <p class="max-w-xl text-sm leading-relaxed text-on-surface-variant">
         {activeGroup === 'semua'
           ? 'Semua kanal informasi ditampilkan agar warga bisa langsung menuju data, layanan, arsip, dan transparansi kampung.'
           : `Menampilkan kanal untuk kelompok ${groupOptions.find((item) => item.key === activeGroup)?.label.toLowerCase()}.`}

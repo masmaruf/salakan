@@ -33,28 +33,28 @@ import Icon from '../components/ui/Icon.tsx';
 ---
 
 <!doctype html>
-<html lang="id" class="bg-base-200 text-base-content antialiased" data-theme="salakan">
+<html lang="id" class="bg-surface-container-low text-on-surface antialiased" data-theme="salakan">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | Portal Layanan Digital Salakan</title>
     {description && <meta name="description" content={description} />}
   </head>
-  <body class="relative flex min-h-screen flex-col overflow-x-clip bg-base-200 lg:flex-row">
+  <body class="relative flex min-h-screen flex-col overflow-x-clip bg-surface-container-lowest lg:flex-row">
     <DevServiceWorkerReset />
 
     <div class="orb-blue"></div>
     <div class="orb-emerald"></div>
 
-    <aside class="relative z-30 hidden w-72 shrink-0 border-r border-base-300/70 bg-base-100/75 pt-8 shadow-[0_4px_30px_rgba(23,32,24,0.04)] backdrop-blur-3xl lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:self-start">
+    <aside class="relative z-30 hidden w-72 shrink-0 border-r border-outline-variant/60 bg-surface-container-lowest/80 pt-8 shadow-[0_4px_30px_rgba(15,23,42,0.04)] backdrop-blur-3xl lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:self-start">
       <div class="px-8 pb-8">
         <a href="/" class="group flex items-center gap-4">
-          <span class="grid h-11 w-11 place-items-center rounded-2xl bg-neutral font-bold text-base text-neutral-content shadow-[0_8px_20px_rgba(23,32,24,0.22)] transition-transform group-hover:scale-105">
+          <span class="grid h-11 w-11 place-items-center rounded-2xl bg-neutral text-base font-bold text-neutral-content shadow-[0_8px_20px_rgba(15,23,42,0.22)] transition-transform group-hover:scale-105">
             PS
           </span>
           <div class="space-y-0.5">
-            <h2 class="text-[1rem] font-extrabold leading-tight tracking-tight text-base-content transition-colors group-hover:text-primary">E-Mandiri</h2>
-            <p class="text-[0.62rem] font-bold uppercase tracking-[0.1em] text-base-content/45">Layanan Warga</p>
+            <h2 class="text-[1rem] font-bold leading-tight tracking-tight text-on-surface transition-colors group-hover:text-m3-primary">E-Mandiri</h2>
+            <p class="text-[0.62rem] font-bold uppercase tracking-[0.1em] text-on-surface-variant/70">Layanan Warga</p>
           </div>
         </a>
       </div>
@@ -62,7 +62,7 @@ import Icon from '../components/ui/Icon.tsx';
       <div class="flex-1 space-y-9 overflow-y-auto px-5 py-2">
         {sidebarMenus.map((group) => (
           <div>
-            <h3 class="mb-4 px-4 text-label">{group.group}</h3>
+            <h3 class="text-label mb-4 px-4">{group.group}</h3>
             <ul class="menu grid gap-1.5 p-0 text-sm">
               {group.menus.map((menu) => {
                 const isActive = activeMenu === menu.id;
@@ -71,11 +71,11 @@ import Icon from '../components/ui/Icon.tsx';
                     <a
                       href={menu.href}
                       class:list={[
-                        'group rounded-2xl px-4 py-3 font-bold transition-all duration-300',
-                        isActive ? 'active bg-primary text-primary-content shadow-[0_10px_25px_rgba(49,93,68,0.22)]' : 'text-base-content/65 hover:bg-base-200 hover:text-base-content hover:translate-x-1',
+                        'group rounded-xl px-4 py-3 font-bold transition-all duration-300',
+                        isActive ? 'active bg-m3-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface',
                       ]}
                     >
-                      <Icon name={menu.icon} class:list={['text-[22px] transition-colors', isActive ? 'text-primary-content' : 'text-base-content/45 group-hover:text-primary']} />
+                      <Icon name={menu.icon} class:list={['text-[22px] transition-colors', isActive ? 'text-on-primary' : 'text-on-surface-variant/70 group-hover:text-m3-primary']} />
                       {menu.label}
                     </a>
                   </li>
@@ -87,14 +87,14 @@ import Icon from '../components/ui/Icon.tsx';
       </div>
 
       <div class="mt-auto p-5">
-        <div class="card border border-base-300/70 bg-base-100/80 shadow-sm backdrop-blur-xl">
-          <div class="card-body flex-row items-center gap-3 p-4">
-            <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-base font-bold text-primary shadow-inner">
+        <div class="rounded-xl border border-outline-variant bg-surface-container-lowest/90 shadow-sm backdrop-blur-xl">
+          <div class="flex flex-row items-center gap-3 p-4">
+            <div class="grid h-10 w-10 place-items-center rounded-xl bg-primary-container/40 text-sm font-bold text-m3-primary">
               BW
             </div>
             <div class="min-w-0 flex-1">
-              <p class="truncate text-[0.85rem] font-extrabold text-base-content">Sandi Warga</p>
-              <p class="mt-0.5 truncate text-[0.68rem] font-bold text-base-content/45">Penduduk Salakan</p>
+              <p class="truncate text-[0.85rem] font-bold text-on-surface">Sandi Warga</p>
+              <p class="mt-0.5 truncate text-[0.68rem] font-bold text-on-surface-variant/70">Penduduk Salakan</p>
             </div>
           </div>
         </div>
@@ -102,20 +102,20 @@ import Icon from '../components/ui/Icon.tsx';
     </aside>
 
     <main class="relative z-10 flex min-h-screen flex-1 flex-col">
-      <header class="sticky top-0 z-20 flex h-20 shrink-0 items-center justify-between border-b border-base-300/60 bg-base-100/50 px-6 backdrop-blur-2xl transition-all lg:px-10">
+      <header class="sticky top-0 z-20 flex h-20 shrink-0 items-center justify-between border-b border-outline-variant/60 bg-surface-container-lowest/70 px-6 backdrop-blur-2xl transition-all lg:px-10">
         <div class="flex items-center gap-5">
           <button class="btn btn-ghost btn-circle lg:hidden" aria-label="Buka menu dasbor">
             <Icon name="menu" />
           </button>
-          <h1 class="hidden text-xl font-extrabold tracking-tight text-gradient sm:block">{title}</h1>
+          <h1 class="hidden text-xl font-bold tracking-tight text-gradient sm:block">{title}</h1>
         </div>
-        <div class="flex items-center gap-5">
-          <button class="btn btn-ghost btn-circle relative bg-base-100 shadow-sm" aria-label="Notifikasi">
-            <Icon name="notifications" class="text-[24px] text-base-content/55" />
-            <span class="status status-error absolute right-3 top-3 ring-4 ring-base-100"></span>
+        <div class="flex items-center gap-3 sm:gap-5">
+          <button class="btn btn-ghost btn-circle relative bg-surface-container-lowest shadow-sm" aria-label="Notifikasi">
+            <Icon name="notifications" class="text-[24px] text-on-surface-variant" />
+            <span class="status status-error absolute right-3 top-3 ring-4 ring-surface-container-lowest"></span>
           </button>
-          <a href="/" class="btn btn-outline btn-primary btn-sm hidden rounded-full font-black uppercase tracking-[0.1em] sm:inline-flex">
-            <Icon name="public" class="text-[16px]" /> Kembali Ke Portal Utama
+          <a href="/" class="btn btn-outline btn-sm hidden rounded-full font-bold uppercase tracking-[0.1em] sm:inline-flex">
+            <Icon name="public" class="text-[16px]" /> Portal Utama
           </a>
         </div>
       </header>

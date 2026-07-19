@@ -6,6 +6,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import PillFilterBar from '../../components/ui/PillFilterBar.astro';
 import FilterToolbar from '../../components/ui/FilterToolbar.astro';
 import ArchiveCard from '../../components/ui/ArchiveCard.astro';
+import Badge from '../../components/ui/Badge.astro';
 import {
   getAgenda,
   formatTanggal,
@@ -117,26 +118,20 @@ function getSignal(item: TimelineItem) {
 
   <section class="container-premium py-8 pb-5">
     <div class="grid gap-4 md:grid-cols-3">
-      <div class="card border border-base-300/70 bg-base-100 shadow-sm">
-        <div class="card-body p-5">
+      <div class="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-[0_4px_12px_rgba(15,23,42,0.05)]">
         <p class="section-kicker">{halaman.agendaIndex.stats.totalLabel}</p>
-        <p class="mt-2 text-3xl font-black tracking-tight text-base-content">{filteredTimeline.length}</p>
-        <p class="mt-1 text-sm text-base-content/65">{halaman.agendaIndex.stats.totalDescription}</p>
-        </div>
+        <p class="mt-2 text-3xl font-bold tracking-tight text-on-surface">{filteredTimeline.length}</p>
+        <p class="mt-1 text-sm text-on-surface-variant">{halaman.agendaIndex.stats.totalDescription}</p>
       </div>
-      <div class="card border border-base-300/70 bg-base-100 shadow-sm">
-        <div class="card-body p-5">
+      <div class="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-[0_4px_12px_rgba(15,23,42,0.05)]">
         <p class="section-kicker">{halaman.agendaIndex.stats.weeklyLabel}</p>
-        <p class="mt-2 text-3xl font-black tracking-tight text-base-content">{agendaMingguIni}</p>
-        <p class="mt-1 text-sm text-base-content/65">{halaman.agendaIndex.stats.weeklyDescription}</p>
-        </div>
+        <p class="mt-2 text-3xl font-bold tracking-tight text-on-surface">{agendaMingguIni}</p>
+        <p class="mt-1 text-sm text-on-surface-variant">{halaman.agendaIndex.stats.weeklyDescription}</p>
       </div>
-      <div class="card border border-base-300/70 bg-base-100 shadow-sm">
-        <div class="card-body p-5">
+      <div class="rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-[0_4px_12px_rgba(15,23,42,0.05)]">
         <p class="section-kicker">{halaman.agendaIndex.stats.distributionLabel}</p>
-        <p class="mt-2 text-base font-bold text-base-content">{halaman.agendaIndex.stats.distributionTitle}</p>
-        <p class="mt-1 text-sm text-base-content/65">{halaman.agendaIndex.stats.distributionDescription}</p>
-        </div>
+        <p class="mt-2 text-base font-bold text-on-surface">{halaman.agendaIndex.stats.distributionTitle}</p>
+        <p class="mt-1 text-sm text-on-surface-variant">{halaman.agendaIndex.stats.distributionDescription}</p>
       </div>
     </div>
   </section>
@@ -150,7 +145,7 @@ function getSignal(item: TimelineItem) {
     >
       <div slot="active" class="flex flex-wrap items-center gap-2">
         {(selectedLabel || query) && (
-          <a class="btn btn-outline btn-sm rounded-full" href="/agenda">
+          <a class="btn btn-outline btn-sm" href="/agenda">
             <Icon name="restart_alt" class="text-[16px]" />
             Reset filter
           </a>
@@ -161,21 +156,21 @@ function getSignal(item: TimelineItem) {
         <PillFilterBar items={filterItems} />
         <form action="/agenda" method="get" class="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
           <div class="grid gap-2">
-            <label for="agenda-search" class="detail-label">Cari agenda, lokasi, atau tag</label>
-            <div class="input input-bordered flex h-auto items-center gap-3 rounded-2xl bg-base-100 px-4 py-3">
-              <Icon name="search" class="text-[20px] text-base-content/45" />
+            <label for="agenda-search" class="detail-label text-on-surface-variant">Cari agenda, lokasi, atau tag</label>
+            <div class="flex h-auto items-center gap-3 rounded-xl border border-outline-variant bg-surface-container-lowest px-4 py-3 transition-all focus-within:border-m3-primary focus-within:ring-2 focus-within:ring-m3-primary/20">
+              <Icon name="search" class="text-[20px] text-on-surface-variant/70" />
               <input
                 id="agenda-search"
                 name="q"
                 type="search"
                 value={query}
                 placeholder="Contoh: posyandu, rapat, pengajian"
-                class="w-full border-0 bg-transparent p-0 text-sm text-base-content outline-none placeholder:text-base-content/45"
+                class="w-full border-0 bg-transparent p-0 text-sm text-on-surface outline-none placeholder:text-on-surface-variant/60"
               />
             </div>
             {selectedLabel && <input type="hidden" name="label" value={selectedLabel} />}
           </div>
-          <button type="submit" class="btn btn-primary rounded-full">
+          <button type="submit" class="btn btn-primary">
             <Icon name="search" class="text-[16px]" />
             Terapkan pencarian
           </button>
@@ -207,7 +202,7 @@ function getSignal(item: TimelineItem) {
               {item.tags.length > 0 && (
                 <div class="flex flex-wrap gap-2">
                   {item.tags.slice(0, 3).map((tag) => (
-                    <span class="badge badge-outline rounded-full px-3 py-3 text-[12px] font-semibold">#{getTagUmumLabel(tag)}</span>
+                    <Badge label={`#${getTagUmumLabel(tag)}`} tone="surface" variant="outline" />
                   ))}
                 </div>
               )}

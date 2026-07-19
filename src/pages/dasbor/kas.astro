@@ -20,7 +20,7 @@ function formatRupiah(value: number) { return new Intl.NumberFormat('id-ID', { s
 
 <DashboardLayout title="Transparansi Kas RT" activeMenu="kas" description="Ringkasan kas RT berbasis data lokal yang bisa dibaca warga secara cepat.">
   <div class="mb-10 flex flex-col gap-3">
-    <a href="/dasbor" class="inline-flex w-fit items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-500 shadow-sm transition-all hover:bg-blue-50 hover:text-blue-600"><Icon name="arrow_back" class="text-[16px]" /> Kembali ke Dasbor</a>
+    <a href="/dasbor" class="btn btn-outline btn-sm w-fit rounded-xl border-slate-200 bg-white text-xs font-bold text-slate-500 shadow-sm transition-all hover:border-blue-100 hover:bg-blue-50 hover:text-blue-600 active:scale-[0.98]"><Icon name="arrow_back" class="text-[16px]" /> Kembali ke Dasbor</a>
     <h2 class="text-gradient">Transparansi Kas RT</h2>
     <p class="max-w-3xl text-base font-medium leading-relaxed text-slate-500 lg:text-lg">{content?.intro ?? 'Halaman ini sekarang membaca ringkasan laporan kas dari konten lokal.'}</p>
   </div>

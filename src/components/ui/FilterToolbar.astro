@@ -19,7 +19,7 @@ const {
 } = Astro.props;
 ---
 
-<DaisyCard class={className} bodyClass="card-body grid gap-4 p-5 sm:p-6">
+<DaisyCard class={className} bodyClass="grid gap-4 p-5 sm:p-6">
   <div class="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
     <SectionHeading
       eyebrow={eyebrow}
@@ -27,9 +27,9 @@ const {
       description={description}
       class=""
       contentClass="max-w-2xl"
-      titleClass="mt-1 text-2xl font-bold tracking-tight text-base-content"
+      titleClass="mt-1 text-2xl font-bold tracking-tight text-on-surface"
     />
-    {resultText && <p class="max-w-md text-sm font-semibold leading-relaxed text-base-content/70 lg:text-right">{resultText}</p>}
+    {resultText && <p class="max-w-md text-sm font-semibold leading-relaxed text-on-surface-variant lg:text-right">{resultText}</p>}
     <slot name="active" />
   </div>
 

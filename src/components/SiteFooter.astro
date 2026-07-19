@@ -1,5 +1,6 @@
 ---
 import { getPengaturan } from '../lib/content';
+import Badge from './ui/Badge.astro';
 
 const year = new Date().getFullYear();
 const pengaturan = await getPengaturan();
@@ -8,65 +9,67 @@ const whatsapp = pengaturan?.kontakWhatsApp ?? '';
 const email = pengaturan?.email ?? 'info@salakan.id';
 const waDisplay = whatsapp ? `0${whatsapp.replace(/^62/, '')}` : '';
 
-import Icon from './ui/Icon.tsx';
 ---
 
-<footer class="border-t border-base-300/60 bg-base-200/60 py-8 text-base-content">
-  <div class="container-premium">
-    <div class="footer sm:footer-horizontal items-start gap-8">
-      <aside class="max-w-sm">
-        <div class="flex items-center gap-2.5">
-          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-neutral text-xs font-bold text-neutral-content shadow-sm">PS</span>
-          <span class="text-base font-bold tracking-tight text-base-content">Padukuhan Salakan</span>
+<footer class="relative mt-12 border-t border-outline-variant/60 bg-surface-container-low/50 text-on-surface sm:mt-16">
+  <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-m3-primary via-m3-secondary to-m3-tertiary" aria-hidden="true"></div>
+  <div class="container-premium py-10 sm:py-12">
+    <div class="grid items-start gap-8 lg:grid-cols-[1.2fr_1fr]">
+      <aside class="max-w-md">
+        <div class="flex items-center gap-3">
+          <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-neutral text-sm font-bold text-on-primary shadow-sm">PS</span>
+          <div>
+            <p class="text-base font-bold tracking-tight text-on-surface">Padukuhan Salakan</p>
+            <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-on-surface-variant">Portal digital warga</p>
+          </div>
         </div>
-        <p class="max-w-sm text-sm leading-relaxed text-base-content/70">
-          Portal informasi dan layanan warga Padukuhan Salakan. Transparan, terbuka, dan mudah diakses.
+        <p class="mt-4 text-sm leading-relaxed text-on-surface-variant">
+          Portal informasi dan layanan warga Padukuhan Salakan. Transparan, terbuka, dan mudah diakses dari perangkat apa pun.
         </p>
       </aside>
 
-      <nav aria-label="Kontak Padukuhan" class="gap-2 sm:justify-self-end">
-        <h2 class="footer-title text-base-content/55">Kontak</h2>
+      <nav aria-label="Kontak Padukuhan" class="lg:justify-self-end">
+        <p class="section-kicker-muted mb-3">Kontak & saluran resmi</p>
         <div class="flex flex-wrap gap-2">
           {alamat && (
-            <span class="badge badge-outline gap-1.5 rounded-full border-base-300 bg-base-100 px-3 py-3 text-[12px] font-medium text-base-content/70">
-              <Icon name="location_on" class="text-[14px]" />
-              {alamat.split('\n')[0]}
-            </span>
+            <Badge label={alamat.split('\n')[0]} tone="surface" variant="outline" icon="location_on" />
           )}
           {waDisplay && (
-            <a
+            <Badge
               href={`https://wa.me/${whatsapp}`}
+              label={waDisplay}
+              tone="primary"
+              variant="outline"
+              icon="chat"
               target="_blank"
               rel="noreferrer"
-              class="badge badge-outline gap-1.5 rounded-full border-base-300 bg-base-100 px-3 py-3 text-[12px] font-medium text-base-content/70 transition-colors hover:border-primary/30 hover:bg-primary/10 hover:text-base-content"
-            >
-              <Icon name="chat" class="text-[14px]" />
-              {waDisplay}
-            </a>
+              class="hover:bg-primary-container/85"
+            />
           )}
           {email && (
-            <a
+            <Badge
               href={`mailto:${email}`}
-              class="badge badge-outline gap-1.5 rounded-full border-base-300 bg-base-100 px-3 py-3 text-[12px] font-medium text-base-content/70 transition-colors hover:border-primary/30 hover:bg-primary/10 hover:text-base-content"
-            >
-              <Icon name="mail" class="text-[14px]" />
-              {email}
-            </a>
+              label={email}
+              tone="surface"
+              variant="outline"
+              icon="mail"
+              class="hover:bg-surface-container"
+            />
           )}
         </div>
       </nav>
     </div>
 
-    <div class="mt-8 flex flex-col gap-5 border-t border-base-300/70 pt-6 sm:flex-row sm:items-center sm:justify-between">
-      <nav class="footer footer-horizontal gap-x-6 gap-y-2 text-sm font-medium text-base-content/70" aria-label="Footer">
-        <a class="link-hover hover:text-primary" href="/">Beranda</a>
-        <a class="link-hover hover:text-primary" href="/profil">Profil</a>
-        <a class="link-hover hover:text-primary" href="/berita">Berita</a>
-        <a class="link-hover hover:text-primary" href="/galeri">Galeri</a>
-        <a class="link-hover hover:text-primary" href="/kontak">Kontak</a>
+    <div class="mt-10 flex flex-col gap-4 border-t border-outline-variant/60 pt-6 sm:flex-row sm:items-center sm:justify-between">
+      <nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold text-on-surface-variant" aria-label="Footer">
+        <a class="transition-colors hover:text-m3-primary" href="/">Beranda</a>
+        <a class="transition-colors hover:text-m3-primary" href="/profil">Profil</a>
+        <a class="transition-colors hover:text-m3-primary" href="/berita">Berita</a>
+        <a class="transition-colors hover:text-m3-primary" href="/galeri">Galeri</a>
+        <a class="transition-colors hover:text-m3-primary" href="/kontak">Kontak</a>
       </nav>
 
-      <p class="text-[12px] text-base-content/60">
+      <p class="text-[12px] text-on-surface-variant/80">
         &copy; {year} Padukuhan Salakan &middot; Portal digital warga
       </p>
     </div>

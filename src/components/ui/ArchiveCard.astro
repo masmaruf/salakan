@@ -43,8 +43,8 @@ const Tag = href ? 'a' : 'article';
 <Tag
   href={href}
   class:list={[
-    'card group h-full border border-base-300/70 bg-base-100 shadow-sm transition-all',
-    href && 'hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40',
+    'group flex h-full flex-col overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest shadow-[0_4px_12px_rgba(15,23,42,0.05)] transition-all',
+    href && 'hover:-translate-y-0.5 hover:border-m3-primary/30 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-m3-primary/40 active:scale-[0.99]',
     className,
   ]}
 >
@@ -52,12 +52,12 @@ const Tag = href ? 'a' : 'article';
     <img
       src={image}
       alt={imageAlt || title}
-      class="h-52 w-full object-cover"
+      class="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-105"
       loading="lazy"
     />
   )}
 
-  <div class="card-body gap-4 p-5 sm:p-6">
+  <div class="flex flex-1 flex-col gap-4 p-5 sm:p-6">
     {badges.length > 0 && (
       <div class="flex flex-wrap items-center gap-2">
         {badges.map((item) => <Badge label={item.label} tone={item.tone} icon={item.icon} />)}
@@ -65,16 +65,16 @@ const Tag = href ? 'a' : 'article';
     )}
 
     <div>
-      <h3 class="text-xl font-bold tracking-tight text-base-content transition-colors group-hover:text-primary">{title}</h3>
-      {summary && <p class="mt-3 text-sm leading-relaxed text-base-content/65">{summary}</p>}
+      <h3 class="text-xl font-bold tracking-tight text-on-surface transition-colors group-hover:text-m3-primary">{title}</h3>
+      {summary && <p class="mt-3 text-sm leading-relaxed text-on-surface-variant">{summary}</p>}
     </div>
 
   {meta.length > 0 && (
     <ContentMeta
       items={meta}
-      class="mt-auto grid gap-2 border-t border-base-300/70 pt-4 text-sm text-base-content/60"
-      itemClass="text-sm text-base-content/60"
-      iconClass="text-[18px] text-primary"
+      class="mt-auto grid gap-2 border-t border-outline-variant/60 pt-4 text-sm text-on-surface-variant/80"
+      itemClass="text-sm text-on-surface-variant/80"
+      iconClass="text-[18px] text-m3-primary"
     />
   )}
 

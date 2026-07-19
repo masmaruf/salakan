@@ -97,13 +97,9 @@ const eventSchema = generateEventSchema({
 
     <div class="mb-3 flex flex-wrap items-center gap-2 sm:gap-3">
       <Badge label={entry.label || 'Agenda'} tone={getAgendaLabelTone(entry.label)} class="px-2 py-0.5" />
-      <time class="badge badge-ghost rounded-full px-3 py-3 text-[12px] font-semibold" datetime={entry.tanggal}>
-        {formatTanggal(entry.tanggal)}
-      </time>
+      <Badge label={formatTanggal(entry.tanggal)} tone="surface" variant="ghost" />
       {(entry.tag || []).slice(0, 3).map((tag) => (
-        <span class="badge badge-outline rounded-full px-3 py-3 text-[12px] font-semibold">
-          #{getTagUmumLabel(tag)}
-        </span>
+        <Badge label={`#${getTagUmumLabel(tag)}`} tone="surface" variant="outline" />
       ))}
     </div>
 

@@ -68,7 +68,7 @@ const dokumen = dokumenSemua.filter(({ entry }) => {
     >
       <div slot="active" class="flex flex-wrap items-center gap-2">
         {(query || activeKategori !== 'semua') && (
-          <a class="btn btn-outline btn-sm rounded-full" href="/data/dokumen">
+          <a class="btn btn-outline btn-sm" href="/data/dokumen">
             <Icon name="restart_alt" class="text-[16px]" />
             Reset filter
           </a>
@@ -103,7 +103,7 @@ const dokumen = dokumenSemua.filter(({ entry }) => {
             </div>
             {activeKategori !== 'semua' && <input type="hidden" name="kategori" value={activeKategori} />}
           </div>
-          <button type="submit" class="btn btn-primary rounded-full">
+          <button type="submit" class="btn btn-primary">
             <Icon name="search" class="text-[16px]" />
             Terapkan
           </button>
@@ -120,9 +120,13 @@ const dokumen = dokumenSemua.filter(({ entry }) => {
             <div class="card-body p-5">
             <div class="mb-3 flex items-center justify-between gap-2">
               <Badge label={kategoriLabelsDokumen[entry.kategori]} tone="primary" class="px-2 py-1" />
-              <time class="badge badge-ghost rounded-full px-3 py-3 text-[12px]" datetime={entry.tanggalUpdate}>
-                {formatTanggal(entry.tanggalUpdate)}
-              </time>
+              <Badge
+                label={formatTanggal(entry.tanggalUpdate)}
+                tone="surface"
+                variant="ghost"
+                datetime={entry.tanggalUpdate}
+                class="px-3 py-3 text-[12px]"
+              />
             </div>
 
             <h2 class="text-base font-bold leading-tight text-base-content transition-colors group-hover:text-primary sm:text-lg">
@@ -131,11 +135,11 @@ const dokumen = dokumenSemua.filter(({ entry }) => {
             <p class="mt-2 flex-1 line-clamp-2 text-sm text-base-content/65">{entry.ringkasan}</p>
 
             <div class="mt-4 flex flex-wrap gap-2 border-t border-base-300/70 pt-3">
-              <InlineAction href={`/data/dokumen/${slug}`} label={halaman.dokumen.detailLabel} icon="visibility" class="btn btn-ghost btn-sm rounded-full text-primary" />
+              <InlineAction href={`/data/dokumen/${slug}`} label={halaman.dokumen.detailLabel} icon="visibility" class="btn btn-ghost btn-sm text-primary" />
               {entry.fileDokumen ? (
-                <InlineAction href={entry.fileDokumen} label={halaman.dokumen.downloadLabel} icon="download" target="_blank" rel="noreferrer" class="btn btn-outline btn-sm rounded-full" />
+                <InlineAction href={entry.fileDokumen} label={halaman.dokumen.downloadLabel} icon="download" target="_blank" rel="noreferrer" class="btn btn-outline btn-sm" />
               ) : (
-                <InlineAction as="span" label={halaman.dokumen.unavailableLabel} icon="lock" tone="muted" class="btn btn-disabled btn-sm rounded-full" />
+                <InlineAction as="span" label={halaman.dokumen.unavailableLabel} icon="lock" tone="muted" class="btn btn-disabled btn-sm" />
               )}
             </div>
             </div>

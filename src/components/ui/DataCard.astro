@@ -1,5 +1,6 @@
 ---
 import CmsIcon from '../CmsIcon.astro';
+import Badge from './Badge.astro';
 
 interface Props {
   label: string;
@@ -26,29 +27,25 @@ import Icon from './Icon.tsx';
 
 <a
   href={href}
-  class="card group flex h-full flex-col border border-base-300/70 bg-base-100 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md"
+  class="group flex h-full flex-col overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest p-5 shadow-[0_4px_12px_rgba(15,23,42,0.05)] transition-all hover:-translate-y-0.5 hover:border-m3-primary/30 hover:shadow-md"
 >
-  <div class="card-body gap-4 p-5">
   <div class="flex items-start justify-between gap-3">
     <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-content">
       <CmsIcon name={icon} class="size-6" />
     </div>
     {countLabel && (
-      <span class="badge badge-outline rounded-full px-3 py-3 text-[11px] font-semibold">
-        {countLabel}
-      </span>
+      <Badge label={countLabel} tone="surface" class="px-3 py-3 text-[11px] font-semibold" />
     )}
   </div>
-  <div class="flex-1 space-y-1.5">
-    {eyebrow && <p class="section-kicker-muted text-base-content/55">{eyebrow}</p>}
-    <h3 class="text-base font-bold text-base-content transition-colors group-hover:text-primary sm:text-lg">{label}</h3>
-    <p class="line-clamp-3 text-sm text-base-content/65">{description}</p>
+  <div class="mt-4 flex-1 space-y-1.5">
+    {eyebrow && <p class="text-[11px] font-bold uppercase tracking-[0.14em] text-on-surface-variant">{eyebrow}</p>}
+    <h3 class="text-base font-bold text-on-surface transition-colors group-hover:text-m3-primary sm:text-lg">{label}</h3>
+    <p class="line-clamp-3 text-sm text-on-surface-variant">{description}</p>
   </div>
-  <div class="mt-auto flex items-center justify-between gap-3">
-    {meta ? <span class="text-[12px] font-medium text-base-content/55">{meta}</span> : <span />}
-    <span class="btn btn-ghost btn-xs rounded-full text-primary transition-all sm:opacity-0 sm:-translate-x-2 sm:group-hover:translate-x-0 sm:group-hover:opacity-100">
+  <div class="mt-4 flex items-center justify-between gap-3 border-t border-outline-variant/60 pt-3">
+    {meta ? <span class="text-[12px] font-medium text-on-surface-variant/80">{meta}</span> : <span />}
+    <span class="inline-flex items-center gap-1 text-[13px] font-semibold text-m3-primary transition-transform group-hover:translate-x-0.5">
       Akses Data <Icon name="arrow_forward" class="text-[14px]" />
     </span>
-  </div>
   </div>
 </a>

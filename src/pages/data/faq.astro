@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import PageIntro from '../../components/ui/PageIntro.astro';
+import Badge from '../../components/ui/Badge.astro';
 import { getFaq, getPengaturan } from '../../lib/content';
 import { renderMarkdown } from '../../lib/rich-text';
 import { resolveSeoImage, resolveSeoText, withSiteTitle } from '../../lib/site';
@@ -45,9 +46,7 @@ const faqSchema = generateFaqSchema(
     {categories.length > 1 && (
       <div class="flex flex-wrap gap-2 mb-6">
         {categories.map((cat) => (
-          <span class="badge badge-soft badge-primary rounded-full px-3 py-3 text-[12px] font-semibold">
-            {cat}
-          </span>
+          <Badge label={cat} tone="primary" variant="soft" />
         ))}
       </div>
     )}
@@ -60,7 +59,7 @@ const faqSchema = generateFaqSchema(
               {String(idx + 1).padStart(2, '0')}
             </span>
             <span class="min-w-0 flex-1">
-              <span class="badge badge-outline border-primary/25 text-primary rounded-full px-3 text-[11px]">{entry.kategori}</span>
+              <Badge label={entry.kategori} tone="primary" variant="outline" />
               <span class="mt-2 block text-base font-bold leading-tight text-base-content transition-colors">{entry.pertanyaan}</span>
             </span>
           </summary>
